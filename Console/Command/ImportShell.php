@@ -7,7 +7,90 @@ class ImportShell extends AppShell {
     public $mysqli = false;
 
     public function main() {
-        $this->importPrice();
+        $this->importImage();
+    }
+
+    public function importImage() {
+        $db = ConnectionManager::getDataSource('default');
+        $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
+        $this->dbQuery('SET NAMES utf8mb4;');
+        $fields = array('許可證字號', '中文品名', '英文品名', '形狀', '特殊劑型', '顏色', '特殊氣味', '刻痕', '外觀尺寸', '標註一', '標註二', '外觀圖檔連結', '-');
+
+        $imagePath = __DIR__ . '/data/images';
+        if (!file_exists($imagePath)) {
+            mkdir($imagePath, 0777, true);
+        }
+        $fh = fopen($this->dataPath . '/dataset/42.csv', 'r');
+
+        $dbKeys = array();
+        if (file_exists(__DIR__ . '/data/dbKeys.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/dbKeys.csv', 'r');
+            while ($line = fgetcsv($dbKeysFh, 1024)) {
+                $dbKeys[$line[0]] = $line[1];
+            }
+            fclose($dbKeysFh);
+        }
+        /*
+         * Array
+          (
+          [0] => 許可證字號
+          [1] => 中文品名
+          [2] => 英文品名
+          [3] => 形狀 shape
+          [4] => 特殊劑型 s_type
+          [5] => 顏色 color
+          [6] => 特殊氣味 odor
+          [7] => 刻痕 abrasion
+          [8] => 外觀尺寸 size
+          [9] => 標註一 note_1
+          [10] => 標註二 note_2
+          [11] => 外觀圖檔連結 image
+          [12] => -
+          )
+         */
+        $wLength = strlen(WWW_ROOT);
+        $imagick = new Imagick();
+        while ($line = fgetcsv($fh, 2048, "\t")) {
+            $dataFound = false;
+            for ($k = 3; $k <= 11; $k++) {
+                if (!empty($line[$k])) {
+                    $dataFound = true;
+                }
+            }
+            if (true === $dataFound && isset($dbKeys[$line[0]])) {
+                echo "processing {$dbKeys[$line[0]]}\n";
+                if (!empty($line[11])) {
+                    $imageFile = $imagePath . '/' . $dbKeys[$line[0]];
+                    //file_put_contents($imageFile, file_get_contents($line[11]));
+                    $line[11] = '';
+                    if (file_exists($imageFile)) {
+                        if (filesize($imageFile) > 0) {
+                            if (in_array(mime_content_type($imageFile), array(
+                                        'application/vnd.ms-powerpoint',
+                                        'application/msword', 'text/html'
+                                    ))) {
+                                unlink($imageFile);
+                            } else {
+                                $targetFile = WWW_ROOT . 'img/drugs/' . substr($dbKeys[$line[0]], 0, 8);
+                                if (!file_exists($targetFile)) {
+                                    mkdir($targetFile, 0777, true);
+                                }
+                                $targetFile .= '/' . $dbKeys[$line[0]] . '.jpg';
+                                $line[11] = substr($targetFile, $wLength);
+                                if (!file_exists($targetFile)) {
+                                    $imagick->readimage($imageFile);
+                                    $imagick->thumbnailimage(512, 512, true, true);
+                                    $imagick->writeImage($targetFile);
+                                    $imagick->clear();
+                                }
+                            }
+                        }
+                        //unlink($imageFile);
+                    }
+                }
+                $this->dbQuery("UPDATE drugs SET shape = '{$line[3]}', s_type = '{$line[4]}', color = '{$line[5]}', odor = '{$line[6]}', abrasion = '{$line[7]}', size = '{$line[8]}', note_1 = '{$line[9]}', note_2 = '{$line[10]}', image = '{$line[11]}' WHERE id = '{$dbKeys[$line[0]]}'");
+            }
+        }
     }
 
     public function importPrice() {

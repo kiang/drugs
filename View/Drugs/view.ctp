@@ -1,5 +1,10 @@
 <div id="DrugsView">
     <h3><?php echo $this->data['Drug']['name']; ?></h3>
+    <?php if (!empty($this->data['Drug']['image'])) { ?>
+        <div class="row">
+            <img src="<?php echo $this->Html->url('/') . $this->data['Drug']['image']; ?>" class="img-thumbnail col-md-4" />
+        </div>
+    <?php } ?>
     <div class="row">
         <div class="col-md-2">許可證字號</div>
         <div class="col-md-10"><?php echo $this->data['Drug']['license_id']; ?>&nbsp;</div>
@@ -136,6 +141,38 @@
     <div class="row">
         <div class="col-md-2">健保參考價</div>
         <div class="col-md-10"><?php echo ($this->data['Drug']['nhi_price'] == 0) ? '健保不給付' : $this->data['Drug']['nhi_price']; ?>&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">形狀</div>
+        <div class="col-md-10"><?php echo $this->data['Drug']['shape']; ?>&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">特殊劑型</div>
+        <div class="col-md-10"><?php echo $this->data['Drug']['s_type']; ?>&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">顏色</div>
+        <div class="col-md-10"><?php echo $this->data['Drug']['color']; ?>&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">特殊氣味</div>
+        <div class="col-md-10"><?php echo $this->data['Drug']['odor']; ?>&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">刻痕</div>
+        <div class="col-md-10"><?php echo $this->data['Drug']['abrasion']; ?>&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">外觀尺寸</div>
+        <div class="col-md-10"><?php echo $this->data['Drug']['size']; ?>&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">標註一</div>
+        <div class="col-md-10"><?php echo $this->data['Drug']['note_1']; ?>&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">標註二 </div>
+        <div class="col-md-10"><?php echo $this->data['Drug']['note_2']; ?>&nbsp;</div>
     </div>
     <div class="clearfix"><br /></div>
     <h3>異動記錄</h3>
