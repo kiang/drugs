@@ -1,7 +1,7 @@
 .htaccess
 Config/core.php
 Config/database.php
-tmp/*
+tmp
 webroot/.htaccess
 
 error
