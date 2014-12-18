@@ -28,6 +28,7 @@ class DrugsController extends AppController {
                 'Drug.license_id LIKE' => "%{$name}%",
                 'Drug.vendor LIKE' => "%{$name}%",
                 'Drug.manufacturer LIKE' => "%{$name}%",
+                'Drug.ingredient LIKE' => "%{$name}%",
             );
         }
         $this->paginate['Drug'] = array(
