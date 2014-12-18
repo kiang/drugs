@@ -7,7 +7,49 @@ class ImportShell extends AppShell {
     public $mysqli = false;
 
     public function main() {
-        $this->batchImport();
+        $this->dumpDbKeys();
+    }
+
+    public function importPrice() {
+        $fields = array('許可證字號', '健保代碼', '規格量', '規格單位', '起期', '終期', '參考價', '-');
+        print_r($fields);
+        $fh = fopen($this->dataPath . '/dataset/74.csv', 'r');
+        /*
+         * Array
+          (
+          [0] => 許可證字號
+          [1] => 健保代碼
+          [2] => 規格量
+          [3] => 規格單位
+          [4] => 起期
+          [5] => 終期
+          [6] => 參考價
+          [7] => -
+          )
+         */
+        while ($line = fgetcsv($fh, 2048, "\t")) {
+            print_r(array_combine($fields, $line));
+            exit();
+            //nhi_id
+        }
+    }
+
+    public function dumpDbKeys() {
+        $drugs = $this->Drug->find('all', array(
+            'conditions' => array(
+                'Drug.active_id IS NULL',
+            ),
+            'fields' => array('id', 'license_id'),
+            'order' => array('Drug.submitted' => 'ASC'),
+        ));
+        $fh = fopen(__DIR__ . '/data/dbKeys.csv', 'w');
+        foreach ($drugs AS $drug) {
+            fputcsv($fh, array(
+                $drug['Drug']['license_id'],
+                $drug['Drug']['id'],
+            ));
+        }
+        fclose($fh);
     }
 
     public function batchImport() {
