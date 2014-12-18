@@ -7,30 +7,83 @@ class ImportShell extends AppShell {
     public $mysqli = false;
 
     public function main() {
-        $this->dumpDbKeys();
+        $this->importPrice();
     }
 
     public function importPrice() {
+        $db = ConnectionManager::getDataSource('default');
+        $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
+        $this->dbQuery('SET NAMES utf8mb4;');
         $fields = array('許可證字號', '健保代碼', '規格量', '規格單位', '起期', '終期', '參考價', '-');
-        print_r($fields);
+        $dbKeys = array();
+        if (file_exists(__DIR__ . '/data/dbKeys.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/dbKeys.csv', 'r');
+            while ($line = fgetcsv($dbKeysFh, 1024)) {
+                $dbKeys[$line[0]] = $line[1];
+            }
+            fclose($dbKeysFh);
+        }
         $fh = fopen($this->dataPath . '/dataset/74.csv', 'r');
         /*
          * Array
           (
           [0] => 許可證字號
-          [1] => 健保代碼
-          [2] => 規格量
-          [3] => 規格單位
-          [4] => 起期
-          [5] => 終期
-          [6] => 參考價
-          [7] => -
+          [1] => 健保代碼 nhi_id
+          [2] => 規格量 nhi_dosage
+          [3] => 規格單位 nhi_unit
+          [4] => 起期 date_begin
+          [5] => 終期 date_end
+          [6] => 參考價 nhi_price
+          [7] => drug_id
           )
          */
+        $stack = $valueStack = array();
+        $sn = 1;
         while ($line = fgetcsv($fh, 2048, "\t")) {
-            print_r(array_combine($fields, $line));
-            exit();
-            //nhi_id
+            if (isset($dbKeys[$line[0]])) {
+                $currentId = String::uuid();
+                $line[7] = $dbKeys[$line[0]];
+                $line[4] = $this->getTwDate($line[4]);
+                $line[5] = $this->getTwDate($line[5]);
+                $time = strtotime($line[5]);
+                if (!isset($stack[$line[0]])) {
+                    $stack[$line[0]] = array(
+                        'time' => 0,
+                        'line' => array(),
+                    );
+                }
+                if ($time > $stack[$line[0]]['time']) {
+                    $stack[$line[0]] = array(
+                        'time' => $time,
+                        'line' => $line,
+                    );
+                }
+                $dbCols = array(
+                    "('{$currentId}'", //id
+                    "'{$line[7]}'", //drug_id
+                    "'{$line[1]}'", //nhi_id
+                    "'{$line[2]}'", //nhi_dosage
+                    "'{$line[3]}'", //nhi_unit
+                    "'{$line[4]}'", //date_begin
+                    "'{$line[5]}'", //date_end
+                    "'{$line[6]}'", //nhi_price
+                );
+                $valueStack[] = implode(',', $dbCols) . ')';
+                ++$sn;
+                if ($sn > 50) {
+                    $sn = 1;
+                    $this->dbQuery('INSERT INTO `prices` VALUES ' . implode(',', $valueStack) . ';');
+                    $valueStack = array();
+                }
+            }
+        }
+        if (!empty($valueStack)) {
+            $sn = 1;
+            $this->dbQuery('INSERT INTO `prices` VALUES ' . implode(',', $valueStack) . ';');
+            $valueStack = array();
+        }
+        foreach ($stack AS $item) {
+            $this->dbQuery("UPDATE drugs SET nhi_id = '{$item['line'][1]}', nhi_dosage = '{$item['line'][2]}', nhi_unit = '{$item['line'][3]}', nhi_price = '{$item['line'][6]}' WHERE id = '{$item['line'][7]}'");
         }
     }
 
@@ -202,6 +255,21 @@ class ImportShell extends AppShell {
             $this->dbQuery('INSERT INTO `drugs` VALUES ' . implode(',', $valueStack) . ';');
             $valueStack = array();
         }
+    }
+
+    public function getTwDate($str) {
+        $str = trim($str);
+        if (empty($str) || strlen($str) !== 7) {
+            return '';
+        }
+        $dateParts = array();
+        $dateParts[0] = intval(substr($str, 0, 3)) + 1911;
+        if ($dateParts[0] > date('Y')) {
+            $dateParts[0] = date('Y');
+        }
+        $dateParts[1] = substr($str, 3, 2);
+        $dateParts[2] = substr($str, 5, 2);
+        return implode('-', $dateParts);
     }
 
     public function dbQuery($sql) {

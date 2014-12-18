@@ -56,8 +56,33 @@ CREATE TABLE `drugs` (
   `package_note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '包裝',
   `barcode` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '國際條碼',
   `md5` char(32) COLLATE utf8_unicode_ci NOT NULL,
+  `nhi_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `nhi_dosage` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `nhi_unit` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `nhi_price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `prices`
+--
+
+DROP TABLE IF EXISTS `prices`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `prices` (
+  `id` binary(36) NOT NULL,
+  `drug_id` binary(36) NOT NULL,
+  `nhi_id` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nhi_dosage` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nhi_unit` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date_begin` date NOT NULL,
+  `date_end` date NOT NULL,
+  `nhi_price` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `drug_id` (`drug_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -69,4 +94,4 @@ CREATE TABLE `drugs` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-12-18 19:14:50
+-- Dump completed on 2014-12-19  0:16:11
