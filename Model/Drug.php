@@ -41,5 +41,12 @@ class Drug extends AppModel {
             'order' => ''
         )
     );
+    var $hasMany = array(
+        'Price' => array(
+            'foreignKey' => 'drug_id',
+            'dependent' => true,
+            'className' => 'Price',
+        ),
+    );
 
 }

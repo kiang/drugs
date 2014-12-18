@@ -29,6 +29,7 @@ class DrugsController extends AppController {
                 'Drug.vendor LIKE' => "%{$name}%",
                 'Drug.manufacturer LIKE' => "%{$name}%",
                 'Drug.ingredient LIKE' => "%{$name}%",
+                'Drug.nhi_id LIKE' => "%{$name}%",
             );
         }
         $this->paginate['Drug'] = array(
@@ -73,9 +74,14 @@ class DrugsController extends AppController {
                 'fields' => array('id', 'submitted'),
                 'order' => array('Drug.submitted' => 'DESC'),
             ));
+            $prices = $this->Drug->Price->find('all', array(
+                'conditions' => array('Price.drug_id' => $id),
+                'order' => array('Price.date_end' => 'DESC'),
+            ));
             $this->set('title_for_layout', "{$this->data['Drug']['name']} {{$this->data['Drug']['name_english']}} @ ");
             $this->set('desc_for_layout', "{$this->data['Drug']['name']} {$this->data['Drug']['name_english']} / {$this->data['Drug']['disease']} / ");
             $this->set('logs', $logs);
+            $this->set('prices', $prices);
         }
     }
 
