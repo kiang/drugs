@@ -10,7 +10,7 @@
     </div>
     <div class="row">
         <div class="col-md-2">註銷日期</div>
-        <div class="col-md-10"><?php echo $this->data['Drug']['cancel_date']; ?>&nbsp;</div>
+        <div class="col-md-10"><?php echo ($this->data['Drug']['cancel_date'] === '0000-00-00') ? '' : $this->data['Drug']['cancel_date']; ?>&nbsp;</div>
     </div>
     <div class="row">
         <div class="col-md-2">註銷理由</div>
@@ -66,11 +66,18 @@
     </div>
     <div class="row">
         <div class="col-md-2">主成分略述</div>
-        <div class="col-md-10"><?php echo $this->data['Drug']['ingredient']; ?>&nbsp;</div>
+        <div class="col-md-10"><?php
+            $ingredients = explode(';;', $this->data['Drug']['ingredient']);
+            foreach ($ingredients AS $ingredient) {
+                echo $this->Html->link($ingredient, '/drugs/index/' . $ingredient, array('class' => 'btn btn-default'));
+            }
+            ?>&nbsp;</div>
     </div>
     <div class="row">
         <div class="col-md-2">申請商名稱</div>
-        <div class="col-md-10"><?php echo $this->data['Drug']['vendor']; ?>&nbsp;</div>
+        <div class="col-md-10"><?php
+            echo $this->Html->link($this->data['Drug']['vendor'], '/drugs/index/' . $this->data['Drug']['vendor'], array('class' => 'btn btn-default'));
+            ?>&nbsp;</div>
     </div>
     <div class="row">
         <div class="col-md-2">申請商地址</div>
@@ -82,7 +89,9 @@
     </div>
     <div class="row">
         <div class="col-md-2">製造商名稱</div>
-        <div class="col-md-10"><?php echo $this->data['Drug']['manufacturer']; ?>&nbsp;</div>
+        <div class="col-md-10"><?php
+            echo $this->Html->link($this->data['Drug']['manufacturer'], '/drugs/index/' . $this->data['Drug']['manufacturer'], array('class' => 'btn btn-default'));
+            ?>&nbsp;</div>
     </div>
     <div class="row">
         <div class="col-md-2">製造廠廠址</div>
@@ -126,7 +135,7 @@
     </div>
     <div class="row">
         <div class="col-md-2">健保參考價</div>
-        <div class="col-md-10"><?php echo $this->data['Drug']['nhi_price']; ?>&nbsp;</div>
+        <div class="col-md-10"><?php echo ($this->data['Drug']['nhi_price'] == 0) ? '健保不給付' : $this->data['Drug']['nhi_price']; ?>&nbsp;</div>
     </div>
     <div class="clearfix"><br /></div>
     <h3>異動記錄</h3>
