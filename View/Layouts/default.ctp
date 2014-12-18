@@ -3,7 +3,7 @@
     <head>
         <?php echo $this->Html->charset(); ?>
         <title><?php echo $title_for_layout; ?>藥要看</title><?php
-        $trailDesc = '藥要看提供簡單的介面檢索國內有登記立案的社團/財團法人';
+        $trailDesc = '藥要看提供簡單的介面檢索國內有註冊登記的藥品資訊';
         if (!isset($desc_for_layout)) {
             $desc_for_layout = $trailDesc;
         } else {
@@ -66,5 +66,18 @@
         <?php
         echo $this->element('sql_dump');
         ?>
+        <script type="text/javascript">
+            //<![CDATA[
+            $(function () {
+                $('a.btn-find').click(function () {
+                    var keyword = $('input#keyword').val();
+                    if (keyword !== '') {
+                        location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
+                    }
+                    return false;
+                });
+            });
+            //]]>
+        </script>
     </body>
 </html>

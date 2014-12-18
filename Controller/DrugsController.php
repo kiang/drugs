@@ -22,7 +22,13 @@ class DrugsController extends AppController {
         );
         if (!empty($name)) {
             $name = Sanitize::clean($name);
-            $scope['Drug.name LIKE'] = "%{$name}%";
+            $scope['OR'] = array(
+                'Drug.name LIKE' => "%{$name}%",
+                'Drug.name_english LIKE' => "%{$name}%",
+                'Drug.license_id LIKE' => "%{$name}%",
+                'Drug.vendor LIKE' => "%{$name}%",
+                'Drug.manufacturer LIKE' => "%{$name}%",
+            );
         }
         $this->paginate['Drug'] = array(
             'limit' => 20,
@@ -32,7 +38,7 @@ class DrugsController extends AppController {
         if (!empty($name)) {
             $name = "{$name} 相關";
         }
-        $this->set('title_for_layout', $name . '法人一覽 @ ');
+        $this->set('title_for_layout', $name . '藥品一覽 @ ');
         $this->set('items', $this->paginate($this->Drug, $scope));
     }
 
