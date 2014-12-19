@@ -200,7 +200,16 @@
     <div class="row">
         <ul>
             <?php
+            $currentNhiId = false;
             foreach ($prices AS $price) {
+                if (false === $currentNhiId) {
+                    echo "<li><strong>[{$price['Price']['nhi_id']}] {$price['Price']['nhi_dosage']} {$price['Price']['nhi_unit']}</strong></li>";
+                    $currentNhiId = $price['Price']['nhi_id'];
+                } elseif ($currentNhiId != $price['Price']['nhi_id']) {
+                    echo '</ul><ul>';
+                    echo "<li><strong>[{$price['Price']['nhi_id']}] {$price['Price']['nhi_dosage']} {$price['Price']['nhi_unit']}</strong></li>";
+                    $currentNhiId = $price['Price']['nhi_id'];
+                }
                 echo '<li>' . "{$price['Price']['date_begin']} ~ {$price['Price']['date_end']} - > &nbsp; &nbsp; &nbsp; \${$price['Price']['nhi_price']}</li>";
             }
             ?>

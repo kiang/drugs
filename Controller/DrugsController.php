@@ -78,7 +78,10 @@ class DrugsController extends AppController {
             ));
             $prices = $this->Drug->Price->find('all', array(
                 'conditions' => array('Price.drug_id' => $id),
-                'order' => array('Price.date_end' => 'DESC'),
+                'order' => array(
+                    'Price.nhi_id' => 'ASC',
+                    'Price.date_end' => 'DESC',
+                ),
             ));
             $this->set('title_for_layout', "{$this->data['Drug']['name']} {{$this->data['Drug']['name_english']}} @ ");
             $this->set('desc_for_layout', "{$this->data['Drug']['name']} {$this->data['Drug']['name_english']} / {$this->data['Drug']['disease']} / ");
