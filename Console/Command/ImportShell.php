@@ -7,7 +7,50 @@ class ImportShell extends AppShell {
     public $mysqli = false;
 
     public function main() {
-        $this->importImage();
+        $this->importBox();
+    }
+
+    public function importBox() {
+        $db = ConnectionManager::getDataSource('default');
+        $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
+        $this->dbQuery('SET NAMES utf8mb4;');
+        $fields = array('許可證字號', '中文品名', '英文品名', '仿單圖檔連結', '外盒圖檔連結', '-');
+
+        $imagePath = __DIR__ . '/data/box';
+        if (!file_exists($imagePath)) {
+            mkdir($imagePath, 0777, true);
+        }
+        $fh = fopen($this->dataPath . '/dataset/39.csv', 'r');
+
+        $dbKeys = array();
+        if (file_exists(__DIR__ . '/data/dbKeys.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/dbKeys.csv', 'r');
+            while ($line = fgetcsv($dbKeysFh, 1024)) {
+                $dbKeys[$line[0]] = $line[1];
+            }
+            fclose($dbKeysFh);
+        }
+        /*
+         * Array
+          (
+          [0] => 許可證字號
+          [1] => 中文品名
+          [2] => 英文品名
+          [3] => 仿單圖檔連結
+          [4] => 外盒圖檔連結
+          [5] => -
+          )
+         */
+        $wLength = strlen(WWW_ROOT);
+        $imagick = new Imagick();
+        while ($line = fgetcsv($fh, 2048, "\t")) {
+            print_r($line);
+            exit();
+            $dataFound = false;
+            if (true === $dataFound && isset($dbKeys[$line[0]])) {
+                $this->dbQuery("UPDATE drugs SET shape = '{$line[3]}', s_type = '{$line[4]}', color = '{$line[5]}', odor = '{$line[6]}', abrasion = '{$line[7]}', size = '{$line[8]}', note_1 = '{$line[9]}', note_2 = '{$line[10]}', image = '{$line[11]}' WHERE id = '{$dbKeys[$line[0]]}'");
+            }
+        }
     }
 
     public function importImage() {
