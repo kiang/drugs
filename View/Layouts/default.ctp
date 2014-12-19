@@ -29,7 +29,8 @@
                 <div class="pull-right">
                     <input type="text" id="keyword" />
                     <div class="btn-group">
-                        <a href="#" class="btn btn-default btn-find">搜尋</a>
+                        <a href="#" class="btn btn-default btn-find">一般搜尋</a>
+                        <a href="#" class="btn btn-default btn-outward">外觀搜尋</a>
                     </div>
                 </div>
             </div>
@@ -76,6 +77,14 @@
                     }
                     return false;
                 });
+                $('a.btn-outward').click(function () {
+                    var keyword = $('input#keyword').val();
+                    if (keyword !== '') {
+                        location.href = '<?php echo $this->Html->url('/drugs/outward/'); ?>' + encodeURIComponent(keyword);
+                    }
+                    return false;
+                });
+                
             });
             //]]>
         </script>

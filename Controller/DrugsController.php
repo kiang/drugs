@@ -12,8 +12,35 @@ class DrugsController extends AppController {
     public function beforeFilter() {
         parent::beforeFilter();
         if (isset($this->Auth)) {
-            $this->Auth->allow('index', 'view');
+            $this->Auth->allow('index', 'view', 'outward');
         }
+    }
+
+    public function outward($name = null) {
+        $scope = array(
+            'Drug.active_id IS NULL',
+        );
+        if (!empty($name)) {
+            $name = Sanitize::clean($name);
+            $scope['OR'] = array(
+                'Drug.shape LIKE' => "%{$name}%",
+                'Drug.color LIKE' => "%{$name}%",
+                'Drug.odor LIKE' => "%{$name}%",
+                'Drug.abrasion LIKE' => "%{$name}%",
+                'Drug.note_1 LIKE' => "%{$name}%",
+                'Drug.note_2 LIKE' => "%{$name}%",
+            );
+        }
+        $this->paginate['Drug'] = array(
+            'limit' => 20,
+            'order' => array('Drug.submitted' => 'DESC'),
+        );
+        $this->set('url', array($name));
+        if (!empty($name)) {
+            $name = "{$name} 相關";
+        }
+        $this->set('title_for_layout', $name . '藥品一覽 @ ');
+        $this->set('items', $this->paginate($this->Drug, $scope));
     }
 
     function index($name = null) {
@@ -30,8 +57,6 @@ class DrugsController extends AppController {
                 'Drug.manufacturer LIKE' => "%{$name}%",
                 'Drug.ingredient LIKE' => "%{$name}%",
                 'Drug.nhi_id LIKE' => "%{$name}%",
-                'Drug.note_1 LIKE' => "%{$name}%",
-                'Drug.note_2 LIKE' => "%{$name}%",
             );
         }
         $this->paginate['Drug'] = array(
