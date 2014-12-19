@@ -47,6 +47,12 @@ class Drug extends AppModel {
             'dependent' => true,
             'className' => 'Price',
         ),
+        'Attachment' => array(
+            'conditions' => array('Attachment.model' => 'Drug'),
+            'foreignKey' => 'foreign_key',
+            'dependent' => true,
+            'className' => 'Media.Attachment',
+        ),
     );
 
 }

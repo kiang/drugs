@@ -82,6 +82,8 @@ Configure::write('Dispatcher.filters', array(
 	'CacheDispatcher'
 ));
 
+CakePlugin::load('Media', array('bootstrap'=>true));
+
 /**
  * Configures default file logging options
  */

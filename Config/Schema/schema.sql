@@ -16,6 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `attachments`
+--
+
+DROP TABLE IF EXISTS `attachments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `attachments` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `model` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `foreign_key` int(10) NOT NULL,
+  `dirname` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `basename` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `checksum` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `alternative` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `group` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `drugs`
 --
 
@@ -56,10 +78,16 @@ CREATE TABLE `drugs` (
   `package_note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '包裝',
   `barcode` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '國際條碼',
   `md5` char(32) COLLATE utf8_unicode_ci NOT NULL,
-  `nhi_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
-  `nhi_dosage` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `nhi_unit` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `nhi_price` decimal(10,2) NOT NULL,
+  `nhi_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `shape` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `s_type` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `color` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `odor` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `abrasion` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `size` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `note_1` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `note_2` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `image` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -94,4 +122,4 @@ CREATE TABLE `prices` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-12-19  0:16:11
+-- Dump completed on 2014-12-19 21:15:24

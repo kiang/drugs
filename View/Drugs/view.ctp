@@ -135,14 +135,6 @@
         <div class="col-md-10"><?php echo $this->data['Drug']['nhi_id']; ?>&nbsp;</div>
     </div>
     <div class="row">
-        <div class="col-md-2">健保規格</div>
-        <div class="col-md-10"><?php echo "{$this->data['Drug']['nhi_dosage']} {$this->data['Drug']['nhi_unit']}"; ?>&nbsp;</div>
-    </div>
-    <div class="row">
-        <div class="col-md-2">健保參考價</div>
-        <div class="col-md-10"><?php echo ($this->data['Drug']['nhi_price'] == 0) ? '健保不給付' : $this->data['Drug']['nhi_price']; ?>&nbsp;</div>
-    </div>
-    <div class="row">
         <div class="col-md-2">形狀</div>
         <div class="col-md-10"><?php echo $this->data['Drug']['shape']; ?>&nbsp;</div>
     </div>
