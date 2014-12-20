@@ -22,7 +22,8 @@ class ImportShell extends AppShell {
         }
         $fh = fopen($this->dataPath . '/dataset/39.csv', 'r');
 
-        $dbKeys = array();
+        $dbKeys = $valueStack = array();
+
         if (file_exists(__DIR__ . '/data/dbKeys.csv')) {
             $dbKeysFh = fopen(__DIR__ . '/data/dbKeys.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
@@ -43,13 +44,72 @@ class ImportShell extends AppShell {
          */
         $wLength = strlen(WWW_ROOT);
         $imagick = new Imagick();
+        $sn = 0;
         while ($line = fgetcsv($fh, 2048, "\t")) {
-            print_r($line);
-            exit();
-            $dataFound = false;
-            if (true === $dataFound && isset($dbKeys[$line[0]])) {
-                $this->dbQuery("UPDATE drugs SET shape = '{$line[3]}', s_type = '{$line[4]}', color = '{$line[5]}', odor = '{$line[6]}', abrasion = '{$line[7]}', size = '{$line[8]}', note_1 = '{$line[9]}', note_2 = '{$line[10]}', image = '{$line[11]}' WHERE id = '{$dbKeys[$line[0]]}'");
+            if (!isset($dbKeys[$line[0]])) {
+                continue;
             }
+            if (!empty($line[3])) {
+                $files = explode(';;', $line[3]);
+                foreach ($files AS $k => $v) {
+                    $files[$k] = trim($v);
+                    if (empty($files[$k])) {
+                        unset($files[$k]);
+                    }
+                }
+                $count = 0;
+                foreach ($files AS $url) {
+                    ++$count;
+                    $currentId = String::uuid();
+                    $url = $this->mysqli->real_escape_string($url);
+                    $valueStack[] = implode(',', array(
+                        "('{$currentId}'", //id
+                        "'{$dbKeys[$line[0]]}'", //drug_id
+                        "'{$url}'", //url
+                        "'仿單 - {$count}'", //title
+                        "1", //type
+                        "{$count})", //sort
+                    ));
+                    ++$sn;
+                    if ($sn > 50) {
+                        $sn = 1;
+                        $this->dbQuery('INSERT INTO `links` VALUES ' . implode(',', $valueStack) . ';');
+                        $valueStack = array();
+                    }
+                }
+            }
+            if (!empty($line[4])) {
+                $files = explode(';;', $line[4]);
+                foreach ($files AS $k => $v) {
+                    $files[$k] = trim($v);
+                    if (empty($files[$k])) {
+                        unset($files[$k]);
+                    }
+                }
+                $count = 0;
+                foreach ($files AS $url) {
+                    ++$count;
+                    $currentId = String::uuid();
+                    $url = $this->mysqli->real_escape_string($url);
+                    $valueStack[] = implode(',', array(
+                        "('{$currentId}'", //id
+                        "'{$dbKeys[$line[0]]}'", //drug_id
+                        "'{$url}'", //url
+                        "'外盒 - {$count}'", //title
+                        "2", //type
+                        "{$count})", //sort
+                    ));
+                    ++$sn;
+                    if ($sn > 50) {
+                        $sn = 1;
+                        $this->dbQuery('INSERT INTO `links` VALUES ' . implode(',', $valueStack) . ';');
+                        $valueStack = array();
+                    }
+                }
+            }
+        }
+        if (!empty($valueStack)) {
+            $this->dbQuery('INSERT INTO `links` VALUES ' . implode(',', $valueStack) . ';');
         }
     }
 

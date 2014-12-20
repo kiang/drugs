@@ -108,10 +108,19 @@ class DrugsController extends AppController {
                     'Price.date_end' => 'DESC',
                 ),
             ));
+            $links = $this->Drug->Link->find('all', array(
+                'conditions' => array('Link.drug_id' => $id),
+                'fields' => array('url', 'title'),
+                'order' => array(
+                    'Link.type' => 'ASC',
+                    'Link.sort' => 'ASC',
+                ),
+            ));
             $this->set('title_for_layout', "{$this->data['Drug']['name']} {{$this->data['Drug']['name_english']}} @ ");
             $this->set('desc_for_layout', "{$this->data['Drug']['name']} {$this->data['Drug']['name_english']} / {$this->data['Drug']['disease']} / ");
             $this->set('logs', $logs);
             $this->set('prices', $prices);
+            $this->set('links', $links);
         }
     }
 

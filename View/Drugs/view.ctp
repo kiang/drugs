@@ -166,6 +166,14 @@
         <div class="col-md-2">標註二 </div>
         <div class="col-md-10"><?php echo $this->data['Drug']['note_2']; ?>&nbsp;</div>
     </div>
+    <div class="row">
+        <div class="col-md-2">相關連結 </div>
+        <div class="col-md-10"><?php
+            foreach ($links AS $link) {
+                echo $this->Html->link($link['Link']['title'], $link['Link']['url'], array('class' => 'btn btn-default', 'target' => '_blank'));
+            }
+            ?>&nbsp;</div>
+    </div>
     <div class="clearfix"><br /></div>
     <h3>異動記錄</h3>
     <div class="clearfix"><br /></div>
