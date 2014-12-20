@@ -116,11 +116,19 @@ class DrugsController extends AppController {
                     'Link.sort' => 'ASC',
                 ),
             ));
+            $ingredients = $this->Drug->Ingredient->find('all', array(
+                'conditions' => array('Ingredient.drug_id' => $id),
+                'fields' => array('remark', 'name', 'dosage', 'dosage_text', 'unit'),
+                'order' => array(
+                    'Ingredient.dosage' => 'DESC',
+                ),
+            ));
             $this->set('title_for_layout', "{$this->data['Drug']['name']} {{$this->data['Drug']['name_english']}} @ ");
             $this->set('desc_for_layout', "{$this->data['Drug']['name']} {$this->data['Drug']['name_english']} / {$this->data['Drug']['disease']} / ");
             $this->set('logs', $logs);
             $this->set('prices', $prices);
             $this->set('links', $links);
+            $this->set('ingredients', $ingredients);
         }
     }
 

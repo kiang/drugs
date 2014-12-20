@@ -52,6 +52,11 @@ class Drug extends AppModel {
             'dependent' => true,
             'className' => 'Link',
         ),
+        'Ingredient' => array(
+            'foreignKey' => 'drug_id',
+            'dependent' => true,
+            'className' => 'Ingredient',
+        ),
         'Attachment' => array(
             'conditions' => array('Attachment.model' => 'Drug'),
             'foreignKey' => 'foreign_key',

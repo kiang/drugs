@@ -72,8 +72,8 @@
     <div class="row">
         <div class="col-md-2">主成分略述</div>
         <div class="col-md-10"><?php
-            $ingredients = explode(';;', $this->data['Drug']['ingredient']);
-            foreach ($ingredients AS $ingredient) {
+            $majorIngredients = explode(';;', $this->data['Drug']['ingredient']);
+            foreach ($majorIngredients AS $ingredient) {
                 echo $this->Html->link($ingredient, '/drugs/index/' . $ingredient, array('class' => 'btn btn-default'));
             }
             ?>&nbsp;</div>
@@ -174,6 +174,33 @@
             }
             ?>&nbsp;</div>
     </div>
+    <div class="clearfix"><br /></div>
+    <h3>成份表</h3>
+    <div class="clearfix"><br /></div>
+    <?php
+    if (!empty($ingredients)) {
+        ?><table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>處方標示</th>
+                    <th>成分名稱</th>
+                    <th>含量描述</th>
+                    <th>含量單位</th>
+                </tr>
+            </thead>
+            <tbody><?php
+                foreach ($ingredients AS $ingredient) {
+                    ?><tr>
+                        <td><?php echo $ingredient['Ingredient']['remark']; ?></td>
+                        <td><?php echo $ingredient['Ingredient']['name']; ?></td>
+                        <td><?php echo !empty($ingredient['Ingredient']['dosage_text']) ? $ingredient['Ingredient']['dosage_text'] : $ingredient['Ingredient']['dosage']; ?></td>
+                        <td><?php echo $ingredient['Ingredient']['unit']; ?></td>
+                    </tr><?php
+                }
+                ?></tbody>
+        </table><?php
+    }
+    ?>
     <div class="clearfix"><br /></div>
     <h3>異動記錄</h3>
     <div class="clearfix"><br /></div>

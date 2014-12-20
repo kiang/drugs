@@ -7,7 +7,66 @@ class ImportShell extends AppShell {
     public $mysqli = false;
 
     public function main() {
-        $this->importBox();
+        $this->importIngredients();
+    }
+
+    public function importIngredients() {
+        $db = ConnectionManager::getDataSource('default');
+        $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
+        $this->dbQuery('SET NAMES utf8mb4;');
+        $fields = array('許可證字號', '處方標示', '成分名稱', '含量描述', '含量', '含量單位', '-');
+        $dbKeys = $valueStack = array();
+
+        if (file_exists(__DIR__ . '/data/dbKeys.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/dbKeys.csv', 'r');
+            while ($line = fgetcsv($dbKeysFh, 1024)) {
+                $dbKeys[$line[0]] = $line[1];
+            }
+            fclose($dbKeysFh);
+        }
+        $fh = fopen($this->dataPath . '/dataset/43.csv', 'r');
+        /*
+         * Array
+          (
+          [0] => 許可證字號
+          [1] => 處方標示
+          [2] => 成分名稱
+          [3] => 含量描述
+          [4] => 含量
+          [5] => 含量單位
+          )
+         */
+        $sn = 1;
+        while ($line = fgetcsv($fh, 2048, "\t")) {
+            if (substr($line[4], 0, 1) === '-') {
+                $line[4] = substr($line[4], 1);
+            }
+            if (!isset($dbKeys[$line[0]])) {
+                continue;
+            }
+            for ($i = 1; $i <= 5; $i++) {
+                $line[$i] = $this->mysqli->real_escape_string(trim($line[$i]));
+            }
+            $currentId = String::uuid();
+            $valueStack[] = implode(',', array(
+                "('{$currentId}'", //id
+                "'{$dbKeys[$line[0]]}'", //drug_id
+                "'{$line[1]}'", //remark
+                "'{$line[2]}'", //name
+                "'{$line[3]}'", //dosage_text
+                "'{$line[4]}'", //dosage
+                "'{$line[5]}')", //unit
+            ));
+            ++$sn;
+            if ($sn > 50) {
+                $sn = 1;
+                $this->dbQuery('INSERT INTO `ingredients` VALUES ' . implode(',', $valueStack) . ';');
+                $valueStack = array();
+            }
+        }
+        if (!empty($valueStack)) {
+            $this->dbQuery('INSERT INTO `ingredients` VALUES ' . implode(',', $valueStack) . ';');
+        }
     }
 
     public function importBox() {
