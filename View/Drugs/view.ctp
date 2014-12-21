@@ -193,7 +193,7 @@
                     ?><tr>
                         <td><?php echo $ingredient['Ingredient']['remark']; ?></td>
                         <td><?php echo $ingredient['Ingredient']['name']; ?></td>
-                        <td><?php echo !empty($ingredient['Ingredient']['dosage_text']) ? $ingredient['Ingredient']['dosage_text'] : $ingredient['Ingredient']['dosage']; ?></td>
+                        <td><?php echo!empty($ingredient['Ingredient']['dosage_text']) ? $ingredient['Ingredient']['dosage_text'] : $ingredient['Ingredient']['dosage']; ?></td>
                         <td><?php echo $ingredient['Ingredient']['unit']; ?></td>
                     </tr><?php
                 }
@@ -201,6 +201,31 @@
         </table><?php
     }
     ?>
+    <?php if (!empty($this->data['Category'])) { ?>
+        <div class="clearfix"><br /></div>
+        <h3>ATC 分類</h3>
+        <div class="clearfix"><br /></div>
+        <ul>
+            <?php
+            foreach ($this->data['Category'] AS $category) {
+                $tree = array();
+                foreach ($categoryNames[$category['CategoriesDrug']['category_id']] AS $item) {
+                    /*
+                     * @todo: have a category page to view related drugs
+                     */
+                    //$tree[] = $this->Html->link($item['Category']['name'], $item['Category']['id']);
+                    $tree[] = $item['Category']['name'];
+                }
+                echo '<li>';
+                echo " [{$category['CategoriesDrug']['type']}] ";
+                echo $this->Html->link($category['code'], 'http://www.whocc.no/atc_ddd_index/?code=' . $category['code'] . '&showdescription=yes', array('target' => '_blank'));
+                echo " {$category['name_chinese']}<br />";
+                echo implode(' > ', $tree);
+                echo '</li>';
+            }
+            ?>
+        </ul>
+    <?php } ?>
     <div class="clearfix"><br /></div>
     <h3>異動記錄</h3>
     <div class="clearfix"><br /></div>

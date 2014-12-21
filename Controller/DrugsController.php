@@ -75,6 +75,11 @@ class DrugsController extends AppController {
         if (!empty($id)) {
             $this->data = $this->Drug->find('first', array(
                 'conditions' => array('Drug.id' => $id),
+                'contain' => array(
+                    'Category' => array(
+                        'fields' => array('code', 'name', 'name_chinese'),
+                    ),
+                ),
             ));
             if (!empty($this->data['Drug']['linked_id'])) {
                 $linkedId = $this->data['Drug']['linked_id'];
@@ -91,6 +96,10 @@ class DrugsController extends AppController {
             $this->Session->setFlash(__('Please do following links in the page', true));
             $this->redirect(array('action' => 'index'));
         } else {
+            $categoryNames = array();
+            foreach ($this->data['Category'] AS $k => $category) {
+                $categoryNames[$category['CategoriesDrug']['category_id']] = $this->Drug->Category->getPath($category['CategoriesDrug']['category_id'], array('id', 'name'));
+            }
             $logs = $this->Drug->find('list', array(
                 'conditions' => array(
                     'OR' => array(
@@ -129,6 +138,7 @@ class DrugsController extends AppController {
             $this->set('prices', $prices);
             $this->set('links', $links);
             $this->set('ingredients', $ingredients);
+            $this->set('categoryNames', $categoryNames);
         }
     }
 

@@ -5,9 +5,104 @@ class ImportShell extends AppShell {
     public $uses = array('Drug');
     public $dataPath = '/home/kiang/public_html/data.fda.gov.tw';
     public $mysqli = false;
+    public $key2id = array();
 
     public function main() {
-        $this->importIngredients();
+        $this->importATC();
+    }
+
+    public function rKeys($arr = array(), $prefix = '') {
+        foreach ($arr AS $category) {
+            $newPrefix = $prefix . $category['Category']['name'];
+            $this->key2id[$newPrefix] = $category['Category']['id'];
+            if (!empty($category['children'])) {
+                $this->rKeys($category['children'], $newPrefix);
+            }
+        }
+    }
+
+    public function importATC() {
+        $db = ConnectionManager::getDataSource('default');
+        $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
+        $this->dbQuery('SET NAMES utf8mb4;');
+        $this->rKeys($this->Drug->Category->find('threaded', array(
+                    'fields' => array('id', 'parent_id', 'name'),
+        )));
+        $dbKeys = $valueStack = array();
+        if (file_exists(__DIR__ . '/data/dbKeys.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/dbKeys.csv', 'r');
+            while ($line = fgetcsv($dbKeysFh, 1024)) {
+                $dbKeys[$line[0]] = $line[1];
+            }
+            fclose($dbKeysFh);
+        }
+        $fields = array('許可證字號', '主或次項', '代碼', '英文分類名稱', '中文分類名稱', '-');
+        /*
+         * Array
+          (
+          [0] => 許可證字號
+          [1] => 主或次項
+          [2] => 代碼
+          [3] => 英文分類名稱
+          [4] => 中文分類名稱
+          [5] => -
+          )
+         */
+        $fh = fopen($this->dataPath . '/dataset/41.csv', 'r');
+        $sn = 1;
+        while ($line = fgetcsv($fh, 2048, "\t")) {
+            foreach ($line AS $k => $v) {
+                $line[$k] = trim($v);
+            }
+            $tree = explode(' / ', $line[3]);
+            $treeCount = count($tree);
+            $currentCount = 0;
+            $currentKey = '';
+            foreach ($tree AS $item) {
+                ++$currentCount;
+                $parentKey = $currentKey;
+                if (empty($parentKey)) {
+                    $parentId = '0';
+                } else {
+                    $parentId = $this->key2id[$parentKey];
+                }
+                $currentKey .= $item;
+                if (!isset($this->key2id[$currentKey])) {
+                    $this->Drug->Category->create();
+                    $code = '';
+                    $nameChinese = '';
+                    if ($currentCount === $treeCount) {
+                        $code = strtoupper($line[2]);
+                        $nameChinese = $line[4];
+                    }
+                    $this->Drug->Category->save(array('Category' => array(
+                            'parent_id' => $parentId,
+                            'code' => $code,
+                            'name' => $item,
+                            'name_chinese' => $nameChinese,
+                    )));
+                    $this->key2id[$currentKey] = $this->Drug->Category->getInsertID();
+                }
+            }
+            if (isset($dbKeys[$line[0]])) {
+                $currentId = String::uuid();
+                $valueStack[] = implode(',', array(
+                    "('{$currentId}'", //id
+                    $this->key2id[implode('', $tree)], //category_id
+                    "'{$dbKeys[$line[0]]}'", //drug_id
+                    "'{$line[1]}')", //type
+                ));
+                ++$sn;
+                if ($sn > 50) {
+                    $sn = 1;
+                    $this->dbQuery('INSERT INTO `categories_drugs` VALUES ' . implode(',', $valueStack) . ';');
+                    $valueStack = array();
+                }
+            }
+        }
+        if (!empty($valueStack)) {
+            $this->dbQuery('INSERT INTO `categories_drugs` VALUES ' . implode(',', $valueStack) . ';');
+        }
     }
 
     public function importIngredients() {
