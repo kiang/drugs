@@ -16,6 +16,57 @@ class DrugsController extends AppController {
         }
     }
 
+    public function category($categoryId = 0) {
+        $categoryId = intval($categoryId);
+        if ($categoryId > 0) {
+            $category = $this->Drug->Category->find('first', array(
+                'conditions' => array('Category.id' => $categoryId),
+            ));
+        }
+        if (!empty($category)) {
+            $scope = array(
+                'Drug.active_id IS NULL',
+                'Category.lft >=' => $category['Category']['lft'],
+                'Category.rght <=' => $category['Category']['rght'],
+            );
+            $this->paginate['Drug'] = array(
+                'limit' => 20,
+                'order' => array('Drug.submitted' => 'DESC'),
+                'joins' => array(
+                    array(
+                        'table' => 'categories_drugs',
+                        'alias' => 'CategoriesDrug',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'Drug.id = CategoriesDrug.drug_id',
+                        ),
+                    ),
+                    array(
+                        'table' => 'categories',
+                        'alias' => 'Category',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'Category.id = CategoriesDrug.category_id',
+                        ),
+                    ),
+                ),
+            );
+            $parents = $this->Drug->Category->getPath($categoryId, array('id', 'name'));
+            $this->set('url', array($categoryId));
+            $this->set('category', $category);
+            $this->set('parents', $parents);
+            $this->set('children', $this->Drug->Category->find('all', array(
+                        'fields' => array('id', 'name'),
+                        'conditions' => array('Category.parent_id' => $categoryId),
+            )));
+            $this->set('items', $this->paginate($this->Drug, $scope));
+            $this->set('title_for_layout', implode(' > ', Set::extract('{n}.Category.name', $parents)) . ' 藥品一覽 @ ');
+        } else {
+            $this->Session->setFlash('請依據網頁指示操作');
+            $this->redirect(array('action' => 'index'));
+        }
+    }
+
     public function outward($name = null) {
         $scope = array(
             'Drug.active_id IS NULL',

@@ -213,8 +213,7 @@
                     /*
                      * @todo: have a category page to view related drugs
                      */
-                    //$tree[] = $this->Html->link($item['Category']['name'], $item['Category']['id']);
-                    $tree[] = $item['Category']['name'];
+                    $tree[] = $this->Html->link($item['Category']['name'], '/drugs/category/' . $item['Category']['id']);
                 }
                 echo '<li>';
                 echo " [{$category['CategoriesDrug']['type']}] ";
