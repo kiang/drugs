@@ -50,6 +50,7 @@ class DrugsController extends AppController {
                         ),
                     ),
                 ),
+                'group' => array('Drug.id'),
             );
             $parents = $this->Drug->Category->getPath($categoryId, array('id', 'name'));
             $this->set('url', array($categoryId));
