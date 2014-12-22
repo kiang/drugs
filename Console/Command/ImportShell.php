@@ -6,6 +6,7 @@ class ImportShell extends AppShell {
     public $dataPath = '/home/kiang/public_html/data.fda.gov.tw';
     public $mysqli = false;
     public $key2id = array();
+    public $key2code = array();
 
     public function main() {
         $this->importATC();
@@ -15,6 +16,7 @@ class ImportShell extends AppShell {
         foreach ($arr AS $category) {
             $newPrefix = $prefix . $category['Category']['name'];
             $this->key2id[$newPrefix] = $category['Category']['id'];
+            $this->key2code[$newPrefix] = $category['Category']['code'];
             if (!empty($category['children'])) {
                 $this->rKeys($category['children'], $newPrefix);
             }
@@ -26,7 +28,7 @@ class ImportShell extends AppShell {
         $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
         $this->dbQuery('SET NAMES utf8mb4;');
         $this->rKeys($this->Drug->Category->find('threaded', array(
-                    'fields' => array('id', 'parent_id', 'name'),
+                    'fields' => array('id', 'parent_id', 'name', 'code'),
         )));
         $dbKeys = $valueStack = array();
         if (file_exists(__DIR__ . '/data/dbKeys.csv')) {
@@ -82,6 +84,9 @@ class ImportShell extends AppShell {
                             'name_chinese' => $nameChinese,
                     )));
                     $this->key2id[$currentKey] = $this->Drug->Category->getInsertID();
+                } elseif($currentCount === $treeCount && empty($this->key2code[$currentKey])) {
+                    $code = strtoupper($line[2]);
+                    $this->dbQuery('UPDATE `categories` SET code = \'' . $code . '\' WHERE id = \'' . $this->key2id[$currentKey] . '\';');
                 }
             }
             if (isset($dbKeys[$line[0]])) {
