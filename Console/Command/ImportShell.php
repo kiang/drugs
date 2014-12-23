@@ -9,7 +9,7 @@ class ImportShell extends AppShell {
     public $key2code = array();
 
     public function main() {
-        $this->importATC();
+        $this->importBox();
     }
 
     public function rKeys($arr = array(), $prefix = '') {
@@ -204,7 +204,10 @@ class ImportShell extends AppShell {
         $wLength = strlen(WWW_ROOT);
         $imagick = new Imagick();
         $sn = 0;
-        while ($line = fgetcsv($fh, 2048, "\t")) {
+        /*
+         * get long lenth using command `wc -L filename`
+         */
+        while ($line = fgetcsv($fh, 10770, "\t")) {
             if (!isset($dbKeys[$line[0]])) {
                 continue;
             }
