@@ -27,8 +27,8 @@
             <div id="header">
                 <h1><?php echo $this->Html->link('藥要看', '/'); ?></h1>
                 <div class="pull-right">
-                    <input type="text" id="keyword" />
-                    <div class="btn-group">
+                    <input type="text" id="keyword" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="col-md-12" />
+                    <div class="btn-group pull-right">
                         <a href="#" class="btn btn-default btn-find">一般搜尋</a>
                         <a href="#" class="btn btn-default btn-outward">外觀搜尋</a>
                     </div>
