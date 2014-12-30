@@ -13,8 +13,8 @@ class ImportShell extends AppShell {
         //$this->importDrug();
         //$this->importPrice();
         //$this->importImage();
-        $this->importBox();
-        //$this->importIngredients();
+        //$this->importBox();
+        $this->importIngredients();
         //$this->importATC();
     }
 
@@ -143,8 +143,8 @@ class ImportShell extends AppShell {
         $fields = array('許可證字號', '處方標示', '成分名稱', '含量描述', '含量', '含量單位', '-');
         $dbKeys = $valueStack = array();
 
-        if (file_exists(__DIR__ . '/data/dbKeys.csv')) {
-            $dbKeysFh = fopen(__DIR__ . '/data/dbKeys.csv', 'r');
+        if (file_exists(__DIR__ . '/data/dbIds.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/dbIds.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
                 $dbKeys[$line[0]] = $line[1];
             }
@@ -176,7 +176,7 @@ class ImportShell extends AppShell {
             $currentId = String::uuid();
             $valueStack[] = implode(',', array(
                 "('{$currentId}'", //id
-                "'{$dbKeys[$line[0]]}'", //drug_id
+                "'{$dbKeys[$line[0]]}'", //license_id
                 "'{$line[1]}'", //remark
                 "'{$line[2]}'", //name
                 "'{$line[3]}'", //dosage_text
