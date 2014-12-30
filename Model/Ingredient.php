@@ -25,13 +25,13 @@ class Ingredient extends AppModel {
      * @var array
      */
     public $belongsTo = array(
-        'Drug' => array(
-            'className' => 'Drug',
-            'foreignKey' => 'drug_id',
+        'License' => array(
+            'className' => 'License',
+            'foreignKey' => 'license_id',
             'conditions' => '',
             'fields' => '',
             'order' => ''
-        )
+        ),
     );
 
 }

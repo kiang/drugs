@@ -49,20 +49,5 @@ class Drug extends AppModel {
             'className' => 'Media.Attachment',
         ),
     );
-    public $hasAndBelongsToMany = array(
-        'Category' => array(
-            'className' => 'Category',
-            'joinTable' => 'categories_drugs',
-            'foreignKey' => 'drug_id',
-            'associationForeignKey' => 'category_id',
-            'unique' => 'keepExisting',
-            'conditions' => '',
-            'fields' => '',
-            'order' => '',
-            'limit' => '',
-            'offset' => '',
-            'finderQuery' => '',
-        )
-    );
 
 }

@@ -31,13 +31,14 @@ class DrugsController extends AppController {
             $this->paginate['Drug'] = array(
                 'limit' => 20,
                 'order' => array('Drug.submitted' => 'DESC'),
+                'contain' => array('License'),
                 'joins' => array(
                     array(
-                        'table' => 'categories_drugs',
-                        'alias' => 'CategoriesDrug',
+                        'table' => 'categories_licenses',
+                        'alias' => 'CategoriesLicense',
                         'type' => 'INNER',
                         'conditions' => array(
-                            'Drug.id = CategoriesDrug.drug_id',
+                            'License.id = CategoriesLicense.license_id',
                         ),
                     ),
                     array(
@@ -45,7 +46,7 @@ class DrugsController extends AppController {
                         'alias' => 'Category',
                         'type' => 'INNER',
                         'conditions' => array(
-                            'Category.id = CategoriesDrug.category_id',
+                            'Category.id = CategoriesLicense.category_id',
                         ),
                     ),
                 ),
@@ -72,16 +73,17 @@ class DrugsController extends AppController {
         if (!empty($name)) {
             $name = Sanitize::clean($name);
             $scope['OR'] = array(
-                'Drug.shape LIKE' => "%{$name}%",
-                'Drug.color LIKE' => "%{$name}%",
-                'Drug.odor LIKE' => "%{$name}%",
-                'Drug.abrasion LIKE' => "%{$name}%",
-                'Drug.note_1 LIKE' => "%{$name}%",
-                'Drug.note_2 LIKE' => "%{$name}%",
+                'License.shape LIKE' => "%{$name}%",
+                'License.color LIKE' => "%{$name}%",
+                'License.odor LIKE' => "%{$name}%",
+                'License.abrasion LIKE' => "%{$name}%",
+                'License.note_1 LIKE' => "%{$name}%",
+                'License.note_2 LIKE' => "%{$name}%",
             );
         }
         $this->paginate['Drug'] = array(
             'limit' => 20,
+            'contain' => array('License'),
             'order' => array('Drug.submitted' => 'DESC'),
         );
         $this->set('url', array($name));
@@ -109,13 +111,14 @@ class DrugsController extends AppController {
                         'Drug.vendor LIKE' => "%{$keyword}%",
                         'Drug.manufacturer LIKE' => "%{$keyword}%",
                         'Drug.ingredient LIKE' => "%{$keyword}%",
-                        'Drug.nhi_id LIKE' => "%{$keyword}%",
+                        'License.nhi_id LIKE' => "%{$keyword}%",
                     );
                 }
             }
         }
         $this->paginate['Drug'] = array(
             'limit' => 20,
+            'contain' => array('License'),
             'order' => array('Drug.submitted' => 'DESC'),
         );
         $this->set('url', array($name));
@@ -133,8 +136,10 @@ class DrugsController extends AppController {
             $this->data = $this->Drug->find('first', array(
                 'conditions' => array('Drug.id' => $id),
                 'contain' => array(
-                    'Category' => array(
-                        'fields' => array('code', 'name', 'name_chinese'),
+                    'License' => array(
+                        'Category' => array(
+                            'fields' => array('code', 'name', 'name_chinese'),
+                        ),
                     ),
                 ),
             ));
@@ -144,26 +149,26 @@ class DrugsController extends AppController {
             $this->redirect(array('action' => 'index'));
         } else {
             $categoryNames = array();
-            foreach ($this->data['Category'] AS $k => $category) {
-                $categoryNames[$category['CategoriesDrug']['category_id']] = $this->Drug->Category->getPath($category['CategoriesDrug']['category_id'], array('id', 'name'));
+            foreach ($this->data['License']['Category'] AS $k => $category) {
+                $categoryNames[$category['CategoriesLicense']['category_id']] = $this->Drug->License->Category->getPath($category['CategoriesLicense']['category_id'], array('id', 'name'));
             }
-            $prices = $this->Drug->Price->find('all', array(
-                'conditions' => array('Price.drug_id' => $id),
+            $prices = $this->Drug->License->Price->find('all', array(
+                'conditions' => array('Price.license_id' => $this->data['Drug']['license_uuid']),
                 'order' => array(
                     'Price.nhi_id' => 'ASC',
                     'Price.date_end' => 'DESC',
                 ),
             ));
-            $links = $this->Drug->Link->find('all', array(
-                'conditions' => array('Link.drug_id' => $id),
+            $links = $this->Drug->License->Link->find('all', array(
+                'conditions' => array('Link.license_id' => $this->data['Drug']['license_uuid']),
                 'fields' => array('url', 'title'),
                 'order' => array(
                     'Link.type' => 'ASC',
                     'Link.sort' => 'ASC',
                 ),
             ));
-            $ingredients = $this->Drug->Ingredient->find('all', array(
-                'conditions' => array('Ingredient.drug_id' => $id),
+            $ingredients = $this->Drug->License->Ingredient->find('all', array(
+                'conditions' => array('Ingredient.license_id' => $this->data['Drug']['license_uuid']),
                 'fields' => array('remark', 'name', 'dosage', 'dosage_text', 'unit'),
                 'order' => array(
                     'Ingredient.dosage' => 'DESC',

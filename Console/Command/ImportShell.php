@@ -2,16 +2,16 @@
 
 class ImportShell extends AppShell {
 
-    public $uses = array('Drug');
+    public $uses = array('License');
     public $dataPath = '/home/kiang/public_html/data.fda.gov.tw-list';
     public $mysqli = false;
     public $key2id = array();
     public $key2code = array();
 
     public function main() {
-        $this->dumpDbKeys();
+        //$this->dumpDbKeys();
         //$this->importDrug();
-        //$this->importPrice();
+        $this->importPrice();
         //$this->importImage();
         //$this->importBox();
         //$this->importIngredients();
@@ -33,7 +33,7 @@ class ImportShell extends AppShell {
         $db = ConnectionManager::getDataSource('default');
         $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
         $this->dbQuery('SET NAMES utf8mb4;');
-        $this->rKeys($this->Drug->Category->find('threaded', array(
+        $this->rKeys($this->License->Category->find('threaded', array(
                     'fields' => array('id', 'parent_id', 'name', 'code'),
         )));
         $dbKeys = $valueStack = array();
@@ -76,20 +76,20 @@ class ImportShell extends AppShell {
                 }
                 $currentKey .= $item;
                 if (!isset($this->key2id[$currentKey])) {
-                    $this->Drug->Category->create();
+                    $this->License->Category->create();
                     $code = '';
                     $nameChinese = '';
                     if ($currentCount === $treeCount) {
                         $code = strtoupper($line[2]);
                         $nameChinese = $line[4];
                     }
-                    $this->Drug->Category->save(array('Category' => array(
+                    $this->License->Category->save(array('Category' => array(
                             'parent_id' => $parentId,
                             'code' => $code,
                             'name' => $item,
                             'name_chinese' => $nameChinese,
                     )));
-                    $this->key2id[$currentKey] = $this->Drug->Category->getInsertID();
+                    $this->key2id[$currentKey] = $this->License->Category->getInsertID();
                 } elseif ($currentCount === $treeCount && empty($this->key2code[$currentKey])) {
                     $code = strtoupper($line[2]);
                     $this->dbQuery('UPDATE `categories` SET code = \'' . $code . '\' WHERE id = \'' . $this->key2id[$currentKey] . '\';');
@@ -370,8 +370,8 @@ class ImportShell extends AppShell {
         $this->dbQuery('SET NAMES utf8mb4;');
         $fields = array('許可證字號', '健保代碼', '規格量', '規格單位', '起期', '終期', '參考價', '-');
         $dbKeys = array();
-        if (file_exists(__DIR__ . '/data/dbKeys.csv')) {
-            $dbKeysFh = fopen(__DIR__ . '/data/dbKeys.csv', 'r');
+        if (file_exists(__DIR__ . '/data/dbIds.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/dbIds.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
                 $dbKeys[$line[0]] = $line[1];
             }
@@ -399,22 +399,15 @@ class ImportShell extends AppShell {
                 $line[7] = $dbKeys[$line[0]];
                 $line[4] = $this->getTwDate($line[4]);
                 $line[5] = $this->getTwDate($line[5]);
-                $time = strtotime($line[5]);
-                if (!isset($stack[$line[0]])) {
-                    $stack[$line[0]] = array(
-                        'time' => 0,
-                        'line' => array(),
-                    );
+                if (!isset($stack[$line[7]])) {
+                    $stack[$line[7]] = array();
                 }
-                if ($time > $stack[$line[0]]['time']) {
-                    $stack[$line[0]] = array(
-                        'time' => $time,
-                        'line' => $line,
-                    );
+                if (!isset($stack[$line[7]][$line[1]])) {
+                    $stack[$line[7]][$line[1]] = $line[1];
                 }
                 $dbCols = array(
                     "('{$currentId}'", //id
-                    "'{$line[7]}'", //drug_id
+                    "'{$line[7]}'", //license_id
                     "'{$line[1]}'", //nhi_id
                     "'{$line[2]}'", //nhi_dosage
                     "'{$line[3]}'", //nhi_unit
@@ -436,13 +429,14 @@ class ImportShell extends AppShell {
             $this->dbQuery('INSERT INTO `prices` VALUES ' . implode(',', $valueStack) . ';');
             $valueStack = array();
         }
-        foreach ($stack AS $item) {
-            $this->dbQuery("UPDATE drugs SET nhi_id = '{$item['line'][1]}', nhi_dosage = '{$item['line'][2]}', nhi_unit = '{$item['line'][3]}', nhi_price = '{$item['line'][6]}' WHERE id = '{$item['line'][7]}'");
+        foreach ($stack AS $licenseId => $nhiIds) {
+            $nhiIds = implode(',', $nhiIds);
+            $this->dbQuery("UPDATE licenses SET nhi_id = '{$nhiIds}' WHERE id = '{$licenseId}'");
         }
     }
 
     public function dumpDbKeys() {
-        $drugs = $this->Drug->find('all', array(
+        $drugs = $this->License->Drug->find('all', array(
             'fields' => array('id', 'license_uuid', 'license_id', 'manufacturer', 'manufacturer_address', 'manufacturer_description'),
             'order' => array('Drug.license_id' => 'ASC'),
         ));

@@ -132,39 +132,39 @@
     </div>
     <div class="row">
         <div class="col-md-2">健保代碼</div>
-        <div class="col-md-10"><?php echo $this->data['Drug']['nhi_id']; ?>&nbsp;</div>
+        <div class="col-md-10"><?php echo $this->data['License']['nhi_id']; ?>&nbsp;</div>
     </div>
     <div class="row">
         <div class="col-md-2">形狀</div>
-        <div class="col-md-10"><?php echo $this->data['Drug']['shape']; ?>&nbsp;</div>
+        <div class="col-md-10"><?php echo $this->data['License']['shape']; ?>&nbsp;</div>
     </div>
     <div class="row">
         <div class="col-md-2">特殊劑型</div>
-        <div class="col-md-10"><?php echo $this->data['Drug']['s_type']; ?>&nbsp;</div>
+        <div class="col-md-10"><?php echo $this->data['License']['s_type']; ?>&nbsp;</div>
     </div>
     <div class="row">
         <div class="col-md-2">顏色</div>
-        <div class="col-md-10"><?php echo $this->data['Drug']['color']; ?>&nbsp;</div>
+        <div class="col-md-10"><?php echo $this->data['License']['color']; ?>&nbsp;</div>
     </div>
     <div class="row">
         <div class="col-md-2">特殊氣味</div>
-        <div class="col-md-10"><?php echo $this->data['Drug']['odor']; ?>&nbsp;</div>
+        <div class="col-md-10"><?php echo $this->data['License']['odor']; ?>&nbsp;</div>
     </div>
     <div class="row">
         <div class="col-md-2">刻痕</div>
-        <div class="col-md-10"><?php echo $this->data['Drug']['abrasion']; ?>&nbsp;</div>
+        <div class="col-md-10"><?php echo $this->data['License']['abrasion']; ?>&nbsp;</div>
     </div>
     <div class="row">
         <div class="col-md-2">外觀尺寸</div>
-        <div class="col-md-10"><?php echo $this->data['Drug']['size']; ?>&nbsp;</div>
+        <div class="col-md-10"><?php echo $this->data['License']['size']; ?>&nbsp;</div>
     </div>
     <div class="row">
         <div class="col-md-2">標註一</div>
-        <div class="col-md-10"><?php echo $this->data['Drug']['note_1']; ?>&nbsp;</div>
+        <div class="col-md-10"><?php echo $this->data['License']['note_1']; ?>&nbsp;</div>
     </div>
     <div class="row">
         <div class="col-md-2">標註二 </div>
-        <div class="col-md-10"><?php echo $this->data['Drug']['note_2']; ?>&nbsp;</div>
+        <div class="col-md-10"><?php echo $this->data['License']['note_2']; ?>&nbsp;</div>
     </div>
     <div class="row">
         <div class="col-md-2">相關連結 </div>
