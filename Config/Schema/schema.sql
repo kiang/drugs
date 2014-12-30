@@ -53,20 +53,20 @@ CREATE TABLE `categories` (
   `lft` int(10) NOT NULL,
   `rght` int(10) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4044 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1716 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `categories_drugs`
+-- Table structure for table `categories_licenses`
 --
 
-DROP TABLE IF EXISTS `categories_drugs`;
+DROP TABLE IF EXISTS `categories_licenses`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `categories_drugs` (
+CREATE TABLE `categories_licenses` (
   `id` binary(36) NOT NULL,
   `category_id` int(10) NOT NULL,
-  `drug_id` binary(36) NOT NULL,
+  `license_id` binary(36) NOT NULL,
   `type` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -81,8 +81,7 @@ DROP TABLE IF EXISTS `drugs`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `drugs` (
   `id` binary(36) NOT NULL,
-  `active_id` binary(36) DEFAULT NULL,
-  `linked_id` binary(36) DEFAULT NULL,
+  `license_uuid` binary(36) NOT NULL,
   `license_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL COMMENT '許可證字號',
   `cancel_status` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '註銷狀態',
   `cancel_date` date DEFAULT NULL COMMENT '註銷日期',
@@ -112,17 +111,6 @@ CREATE TABLE `drugs` (
   `usage` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '用法用量',
   `package_note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '包裝',
   `barcode` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '國際條碼',
-  `md5` char(32) COLLATE utf8_unicode_ci NOT NULL,
-  `nhi_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `shape` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `s_type` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `color` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `odor` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `abrasion` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `size` varchar(32) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `note_1` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `note_2` varchar(128) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `image` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -136,14 +124,38 @@ DROP TABLE IF EXISTS `ingredients`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ingredients` (
   `id` binary(36) NOT NULL,
-  `drug_id` binary(36) NOT NULL,
+  `license_id` binary(36) NOT NULL,
   `remark` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL,
   `dosage_text` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
   `dosage` decimal(20,8) NOT NULL,
   `unit` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `drug_id` (`drug_id`)
+  KEY `drug_id` (`license_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `licenses`
+--
+
+DROP TABLE IF EXISTS `licenses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `licenses` (
+  `id` binary(36) NOT NULL,
+  `license_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `nhi_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `shape` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `s_type` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `color` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `odor` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `abrasion` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `size` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `note_1` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `note_2` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `image` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -156,7 +168,7 @@ DROP TABLE IF EXISTS `links`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `links` (
   `id` binary(36) NOT NULL,
-  `drug_id` binary(36) NOT NULL,
+  `license_id` binary(36) NOT NULL,
   `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `type` tinyint(3) NOT NULL,
@@ -174,7 +186,7 @@ DROP TABLE IF EXISTS `prices`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `prices` (
   `id` binary(36) NOT NULL,
-  `drug_id` binary(36) NOT NULL,
+  `license_id` binary(36) NOT NULL,
   `nhi_id` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nhi_dosage` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `nhi_unit` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -182,7 +194,7 @@ CREATE TABLE `prices` (
   `date_end` date NOT NULL,
   `nhi_price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `drug_id` (`drug_id`)
+  KEY `drug_id` (`license_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -195,4 +207,4 @@ CREATE TABLE `prices` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-12-22  2:01:29
+-- Dump completed on 2014-12-31  3:16:50
