@@ -12,11 +12,10 @@ class ImportShell extends AppShell {
         //$this->dumpDbKeys();
         //$this->importDrug();
         //$this->importPrice();
-        //$this->importImage();
+        $this->importImage();
         //$this->importBox();
         //$this->importIngredients();
         //$this->importATC();
-        $this->renameDrugImages();
     }
 
     public function renameDrugImages() {
@@ -308,7 +307,7 @@ class ImportShell extends AppShell {
         $this->dbQuery('SET NAMES utf8mb4;');
         $fields = array('許可證字號', '中文品名', '英文品名', '形狀', '特殊劑型', '顏色', '特殊氣味', '刻痕', '外觀尺寸', '標註一', '標註二', '外觀圖檔連結', '-');
 
-        $imagePath = __DIR__ . '/data/images';
+        $imagePath = TMP . '/drugs/images';
         if (!file_exists($imagePath)) {
             mkdir($imagePath, 0777, true);
         }
@@ -352,35 +351,42 @@ class ImportShell extends AppShell {
             if (true === $dataFound && isset($dbKeys[$line[0]])) {
                 echo "processing {$dbKeys[$line[0]]}\n";
                 if (!empty($line[11])) {
-                    $imageFile = $imagePath . '/' . $dbKeys[$line[0]];
-                    //file_put_contents($imageFile, file_get_contents($line[11]));
-                    $line[11] = '';
-                    if (file_exists($imageFile)) {
-                        if (filesize($imageFile) > 0) {
-                            if (in_array(mime_content_type($imageFile), array(
-                                        'application/vnd.ms-powerpoint',
-                                        'application/msword', 'text/html'
-                                    ))) {
-                                unlink($imageFile);
-                            } else {
-                                $targetFile = WWW_ROOT . 'img/drugs/' . substr($dbKeys[$line[0]], 0, 8);
-                                if (!file_exists($targetFile)) {
-                                    mkdir($targetFile, 0777, true);
-                                }
-                                $targetFile .= '/' . $dbKeys[$line[0]] . '.jpg';
-                                $line[11] = substr($targetFile, $wLength);
-                                if (!file_exists($targetFile)) {
-                                    $imagick->readimage($imageFile);
-                                    $imagick->thumbnailimage(512, 512, true, true);
-                                    $imagick->writeImage($targetFile);
-                                    $imagick->clear();
+                    $imgs = explode(';;', $line[11]);
+                    $line[11] = $imgs[0];
+                    $targetFile = WWW_ROOT . 'img/drugs/' . substr($dbKeys[$line[0]], 0, 8) . '/' . $dbKeys[$line[0]] . '.jpg';
+                    if (!file_exists($targetFile)) {
+                        $imageFile = $imagePath . '/' . $dbKeys[$line[0]];
+                        file_put_contents($imageFile, file_get_contents($line[11]));
+                        $line[11] = '';
+                        if (file_exists($imageFile)) {
+                            if (filesize($imageFile) > 0) {
+                                if (in_array(mime_content_type($imageFile), array(
+                                            'application/vnd.ms-powerpoint',
+                                            'application/msword', 'text/html'
+                                        ))) {
+                                    unlink($imageFile);
+                                } else {
+                                    $targetFile = WWW_ROOT . 'img/drugs/' . substr($dbKeys[$line[0]], 0, 8);
+                                    if (!file_exists($targetFile)) {
+                                        mkdir($targetFile, 0777, true);
+                                    }
+                                    $targetFile .= '/' . $dbKeys[$line[0]] . '.jpg';
+                                    $line[11] = substr($targetFile, $wLength);
+                                    if (!file_exists($targetFile)) {
+                                        $imagick->readimage($imageFile);
+                                        $imagick->thumbnailimage(512, 512, true, true);
+                                        $imagick->writeImage($targetFile);
+                                        $imagick->clear();
+                                    }
                                 }
                             }
+                            //unlink($imageFile);
                         }
-                        //unlink($imageFile);
+                    } else {
+                        $line[11] = substr($targetFile, $wLength);
                     }
                 }
-                $this->dbQuery("UPDATE drugs SET shape = '{$line[3]}', s_type = '{$line[4]}', color = '{$line[5]}', odor = '{$line[6]}', abrasion = '{$line[7]}', size = '{$line[8]}', note_1 = '{$line[9]}', note_2 = '{$line[10]}', image = '{$line[11]}' WHERE id = '{$dbKeys[$line[0]]}'");
+                $this->dbQuery("UPDATE licenses SET shape = '{$line[3]}', s_type = '{$line[4]}', color = '{$line[5]}', odor = '{$line[6]}', abrasion = '{$line[7]}', size = '{$line[8]}', note_1 = '{$line[9]}', note_2 = '{$line[10]}', image = '{$line[11]}' WHERE id = '{$dbKeys[$line[0]]}'");
             }
         }
     }

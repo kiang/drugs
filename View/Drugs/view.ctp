@@ -1,8 +1,8 @@
 <div id="DrugsView">
     <h3><?php echo $this->data['Drug']['name']; ?></h3>
-    <?php if (!empty($this->data['Drug']['image'])) { ?>
+    <?php if (!empty($this->data['License']['image'])) { ?>
         <div class="row">
-            <img src="<?php echo $this->Html->url('/') . $this->data['Drug']['image']; ?>" class="img-thumbnail col-md-4" />
+            <img src="<?php echo $this->Html->url('/') . $this->data['License']['image']; ?>" class="img-thumbnail col-md-4" />
         </div>
     <?php } ?>
     <div class="row">

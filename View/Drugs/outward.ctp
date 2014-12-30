@@ -32,19 +32,19 @@
                         echo $item['Drug']['license_id'];
                         ?></td>
                     <td><?php
-                        echo $item['Drug']['shape'];
+                        echo $item['License']['shape'];
                         ?></td>
                     <td><?php
-                        echo $item['Drug']['color'];
+                        echo $item['License']['color'];
                         ?></td>
                     <td><?php
-                        echo $item['Drug']['abrasion'];
+                        echo $item['License']['abrasion'];
                         ?></td>
                     <td><?php
-                        echo $item['Drug']['note_1'];
+                        echo $item['License']['note_1'];
                         ?></td>
                     <td><?php
-                        echo $item['Drug']['note_2'];
+                        echo $item['License']['note_2'];
                         ?></td>
                 </tr>
             <?php }; // End of foreach ($items as $item) {  ?>
