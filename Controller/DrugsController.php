@@ -25,7 +25,6 @@ class DrugsController extends AppController {
         }
         if (!empty($category)) {
             $scope = array(
-                'Drug.active_id IS NULL',
                 'Category.lft >=' => $category['Category']['lft'],
                 'Category.rght <=' => $category['Category']['rght'],
             );
@@ -69,9 +68,7 @@ class DrugsController extends AppController {
     }
 
     public function outward($name = null) {
-        $scope = array(
-            'Drug.active_id IS NULL',
-        );
+        $scope = array();
         if (!empty($name)) {
             $name = Sanitize::clean($name);
             $scope['OR'] = array(
@@ -98,9 +95,7 @@ class DrugsController extends AppController {
     }
 
     function index($name = null) {
-        $scope = array(
-            'Drug.active_id IS NULL',
-        );
+        $scope = array();
         if (!empty($name)) {
             $name = Sanitize::clean($name);
             $keywords = explode(' ', $name);
@@ -143,16 +138,6 @@ class DrugsController extends AppController {
                     ),
                 ),
             ));
-            if (!empty($this->data['Drug']['linked_id'])) {
-                $linkedId = $this->data['Drug']['linked_id'];
-            } else {
-                $linkedId = $this->data['Drug']['id'];
-            }
-            if (!empty($this->data['Drug']['active_id'])) {
-                $activeId = $this->data['Drug']['active_id'];
-            } else {
-                $activeId = $this->data['Drug']['id'];
-            }
         }
         if (empty($this->data)) {
             $this->Session->setFlash(__('Please do following links in the page', true));
@@ -162,16 +147,6 @@ class DrugsController extends AppController {
             foreach ($this->data['Category'] AS $k => $category) {
                 $categoryNames[$category['CategoriesDrug']['category_id']] = $this->Drug->Category->getPath($category['CategoriesDrug']['category_id'], array('id', 'name'));
             }
-            $logs = $this->Drug->find('list', array(
-                'conditions' => array(
-                    'OR' => array(
-                        'Drug.active_id' => $activeId,
-                        'Drug.id' => $activeId,
-                    ),
-                ),
-                'fields' => array('id', 'submitted'),
-                'order' => array('Drug.submitted' => 'DESC'),
-            ));
             $prices = $this->Drug->Price->find('all', array(
                 'conditions' => array('Price.drug_id' => $id),
                 'order' => array(
@@ -196,7 +171,6 @@ class DrugsController extends AppController {
             ));
             $this->set('title_for_layout', "{$this->data['Drug']['name']} {{$this->data['Drug']['name_english']}} @ ");
             $this->set('desc_for_layout', "{$this->data['Drug']['name']} {$this->data['Drug']['name_english']} / {$this->data['Drug']['disease']} / ");
-            $this->set('logs', $logs);
             $this->set('prices', $prices);
             $this->set('links', $links);
             $this->set('ingredients', $ingredients);

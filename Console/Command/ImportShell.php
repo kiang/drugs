@@ -9,8 +9,8 @@ class ImportShell extends AppShell {
     public $key2code = array();
 
     public function main() {
-        $this->dumpDbKeys();
-        //$this->importDrug();
+        //$this->dumpDbKeys();
+        $this->importDrug();
     }
 
     public function rKeys($arr = array(), $prefix = '') {
@@ -475,23 +475,14 @@ class ImportShell extends AppShell {
         $db = ConnectionManager::getDataSource('default');
         $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
         $this->dbQuery('SET NAMES utf8mb4;');
-        /*
-          if (file_exists(__DIR__ . '/data/dbKeys.csv')) {
-          $dbKeysFh = fopen(__DIR__ . '/data/dbKeys.csv', 'r');
-          while ($line = fgetcsv($dbKeysFh, 1024)) {
-          $stack[$line[0]] = array(
-          'id' => $line[1],
-          'is_new' => false,
-          'linked_id' => '',
-          'linked_date' => 0,
-          'line' => array(),
-          );
-          $urlKeys[$line[1]] = true;
-          }
-          fclose($dbKeysFh);
-          }
-         * 
-         */
+        $stack = $urlKeys = $valueStack = array();
+        if (file_exists(__DIR__ . '/data/dbKeys.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/dbKeys.csv', 'r');
+            while ($line = fgetcsv($dbKeysFh, 1024)) {
+                $stack[$line[0]] = $line[1];
+            }
+            fclose($dbKeysFh);
+        }
         $fh = fopen($this->dataPath . '/dataset/36.csv', 'r');
         $count = 0;
         /*
@@ -529,90 +520,41 @@ class ImportShell extends AppShell {
           [26] => 用法用量
           [27] => 包裝
           [28] => 國際條碼
-         * [29] => md5 checksum
           )
          */
         $escapesKeys = array(1, 3, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 20, 21, 22, 24, 26, 27, 28);
         $sn = 1;
-        $stack = $urlKeys = $valueStack = array();
         while ($line = fgets($fh, 5000)) {
             $cols = explode("\t", $line);
-            foreach ($escapesKeys AS $escapesKey) {
-                $cols[$escapesKey] = str_replace(array('　'), array(''), trim($cols[$escapesKey]));
-                $cols[$escapesKey] = $this->mysqli->real_escape_string($cols[$escapesKey]);
+            if (count($cols) !== 29) {
+                print_r($cols);
+                exit();
+            }
+            foreach ($cols AS $k => $v) {
+                $cols[$k] = trim($v);
             }
             $key = $cols[0] . md5($cols[20] . $cols[21] . $cols[24]);
+            foreach ($escapesKeys AS $escapesKey) {
+                $cols[$escapesKey] = str_replace(array('　'), array(''), $cols[$escapesKey]);
+                $cols[$escapesKey] = $this->mysqli->real_escape_string($cols[$escapesKey]);
+            }
             if (!isset($stack[$key])) {
-                $stack[$key] = true;
-            } else {
-                print_r($cols);
+                $stack[$key] = String::uuid();
             }
-            continue;
 
-            /*
-             * use md5 to check if the line chanded
-             */
-            $cols[] = md5($line);
-            if (!isset($urlKeys[$cols[0]])) {
-                $urlKeys[$cols[0]] = String::uuid();
-                $stack[$cols[0]] = array(
-                    'id' => $urlKeys[$cols[0]],
-                    'is_new' => true,
-                    'linked_id' => '',
-                    'linked_date' => 0,
-                    'line' => array(),
-                );
-            }
-            $currentId = String::uuid();
-            $modified = strtotime($cols[25]);
-            if ($modified > $stack[$cols[0]]['linked_date']) {
-                $stack[$cols[0]]['linked_id'] = $currentId;
-                $stack[$cols[0]]['linked_date'] = $modified;
-                $stack[$cols[0]]['line'] = $cols;
-            }
             $dbCols = array(
-                "('{$currentId}'", //id
-                "'{$stack[$cols[0]]['id']}'", //active_id
-                'NULL', //linked_id
+                "('{$stack[$key]}'", //id
             );
             foreach ($cols AS $col) {
                 $dbCols[] = "'{$col}'";
             }
+            $dbCols = array_merge($dbCols, array_fill(0, 10, "''"));
             $valueStack[] = implode(',', $dbCols) . ')';
             ++$sn;
             if ($sn > 50) {
                 $sn = 1;
                 $this->dbQuery('INSERT INTO `drugs` VALUES ' . implode(',', $valueStack) . ';');
                 $valueStack = array();
-            }
-        }
-        exit();
-        if (!empty($valueStack)) {
-            $sn = 1;
-            $this->dbQuery('INSERT INTO `drugs` VALUES ' . implode(',', $valueStack) . ';');
-            $valueStack = array();
-        }
-        foreach ($stack AS $item) {
-            if (empty($item['linked_id'])) {
-                continue;
-            }
-            if ($item['is_new']) {
-                $dbCols = array(
-                    "('{$item['id']}'", //id
-                    "NULL", //active_id
-                    "'{$item['linked_id']}'", //linked_id
-                );
-                foreach ($item['line'] AS $col) {
-                    $dbCols[] = "'{$col}'";
-                }
-                $valueStack[] = implode(',', $dbCols) . ')';
-
-                ++$sn;
-                if ($sn > 50) {
-                    $sn = 1;
-                    $this->dbQuery('INSERT INTO `drugs` VALUES ' . implode(',', $valueStack) . ';');
-                    $valueStack = array();
-                }
             }
         }
         if (!empty($valueStack)) {

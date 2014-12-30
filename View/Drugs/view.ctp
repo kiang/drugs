@@ -226,34 +226,6 @@
         </ul>
     <?php } ?>
     <div class="clearfix"><br /></div>
-    <h3>異動記錄</h3>
-    <div class="clearfix"><br /></div>
-    <div class="row">
-        <?php
-        $firstCol = true;
-        foreach ($logs AS $id => $submitted) {
-            if (!$firstCol) {
-                echo '<div class="col-md-2">';
-                if ($id !== $this->data['Drug']['id']) {
-                    echo $this->Html->link($submitted, '/drugs/view/' . $id);
-                } else {
-                    echo '<strong>' . $submitted . '</strong>';
-                }
-                echo '</div>';
-            } else {
-                $firstCol = false;
-                echo '<div class="col-md-12">';
-                if ($id !== $this->data['Drug']['id']) {
-                    echo $this->Html->link($submitted, '/drugs/view/' . $id);
-                } else {
-                    echo '<strong>' . $submitted . '</strong>';
-                }
-                echo '</div>';
-            }
-        }
-        ?>
-    </div>
-    <div class="clearfix"><br /></div>
     <h3>健保價格記錄</h3>
     <div class="clearfix"><br /></div>
     <div class="row">
