@@ -11,11 +11,32 @@ class ImportShell extends AppShell {
     public function main() {
         //$this->dumpDbKeys();
         //$this->importDrug();
-        $this->importPrice();
+        //$this->importPrice();
         //$this->importImage();
         //$this->importBox();
         //$this->importIngredients();
         //$this->importATC();
+        $this->renameDrugImages();
+    }
+
+    public function renameDrugImages() {
+        $fh = fopen(__DIR__ . '/data/oldDrugId.csv', 'r');
+        $map = array();
+        while ($line = fgetcsv($fh, 512)) {
+            $map[$line[0]] = $line[1];
+        }
+        $list = $this->License->find('list', array(
+            'fields' => array('license_id', 'id'),
+        ));
+        foreach (glob(WWW_ROOT . 'img/drugs/*/*.jpg') AS $img) {
+            $p = pathinfo($img);
+            $uuid = $list[$map[$p['filename']]];
+            $targetFile = WWW_ROOT . 'img/drugs/' . substr($uuid, 0, 8);
+            if (!file_exists($targetFile)) {
+                mkdir($targetFile, 0777, true);
+            }
+            exec("git mv {$img} {$targetFile}/{$uuid}.jpg");
+        }
     }
 
     public function rKeys($arr = array(), $prefix = '') {
@@ -294,8 +315,8 @@ class ImportShell extends AppShell {
         $fh = fopen($this->dataPath . '/dataset/42.csv', 'r');
 
         $dbKeys = array();
-        if (file_exists(__DIR__ . '/data/dbKeys.csv')) {
-            $dbKeysFh = fopen(__DIR__ . '/data/dbKeys.csv', 'r');
+        if (file_exists(__DIR__ . '/data/dbIds.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/dbIds.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
                 $dbKeys[$line[0]] = $line[1];
             }

@@ -17,6 +17,11 @@ class License extends AppModel {
     //The Associations below have been created with all possible keys, those that are not needed can be removed
 
     var $hasMany = array(
+        'Drug' => array(
+            'foreignKey' => 'license_uuid',
+            'dependent' => true,
+            'className' => 'Drug',
+        ),
         'Price' => array(
             'foreignKey' => 'license_id',
             'dependent' => true,
