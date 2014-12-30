@@ -14,8 +14,8 @@ class ImportShell extends AppShell {
         //$this->importPrice();
         //$this->importImage();
         //$this->importBox();
-        $this->importIngredients();
-        //$this->importATC();
+        //$this->importIngredients();
+        $this->importATC();
     }
 
     public function renameDrugImages() {
@@ -57,8 +57,8 @@ class ImportShell extends AppShell {
                     'fields' => array('id', 'parent_id', 'name', 'code'),
         )));
         $dbKeys = $valueStack = array();
-        if (file_exists(__DIR__ . '/data/dbKeys.csv')) {
-            $dbKeysFh = fopen(__DIR__ . '/data/dbKeys.csv', 'r');
+        if (file_exists(__DIR__ . '/data/dbIds.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/dbIds.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
                 $dbKeys[$line[0]] = $line[1];
             }
@@ -120,19 +120,19 @@ class ImportShell extends AppShell {
                 $valueStack[] = implode(',', array(
                     "('{$currentId}'", //id
                     $this->key2id[implode('', $tree)], //category_id
-                    "'{$dbKeys[$line[0]]}'", //drug_id
+                    "'{$dbKeys[$line[0]]}'", //license_id
                     "'{$line[1]}')", //type
                 ));
                 ++$sn;
                 if ($sn > 50) {
                     $sn = 1;
-                    $this->dbQuery('INSERT INTO `categories_drugs` VALUES ' . implode(',', $valueStack) . ';');
+                    $this->dbQuery('INSERT INTO `categories_licenses` VALUES ' . implode(',', $valueStack) . ';');
                     $valueStack = array();
                 }
             }
         }
         if (!empty($valueStack)) {
-            $this->dbQuery('INSERT INTO `categories_drugs` VALUES ' . implode(',', $valueStack) . ';');
+            $this->dbQuery('INSERT INTO `categories_licenses` VALUES ' . implode(',', $valueStack) . ';');
         }
     }
 

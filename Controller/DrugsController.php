@@ -19,7 +19,7 @@ class DrugsController extends AppController {
     public function category($categoryId = 0) {
         $categoryId = intval($categoryId);
         if ($categoryId > 0) {
-            $category = $this->Drug->Category->find('first', array(
+            $category = $this->Drug->License->Category->find('first', array(
                 'conditions' => array('Category.id' => $categoryId),
             ));
         }
@@ -52,11 +52,11 @@ class DrugsController extends AppController {
                 ),
                 'group' => array('Drug.id'),
             );
-            $parents = $this->Drug->Category->getPath($categoryId, array('id', 'name'));
+            $parents = $this->Drug->License->Category->getPath($categoryId, array('id', 'name'));
             $this->set('url', array($categoryId));
             $this->set('category', $category);
             $this->set('parents', $parents);
-            $this->set('children', $this->Drug->Category->find('all', array(
+            $this->set('children', $this->Drug->License->Category->find('all', array(
                         'fields' => array('id', 'name'),
                         'conditions' => array('Category.parent_id' => $categoryId),
             )));

@@ -201,22 +201,22 @@
         </table><?php
     }
     ?>
-    <?php if (!empty($this->data['Category'])) { ?>
+    <?php if (!empty($this->data['License']['Category'])) { ?>
         <div class="clearfix"><br /></div>
         <h3>ATC 分類</h3>
         <div class="clearfix"><br /></div>
         <ul>
             <?php
-            foreach ($this->data['Category'] AS $category) {
+            foreach ($this->data['License']['Category'] AS $category) {
                 $tree = array();
-                foreach ($categoryNames[$category['CategoriesDrug']['category_id']] AS $item) {
+                foreach ($categoryNames[$category['CategoriesLicense']['category_id']] AS $item) {
                     /*
                      * @todo: have a category page to view related drugs
                      */
                     $tree[] = $this->Html->link($item['Category']['name'], '/drugs/category/' . $item['Category']['id']);
                 }
                 echo '<li>';
-                echo " [{$category['CategoriesDrug']['type']}] ";
+                echo " [{$category['CategoriesLicense']['type']}] ";
                 echo $this->Html->link($category['code'], 'http://www.whocc.no/atc_ddd_index/?code=' . $category['code'] . '&showdescription=yes', array('target' => '_blank'));
                 echo " {$category['name_chinese']}<br />";
                 echo implode(' > ', $tree);
