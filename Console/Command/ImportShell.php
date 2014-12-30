@@ -9,8 +9,13 @@ class ImportShell extends AppShell {
     public $key2code = array();
 
     public function main() {
-        //$this->dumpDbKeys();
-        $this->importDrug();
+        $this->dumpDbKeys();
+        //$this->importDrug();
+        //$this->importPrice();
+        //$this->importImage();
+        //$this->importBox();
+        //$this->importIngredients();
+        //$this->importATC();
     }
 
     public function rKeys($arr = array(), $prefix = '') {
@@ -438,10 +443,11 @@ class ImportShell extends AppShell {
 
     public function dumpDbKeys() {
         $drugs = $this->Drug->find('all', array(
-            'fields' => array('id', 'license_id', 'manufacturer', 'manufacturer_address', 'manufacturer_description'),
+            'fields' => array('id', 'license_uuid', 'license_id', 'manufacturer', 'manufacturer_address', 'manufacturer_description'),
             'order' => array('Drug.license_id' => 'ASC'),
         ));
         $fh = fopen(__DIR__ . '/data/dbKeys.csv', 'w');
+        $fhL = fopen(__DIR__ . '/data/dbIds.csv', 'w');
         $stack = array();
         foreach ($drugs AS $drug) {
             $key = $drug['Drug']['license_id'] . md5($drug['Drug']['manufacturer'] . $drug['Drug']['manufacturer_address'] . $drug['Drug']['manufacturer_description']);
@@ -449,20 +455,16 @@ class ImportShell extends AppShell {
                 $key,
                 $drug['Drug']['id'],
             ));
-            if (!isset($stack[$drug['Drug']['license_id']])) {
-                $stack[$drug['Drug']['license_id']] = array();
+            if (!isset($stack[$drug['Drug']['license_uuid']])) {
+                fputcsv($fhL, array(
+                    $drug['Drug']['license_id'],
+                    $drug['Drug']['license_uuid'],
+                ));
+                $stack[$drug['Drug']['license_uuid']] = true;
             }
-            $stack[$drug['Drug']['license_id']][] = $drug['Drug']['id'];
         }
         fclose($fh);
-        $fh = fopen(__DIR__ . '/data/dbIds.csv', 'w');
-        foreach ($stack AS $licenseId => $drugIds) {
-            fputcsv($fh, array(
-                $licenseId,
-                implode('|', $drugIds),
-            ));
-        }
-        fclose($fh);
+        fclose($fhL);
     }
 
     public function importDrug() {
@@ -475,11 +477,18 @@ class ImportShell extends AppShell {
         $db = ConnectionManager::getDataSource('default');
         $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
         $this->dbQuery('SET NAMES utf8mb4;');
-        $stack = $urlKeys = $valueStack = array();
+        $stack = $urlKeys = $valueStack = $licenseId = array();
         if (file_exists(__DIR__ . '/data/dbKeys.csv')) {
             $dbKeysFh = fopen(__DIR__ . '/data/dbKeys.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
                 $stack[$line[0]] = $line[1];
+            }
+            fclose($dbKeysFh);
+        }
+        if (file_exists(__DIR__ . '/data/dbIds.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/dbIds.csv', 'r');
+            while ($line = fgetcsv($dbKeysFh, 1024)) {
+                $licenseId[$line[0]] = $line[1];
             }
             fclose($dbKeysFh);
         }
@@ -533,6 +542,9 @@ class ImportShell extends AppShell {
             foreach ($cols AS $k => $v) {
                 $cols[$k] = trim($v);
             }
+            if (!isset($licenseId[$cols[0]])) {
+                $licenseId[$cols[0]] = String::uuid();
+            }
             $key = $cols[0] . md5($cols[20] . $cols[21] . $cols[24]);
             foreach ($escapesKeys AS $escapesKey) {
                 $cols[$escapesKey] = str_replace(array('　'), array(''), $cols[$escapesKey]);
@@ -544,11 +556,11 @@ class ImportShell extends AppShell {
 
             $dbCols = array(
                 "('{$stack[$key]}'", //id
+                "'{$licenseId[$cols[0]]}'", //license_uuid
             );
             foreach ($cols AS $col) {
                 $dbCols[] = "'{$col}'";
             }
-            $dbCols = array_merge($dbCols, array_fill(0, 10, "''"));
             $valueStack[] = implode(',', $dbCols) . ')';
             ++$sn;
             if ($sn > 50) {
@@ -562,6 +574,7 @@ class ImportShell extends AppShell {
             $this->dbQuery('INSERT INTO `drugs` VALUES ' . implode(',', $valueStack) . ';');
             $valueStack = array();
         }
+        $this->dbQuery('INSERT INTO `licenses` (id, license_id) SELECT license_uuid, license_id FROM drugs GROUP BY license_uuid;');
     }
 
     public function getTwDate($str) {

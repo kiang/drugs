@@ -17,7 +17,15 @@ class Drug extends AppModel {
 
 
     //The Associations below have been created with all possible keys, those that are not needed can be removed
-
+    public $belongsTo = array(
+        'License' => array(
+            'className' => 'License',
+            'foreignKey' => 'license_uuid',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        )
+    );
     var $hasMany = array(
         'Price' => array(
             'foreignKey' => 'drug_id',
