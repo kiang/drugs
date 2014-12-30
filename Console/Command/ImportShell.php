@@ -3,13 +3,14 @@
 class ImportShell extends AppShell {
 
     public $uses = array('Drug');
-    public $dataPath = '/home/kiang/public_html/data.fda.gov.tw';
+    public $dataPath = '/home/kiang/public_html/data.fda.gov.tw-list';
     public $mysqli = false;
     public $key2id = array();
     public $key2code = array();
 
     public function main() {
-        $this->importBox();
+        $this->dumpDbKeys();
+        //$this->importDrug();
     }
 
     public function rKeys($arr = array(), $prefix = '') {
@@ -84,7 +85,7 @@ class ImportShell extends AppShell {
                             'name_chinese' => $nameChinese,
                     )));
                     $this->key2id[$currentKey] = $this->Drug->Category->getInsertID();
-                } elseif($currentCount === $treeCount && empty($this->key2code[$currentKey])) {
+                } elseif ($currentCount === $treeCount && empty($this->key2code[$currentKey])) {
                     $code = strtoupper($line[2]);
                     $this->dbQuery('UPDATE `categories` SET code = \'' . $code . '\' WHERE id = \'' . $this->key2id[$currentKey] . '\';');
                 }
@@ -437,23 +438,34 @@ class ImportShell extends AppShell {
 
     public function dumpDbKeys() {
         $drugs = $this->Drug->find('all', array(
-            'conditions' => array(
-                'Drug.active_id IS NULL',
-            ),
-            'fields' => array('id', 'license_id'),
-            'order' => array('Drug.submitted' => 'ASC'),
+            'fields' => array('id', 'license_id', 'manufacturer', 'manufacturer_address', 'manufacturer_description'),
+            'order' => array('Drug.license_id' => 'ASC'),
         ));
         $fh = fopen(__DIR__ . '/data/dbKeys.csv', 'w');
+        $stack = array();
         foreach ($drugs AS $drug) {
+            $key = $drug['Drug']['license_id'] . md5($drug['Drug']['manufacturer'] . $drug['Drug']['manufacturer_address'] . $drug['Drug']['manufacturer_description']);
             fputcsv($fh, array(
-                $drug['Drug']['license_id'],
+                $key,
                 $drug['Drug']['id'],
+            ));
+            if (!isset($stack[$drug['Drug']['license_id']])) {
+                $stack[$drug['Drug']['license_id']] = array();
+            }
+            $stack[$drug['Drug']['license_id']][] = $drug['Drug']['id'];
+        }
+        fclose($fh);
+        $fh = fopen(__DIR__ . '/data/dbIds.csv', 'w');
+        foreach ($stack AS $licenseId => $drugIds) {
+            fputcsv($fh, array(
+                $licenseId,
+                implode('|', $drugIds),
             ));
         }
         fclose($fh);
     }
 
-    public function batchImport() {
+    public function importDrug() {
         $fields = array('許可證字號', '註銷狀態', '註銷日期', '註銷理由', '有效日期',
             '發證日期', '許可證種類', '舊證字號', '通關簽審文件編號', '中文品名',
             '英文品名', '適應症', '劑型', '包裝', '藥品類別', '管制藥品分類級別',
@@ -463,27 +475,23 @@ class ImportShell extends AppShell {
         $db = ConnectionManager::getDataSource('default');
         $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
         $this->dbQuery('SET NAMES utf8mb4;');
-        if (file_exists(__DIR__ . '/data/dbKeys.csv')) {
-            $dbKeysFh = fopen(__DIR__ . '/data/dbKeys.csv', 'r');
-            while ($line = fgetcsv($dbKeysFh, 1024)) {
-                $stack[$line[0]] = array(
-                    'id' => $line[1],
-                    'is_new' => false,
-                    'linked_id' => '',
-                    'linked_date' => 0,
-                    'line' => array(),
-                );
-            }
-            fclose($dbKeysFh);
-        }
-        if (file_exists(__DIR__ . '/data/urlKeys.csv')) {
-            $urlKeysFh = fopen(__DIR__ . '/data/urlKeys.csv', 'r');
-            while ($line = fgets($urlKeysFh, 512)) {
-                $line = trim($line);
-                $urlKeys[$line] = true;
-            }
-            fclose($urlKeysFh);
-        }
+        /*
+          if (file_exists(__DIR__ . '/data/dbKeys.csv')) {
+          $dbKeysFh = fopen(__DIR__ . '/data/dbKeys.csv', 'r');
+          while ($line = fgetcsv($dbKeysFh, 1024)) {
+          $stack[$line[0]] = array(
+          'id' => $line[1],
+          'is_new' => false,
+          'linked_id' => '',
+          'linked_date' => 0,
+          'line' => array(),
+          );
+          $urlKeys[$line[1]] = true;
+          }
+          fclose($dbKeysFh);
+          }
+         * 
+         */
         $fh = fopen($this->dataPath . '/dataset/36.csv', 'r');
         $count = 0;
         /*
@@ -533,6 +541,14 @@ class ImportShell extends AppShell {
                 $cols[$escapesKey] = str_replace(array('　'), array(''), trim($cols[$escapesKey]));
                 $cols[$escapesKey] = $this->mysqli->real_escape_string($cols[$escapesKey]);
             }
+            $key = $cols[0] . md5($cols[20] . $cols[21] . $cols[24]);
+            if (!isset($stack[$key])) {
+                $stack[$key] = true;
+            } else {
+                print_r($cols);
+            }
+            continue;
+
             /*
              * use md5 to check if the line chanded
              */
@@ -570,6 +586,7 @@ class ImportShell extends AppShell {
                 $valueStack = array();
             }
         }
+        exit();
         if (!empty($valueStack)) {
             $sn = 1;
             $this->dbQuery('INSERT INTO `drugs` VALUES ' . implode(',', $valueStack) . ';');
