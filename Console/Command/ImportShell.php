@@ -12,8 +12,8 @@ class ImportShell extends AppShell {
         //$this->dumpDbKeys();
         //$this->importDrug();
         //$this->importPrice();
-        $this->importImage();
-        //$this->importBox();
+        //$this->importImage();
+        $this->importBox();
         //$this->importIngredients();
         //$this->importATC();
     }
@@ -209,8 +209,8 @@ class ImportShell extends AppShell {
 
         $dbKeys = $valueStack = array();
 
-        if (file_exists(__DIR__ . '/data/dbKeys.csv')) {
-            $dbKeysFh = fopen(__DIR__ . '/data/dbKeys.csv', 'r');
+        if (file_exists(__DIR__ . '/data/dbIds.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/dbIds.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
                 $dbKeys[$line[0]] = $line[1];
             }
@@ -231,7 +231,7 @@ class ImportShell extends AppShell {
         $imagick = new Imagick();
         $sn = 0;
         /*
-         * get long lenth using command `wc -L filename`
+         * get longest line lenth using command `wc -L filename`
          */
         while ($line = fgetcsv($fh, 10770, "\t")) {
             if (!isset($dbKeys[$line[0]])) {
@@ -252,7 +252,7 @@ class ImportShell extends AppShell {
                     $url = $this->mysqli->real_escape_string($url);
                     $valueStack[] = implode(',', array(
                         "('{$currentId}'", //id
-                        "'{$dbKeys[$line[0]]}'", //drug_id
+                        "'{$dbKeys[$line[0]]}'", //license_id
                         "'{$url}'", //url
                         "'仿單 - {$count}'", //title
                         "1", //type
@@ -281,7 +281,7 @@ class ImportShell extends AppShell {
                     $url = $this->mysqli->real_escape_string($url);
                     $valueStack[] = implode(',', array(
                         "('{$currentId}'", //id
-                        "'{$dbKeys[$line[0]]}'", //drug_id
+                        "'{$dbKeys[$line[0]]}'", //license_id
                         "'{$url}'", //url
                         "'外盒 - {$count}'", //title
                         "2", //type
