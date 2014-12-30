@@ -90,7 +90,11 @@
     </div>
     <div class="row">
         <div class="col-md-2">申請商統一編號</div>
-        <div class="col-md-10"><?php echo $this->data['Drug']['vendor_id']; ?>&nbsp;</div>
+        <div class="col-md-10"><?php
+        if(!empty($this->data['Drug']['vendor_id'])) {
+            echo $this->Html->link($this->data['Drug']['vendor_id'], 'http://gcis.nat.g0v.tw/id/' . $this->data['Drug']['vendor_id'], array('class' => 'btn btn-default', 'target' => '_blank'));
+        }
+        ?>&nbsp;</div>
     </div>
     <div class="row">
         <div class="col-md-2">製造商名稱</div>
@@ -225,25 +229,27 @@
             ?>
         </ul>
     <?php } ?>
-    <div class="clearfix"><br /></div>
-    <h3>健保價格記錄</h3>
-    <div class="clearfix"><br /></div>
-    <div class="row">
-        <ul>
-            <?php
-            $currentNhiId = false;
-            foreach ($prices AS $price) {
-                if (false === $currentNhiId) {
-                    echo "<li><strong>[{$price['Price']['nhi_id']}] {$price['Price']['nhi_dosage']} {$price['Price']['nhi_unit']}</strong></li>";
-                    $currentNhiId = $price['Price']['nhi_id'];
-                } elseif ($currentNhiId != $price['Price']['nhi_id']) {
-                    echo '</ul><ul>';
-                    echo "<li><strong>[{$price['Price']['nhi_id']}] {$price['Price']['nhi_dosage']} {$price['Price']['nhi_unit']}</strong></li>";
-                    $currentNhiId = $price['Price']['nhi_id'];
+    <?php if (!empty($prices)) { ?>
+        <div class="clearfix"><br /></div>
+        <h3>健保價格記錄</h3>
+        <div class="clearfix"><br /></div>
+        <div class="row">
+            <ul>
+                <?php
+                $currentNhiId = false;
+                foreach ($prices AS $price) {
+                    if (false === $currentNhiId) {
+                        echo "<li><strong>[{$price['Price']['nhi_id']}] {$price['Price']['nhi_dosage']} {$price['Price']['nhi_unit']}</strong></li>";
+                        $currentNhiId = $price['Price']['nhi_id'];
+                    } elseif ($currentNhiId != $price['Price']['nhi_id']) {
+                        echo '</ul><ul>';
+                        echo "<li><strong>[{$price['Price']['nhi_id']}] {$price['Price']['nhi_dosage']} {$price['Price']['nhi_unit']}</strong></li>";
+                        $currentNhiId = $price['Price']['nhi_id'];
+                    }
+                    echo '<li>' . "{$price['Price']['date_begin']} ~ {$price['Price']['date_end']} - > &nbsp; &nbsp; &nbsp; \${$price['Price']['nhi_price']}</li>";
                 }
-                echo '<li>' . "{$price['Price']['date_begin']} ~ {$price['Price']['date_end']} - > &nbsp; &nbsp; &nbsp; \${$price['Price']['nhi_price']}</li>";
-            }
-            ?>
-        </ul>
-    </div>
+                ?>
+            </ul>
+        </div>
+    <?php } ?>
 </div>
