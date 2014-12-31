@@ -31,14 +31,13 @@ class DrugsController extends AppController {
             $this->paginate['Drug'] = array(
                 'limit' => 20,
                 'order' => array('Drug.submitted' => 'DESC'),
-                'contain' => array('License'),
                 'joins' => array(
                     array(
                         'table' => 'categories_licenses',
                         'alias' => 'CategoriesLicense',
                         'type' => 'INNER',
                         'conditions' => array(
-                            'License.id = CategoriesLicense.license_id',
+                            'Drug.license_uuid = CategoriesLicense.license_id',
                         ),
                     ),
                     array(
