@@ -7,7 +7,7 @@ class DrugsController extends AppController {
 
     public $name = 'Drugs';
     public $paginate = array();
-    public $helpers = array();
+    public $helpers = array('Olc');
 
     public function beforeFilter() {
         parent::beforeFilter();
