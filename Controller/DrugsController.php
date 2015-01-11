@@ -71,14 +71,21 @@ class DrugsController extends AppController {
         $scope = array();
         if (!empty($name)) {
             $name = Sanitize::clean($name);
-            $scope['OR'] = array(
-                'License.shape LIKE' => "%{$name}%",
-                'License.color LIKE' => "%{$name}%",
-                'License.odor LIKE' => "%{$name}%",
-                'License.abrasion LIKE' => "%{$name}%",
-                'License.note_1 LIKE' => "%{$name}%",
-                'License.note_2 LIKE' => "%{$name}%",
-            );
+            $name = str_replace('色', '', $name);
+            $keywords = explode(' ', $name);
+            $keywordCount = 0;
+            foreach ($keywords AS $keyword) {
+                if (++$keywordCount < 5) {
+                    $scope[]['OR'] = array(
+                        'License.shape LIKE' => "%{$keyword}%",
+                        'License.color LIKE' => "%{$keyword}%",
+                        'License.odor LIKE' => "%{$keyword}%",
+                        'License.abrasion LIKE' => "%{$keyword}%",
+                        'License.note_1 LIKE' => "%{$keyword}%",
+                        'License.note_2 LIKE' => "%{$keyword}%",
+                    );
+                }
+            }
         }
         $this->paginate['Drug'] = array(
             'limit' => 20,

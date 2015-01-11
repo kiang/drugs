@@ -16,7 +16,7 @@
                 }
             }
             if (false !== $prefixCode) {
-                echo $this->Html->link($this->data['Drug']['license_id'], 'http://www.fda.gov.tw/MLMS/(S(zhayg3j2oyozxi45fx41gi55))/H0001D.aspx?Type=Lic&LicId=' . $prefixCode . substr($this->data['Drug']['license_id'], $prefixLength + 6, -3), array('target' => '_blank'));
+                echo $this->Html->link($this->data['Drug']['license_id'], 'http://www.fda.gov.tw/MLMS/(S(zhayg3j2oyozxi45fx41gi55))/H0001D.aspx?Type=Lic&LicId=' . $prefixCode . substr($this->data['Drug']['license_id'], $prefixLength + 6, -3), array('target' => '_blank', 'class' => 'btn btn-default'));
             } else {
                 echo $this->data['Drug']['license_id'];
             }
