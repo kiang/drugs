@@ -9,13 +9,13 @@ class ImportShell extends AppShell {
     public $key2code = array();
 
     public function main() {
-        //$this->dumpDbKeys();
+        $this->dumpDbKeys();
         //$this->importDrug();
         //$this->importPrice();
         //$this->importImage();
         //$this->importBox();
         //$this->importIngredients();
-        $this->importATC();
+        //$this->importATC();
     }
 
     public function renameDrugImages() {
