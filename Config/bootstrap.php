@@ -83,6 +83,7 @@ Configure::write('Dispatcher.filters', array(
 ));
 
 CakePlugin::load('Media', array('bootstrap'=>true));
+CakePlugin::load('Api');
 
 /**
  * Configures default file logging options
