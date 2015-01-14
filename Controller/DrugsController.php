@@ -21,6 +21,13 @@ class DrugsController extends AppController {
         if (!empty($this->request->params['pass'][0])) {
             $path .= '/' . $this->request->params['pass'][0];
         }
+        if(!empty($this->request->params['named'])) {
+            foreach($this->request->params['named'] AS $k => $v) {
+                if($k !== 'page') {
+                    $path .= "/{$k}:{$v}";
+                }
+            }
+        }
         if (!empty($this->request->params['paging']['Drug']['page'])) {
             $path .= '/page:' . $this->request->params['paging']['Drug']['page'];
         }
