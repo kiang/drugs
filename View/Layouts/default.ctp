@@ -62,6 +62,11 @@
                 <?php if (!Configure::read('loginMember.id')): ?>
                     / <?php echo $this->Html->link('Login', '/members/login'); ?>
                 <?php endif; ?>
+                <?php
+                if(isset($apiRoute)) {
+                    echo ' / ' . $this->Html->link('本頁 API', $apiRoute, array('target' => '_blank'));
+                }
+                ?>
             </div>
         </div>
         <?php

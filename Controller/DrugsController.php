@@ -16,6 +16,17 @@ class DrugsController extends AppController {
         }
     }
 
+    public function beforeRender() {
+        $path = "/api/{$this->request->params['controller']}/{$this->request->params['action']}";
+        if (!empty($this->request->params['pass'][0])) {
+            $path .= '/' . $this->request->params['pass'][0];
+        }
+        if (!empty($this->request->params['paging']['Drug']['page'])) {
+            $path .= '/page:' . $this->request->params['paging']['Drug']['page'];
+        }
+        $this->set('apiRoute', $path);
+    }
+
     public function category($categoryId = 0) {
         $categoryId = intval($categoryId);
         if ($categoryId > 0) {
