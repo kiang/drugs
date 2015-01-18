@@ -1,15 +1,16 @@
-<div id="DrugsIndex">
-    <h4>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1><?php echo $category['Category']['name']; ?></h1>
+    <ol class="breadcrumb">
         <?php
-        if (!empty($parents)) {
-            $links = array();
-            foreach ($parents AS $parent) {
-                $links[] = $this->Html->link($parent['Category']['name'], '/drugs/category/' . $parent['Category']['id']);
-            }
-            echo implode(' > ', $links);
+        foreach ($parents AS $parent) {
+            echo '<li>' . $this->Html->link($parent['Category']['name'], '/drugs/category/' . $parent['Category']['id']) . '</li>';
         }
         ?>
-    </h4>
+    </ol>
+</section>
+<!-- Main content -->
+<section class="content">
     <div>
         <?php
         if (!empty($children)) {
@@ -21,44 +22,52 @@
         }
         ?>
     </div>
-    <div class="paging"><?php echo $this->element('paginator'); ?></div>
-    <table class="table table-bordered" id="DrugsIndexTable">
-        <thead>
-            <tr>
-                <th>品名</th>
-                <th>許可證字號</th>
-                <th>主成份</th>
-                <th><?php echo $this->Paginator->sort('Drug.submitted', '更新日期', array('url' => $url)); ?></th>
-            </tr>
-        </thead>
-        <tbody>
+    <div id="DrugsIndex" class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                <?php echo $this->element('paginator'); ?>
+                </div>
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover" id="DrugsIndexTable">
+                        <thead>
+                            <tr>
+                                <th>品名</th>
+                                <th>許可證字號</th>
+                                <th>主成份</th>
+                                <th><?php echo $this->Paginator->sort('Drug.submitted', '更新日期', array('url' => $url)); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
             <?php
             $i = 0;
             foreach ($items as $item) {
-                $class = null;
-                if ($i++ % 2 == 0) {
-                    $class = ' class="altrow"';
-                }
                 ?>
-                <tr<?php echo $class; ?>>
-                    <td>
+                            <tr>
+                                <td>
                         <?php echo $this->Html->link("{$item['Drug']['name']}({$item['Drug']['name_english']})", array('action' => 'view', $item['Drug']['id'])); ?></td>
-                    <td><?php
+                                <td><?php
                         echo $item['Drug']['license_id'];
                         ?></td>
-                    <td><?php
+                                <td><?php
                         $majorIngredients = explode(';;', $item['Drug']['ingredient']);
                         foreach ($majorIngredients AS $ingredient) {
                             echo $this->Html->link($ingredient, '/drugs/index/' . $ingredient, array('class' => 'btn btn-default'));
                         }
                         ?></td>
-                    <td><?php
+                                <td><?php
                         echo $item['Drug']['submitted'];
                         ?></td>
-                </tr>
+                            </tr>
             <?php }; // End of foreach ($items as $item) {  ?>
-        </tbody>
-    </table>
-    <div class="paging"><?php echo $this->element('paginator'); ?></div>
-    <div id="DrugsIndexPanel"></div>
-</div>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="box-footer clearfix">
+                <?php echo $this->element('paginator'); ?>
+                </div>
+            </div>
+        </div>
+        <div id="DrugsIndexPanel"></div>
+    </div>
+</section><!-- /.content -->

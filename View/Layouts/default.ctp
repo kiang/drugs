@@ -11,66 +11,94 @@
         }
         echo $this->Html->meta('description', $desc_for_layout);
         echo $this->Html->meta('icon');
+        ?>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+            <?php
         echo $this->Html->css('jquery-ui');
-        echo $this->Html->css('bootstrap');
         echo $this->Html->css('AdminLTE');
         echo $this->Html->css('default');
-        echo $this->Html->script('bootstrap.min');
-        echo $this->Html->script('jquery');
-        echo $this->Html->script('jquery-ui');
-        echo $this->Html->script('olc');
-        echo $this->Html->script('zhutil.min');
         echo $scripts_for_layout;
         ?>
     </head>
-    <body>
-        <div class="container">
-            <div id="header">
-                <h1><?php echo $this->Html->link('藥要看', '/'); ?></h1>
-                <div class="pull-right">
-                    <input type="text" id="keyword" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="col-md-12" />
-                    <div class="btn-group pull-right">
-                        <a href="#" class="btn btn-default btn-find">一般搜尋</a>
-                        <a href="#" class="btn btn-default btn-outward">外觀搜尋</a>
-                    </div>
+    <body class="skin-blue">
+        <!-- header logo: style can be found in header.less -->
+        <header class="header">
+            <?php echo $this->Html->link('藥要看', '/', array('class' => 'logo')); ?>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+                <div class="navbar-right">
+                    &nbsp;
                 </div>
-            </div>
-            <div id="content">
-                <div class="btn-group">
-                    <?php if (Configure::read('loginMember.id')): ?>
-                        <?php echo $this->Html->link('Foundations', '/admin/foundations', array('class' => 'btn')); ?>
-                        <?php echo $this->Html->link('Directors', '/admin/directors', array('class' => 'btn')); ?>
-                        <?php echo $this->Html->link('Members', '/admin/members', array('class' => 'btn')); ?>
-                        <?php echo $this->Html->link('Groups', '/admin/groups', array('class' => 'btn')); ?>
-                        <?php echo $this->Html->link('Logout', '/members/logout', array('class' => 'btn')); ?>
-                    <?php endif; ?>
-                    <?php
-                    if (!empty($actions_for_layout)) {
-                        foreach ($actions_for_layout as $title => $url) {
-                            echo $this->Html->link($title, $url, array('class' => 'btn'));
-                        }
-                    }
-                    ?>
-                </div>
+            </nav>
+        </header>
+        <div class="wrapper row-offcanvas row-offcanvas-left">
+            <!-- Left side column. contains the logo and sidebar -->
+            <aside class="left-side sidebar-offcanvas">
+                <!-- sidebar: style can be found in sidebar.less -->
+                <section class="sidebar">
+                    <!-- search form -->
+                    <form action="#" method="get" class="sidebar-form">
+                        <div class="input-group">
+                            <input type="text" id="keyword" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="搜尋..."/>
+                        </div>
+                        <div class="divider">&nbsp;</div>
+                        <div class="btn-group-justified">
+                            <a href="#" class="btn btn-default btn-find">一般搜尋</a>
+                            <a href="#" class="btn btn-default btn-outward">外觀搜尋</a>
+                        </div>
+                    </form>
+                    <!-- /.search form -->
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu">
+                        <li>
+                            <a href="<?php echo $this->Html->url('/drugs/index'); ?>">
+                                <i class="fa fa-dashboard"></i> <span>藥物證書</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $this->Html->url('/drugs/outward'); ?>">
+                                <i class="fa fa-laptop"></i>
+                                <span>藥物外觀</span>
+                                <i class="fa pull-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+                <!-- /.sidebar -->
+            </aside>
 
+            <!-- Right side column. Contains the navbar and content of the page -->
+            <aside class="right-side">
                 <?php echo $this->Session->flash(); ?>
-                <div id="viewContent"><?php echo $content_for_layout; ?></div>
-            </div>
-            <div id="footer" class="container">
+                <?php echo $content_for_layout; ?>
+            </aside><!-- /.right-side -->
+        </div><!-- ./wrapper -->
+        <footer class="footer">
                 <hr />
                 <?php echo $this->Html->link('江明宗 . 政 . 路過', 'http://k.olc.tw/', array('target' => '_blank')); ?>
-                / <?php echo $this->Html->link('關於本站', '/pages/about'); ?>
-                <?php if (!Configure::read('loginMember.id')): ?>
-                / <?php echo $this->Html->link('Login', '/members/login'); ?>
-                <?php endif; ?>
+            / <?php echo $this->Html->link('關於本站', '/pages/about'); ?>
                 <?php
                 if(isset($apiRoute)) {
                     echo ' / ' . $this->Html->link('本頁 API', $apiRoute, array('target' => '_blank'));
                 }
                 ?>
-            </div>
-        </div>
+            </footer>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" type="text/javascript"></script>
         <?php
+        echo $this->Html->script('jquery-ui');
+        echo $this->Html->script('olc');
+        echo $this->Html->script('app');
+        echo $this->Html->script('zhutil.min');
         echo $this->element('sql_dump');
         ?>
         <script type="text/javascript">

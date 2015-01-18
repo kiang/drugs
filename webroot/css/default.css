@@ -35,23 +35,6 @@
 	text-align: left;
 }
 
-/* Paging */
-div.paging {
-	background:#fff;
-	color: #ccc;
-	margin-bottom: 2em;
-}
-div.paging div.disabled {
-	color: #ddd;
-	display: inline;
-}
-div.paging span {
-}
-div.paging span.current {
-	color: #000;
-}
-div.paging span a {
-}
 
 /* Notices and Errors */
 div.message {
