@@ -13,6 +13,7 @@
         echo $this->Html->meta('icon');
         echo $this->Html->css('jquery-ui');
         echo $this->Html->css('bootstrap');
+        echo $this->Html->css('AdminLTE');
         echo $this->Html->css('default');
         echo $this->Html->script('bootstrap.min');
         echo $this->Html->script('jquery');
@@ -60,7 +61,7 @@
                 <?php echo $this->Html->link('江明宗 . 政 . 路過', 'http://k.olc.tw/', array('target' => '_blank')); ?>
                 / <?php echo $this->Html->link('關於本站', '/pages/about'); ?>
                 <?php if (!Configure::read('loginMember.id')): ?>
-                    / <?php echo $this->Html->link('Login', '/members/login'); ?>
+                / <?php echo $this->Html->link('Login', '/members/login'); ?>
                 <?php endif; ?>
                 <?php
                 if(isset($apiRoute)) {
@@ -89,7 +90,7 @@
                     }
                     return false;
                 });
-                
+
             });
             //]]>
         </script>
