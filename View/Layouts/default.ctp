@@ -60,7 +60,7 @@
                     <ul class="sidebar-menu">
                         <li class="treeview">
                             <a href="<?php echo $this->Html->url('/drugs/index'); ?>">
-                                <i class="fa fa-dashboard"></i> <span>藥物證書</span>
+                                <i class="fa fa-newspaper-o"></i> <span>藥物證書</span>
                             </a>
                             <ul class="treeview-menu">
                                 <li><a href="<?php echo $this->Html->url('/drugs/index/sort:Drug.submitted/direction:desc'); ?>"><i class="fa fa-angle-double-right"></i> 藥證更新</a></li>
@@ -69,8 +69,15 @@
                         </li>
                         <li>
                             <a href="<?php echo $this->Html->url('/drugs/outward'); ?>">
-                                <i class="fa fa-laptop"></i>
+                                <i class="fa fa-photo"></i>
                                 <span>藥物外觀</span>
+                                <i class="fa pull-right"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $this->Html->url('/ingredients'); ?>">
+                                <i class="fa fa-cogs"></i>
+                                <span>藥物成份</span>
                                 <i class="fa pull-right"></i>
                             </a>
                         </li>

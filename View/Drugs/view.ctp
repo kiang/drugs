@@ -282,10 +282,10 @@ if(!empty($drugs)) {
                         <tbody><?php
                 foreach ($ingredients AS $ingredient) {
                     ?><tr>
-                                <td><?php echo $ingredient['Ingredient']['remark']; ?></td>
-                                <td><?php echo $ingredient['Ingredient']['name']; ?></td>
-                                <td><?php echo!empty($ingredient['Ingredient']['dosage_text']) ? $ingredient['Ingredient']['dosage_text'] : $ingredient['Ingredient']['dosage']; ?></td>
-                                <td><?php echo $ingredient['Ingredient']['unit']; ?></td>
+                                <td><?php echo $ingredient['IngredientsLicense']['remark']; ?></td>
+                                <td><?php echo $this->Html->link($ingredient['IngredientsLicense']['name'], '/ingredients/view/' . $ingredient['IngredientsLicense']['ingredient_id'], array('class' => 'btn btn-default')); ?></td>
+                                <td><?php echo!empty($ingredient['IngredientsLicense']['dosage_text']) ? $ingredient['IngredientsLicense']['dosage_text'] : $ingredient['IngredientsLicense']['dosage']; ?></td>
+                                <td><?php echo $ingredient['IngredientsLicense']['unit']; ?></td>
                             </tr><?php
                 }
                 ?></tbody>

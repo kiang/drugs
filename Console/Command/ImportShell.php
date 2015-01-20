@@ -9,12 +9,12 @@ class ImportShell extends AppShell {
     public $key2code = array();
 
     public function main() {
-        $this->dumpDbKeys();
+        //$this->dumpDbKeys();
         //$this->importDrug();
         //$this->importPrice();
         //$this->importImage();
         //$this->importBox();
-        //$this->importIngredients();
+        $this->importIngredients();
         //$this->importATC();
     }
 
@@ -141,7 +141,7 @@ class ImportShell extends AppShell {
         $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
         $this->dbQuery('SET NAMES utf8mb4;');
         $fields = array('許可證字號', '處方標示', '成分名稱', '含量描述', '含量', '含量單位', '-');
-        $dbKeys = $valueStack = array();
+        $dbKeys = $valueStack = $ingredientKeys = array();
 
         if (file_exists(__DIR__ . '/data/licenses.csv')) {
             $dbKeysFh = fopen(__DIR__ . '/data/licenses.csv', 'r');
@@ -149,6 +149,16 @@ class ImportShell extends AppShell {
                 $dbKeys[$line[0]] = $line[1];
             }
             fclose($dbKeysFh);
+        }
+        if (file_exists(__DIR__ . '/data/ingredients.csv')) {
+            $ingredientKeysFh = fopen(__DIR__ . '/data/ingredients.csv', 'r');
+            while ($line = fgetcsv($ingredientKeysFh, 1024)) {
+                $ingredientKeys[$line[0]] = array(
+                    'id' => $line[1],
+                    'count' => 0,
+                );
+            }
+            fclose($ingredientKeysFh);
         }
         $fh = fopen($this->dataPath . '/dataset/43.csv', 'r');
         /*
@@ -170,6 +180,15 @@ class ImportShell extends AppShell {
             if (!isset($dbKeys[$line[0]])) {
                 continue;
             }
+            $ingredientKey = trim($line[2]);
+            if (!isset($ingredientKeys[$ingredientKey])) {
+                $ingredientKeys[$ingredientKey] = array(
+                    'id' => String::uuid(),
+                    'count' => 0,
+                );
+            }
+            $ingredientKeys[$ingredientKey]['count'] += 1;
+
             for ($i = 1; $i <= 5; $i++) {
                 $line[$i] = $this->mysqli->real_escape_string(trim($line[$i]));
             }
@@ -177,11 +196,31 @@ class ImportShell extends AppShell {
             $valueStack[] = implode(',', array(
                 "('{$currentId}'", //id
                 "'{$dbKeys[$line[0]]}'", //license_id
+                "'{$ingredientKeys[$ingredientKey]['id']}'", //ingredient_id
                 "'{$line[1]}'", //remark
                 "'{$line[2]}'", //name
                 "'{$line[3]}'", //dosage_text
                 "'{$line[4]}'", //dosage
                 "'{$line[5]}')", //unit
+            ));
+            ++$sn;
+            if ($sn > 50) {
+                $sn = 1;
+                $this->dbQuery('INSERT INTO `ingredients_licenses` VALUES ' . implode(',', $valueStack) . ';');
+                $valueStack = array();
+            }
+        }
+        if (!empty($valueStack)) {
+            $this->dbQuery('INSERT INTO `ingredients_licenses` VALUES ' . implode(',', $valueStack) . ';');
+        }
+        $valueStack = array();
+        $sn = 1;
+        foreach ($ingredientKeys AS $name => $ingredient) {
+            $name = $this->mysqli->real_escape_string($name);
+            $valueStack[] = implode(',', array(
+                "('{$ingredient['id']}'", //ingredient_id
+                "'{$name}'", //name
+                "'{$ingredient['count']}')", //count
             ));
             ++$sn;
             if ($sn > 50) {

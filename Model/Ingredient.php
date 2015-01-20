@@ -17,21 +17,28 @@ class Ingredient extends AppModel {
     public $displayField = 'name';
 
 
-    //The Associations below have been created with all possible keys, those that are not needed can be removed
-
-    /**
-     * belongsTo associations
-     *
-     * @var array
-     */
-    public $belongsTo = array(
+    var $hasMany = array(
+        'IngredientsLicense' => array(
+            'foreignKey' => 'ingredient_id',
+            'dependent' => true,
+            'className' => 'IngredientsLicense',
+        ),
+    );
+    
+    public $hasAndBelongsToMany = array(
         'License' => array(
             'className' => 'License',
-            'foreignKey' => 'license_id',
+            'joinTable' => 'ingredients_licenses',
+            'foreignKey' => 'ingredient_id',
+            'associationForeignKey' => 'license_id',
+            'unique' => 'keepExisting',
             'conditions' => '',
             'fields' => '',
-            'order' => ''
-        ),
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+        )
     );
 
 }

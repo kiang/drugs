@@ -125,8 +125,24 @@ DROP TABLE IF EXISTS `ingredients`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ingredients` (
+  `id` binary(36) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `count_licenses` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `ingredients_licenses`
+--
+
+DROP TABLE IF EXISTS `ingredients_licenses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ingredients_licenses` (
   `id` binary(36) NOT NULL COMMENT '主索引',
   `license_id` binary(36) NOT NULL COMMENT '藥證索引',
+  `ingredient_id` binary(36) NOT NULL,
   `remark` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '處方標示',
   `name` varchar(128) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '成分名稱',
   `dosage_text` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '含量描述',
@@ -209,4 +225,4 @@ CREATE TABLE `prices` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-01-19 22:18:32
+-- Dump completed on 2015-01-20 22:07:01

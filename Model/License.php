@@ -32,10 +32,10 @@ class License extends AppModel {
             'dependent' => true,
             'className' => 'Link',
         ),
-        'Ingredient' => array(
+        'IngredientsLicense' => array(
             'foreignKey' => 'license_id',
             'dependent' => true,
-            'className' => 'Ingredient',
+            'className' => 'IngredientsLicense',
         ),
         'Attachment' => array(
             'conditions' => array('Attachment.model' => 'License'),
@@ -57,7 +57,20 @@ class License extends AppModel {
             'limit' => '',
             'offset' => '',
             'finderQuery' => '',
-        )
+        ),
+        'Ingredient' => array(
+            'className' => 'Ingredient',
+            'joinTable' => 'ingredients_licenses',
+            'foreignKey' => 'license_id',
+            'associationForeignKey' => 'ingredient_id',
+            'unique' => 'keepExisting',
+            'conditions' => '',
+            'fields' => '',
+            'order' => '',
+            'limit' => '',
+            'offset' => '',
+            'finderQuery' => '',
+        ),
     );
 
 }
