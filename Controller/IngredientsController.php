@@ -71,6 +71,9 @@ class IngredientsController extends AppController {
         if (!empty($ingredient)) {
             $this->set('ingredient', $ingredient);
             $this->paginate['License'] = array(
+                'fields' => array(
+                    'License.*', 'Drug.id'
+                ),
                 'limit' => 20,
                 'joins' => array(
                     array(
@@ -81,8 +84,17 @@ class IngredientsController extends AppController {
                             'License.id = IngredientsLicense.license_id',
                         ),
                     ),
+                    array(
+                        'table' => 'drugs',
+                        'alias' => 'Drug',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'License.id = Drug.license_uuid',
+                        ),
+                    ),
                 ),
             );
+            $this->set('title_for_layout', "含有 {$ingredient['Ingredient']['name']} 成份的藥物 @ ");
             $this->set('items', $this->paginate($this->Ingredient->License, array('IngredientsLicense.ingredient_id' => $id)));
             $this->set('url', array($id));
         } else {

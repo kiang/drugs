@@ -19,7 +19,11 @@
                     <table class="table table-hover" id="DrugsIndexTable">
                         <thead>
                             <tr>
+                                <th>品名</th>
                                 <th>許可證字號</th>
+                                <th><?php echo $this->Paginator->sort('License.expired_date', '有效日期', array('url' => $url)); ?></th>
+                                <th><?php echo $this->Paginator->sort('License.license_date', '發證日期', array('url' => $url)); ?></th>
+                                <th><?php echo $this->Paginator->sort('License.submitted', '更新日期', array('url' => $url)); ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -29,7 +33,19 @@
                 ?>
                             <tr>
                                 <td>
-                        <?php echo $item['License']['license_id']; ?></td>
+                        <?php echo $this->Html->link("{$item['License']['name']}({$item['License']['name_english']})", array('action' => 'view', $item['Drug']['id'])); ?></td>
+                                <td><?php
+                        echo $item['License']['license_id'];
+                        ?></td>
+                                <td><?php
+                        echo $item['License']['expired_date'];
+                        ?></td>
+                                <td><?php
+                        echo $item['License']['license_date'];
+                        ?></td>
+                                <td><?php
+                        echo $item['License']['submitted'];
+                        ?></td>
                             </tr>
             <?php }; // End of foreach ($items as $item) {  ?>
                         </tbody>

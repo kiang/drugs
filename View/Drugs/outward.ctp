@@ -29,7 +29,7 @@
                 ?>
                             <tr>
                                 <td>
-                        <?php echo $this->Html->link("{$item['Drug']['name']}({$item['Drug']['name_english']})", array('action' => 'view', $item['Drug']['id'])); ?></td>
+                        <?php echo $this->Html->link("{$item['License']['name']}({$item['License']['name_english']})", array('action' => 'view', $item['Drug']['id'])); ?></td>
                                 <td><?php
                         echo $item['Drug']['license_id'];
                         ?></td>

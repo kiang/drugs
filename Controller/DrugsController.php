@@ -129,12 +129,12 @@ class DrugsController extends AppController {
             foreach ($keywords AS $keyword) {
                 if (++$keywordCount < 5) {
                     $scope[]['OR'] = array(
-                        'Drug.name LIKE' => "%{$keyword}%",
-                        'Drug.name_english LIKE' => "%{$keyword}%",
                         'Drug.license_id LIKE' => "%{$keyword}%",
-                        'Drug.vendor LIKE' => "%{$keyword}%",
                         'Drug.manufacturer LIKE' => "%{$keyword}%",
-                        'Drug.ingredient LIKE' => "%{$keyword}%",
+                        'License.name LIKE' => "%{$keyword}%",
+                        'License.name_english LIKE' => "%{$keyword}%",
+                        'License.vendor LIKE' => "%{$keyword}%",
+                        'License.ingredient LIKE' => "%{$keyword}%",
                         'License.nhi_id LIKE' => "%{$keyword}%",
                     );
                 }
@@ -143,7 +143,7 @@ class DrugsController extends AppController {
         $this->paginate['Drug'] = array(
             'limit' => 20,
             'contain' => array('License'),
-            'order' => array('Drug.submitted' => 'DESC'),
+            'order' => array('License.submitted' => 'DESC'),
         );
         $this->set('url', array($name));
         $title = '';
@@ -176,8 +176,8 @@ class DrugsController extends AppController {
             foreach ($this->data['License']['Category'] AS $k => $category) {
                 $categoryNames[$category['CategoriesLicense']['category_id']] = $this->Drug->License->Category->getPath($category['CategoriesLicense']['category_id'], array('id', 'name'));
             }
-            $this->set('title_for_layout', "{$this->data['Drug']['name']} {{$this->data['Drug']['name_english']}} @ ");
-            $this->set('desc_for_layout', "{$this->data['Drug']['name']} {$this->data['Drug']['name_english']} / {$this->data['Drug']['disease']} / ");
+            $this->set('title_for_layout', "{$this->data['License']['name']} {{$this->data['License']['name_english']}} @ ");
+            $this->set('desc_for_layout', "{$this->data['License']['name']} {$this->data['License']['name_english']} / {$this->data['License']['disease']} / ");
             $this->set('prices', $this->Drug->License->Price->find('all', array(
                         'conditions' => array('Price.license_id' => $this->data['Drug']['license_uuid']),
                         'order' => array(

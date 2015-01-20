@@ -19,9 +19,9 @@
                                 <th>許可證字號</th>
                                 <th>製造商</th>
                                 <th>國別</th>
-                                <th><?php echo $this->Paginator->sort('Drug.expired_date', '有效日期', array('url' => $url)); ?></th>
-                                <th><?php echo $this->Paginator->sort('Drug.license_date', '發證日期', array('url' => $url)); ?></th>
-                                <th><?php echo $this->Paginator->sort('Drug.submitted', '更新日期', array('url' => $url)); ?></th>
+                                <th><?php echo $this->Paginator->sort('License.expired_date', '有效日期', array('url' => $url)); ?></th>
+                                <th><?php echo $this->Paginator->sort('License.license_date', '發證日期', array('url' => $url)); ?></th>
+                                <th><?php echo $this->Paginator->sort('License.submitted', '更新日期', array('url' => $url)); ?></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -31,7 +31,7 @@
                 ?>
                             <tr>
                                 <td>
-                        <?php echo $this->Html->link("{$item['Drug']['name']}({$item['Drug']['name_english']})", array('action' => 'view', $item['Drug']['id'])); ?></td>
+                        <?php echo $this->Html->link("{$item['License']['name']}({$item['License']['name_english']})", array('action' => 'view', $item['Drug']['id'])); ?></td>
                                 <td><?php
                         echo $item['Drug']['license_id'];
                         ?></td>
@@ -42,13 +42,13 @@
                         echo $item['Drug']['manufacturer_country'];
                         ?></td>
                                 <td><?php
-                        echo $item['Drug']['expired_date'];
+                        echo $item['License']['expired_date'];
                         ?></td>
                                 <td><?php
-                        echo $item['Drug']['license_date'];
+                        echo $item['License']['license_date'];
                         ?></td>
                                 <td><?php
-                        echo $item['Drug']['submitted'];
+                        echo $item['License']['submitted'];
                         ?></td>
                             </tr>
             <?php }; // End of foreach ($items as $item) {  ?>

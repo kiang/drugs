@@ -1,9 +1,9 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1><?php echo $this->data['Drug']['name']; ?> (<?php echo $this->data['Drug']['name_english']; ?>)</h1>
+    <h1><?php echo $this->data['License']['name']; ?> (<?php echo $this->data['License']['name_english']; ?>)</h1>
     <ol class="breadcrumb">
         <li><?php echo $this->Html->link('藥物證書', '/drugs/index'); ?></li>
-        <li class="active"><?php echo $this->data['Drug']['name']; ?></li>
+        <li class="active"><?php echo $this->data['License']['name']; ?></li>
     </ol>
 </section>
 
@@ -39,83 +39,83 @@
 
                             </dd>
                             <dt>註銷狀態</dt>
-                            <dd><?php echo $this->data['Drug']['cancel_status']; ?>&nbsp;
+                            <dd><?php echo $this->data['License']['cancel_status']; ?>&nbsp;
 
 
                             </dd>
                             <dt>註銷日期</dt>
-                            <dd><?php echo ($this->data['Drug']['cancel_date'] === '0000-00-00') ? '' : $this->data['Drug']['cancel_date']; ?>&nbsp;
+                            <dd><?php echo ($this->data['License']['cancel_date'] === '0000-00-00') ? '' : $this->data['License']['cancel_date']; ?>&nbsp;
 
 
                             </dd>
                             <dt>註銷理由</dt>
-                            <dd><?php echo $this->data['Drug']['cancel_reason']; ?>&nbsp;
+                            <dd><?php echo $this->data['License']['cancel_reason']; ?>&nbsp;
 
 
                             </dd>
                             <dt>有效日期</dt>
-                            <dd><?php echo $this->data['Drug']['expired_date']; ?>&nbsp;
+                            <dd><?php echo $this->data['License']['expired_date']; ?>&nbsp;
 
 
                             </dd>
                             <dt>發證日期</dt>
-                            <dd><?php echo $this->data['Drug']['license_date']; ?>&nbsp;
+                            <dd><?php echo $this->data['License']['license_date']; ?>&nbsp;
 
 
                             </dd>
                             <dt>許可證種類</dt>
-                            <dd><?php echo $this->data['Drug']['license_type']; ?>&nbsp;
+                            <dd><?php echo $this->data['License']['license_type']; ?>&nbsp;
 
 
                             </dd>
                             <dt>舊證字號</dt>
-                            <dd><?php echo $this->data['Drug']['old_id']; ?>&nbsp;
+                            <dd><?php echo $this->data['License']['old_id']; ?>&nbsp;
 
 
                             </dd>
                             <dt>通關簽審文件編號</dt>
-                            <dd><?php echo $this->data['Drug']['document_id']; ?>&nbsp;
+                            <dd><?php echo $this->data['License']['document_id']; ?>&nbsp;
 
 
                             </dd>
                             <dt>中文品名</dt>
-                            <dd><?php echo $this->data['Drug']['name']; ?>&nbsp;
+                            <dd><?php echo $this->data['License']['name']; ?>&nbsp;
 
 
                             </dd>
                             <dt>英文品名</dt>
-                            <dd><?php echo $this->data['Drug']['name_english']; ?>&nbsp;
+                            <dd><?php echo $this->data['License']['name_english']; ?>&nbsp;
 
 
                             </dd>
                             <dt>適應症</dt>
-                            <dd><?php echo $this->data['Drug']['disease']; ?>&nbsp;
+                            <dd><?php echo $this->data['License']['disease']; ?>&nbsp;
 
 
                             </dd>
                             <dt>劑型</dt>
-                            <dd><?php echo $this->data['Drug']['formulation']; ?>&nbsp;
+                            <dd><?php echo $this->data['License']['formulation']; ?>&nbsp;
 
 
                             </dd>
                             <dt>包裝</dt>
-                            <dd><?php echo $this->data['Drug']['package']; ?>&nbsp;
+                            <dd><?php echo $this->data['License']['package']; ?>&nbsp;
 
 
                             </dd>
                             <dt>藥品類別</dt>
-                            <dd><?php echo $this->data['Drug']['type']; ?>&nbsp;
+                            <dd><?php echo $this->data['License']['type']; ?>&nbsp;
 
 
                             </dd>
                             <dt>管制藥品分類級別</dt>
-                            <dd><?php echo $this->data['Drug']['class']; ?>&nbsp;
+                            <dd><?php echo $this->data['License']['class']; ?>&nbsp;
 
 
                             </dd>
                             <dt>主成分略述</dt>
                             <dd><?php
-            $majorIngredients = explode(';;', $this->data['Drug']['ingredient']);
+            $majorIngredients = explode(';;', $this->data['License']['ingredient']);
             foreach ($majorIngredients AS $ingredient) {
                 echo $this->Html->link($ingredient, '/drugs/index/' . $ingredient, array('class' => 'btn btn-default'));
             }
@@ -125,20 +125,20 @@
                             </dd>
                             <dt>申請商名稱</dt>
                             <dd><?php
-            echo $this->Html->link($this->data['Drug']['vendor'], '/drugs/index/' . $this->data['Drug']['vendor'], array('class' => 'btn btn-default'));
+            echo $this->Html->link($this->data['License']['vendor'], '/drugs/index/' . $this->data['License']['vendor'], array('class' => 'btn btn-default'));
             ?>&nbsp;
 
 
                             </dd>
                             <dt>申請商地址</dt>
-                            <dd><?php echo $this->data['Drug']['vendor_address']; ?>&nbsp;
+                            <dd><?php echo $this->data['License']['vendor_address']; ?>&nbsp;
 
 
                             </dd>
                             <dt>申請商統一編號</dt>
                             <dd><?php
-            if (!empty($this->data['Drug']['vendor_id'])) {
-                echo $this->Html->link($this->data['Drug']['vendor_id'], 'http://gcis.nat.g0v.tw/id/' . $this->data['Drug']['vendor_id'], array('class' => 'btn btn-default', 'target' => '_blank'));
+            if (!empty($this->data['License']['vendor_id'])) {
+                echo $this->Html->link($this->data['License']['vendor_id'], 'http://gcis.nat.g0v.tw/id/' . $this->data['License']['vendor_id'], array('class' => 'btn btn-default', 'target' => '_blank'));
             }
             ?>&nbsp;
 
@@ -191,22 +191,22 @@ if(!empty($drugs)) {
 
                             </dd>
                             <dt>異動日期</dt>
-                            <dd><?php echo $this->data['Drug']['submitted']; ?>&nbsp;
+                            <dd><?php echo $this->data['License']['submitted']; ?>&nbsp;
 
 
                             </dd>
                             <dt>用法用量</dt>
-                            <dd><?php echo $this->data['Drug']['usage']; ?>&nbsp;
+                            <dd><?php echo $this->data['License']['usage']; ?>&nbsp;
 
 
                             </dd>
                             <dt>包裝</dt>
-                            <dd><?php echo $this->data['Drug']['package_note']; ?>&nbsp;
+                            <dd><?php echo $this->data['License']['package_note']; ?>&nbsp;
 
 
                             </dd>
                             <dt>國際條碼</dt>
-                            <dd><?php echo $this->data['Drug']['barcode']; ?>&nbsp;
+                            <dd><?php echo $this->data['License']['barcode']; ?>&nbsp;
 
 
                             </dd>

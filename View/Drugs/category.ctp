@@ -45,18 +45,18 @@
                 ?>
                             <tr>
                                 <td>
-                        <?php echo $this->Html->link("{$item['Drug']['name']}({$item['Drug']['name_english']})", array('action' => 'view', $item['Drug']['id'])); ?></td>
+                        <?php echo $this->Html->link("{$item['License']['name']}({$item['License']['name_english']})", array('action' => 'view', $item['Drug']['id'])); ?></td>
                                 <td><?php
                         echo $item['Drug']['license_id'];
                         ?></td>
                                 <td><?php
-                        $majorIngredients = explode(';;', $item['Drug']['ingredient']);
+                        $majorIngredients = explode(';;', $item['License']['ingredient']);
                         foreach ($majorIngredients AS $ingredient) {
                             echo $this->Html->link($ingredient, '/drugs/index/' . $ingredient, array('class' => 'btn btn-default'));
                         }
                         ?></td>
                                 <td><?php
-                        echo $item['Drug']['submitted'];
+                        echo $item['License']['submitted'];
                         ?></td>
                             </tr>
             <?php }; // End of foreach ($items as $item) {  ?>
