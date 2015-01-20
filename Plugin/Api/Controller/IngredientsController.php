@@ -28,11 +28,12 @@ class IngredientsController extends ApiAppController {
             'limit' => 20,
             'order' => array('Ingredient.count_licenses' => 'DESC'),
         );
+        $items = $this->paginate($this->Ingredient, $scope);
         $this->jsonData = array(
             'meta' => array(
                 'paging' => $this->request->params['paging'],
             ),
-            'data' => $this->paginate($this->Ingredient, $scope),
+            'data' => $items,
         );
     }
 
