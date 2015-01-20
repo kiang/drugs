@@ -10,12 +10,12 @@ class ImportShell extends AppShell {
 
     public function main() {
         //$this->dumpDbKeys();
-        $this->importDrug();
+        //$this->importDrug();
         //$this->importPrice();
-        //$this->importImage();
-        //$this->importBox();
-        //$this->importIngredients();
-        //$this->importATC();
+        $this->importImage();
+        $this->importBox();
+        $this->importIngredients();
+        $this->importATC();
     }
 
     public function renameDrugImages() {
@@ -495,10 +495,7 @@ class ImportShell extends AppShell {
             $this->dbQuery('INSERT INTO `prices` VALUES ' . implode(',', $valueStack) . ';');
             $valueStack = array();
         }
-        foreach ($stack AS $licenseId => $nhiIds) {
-            $nhiIds = implode(',', $nhiIds);
-            $this->dbQuery("UPDATE licenses SET nhi_id = '{$nhiIds}' WHERE id = '{$licenseId}'");
-        }
+        $this->dbQuery('UPDATE licenses SET nhi_id = ( SELECT GROUP_CONCAT( DISTINCT nhi_id SEPARATOR \',\' ) FROM prices WHERE license_id = licenses.id )');
     }
 
     public function dumpDbKeys() {
