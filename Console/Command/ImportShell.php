@@ -10,11 +10,11 @@ class ImportShell extends AppShell {
 
     public function main() {
         //$this->dumpDbKeys();
-        //$this->importDrug();
+        $this->importDrug();
         //$this->importPrice();
         //$this->importImage();
         //$this->importBox();
-        $this->importIngredients();
+        //$this->importIngredients();
         //$this->importATC();
     }
 
@@ -537,7 +537,7 @@ class ImportShell extends AppShell {
         $db = ConnectionManager::getDataSource('default');
         $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
         $this->dbQuery('SET NAMES utf8mb4;');
-        $stack = $urlKeys = $valueStack = $licenseId = array();
+        $stack = $urlKeys = $valueStack = $licenseId = $licenseStack = array();
         if (file_exists(__DIR__ . '/data/drugs.csv')) {
             $dbKeysFh = fopen(__DIR__ . '/data/drugs.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
@@ -617,9 +617,51 @@ class ImportShell extends AppShell {
             $dbCols = array(
                 "('{$stack[$key]}'", //id
                 "'{$licenseId[$cols[0]]}'", //license_uuid
+                "'{$cols[0]}'", //license_id
+                "'{$cols[20]}'", //manufacturer
+                "'{$cols[21]}'", //manufacturer_address
+                "'{$cols[22]}'", //manufacturer_office
+                "'{$cols[23]}'", //manufacturer_country
+                "'{$cols[24]}'", //manufacturer_description
             );
-            foreach ($cols AS $col) {
-                $dbCols[] = "'{$col}'";
+            if (!isset($licenseData[$licenseId[$cols[0]]])) {
+                $licenseData[$licenseId[$cols[0]]] = array(
+                    "('{$licenseId[$cols[0]]}'", //id
+                    "'{$cols[0]}'", //license_id
+                    "NULL", //nhi_id
+                    "NULL", //shape
+                    "NULL", //s_type
+                    "NULL", //color
+                    "NULL", //odor
+                    "NULL", //abrasion
+                    "NULL", //size
+                    "NULL", //note_1
+                    "NULL", //note_2
+                    "NULL", //image
+                    "'{$cols[1]}'", //cancel_status
+                    "'{$cols[2]}'", //cancel_date
+                    "'{$cols[3]}'", //cancel_reason
+                    "'{$cols[4]}'", //expired_date
+                    "'{$cols[5]}'", //license_date
+                    "'{$cols[6]}'", //license_type
+                    "'{$cols[7]}'", //old_id
+                    "'{$cols[8]}'", //document_id
+                    "'{$cols[9]}'", //name
+                    "'{$cols[10]}'", //name_english
+                    "'{$cols[11]}'", //disease
+                    "'{$cols[12]}'", //formulation
+                    "'{$cols[13]}'", //package
+                    "'{$cols[14]}'", //type
+                    "'{$cols[15]}'", //class
+                    "'{$cols[16]}'", //ingredient
+                    "'{$cols[17]}'", //vendor
+                    "'{$cols[18]}'", //vendor_address
+                    "'{$cols[19]}'", //vendor_id
+                    "'{$cols[25]}'", //submitted
+                    "'{$cols[26]}'", //usage
+                    "'{$cols[27]}'", //package_note
+                    "'{$cols[28]}')", //barcode
+                );
             }
             $valueStack[] = implode(',', $dbCols) . ')';
             ++$sn;
@@ -630,11 +672,22 @@ class ImportShell extends AppShell {
             }
         }
         if (!empty($valueStack)) {
-            $sn = 1;
             $this->dbQuery('INSERT INTO `drugs` VALUES ' . implode(',', $valueStack) . ';');
-            $valueStack = array();
         }
-        $this->dbQuery('INSERT INTO `licenses` (id, license_id) SELECT license_uuid, license_id FROM drugs GROUP BY license_uuid;');
+        $sn = 1;
+        $valueStack = array();
+        foreach ($licenseData AS $dbCols) {
+            $valueStack[] = implode(',', $dbCols);
+            ++$sn;
+            if ($sn > 50) {
+                $sn = 1;
+                $this->dbQuery('INSERT INTO `licenses` VALUES ' . implode(',', $valueStack) . ';');
+                $valueStack = array();
+            }
+        }
+        if (!empty($valueStack)) {
+            $this->dbQuery('INSERT INTO `licenses` VALUES ' . implode(',', $valueStack) . ';');
+        }
     }
 
     public function getTwDate($str) {

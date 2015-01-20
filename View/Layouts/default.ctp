@@ -63,8 +63,8 @@
                                 <i class="fa fa-newspaper-o"></i> <span>藥物證書</span>
                             </a>
                             <ul class="treeview-menu">
-                                <li><a href="<?php echo $this->Html->url('/drugs/index/sort:Drug.submitted/direction:desc'); ?>"><i class="fa fa-angle-double-right"></i> 藥證更新</a></li>
-                                <li><a href="<?php echo $this->Html->url('/drugs/index/sort:Drug.license_date/direction:desc'); ?>"><i class="fa fa-angle-double-right"></i> 新藥發證</a></li>
+                                <li><a href="<?php echo $this->Html->url('/drugs/index/sort:License.submitted/direction:desc'); ?>"><i class="fa fa-angle-double-right"></i> 藥證更新</a></li>
+                                <li><a href="<?php echo $this->Html->url('/drugs/index/sort:License.license_date/direction:desc'); ?>"><i class="fa fa-angle-double-right"></i> 新藥發證</a></li>
                             </ul>
                         </li>
                         <li>
