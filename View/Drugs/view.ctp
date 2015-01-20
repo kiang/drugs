@@ -168,7 +168,26 @@
                             </dd>
                             <dt>製程</dt>
                             <dd><?php echo $this->data['Drug']['manufacturer_description']; ?>&nbsp;
-
+<?php
+if(!empty($drugs)) {
+    echo '<dt>其他製造商</dt>';
+    echo '<dd><ul>';
+    foreach($drugs AS $drug) {
+        echo '<li>';
+        $drugName = '';
+        if(!empty($drug['Drug']['manufacturer_description'])) {
+            $drugName .= "[{$drug['Drug']['manufacturer_description']}]";
+        }
+        $drugName .= $drug['Drug']['manufacturer'];
+        if(!empty($drug['Drug']['manufacturer_country'])) {
+            $drugName .= " ({$drug['Drug']['manufacturer_country']})";
+        }
+        echo $this->Html->link($drugName, '/drugs/view/' . $drug['Drug']['id']);
+        echo '</li>';
+    }
+    echo '</ul></dd>';
+}
+?>
 
                             </dd>
                             <dt>異動日期</dt>

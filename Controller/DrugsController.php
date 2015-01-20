@@ -21,9 +21,9 @@ class DrugsController extends AppController {
         if (!empty($this->request->params['pass'][0])) {
             $path .= '/' . $this->request->params['pass'][0];
         }
-        if(!empty($this->request->params['named'])) {
-            foreach($this->request->params['named'] AS $k => $v) {
-                if($k !== 'page') {
+        if (!empty($this->request->params['named'])) {
+            foreach ($this->request->params['named'] AS $k => $v) {
+                if ($k !== 'page') {
                     $path .= "/{$k}:{$v}";
                 }
             }
@@ -176,33 +176,39 @@ class DrugsController extends AppController {
             foreach ($this->data['License']['Category'] AS $k => $category) {
                 $categoryNames[$category['CategoriesLicense']['category_id']] = $this->Drug->License->Category->getPath($category['CategoriesLicense']['category_id'], array('id', 'name'));
             }
-            $prices = $this->Drug->License->Price->find('all', array(
-                'conditions' => array('Price.license_id' => $this->data['Drug']['license_uuid']),
-                'order' => array(
-                    'Price.nhi_id' => 'ASC',
-                    'Price.date_end' => 'DESC',
-                ),
-            ));
-            $links = $this->Drug->License->Link->find('all', array(
-                'conditions' => array('Link.license_id' => $this->data['Drug']['license_uuid']),
-                'fields' => array('url', 'title'),
-                'order' => array(
-                    'Link.type' => 'ASC',
-                    'Link.sort' => 'ASC',
-                ),
-            ));
-            $ingredients = $this->Drug->License->Ingredient->find('all', array(
-                'conditions' => array('Ingredient.license_id' => $this->data['Drug']['license_uuid']),
-                'fields' => array('remark', 'name', 'dosage', 'dosage_text', 'unit'),
-                'order' => array(
-                    'Ingredient.dosage' => 'DESC',
-                ),
-            ));
             $this->set('title_for_layout', "{$this->data['Drug']['name']} {{$this->data['Drug']['name_english']}} @ ");
             $this->set('desc_for_layout', "{$this->data['Drug']['name']} {$this->data['Drug']['name_english']} / {$this->data['Drug']['disease']} / ");
-            $this->set('prices', $prices);
-            $this->set('links', $links);
-            $this->set('ingredients', $ingredients);
+            $this->set('prices', $this->Drug->License->Price->find('all', array(
+                        'conditions' => array('Price.license_id' => $this->data['Drug']['license_uuid']),
+                        'order' => array(
+                            'Price.nhi_id' => 'ASC',
+                            'Price.date_end' => 'DESC',
+                        ),
+            )));
+            $this->set('links', $this->Drug->License->Link->find('all', array(
+                        'conditions' => array('Link.license_id' => $this->data['Drug']['license_uuid']),
+                        'fields' => array('url', 'title'),
+                        'order' => array(
+                            'Link.type' => 'ASC',
+                            'Link.sort' => 'ASC',
+                        ),
+            )));
+            $this->set('ingredients', $this->Drug->License->Ingredient->find('all', array(
+                        'conditions' => array('Ingredient.license_id' => $this->data['Drug']['license_uuid']),
+                        'fields' => array('remark', 'name', 'dosage', 'dosage_text', 'unit'),
+                        'order' => array(
+                            'Ingredient.dosage' => 'DESC',
+                        ),
+            )));
+            $this->set('drugs', $this->Drug->find('all', array(
+                        'fields' => array(
+                            'id', 'manufacturer', 'manufacturer_country', 'manufacturer_description'
+                        ),
+                        'conditions' => array(
+                            'Drug.license_uuid' => $this->data['Drug']['license_uuid'],
+                            'Drug.id !=' => $this->data['Drug']['id'],
+                        ),
+            )));
             $this->set('categoryNames', $categoryNames);
         }
     }
