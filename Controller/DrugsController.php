@@ -48,7 +48,7 @@ class DrugsController extends AppController {
             );
             $this->paginate['Drug'] = array(
                 'limit' => 20,
-                'order' => array('Drug.submitted' => 'DESC'),
+                'order' => array('License.submitted' => 'DESC'),
                 'joins' => array(
                     array(
                         'table' => 'categories_licenses',
@@ -108,7 +108,7 @@ class DrugsController extends AppController {
         $this->paginate['Drug'] = array(
             'limit' => 20,
             'contain' => array('License'),
-            'order' => array('Drug.submitted' => 'DESC'),
+            'order' => array('License.submitted' => 'DESC'),
         );
         $this->set('url', array($name));
         $title = '';
