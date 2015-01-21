@@ -36,6 +36,10 @@ class NhiShell extends AppShell {
             $pages = explode('年特約醫療院所申報藥品數量統計', $txt);
             $year = trim(array_shift($pages));
             $fh = fopen($targetPath . '/' . $year . '.csv', 'w');
+            fputcsv($fh, array(
+                '藥品分類分組名稱',
+                '醫令申報數量'
+            ));
             foreach ($pages AS $page) {
                 $page = substr($page, 0, strrpos($page, '資料來源'));
                 $lines = explode("\n{$year}", $page);
@@ -44,9 +48,10 @@ class NhiShell extends AppShell {
                     if (!empty($matches[1])) {
                         $noField = array_pop($matches[1]);
                         $nameField = str_replace("\n", '', trim(substr($line, 0, $noField[1])));
+                        $noField = preg_replace('/[^0-9]/', '', $noField[0]);
                         fputcsv($fh, array(
                             $nameField,
-                            $noField[0]
+                            $noField,
                         ));
                     }
                 }
