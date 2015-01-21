@@ -47,7 +47,7 @@
                                 <td>
                         <?php echo $this->Html->link("{$item['License']['name']}({$item['License']['name_english']})", array('action' => 'view', $item['Drug']['id'])); ?></td>
                                 <td><?php
-                        echo $item['Drug']['license_id'];
+                        echo $item['License']['license_id'];
                         ?></td>
                                 <td><?php
                         $majorIngredients = explode(';;', $item['License']['ingredient']);

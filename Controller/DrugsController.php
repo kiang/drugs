@@ -46,7 +46,7 @@ class DrugsController extends AppController {
                 'Category.lft >=' => $category['Category']['lft'],
                 'Category.rght <=' => $category['Category']['rght'],
             );
-            $this->paginate['Drug'] = array(
+            $this->paginate['License'] = array(
                 'limit' => 20,
                 'order' => array('License.submitted' => 'DESC'),
                 'joins' => array(
@@ -55,7 +55,7 @@ class DrugsController extends AppController {
                         'alias' => 'CategoriesLicense',
                         'type' => 'INNER',
                         'conditions' => array(
-                            'Drug.license_uuid = CategoriesLicense.license_id',
+                            'License.id = CategoriesLicense.license_id',
                         ),
                     ),
                     array(
@@ -67,8 +67,19 @@ class DrugsController extends AppController {
                         ),
                     ),
                 ),
-                'group' => array('Drug.id'),
             );
+            $items = $this->paginate($this->Drug->License, $scope);
+            $drugIds = $this->Drug->find('list', array(
+                'fields' => array('license_uuid', 'id'),
+                'conditions' => array(
+                    'license_uuid' => Set::extract('{n}.License.id', $items),
+                ),
+            ));
+            foreach ($items AS $k => $v) {
+                $items[$k]['Drug'] = array(
+                    'id' => $drugIds[$v['License']['id']],
+                );
+            }
             $parents = $this->Drug->License->Category->getPath($categoryId, array('id', 'name'));
             $this->set('url', array($categoryId));
             $this->set('category', $category);
@@ -77,7 +88,7 @@ class DrugsController extends AppController {
                         'fields' => array('id', 'name'),
                         'conditions' => array('Category.parent_id' => $categoryId),
             )));
-            $this->set('items', $this->paginate($this->Drug, $scope));
+            $this->set('items', $items);
             $this->set('title_for_layout', implode(' > ', Set::extract('{n}.Category.name', $parents)) . ' 藥品一覽 @ ');
         } else {
             $this->Session->setFlash('請依據網頁指示操作');
@@ -194,11 +205,11 @@ class DrugsController extends AppController {
                         ),
             )));
             $ingredients = $this->Drug->License->IngredientsLicense->find('all', array(
-                        'conditions' => array('IngredientsLicense.license_id' => $this->data['Drug']['license_uuid']),
-                        'fields' => array('ingredient_id', 'remark', 'name', 'dosage', 'dosage_text', 'unit'),
-                        'order' => array(
-                            'IngredientsLicense.dosage' => 'DESC',
-                        ),
+                'conditions' => array('IngredientsLicense.license_id' => $this->data['Drug']['license_uuid']),
+                'fields' => array('ingredient_id', 'remark', 'name', 'dosage', 'dosage_text', 'unit'),
+                'order' => array(
+                    'IngredientsLicense.dosage' => 'DESC',
+                ),
             ));
             $ingredientKeys = Set::combine($ingredients, '{n}.IngredientsLicense.name', '{n}.IngredientsLicense.ingredient_id');
             $this->set('ingredients', $ingredients);
