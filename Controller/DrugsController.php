@@ -193,13 +193,16 @@ class DrugsController extends AppController {
                             'Link.sort' => 'ASC',
                         ),
             )));
-            $this->set('ingredients', $this->Drug->License->IngredientsLicense->find('all', array(
+            $ingredients = $this->Drug->License->IngredientsLicense->find('all', array(
                         'conditions' => array('IngredientsLicense.license_id' => $this->data['Drug']['license_uuid']),
                         'fields' => array('ingredient_id', 'remark', 'name', 'dosage', 'dosage_text', 'unit'),
                         'order' => array(
                             'IngredientsLicense.dosage' => 'DESC',
                         ),
-            )));
+            ));
+            $ingredientKeys = Set::combine($ingredients, '{n}.IngredientsLicense.name', '{n}.IngredientsLicense.ingredient_id');
+            $this->set('ingredients', $ingredients);
+            $this->set('ingredientKeys', $ingredientKeys);
             $this->set('drugs', $this->Drug->find('all', array(
                         'fields' => array(
                             'id', 'manufacturer', 'manufacturer_country', 'manufacturer_description'

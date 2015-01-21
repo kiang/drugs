@@ -117,7 +117,11 @@
                             <dd><?php
             $majorIngredients = explode(';;', $this->data['License']['ingredient']);
             foreach ($majorIngredients AS $ingredient) {
-                echo $this->Html->link($ingredient, '/drugs/index/' . $ingredient, array('class' => 'btn btn-default'));
+                if(isset($ingredientKeys[$ingredient])) {
+                    echo $this->Html->link($ingredient, '/ingredients/view/' . $ingredientKeys[$ingredient], array('class' => 'btn btn-default'));
+                } else {
+                    echo $this->Html->link($ingredient, '/drugs/index/' . $ingredient, array('class' => 'btn btn-default'));
+                }
             }
             ?>&nbsp;
 
