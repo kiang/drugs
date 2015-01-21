@@ -1,25 +1,37 @@
 <?php
-/**
- * Application level Controller
- *
- * This file is application-wide controller file. You can put all
- * application-wide controller-related methods here.
- *
- * @link          http://cakephp.org CakePHP(tm) Project
- * @package       app.Controller
- * @since         CakePHP(tm) v 0.2.9
- */
 
 App::uses('Controller', 'Controller');
 
-/**
- * Application Controller
- *
- * Add your application-wide methods in the class below, your controllers
- * will inherit them.
- *
- * @package		app.Controller
- * @link		http://book.cakephp.org/2.0/en/controllers.html#the-app-controller
- */
 class AppController extends Controller {
+
+    public $helpers = array('Html', 'Form', 'Js', 'Session');
+    public $components = array('Acl', 'Auth', 'RequestHandler', 'Session');
+
+    public function beforeFilter() {
+        if (isset($this->Auth)) {
+            $this->Auth->authenticate = array(
+                'Form' => array(
+                    'userModel' => 'Member',
+                    'scope' => array('Member.user_status' => 'Y'),
+                )
+            );
+            $this->Auth->loginAction = '/members/login';
+            $this->Auth->loginRedirect = '/';
+            $this->Auth->authorize = array(
+                'Actions' => array(
+                    'userModel' => 'Member',
+                )
+            );
+        }
+        $this->loginMember = $this->Session->read('Auth.User');
+        if (empty($this->loginMember)) {
+            $this->loginMember = array(
+                'id' => 0,
+                'group_id' => 0,
+                'username' => '',
+            );
+        }
+        Configure::write('loginMember', $this->loginMember);
+    }
+
 }

@@ -84,6 +84,8 @@ Configure::write('Dispatcher.filters', array(
 
 CakePlugin::load('Media', array('bootstrap'=>true));
 CakePlugin::load('Api');
+CakePlugin::load('Permissible');
+require App::pluginPath('Permissible') . 'Config/init.php';
 
 /**
  * Configures default file logging options
