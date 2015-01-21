@@ -2,24 +2,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="zh-TW">
     <head>
         <?php echo $this->Html->charset(); ?>
-<title><?php echo $title_for_layout; ?>藥要看</title><?php
-    $trailDesc = '藥要看提供簡單的介面檢索國內有註冊登記的藥品資訊';
-if (!isset($desc_for_layout)) {
-    $desc_for_layout = $trailDesc;
-} else {
-    $desc_for_layout .= $trailDesc;
-}
-echo $this->Html->meta('description', $desc_for_layout);
-echo $this->Html->meta('icon');
-?>
+        <title><?php echo $title_for_layout; ?>藥要看</title><?php
+        $trailDesc = '藥要看提供簡單的介面檢索國內有註冊登記的藥品資訊';
+        if (!isset($desc_for_layout)) {
+            $desc_for_layout = $trailDesc;
+        } else {
+            $desc_for_layout .= $trailDesc;
+        }
+        echo $this->Html->meta('description', $desc_for_layout);
+        echo $this->Html->meta('icon');
+        ?>
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-<?php
-echo $this->Html->css('jquery-ui');
-echo $this->Html->css('AdminLTE');
-echo $this->Html->css('default');
-echo $scripts_for_layout;
-?>
+        <?php
+        echo $this->Html->css('jquery-ui');
+        echo $this->Html->css('AdminLTE');
+        echo $this->Html->css('default');
+        echo $scripts_for_layout;
+        ?>
     </head>
     <body class="skin-blue">
         <!-- header logo: style can be found in header.less -->
@@ -93,34 +93,34 @@ echo $scripts_for_layout;
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
         <footer class="footer" style="margin-left: auto;margin-right: auto; margin-bottom: 15px;">
-<div class="row" align="center">
+            <div class="row" align="center">
                 <hr />
                 <?php echo $this->Html->link('江明宗 . 政 . 路過', 'http://k.olc.tw/', array('target' => '_blank')); ?>
-            / <?php echo $this->Html->link('關於本站', '/pages/about'); ?>
-<?php
-if(isset($apiRoute)) {
-    echo ' / ' . $this->Html->link('本頁 API', $apiRoute, array('target' => '_blank'));
-}
-?>
-</div>
-            </footer>
+                / <?php echo $this->Html->link('關於本站', '/pages/about'); ?>
+                <?php
+                if (isset($apiRoute)) {
+                    echo ' / ' . $this->Html->link('本頁 API', $apiRoute, array('target' => '_blank'));
+                }
+                ?>
+            </div>
+        </footer>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" type="text/javascript"></script>
-<?php
-echo $this->Html->script('jquery-ui');
-echo $this->Html->script('olc');
-echo $this->Html->script('app');
-echo $this->Html->script('zhutil.min');
-echo $this->element('sql_dump');
-?>
-<script type="text/javascript">
-//<![CDATA[
-$(function () {
-    $('a.btn-find').click(function () {
-        var keyword = $('input#keyword').val();
-        if (keyword !== '') {
-            location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
+        <?php
+        echo $this->Html->script('jquery-ui');
+        echo $this->Html->script('olc');
+        echo $this->Html->script('app');
+        echo $this->Html->script('zhutil.min');
+        echo $this->element('sql_dump');
+        ?>
+        <script type="text/javascript">
+            //<![CDATA[
+            $(function () {
+                $('a.btn-find').click(function () {
+                    var keyword = $('input#keyword').val();
+                    if (keyword !== '') {
+                        location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
                     }
                     return false;
                 });
