@@ -9,13 +9,13 @@ class ImportShell extends AppShell {
     public $key2code = array();
 
     public function main() {
-        //$this->dumpDbKeys();
+        $this->dumpDbKeys();
         //$this->importDrug();
         //$this->importPrice();
-        $this->importImage();
-        $this->importBox();
-        $this->importIngredients();
-        $this->importATC();
+        //$this->importImage();
+        //$this->importBox();
+        //$this->importIngredients();
+        //$this->importATC();
     }
 
     public function renameDrugImages() {
@@ -500,7 +500,8 @@ class ImportShell extends AppShell {
 
     public function dumpDbKeys() {
         $drugs = $this->License->Drug->find('all', array(
-            'fields' => array('id', 'license_uuid', 'license_id', 'manufacturer', 'manufacturer_address', 'manufacturer_description'),
+            'fields' => array('id', 'license_uuid', 'license_id', 'manufacturer',
+                'manufacturer_address', 'manufacturer_description'),
             'order' => array('Drug.license_id' => 'ASC'),
         ));
         $fh = fopen(__DIR__ . '/data/drugs.csv', 'w');
@@ -522,6 +523,17 @@ class ImportShell extends AppShell {
         }
         fclose($fh);
         fclose($fhL);
+        $ingredients = $this->License->Ingredient->find('all', array(
+            'fields' => array('id', 'name'),
+            'order' => array('Ingredient.name' => 'ASC'),
+        ));
+        $fh = fopen(__DIR__ . '/data/ingredients.csv', 'w');
+        foreach ($ingredients AS $ingredient) {
+            fputcsv($fh, array(
+                $ingredient['Ingredient']['name'],
+                $ingredient['Ingredient']['id'],
+            ));
+        }
     }
 
     public function importDrug() {
