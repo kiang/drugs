@@ -81,6 +81,39 @@
                                 <i class="fa pull-right"></i>
                             </a>
                         </li>
+                        <?php
+                        switch (Configure::read('loginMember.group_id')) {
+                            case '0':
+                                ?><li>
+                                    <a href="<?php echo $this->Html->url('/members/login'); ?>">
+                                        <i class="fa fa-user"></i>
+                                        <span>會員登入</span>
+                                        <i class="fa pull-right"></i>
+                                    </a>
+                                </li><?php
+                                break;
+                            case '1':
+                                ?>
+                                <li class="treeview">
+                                    <a href="#">
+                                        <i class="fa fa-newspaper-o"></i> <span>會員管理</span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a href="<?php echo $this->Html->url('/admin/members/index'); ?>"><i class="fa fa-angle-double-right"></i> 會員</a></li>
+                                        <li><a href="<?php echo $this->Html->url('/admin/groups/index'); ?>"><i class="fa fa-angle-double-right"></i> 群組</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="<?php echo $this->Html->url('/members/logout'); ?>">
+                                        <i class="fa fa-sign-out"></i>
+                                        <span>會員登出</span>
+                                        <i class="fa pull-right"></i>
+                                    </a>
+                                </li>
+                                <?php
+                                break;
+                        }
+                        ?>
                     </ul>
                 </section>
                 <!-- /.sidebar -->

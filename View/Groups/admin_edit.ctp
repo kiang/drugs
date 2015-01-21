@@ -1,17 +1,30 @@
-<div class="groups form">
-    <?php echo $this->Form->create('Group'); ?>
-    <fieldset>
-        <legend><?php echo __('Edit group', true); ?></legend>
-        <?php
-        echo $this->Form->input('id');
-        echo $this->Form->input('name', array('label' => __('Name', true)));
-        ?>
-    </fieldset>
-    <?php echo $this->Form->end(__('Submit', true)); ?>
-</div>
-<div class="actions">
-    <ul>
-        <li><?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $this->Form->value('Group.id')), null, sprintf(__('Are you sure you want to delete # %s?', true), $this->Form->value('Group.id'))); ?></li>
-        <li><?php echo $this->Html->link(__('List', true), array('action' => 'index', $this->Form->value('Group.parent_id'))); ?></li>
-    </ul>
-</div>
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1><?php echo __('Edit group', true); ?></h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                </div>
+                <div class="box-body">
+                    <div class="groups form">
+                        <?php echo $this->Form->create('Group'); ?>
+                        <fieldset>
+                            <?php
+                            echo $this->Form->input('id');
+                            echo $this->Form->input('name', array('label' => __('Name', true)));
+                            ?>
+                        </fieldset>
+                        <?php echo $this->Form->end(__('Submit', true)); ?>
+                    </div>
+                </div>
+                <div class="box-footer clearfix">
+                </div>
+            </div>
+        </div>
+    </div>
+</section><!-- /.content -->
