@@ -6,14 +6,12 @@ class CronShell extends AppShell {
     public $mysqli = false;
 
     public function main() {
-        $this->updateCounter();
+        $this->updateCounter(strtotime('-1 day'));
     }
 
-    public function updateCounter() {
+    public function updateCounter($theDay) {
         $db = ConnectionManager::getDataSource('default');
         $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
-        $theDay = strtotime('-1 day');
-        $theDay = time();
         $basePath = TMP . 'counters/' . date('Ymd', $theDay);
         if (!file_exists("{$basePath}/License/run_check")) {
             file_put_contents("{$basePath}/License/run_check", '0');
