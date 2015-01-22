@@ -26,7 +26,7 @@ class CronShell extends AppShell {
                 ksort($idParts);
                 $id = implode('-', $idParts);
                 $counter = filesize($counterFile);
-                $this->mysqli->query("UPDATE licenses SET count_daily = count_daily + {$counter}, count_all = count_all + {$counter} WHERE id = '{$id}'");
+                $this->mysqli->query("UPDATE licenses SET count_daily = {$counter}, count_all = count_all + {$counter} WHERE id = '{$id}'");
             }
         }
         if (!file_exists("{$basePath}/Ingredient/run_check")) {
@@ -40,7 +40,7 @@ class CronShell extends AppShell {
                 ksort($idParts);
                 $id = implode('-', $idParts);
                 $counter = filesize($counterFile);
-                $this->mysqli->query("UPDATE ingredients SET count_daily = count_daily + {$counter}, count_all = count_all + {$counter} WHERE id = '{$id}'");
+                $this->mysqli->query("UPDATE ingredients SET count_daily = {$counter}, count_all = count_all + {$counter} WHERE id = '{$id}'");
             }
         }
         if (!file_exists("{$basePath}/Category/run_check")) {
@@ -49,7 +49,7 @@ class CronShell extends AppShell {
                 $pathParts = explode('/', $counterFile);
                 $id = array_pop($pathParts);
                 $counter = filesize($counterFile);
-                $this->mysqli->query("UPDATE categories SET count_daily = count_daily + {$counter}, count_all = count_all + {$counter} WHERE id = '{$id}'");
+                $this->mysqli->query("UPDATE categories SET count_daily = {$counter}, count_all = count_all + {$counter} WHERE id = '{$id}'");
             }
         }
     }
