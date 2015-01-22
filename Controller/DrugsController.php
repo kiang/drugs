@@ -48,14 +48,18 @@ class DrugsController extends AppController {
                 mkdir($counterPath, 0777, true);
             }
             file_put_contents($counterFile, '0', FILE_APPEND);
-            
+
             $scope = array(
                 'Category.lft >=' => $category['Category']['lft'],
                 'Category.rght <=' => $category['Category']['rght'],
             );
             $this->paginate['License'] = array(
                 'limit' => 20,
-                'order' => array('License.submitted' => 'DESC'),
+                'order' => array(
+                    'License.count_daily' => 'DESC',
+                    'License.count_all' => 'DESC',
+                    'License.submitted' => 'DESC',
+                ),
                 'joins' => array(
                     array(
                         'table' => 'categories_licenses',
@@ -126,7 +130,11 @@ class DrugsController extends AppController {
         $this->paginate['Drug'] = array(
             'limit' => 20,
             'contain' => array('License'),
-            'order' => array('License.submitted' => 'DESC'),
+            'order' => array(
+                'License.count_daily' => 'DESC',
+                'License.count_all' => 'DESC',
+                'License.submitted' => 'DESC',
+            ),
         );
         $this->set('url', array($name));
         $title = '';
@@ -161,7 +169,11 @@ class DrugsController extends AppController {
         $this->paginate['Drug'] = array(
             'limit' => 20,
             'contain' => array('License'),
-            'order' => array('License.submitted' => 'DESC'),
+            'order' => array(
+                'License.count_daily' => 'DESC',
+                'License.count_all' => 'DESC',
+                'License.submitted' => 'DESC',
+            ),
         );
         $this->set('url', array($name));
         $title = '';

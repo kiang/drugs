@@ -53,7 +53,11 @@ class IngredientsController extends AppController {
         }
         $this->paginate['Ingredient'] = array(
             'limit' => 20,
-            'order' => array('Ingredient.count_licenses' => 'DESC'),
+            'order' => array(
+                'Ingredient.count_daily' => 'DESC',
+                'Ingredient.count_all' => 'DESC',
+                'Ingredient.count_licenses' => 'DESC',
+            ),
         );
         $this->set('url', array($name));
         $title = '';
@@ -78,7 +82,7 @@ class IngredientsController extends AppController {
                 mkdir($counterPath, 0777, true);
             }
             file_put_contents($counterFile, '0', FILE_APPEND);
-            
+
             $this->set('ingredient', $ingredient);
             $this->paginate['License'] = array(
                 'fields' => array(
