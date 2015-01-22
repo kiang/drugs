@@ -72,6 +72,13 @@ class IngredientsController extends AppController {
             ));
         }
         if (!empty($ingredient)) {
+            $counterFile = TMP . 'counters/' . date('Ymd') . '/Ingredient/' . implode('/', explode('-', $id));
+            $counterPath = dirname($counterFile);
+            if (!file_exists($counterPath)) {
+                mkdir($counterPath, 0777, true);
+            }
+            file_put_contents($counterFile, '0', FILE_APPEND);
+            
             $this->set('ingredient', $ingredient);
             $this->paginate['License'] = array(
                 'fields' => array(

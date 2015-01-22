@@ -109,8 +109,12 @@ CREATE TABLE `categories` (
   `name_chinese` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '中文名稱',
   `lft` int(10) NOT NULL COMMENT '左索引',
   `rght` int(10) NOT NULL COMMENT '右索引',
+  `count_daily` int(11) NOT NULL DEFAULT '0',
+  `count_all` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `lft` (`lft`,`rght`)
+  KEY `lft` (`lft`,`rght`),
+  KEY `count_daily` (`count_daily`),
+  KEY `count_all` (`count_all`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4044 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -195,7 +199,11 @@ CREATE TABLE `ingredients` (
   `id` binary(36) NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `count_licenses` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  `count_daily` int(11) NOT NULL DEFAULT '0',
+  `count_all` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `count_daily` (`count_daily`),
+  KEY `count_all` (`count_all`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -263,7 +271,11 @@ CREATE TABLE `licenses` (
   `usage` text COLLATE utf8mb4_unicode_ci COMMENT '用法用量',
   `package_note` text COLLATE utf8mb4_unicode_ci COMMENT '包裝',
   `barcode` varchar(64) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '國際條碼',
-  PRIMARY KEY (`id`)
+  `count_daily` int(11) NOT NULL DEFAULT '0',
+  `count_all` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `count_daily` (`count_daily`),
+  KEY `count_all` (`count_all`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -334,4 +346,4 @@ CREATE TABLE `prices` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-01-21 16:40:29
+-- Dump completed on 2015-01-22 10:49:35

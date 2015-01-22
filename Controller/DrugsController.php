@@ -42,6 +42,13 @@ class DrugsController extends AppController {
             ));
         }
         if (!empty($category)) {
+            $counterFile = TMP . 'counters/' . date('Ymd') . '/Category/' . $categoryId;
+            $counterPath = dirname($counterFile);
+            if (!file_exists($counterPath)) {
+                mkdir($counterPath, 0777, true);
+            }
+            file_put_contents($counterFile, '0', FILE_APPEND);
+            
             $scope = array(
                 'Category.lft >=' => $category['Category']['lft'],
                 'Category.rght <=' => $category['Category']['rght'],
@@ -179,10 +186,13 @@ class DrugsController extends AppController {
                 ),
             ));
         }
-        if (empty($this->data)) {
-            $this->Session->setFlash(__('Please do following links in the page', true));
-            $this->redirect(array('action' => 'index'));
-        } else {
+        if (!empty($this->data)) {
+            $counterFile = TMP . 'counters/' . date('Ymd') . '/License/' . implode('/', explode('-', $this->data['Drug']['license_uuid']));
+            $counterPath = dirname($counterFile);
+            if (!file_exists($counterPath)) {
+                mkdir($counterPath, 0777, true);
+            }
+            file_put_contents($counterFile, '0', FILE_APPEND);
             $categoryNames = array();
             foreach ($this->data['License']['Category'] AS $k => $category) {
                 $categoryNames[$category['CategoriesLicense']['category_id']] = $this->Drug->License->Category->getPath($category['CategoriesLicense']['category_id'], array('id', 'name'));
@@ -224,6 +234,9 @@ class DrugsController extends AppController {
                         ),
             )));
             $this->set('categoryNames', $categoryNames);
+        } else {
+            $this->Session->setFlash(__('Please do following links in the page', true));
+            $this->redirect(array('action' => 'index'));
         }
     }
 
