@@ -13,7 +13,7 @@ class Drug extends AppModel {
      *
      * @var string
      */
-    public $displayField = 'name';
+    public $displayField = 'license_id';
 
 
     //The Associations below have been created with all possible keys, those that are not needed can be removed
