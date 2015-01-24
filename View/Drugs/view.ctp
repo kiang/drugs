@@ -122,8 +122,9 @@
                 } else {
                     echo $this->Html->link($ingredient, '/drugs/index/' . $ingredient, array('class' => 'btn btn-default'));
                 }
+                echo '&nbsp;';
             }
-            ?>&nbsp;
+            ?>
 
 
                             </dd>
