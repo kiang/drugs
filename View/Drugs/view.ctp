@@ -12,7 +12,7 @@
     <div id="DrugsView" class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-body no-padding">
+                <div class="box-body">
                     <?php if (!empty($this->data['License']['image'])) { ?>
                     <div class="row">
                         <img src="<?php echo $this->Html->url('/') . $this->data['License']['image']; ?>" class="img-thumbnail col-md-4" />
