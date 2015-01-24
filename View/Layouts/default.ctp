@@ -18,6 +18,11 @@
         echo $this->Html->css('jquery-ui');
         echo $this->Html->css('AdminLTE');
         echo $this->Html->css('default');
+        ?>
+        <style type="text/css">
+            .table>tbody>tr>td { vertical-align:middle; }
+        </style>
+        <?php
         echo $scripts_for_layout;
         ?>
     </head>
