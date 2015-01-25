@@ -21,6 +21,7 @@
         ?>
         <style type="text/css">
             .table>tbody>tr>td { vertical-align:middle; }
+            .dl-horizontal>dt {padding-top:6.5px}
         </style>
         <?php
         echo $scripts_for_layout;
