@@ -32,7 +32,7 @@ class AppModel extends Model {
             Cache::write($cacheKey, 1);
         }
 
-        if ((int) $cachedCounter >= 3) {
+        if ((int) $cachedCounter >= 10) {
             Cache::write($cacheKey, 1);
             $this->updateAll(array(
                 'count_daily' => "count_daily + {$cachedCounter}",
