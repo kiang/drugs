@@ -42,12 +42,7 @@ class DrugsController extends AppController {
             ));
         }
         if (!empty($category)) {
-            $counterFile = TMP . 'counters/' . date('Ymd') . '/Category/' . $categoryId;
-            $counterPath = dirname($counterFile);
-            if (!file_exists($counterPath)) {
-                mkdir($counterPath, 0777, true);
-            }
-            file_put_contents($counterFile, '0', FILE_APPEND);
+            $this->Drug->License->Category->counterIncrement($categoryId);
 
             $scope = array(
                 'Category.lft >=' => $category['Category']['lft'],
@@ -199,12 +194,7 @@ class DrugsController extends AppController {
             ));
         }
         if (!empty($this->data)) {
-            $counterFile = TMP . 'counters/' . date('Ymd') . '/License/' . implode('/', explode('-', $this->data['Drug']['license_uuid']));
-            $counterPath = dirname($counterFile);
-            if (!file_exists($counterPath)) {
-                mkdir($counterPath, 0777, true);
-            }
-            file_put_contents($counterFile, '0', FILE_APPEND);
+            $this->Drug->License->counterIncrement($this->data['Drug']['license_uuid']);
             $categoryNames = array();
             foreach ($this->data['License']['Category'] AS $k => $category) {
                 $categoryNames[$category['CategoriesLicense']['category_id']] = $this->Drug->License->Category->getPath($category['CategoriesLicense']['category_id'], array('id', 'name'));

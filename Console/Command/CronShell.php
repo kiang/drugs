@@ -6,7 +6,7 @@ class CronShell extends AppShell {
     public $mysqli = false;
 
     public function main() {
-        $this->updateCounter(strtotime('-1 day'));
+        
     }
 
     public function updateCounter($theDay) {
