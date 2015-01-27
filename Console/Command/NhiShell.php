@@ -5,6 +5,22 @@ class NhiShell extends AppShell {
     public $uses = array('License');
 
     public function main() {
+        $this->hospitals();
+    }
+
+    public function hospitals() {
+        $tmpPath = TMP . 'nhi/hospitals';
+        if (!file_exists($tmpPath)) {
+            mkdir($tmpPath, 0777, true);
+        }
+        $listUrl = 'http://www.nhi.gov.tw/Query/query3_list.aspx?&PageNum=30200';
+        $listFile = $tmpPath . '/list';
+        if (!file_exists($listFile)) {
+            file_put_contents($listFile, file_get_contents($listUrl));
+        }
+    }
+
+    public function drug_rank() {
         $tmpPath = TMP . 'nhi';
         if (!file_exists($tmpPath)) {
             mkdir($tmpPath, 0777, true);

@@ -9,13 +9,200 @@ class ImportShell extends AppShell {
     public $key2code = array();
 
     public function main() {
-        $this->dumpDbKeys();
+        //$this->dumpDbKeys();
         //$this->importDrug();
         //$this->importPrice();
         //$this->importImage();
         //$this->importBox();
         //$this->importIngredients();
         //$this->importATC();
+        $this->importPoints();
+    }
+
+    public function importPoints() {
+        $db = ConnectionManager::getDataSource('default');
+        $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
+        $this->dbQuery('SET NAMES utf8mb4;');
+        $fields = array('機構狀態', '機構名稱', '地址縣市別', '地址鄉鎮市區', '地址街道巷弄號', '負責人姓名', '負責人性別', '電話', '是否為健保特約藥局', '');
+
+        $fh = fopen(__DIR__ . '/data/hospitals/clinic.csv', 'r');
+        $sn = 1;
+        $valueStack = array();
+        fgets($fh, 512);
+        while ($line = fgetcsv($fh, 2048)) {
+            foreach ($line AS $k => $v) {
+                $line[$k] = trim(mb_convert_encoding($v, 'utf-8', 'big5'));
+                $line[$k] = $this->mysqli->real_escape_string($line[$k]);
+            }
+            preg_match('(縣|市)', $line[2], $matches, PREG_OFFSET_CAPTURE);
+            if (!empty($matches[0][1])) {
+                $city = substr($line[2], 0, $matches[0][1] + 3);
+                $line[2] = substr($line[2], $matches[0][1] + 3);
+            } else {
+                print_r($line);
+                exit();
+            }
+            preg_match('(鄉|鎮|區|市)', $line[2], $matches, PREG_OFFSET_CAPTURE);
+            if (!empty($matches[0][1])) {
+                $town = substr($line[2], 0, $matches[0][1] + 3);
+                switch ($town) {
+                    case '前鎮':
+                        $town = substr($line[2], 0, $matches[0][1] + 6);
+                        $line[2] = substr($line[2], $matches[0][1] + 6);
+                        break;
+                    case '平鎮':
+                        $town = substr($line[2], 0, $matches[0][1] + 6);
+                        $line[2] = substr($line[2], $matches[0][1] + 6);
+                        break;
+                    default:
+                        $line[2] = substr($line[2], $matches[0][1] + 3);
+                }
+            } else {
+                if (substr($line[2], 0, 9) === '太麻里') {
+                    $town = '太麻里鄉';
+                    $line[2] = substr($line[2], 9);
+                } else {
+                    print_r($line);
+                    exit();
+                }
+            }
+
+            $currentId = String::uuid();
+            $valueStack[] = implode(',', array(
+                "('{$currentId}'", //id
+                "'clinic'", //type
+                "'開業'", //status
+                "'{$line[0]}'", //name
+                "'{$city}'", //city
+                "'{$town}'", //town
+                "'{$line[2]}'", //address
+                "NULL", //longitude
+                "NULL", //latitude
+                "''", //owner
+                "''", //owner_gender
+                "'{$line[1]}'", //phone
+                "1)", //is_nhc
+            ));
+            ++$sn;
+            if ($sn > 50) {
+                $sn = 1;
+                $this->dbQuery('INSERT INTO `points` VALUES ' . implode(',', $valueStack) . ';');
+                $valueStack = array();
+            }
+        }
+        if (!empty($valueStack)) {
+            $this->dbQuery('INSERT INTO `points` VALUES ' . implode(',', $valueStack) . ';');
+        }
+        fclose($fh);
+
+        $fh = fopen(__DIR__ . '/data/hospitals/hospital.csv', 'r');
+        $sn = 1;
+        $valueStack = array();
+        fgets($fh, 512);
+        while ($line = fgetcsv($fh, 2048)) {
+            foreach ($line AS $k => $v) {
+                $line[$k] = trim(mb_convert_encoding($v, 'utf-8', 'big5'));
+                $line[$k] = $this->mysqli->real_escape_string($line[$k]);
+            }
+            preg_match('(縣|市)', $line[2], $matches, PREG_OFFSET_CAPTURE);
+            if (!empty($matches[0][1])) {
+                $city = substr($line[2], 0, $matches[0][1] + 3);
+                $line[2] = substr($line[2], $matches[0][1] + 3);
+            } else {
+                print_r($line);
+                exit();
+            }
+            preg_match('(鄉|鎮|區|市)', $line[2], $matches, PREG_OFFSET_CAPTURE);
+            if (!empty($matches[0][1])) {
+                $town = substr($line[2], 0, $matches[0][1] + 3);
+                switch ($town) {
+                    case '前鎮':
+                        $town = substr($line[2], 0, $matches[0][1] + 6);
+                        $line[2] = substr($line[2], $matches[0][1] + 6);
+                        break;
+                    case '平鎮':
+                        $town = substr($line[2], 0, $matches[0][1] + 6);
+                        $line[2] = substr($line[2], $matches[0][1] + 6);
+                        break;
+                    default:
+                        $line[2] = substr($line[2], $matches[0][1] + 3);
+                }
+            } else {
+                print_r($line);
+                exit();
+            }
+            $currentId = String::uuid();
+            $valueStack[] = implode(',', array(
+                "('{$currentId}'", //id
+                "'hospital'", //type
+                "'開業'", //status
+                "'{$line[0]}'", //name
+                "'{$city}'", //city
+                "'{$town}'", //town
+                "'{$line[2]}'", //address
+                "NULL", //longitude
+                "NULL", //latitude
+                "''", //owner
+                "''", //owner_gender
+                "'{$line[1]}'", //phone
+                "'1')", //is_nhc
+            ));
+            ++$sn;
+            if ($sn > 50) {
+                $sn = 1;
+                $this->dbQuery('INSERT INTO `points` VALUES ' . implode(',', $valueStack) . ';');
+                $valueStack = array();
+            }
+        }
+        if (!empty($valueStack)) {
+            $this->dbQuery('INSERT INTO `points` VALUES ' . implode(',', $valueStack) . ';');
+        }
+        fclose($fh);
+
+        $fh = fopen($this->dataPath . '/dataset/35.csv', 'r');
+        $sn = 1;
+        $valueStack = array();
+        while ($line = fgetcsv($fh, 2048, "\t")) {
+            foreach ($line AS $k => $v) {
+                $line[$k] = trim($v);
+            }
+            $currentId = String::uuid();
+            if ($line[6] === '男') {
+                $line[6] = 'm';
+            } else {
+                $line[6] = 'f';
+            }
+            if ($line[8] === '是') {
+                $line[8] = '1';
+            } else {
+                $line[8] = '0';
+            }
+            $valueStack[] = implode(',', array(
+                "('{$currentId}'", //id
+                "'drug'", //type
+                "'{$line[0]}'", //status
+                "'{$line[1]}'", //name
+                "'{$line[2]}'", //city
+                "'{$line[3]}'", //town
+                "'{$line[4]}'", //address
+                "NULL", //longitude
+                "NULL", //latitude
+                "'{$line[5]}'", //owner
+                "'{$line[6]}'", //owner_gender
+                "'{$line[7]}'", //phone
+                "'{$line[8]}')", //is_nhc
+            ));
+            ++$sn;
+            if ($sn > 50) {
+                $sn = 1;
+                $this->dbQuery('INSERT INTO `points` VALUES ' . implode(',', $valueStack) . ';');
+                $valueStack = array();
+            }
+        }
+        if (!empty($valueStack)) {
+            $this->dbQuery('INSERT INTO `points` VALUES ' . implode(',', $valueStack) . ';');
+        }
+        fclose($fh);
     }
 
     public function renameDrugImages() {
