@@ -12,19 +12,47 @@
                 </div>
                 <div class="box-body">
                     <?php echo $this->Form->create('Article'); ?>
-                    <fieldset>
-                        <?php
-                        echo $this->Form->input('title');
-                        echo $this->Form->input('body');
-                        echo $this->Form->input('url');
-                        echo $this->Form->input('License');
-                        echo $this->Form->input('Ingredient');
-                        echo $this->Form->input('Point');
-                        ?>
-                    </fieldset>
+                    <?php
+                    echo $this->Form->input('title', array(
+                        'type' => 'text',
+                        'div' => 'form-group',
+                        'label' => '標題',
+                        'class' => 'form-control',
+                        'placeholder' => '標題',
+                    ));
+                    echo $this->Form->input('body', array(
+                        'type' => 'textarea',
+                        'div' => 'form-group',
+                        'label' => '內容',
+                        'class' => 'form-control',
+                        'placeholder' => '內容',
+                    ));
+                    echo $this->Form->input('url', array(
+                        'type' => 'text',
+                        'div' => 'form-group',
+                        'label' => '外部網址',
+                        'class' => 'form-control',
+                        'placeholder' => '外部網址',
+                    ));
+                    ?>
+                    <div class="form-group">
+                        <label for="relatedDrug">相關藥物</label>
+                        <ul id="relatedDrug"></ul>
+                    </div>
+                    <div class="form-group">
+                        <label for="relatedIngredient">相關成份</label>
+                        <ul id="relatedIngredient"></ul>
+                    </div>
+                    <div class="form-group">
+                        <label for="relatedPoint">相關醫療院所</label>
+                        <ul id="relatedPoint"></ul>
+                    </div>
                     <?php echo $this->Form->end(__('Submit')); ?>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<?php
+echo $this->Html->script('c/articles/admin_add', array('inline' => false));
+?>

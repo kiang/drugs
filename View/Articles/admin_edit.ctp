@@ -12,20 +12,66 @@
                 </div>
                 <div class="box-body">
                     <?php echo $this->Form->create('Article'); ?>
-                    <fieldset>
-                        <?php
-                        echo $this->Form->input('id');
-                        echo $this->Form->input('title');
-                        echo $this->Form->input('body');
-                        echo $this->Form->input('url');
-                        echo $this->Form->input('License');
-                        echo $this->Form->input('Ingredient');
-                        echo $this->Form->input('Point');
-                        ?>
-                    </fieldset>
+                    <?php
+                    echo $this->Form->hidden('id');
+                    echo $this->Form->input('title', array(
+                        'type' => 'text',
+                        'div' => 'form-group',
+                        'label' => '標題',
+                        'class' => 'form-control',
+                        'placeholder' => '標題',
+                    ));
+                    echo $this->Form->input('body', array(
+                        'type' => 'textarea',
+                        'div' => 'form-group',
+                        'label' => '內容',
+                        'class' => 'form-control',
+                        'placeholder' => '內容',
+                    ));
+                    echo $this->Form->input('url', array(
+                        'type' => 'text',
+                        'div' => 'form-group',
+                        'label' => '外部網址',
+                        'class' => 'form-control',
+                        'placeholder' => '外部網址',
+                    ));
+                    ?>
+                    <div class="form-group">
+                        <label for="relatedDrug">相關藥物</label>
+                        <ul id="relatedDrug"><?php
+                            if (!empty($this->data['Drug'])) {
+                                foreach ($this->data['Drug'] AS $itemId) {
+                                    echo "<li>{$itemId}</li>";
+                                }
+                            }
+                            ?></ul>
+                    </div>
+                    <div class="form-group">
+                        <label for="relatedIngredient">相關成份</label>
+                        <ul id="relatedIngredient"><?php
+                            if (!empty($this->data['Ingredient'])) {
+                                foreach ($this->data['Ingredient'] AS $itemId) {
+                                    echo "<li>{$itemId}</li>";
+                                }
+                            }
+                            ?></ul>
+                    </div>
+                    <div class="form-group">
+                        <label for="relatedPoint">相關醫療院所</label>
+                        <ul id="relatedPoint"><?php
+                            if (!empty($this->data['Point'])) {
+                                foreach ($this->data['Point'] AS $itemId) {
+                                    echo "<li>{$itemId}</li>";
+                                }
+                            }
+                            ?></ul>
+                    </div>
                     <?php echo $this->Form->end(__('Submit')); ?>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<?php
+echo $this->Html->script('c/articles/admin_edit', array('inline' => false));
+?>

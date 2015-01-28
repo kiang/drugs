@@ -14,8 +14,9 @@
         ?>
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
         <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
         <?php
-        echo $this->Html->css('jquery-ui');
+        echo $this->Html->css('jquery-tagit');
         echo $this->Html->css('AdminLTE');
         echo $this->Html->css('default');
         ?>
@@ -23,6 +24,9 @@
             .table>tbody>tr>td { vertical-align:middle; }
             .dl-horizontal>dt {padding-top:6.5px}
         </style>
+        <script>
+            var baseUrl = '<?php echo $this->Html->url('/'); ?>';
+        </script>
         <?php
         echo $scripts_for_layout;
         ?>
@@ -154,12 +158,11 @@
         </footer>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" type="text/javascript"></script>
         <?php
-        echo $this->Html->script('jquery-ui');
-        echo $this->Html->script('olc');
         echo $this->Html->script('app');
-        echo $this->Html->script('zhutil.min');
+        echo $this->Html->script('tag-it.min');
         echo $this->element('sql_dump');
         ?>
         <script type="text/javascript">
@@ -202,5 +205,6 @@
 
             </script>
         <?php } ?>
+        <?php echo $this->fetch('script'); ?>
     </body>
 </html>

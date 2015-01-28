@@ -22,7 +22,7 @@ class DrugsController extends ApiAppController {
             );
             $this->paginate['Drug'] = array(
                 'limit' => 20,
-                'order' => array('Drug.submitted' => 'DESC'),
+                'order' => array('License.submitted' => 'DESC'),
                 'joins' => array(
                     array(
                         'table' => 'categories_licenses',
@@ -86,7 +86,7 @@ class DrugsController extends ApiAppController {
         $this->paginate['Drug'] = array(
             'limit' => 20,
             'contain' => array('License'),
-            'order' => array('Drug.submitted' => 'DESC'),
+            'order' => array('License.submitted' => 'DESC'),
         );
         $items = $this->paginate($this->Drug, $scope);
         foreach ($items AS $k => $v) {
@@ -112,12 +112,12 @@ class DrugsController extends ApiAppController {
             foreach ($keywords AS $keyword) {
                 if (++$keywordCount < 5) {
                     $scope[]['OR'] = array(
-                        'Drug.name LIKE' => "%{$keyword}%",
-                        'Drug.name_english LIKE' => "%{$keyword}%",
                         'Drug.license_id LIKE' => "%{$keyword}%",
-                        'Drug.vendor LIKE' => "%{$keyword}%",
                         'Drug.manufacturer LIKE' => "%{$keyword}%",
-                        'Drug.ingredient LIKE' => "%{$keyword}%",
+                        'License.name LIKE' => "%{$keyword}%",
+                        'License.name_english LIKE' => "%{$keyword}%",
+                        'License.vendor LIKE' => "%{$keyword}%",
+                        'License.ingredient LIKE' => "%{$keyword}%",
                         'License.nhi_id LIKE' => "%{$keyword}%",
                     );
                 }
@@ -126,7 +126,7 @@ class DrugsController extends ApiAppController {
         $this->paginate['Drug'] = array(
             'limit' => 20,
             'contain' => array('License'),
-            'order' => array('Drug.submitted' => 'DESC'),
+            'order' => array('License.submitted' => 'DESC'),
         );
         $items = $this->paginate($this->Drug, $scope);
         foreach ($items AS $k => $v) {
@@ -160,6 +160,31 @@ class DrugsController extends ApiAppController {
             ));
             if (!empty($this->jsonData['License']['image'])) {
                 $this->jsonData['License']['image'] = Router::url('/' . $this->jsonData['License']['image'], true);
+            }
+        }
+    }
+
+    public function auto() {
+        $this->jsonData = array();
+        if (!empty($_GET['term'])) {
+            $keyword = trim(Sanitize::clean($_GET['term']));
+            $items = $this->Drug->find('all', array(
+                'contain' => array('License'),
+                'fields' => array('Drug.id', 'Drug.license_id', 'License.name', 'License.name_english'),
+                'conditions' => array(
+                    'OR' => array(
+                        'License.name LIKE' => "%{$keyword}%",
+                        'License.name_english LIKE' => "%{$keyword}%",
+                        'Drug.license_id LIKE' => "%{$keyword}%",
+                    ),
+                ),
+                'limit' => 20,
+            ));
+            foreach($items AS $item) {
+                $this->jsonData[] = array(
+                    'label' => "[{$item['Drug']['license_id']}]{$item['License']['name']}({$item['License']['name_english']})",
+                    'value' => $item['Drug']['id'],
+                );
             }
         }
     }

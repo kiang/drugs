@@ -91,6 +91,23 @@ CREATE TABLE `articles` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `articles_links`
+--
+
+DROP TABLE IF EXISTS `articles_links`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `articles_links` (
+  `id` binary(36) NOT NULL,
+  `article_id` binary(36) NOT NULL,
+  `model` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `foreign_id` binary(36) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `article_id` (`article_id`,`model`,`foreign_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `attachments`
 --
 
@@ -389,4 +406,4 @@ CREATE TABLE `prices` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-01-28  0:51:43
+-- Dump completed on 2015-01-28 17:32:38

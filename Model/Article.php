@@ -36,5 +36,12 @@ class Article extends AppModel {
             'className' => 'Point',
         ),
     );
+    var $hasMany = array(
+        'ArticlesLink' => array(
+            'foreignKey' => 'article_id',
+            'className' => 'ArticlesLink',
+            'dependent' => true,
+        ),
+    );
 
 }

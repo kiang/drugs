@@ -26,20 +26,22 @@ class AppModel extends Model {
     public $recursive = -1;
 
     public function counterIncrement($id) {
-        $cacheKey = "{$this->name}/Counter/{$id}";
-        $cachedCounter = Cache::read($cacheKey);
-        if (false === Cache::increment($cacheKey) || false === $cachedCounter) {
-            Cache::write($cacheKey, 1);
-        }
+        if (Configure::read('debug') === 0) {
+            $cacheKey = "{$this->name}/Counter/{$id}";
+            $cachedCounter = Cache::read($cacheKey);
+            if (false === Cache::increment($cacheKey) || false === $cachedCounter) {
+                Cache::write($cacheKey, 1);
+            }
 
-        if ((int) $cachedCounter >= 10) {
-            Cache::write($cacheKey, 1);
-            $this->updateAll(array(
-                'count_daily' => "count_daily + {$cachedCounter}",
-                'count_all' => "count_all + {$cachedCounter}",
-                    ), array(
-                "{$this->name}.id" => $id,
-            ));
+            if ((int) $cachedCounter >= 10) {
+                Cache::write($cacheKey, 1);
+                $this->updateAll(array(
+                    'count_daily' => "count_daily + {$cachedCounter}",
+                    'count_all' => "count_all + {$cachedCounter}",
+                        ), array(
+                    "{$this->name}.id" => $id,
+                ));
+            }
         }
     }
 

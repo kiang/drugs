@@ -1,4 +1,5 @@
 <?php
+
 App::uses('AppController', 'Controller');
 
 /**
@@ -23,8 +24,42 @@ class ArticlesController extends AppController {
 
     public function admin_add() {
         if (!empty($this->request->data)) {
+            $this->request->data['ArticlesLink'] = array();
+            if (!empty($this->request->data['Drug'])) {
+                $licenses = $this->Article->License->Drug->find('list', array(
+                    'fields' => array('Drug.license_uuid', 'Drug.license_uuid'),
+                    'conditions' => array(
+                        'Drug.id' => $this->request->data['Drug'],
+                    ),
+                ));
+                foreach ($licenses AS $licenseId) {
+                    $this->request->data['ArticlesLink'][] = array(
+                        'model' => 'License',
+                        'foreign_id' => $licenseId,
+                    );
+                }
+                unset($this->request->data['Drug']);
+            }
+            if (!empty($this->request->data['Ingredient'])) {
+                foreach ($this->request->data['Ingredient'] AS $ingredientId) {
+                    $this->request->data['ArticlesLink'][] = array(
+                        'model' => 'Ingredient',
+                        'foreign_id' => $ingredientId,
+                    );
+                }
+                unset($this->request->data['Ingredient']);
+            }
+            if (!empty($this->request->data['Point'])) {
+                foreach ($this->request->data['Point'] AS $pointId) {
+                    $this->request->data['ArticlesLink'][] = array(
+                        'model' => 'Point',
+                        'foreign_id' => $pointId,
+                    );
+                }
+                unset($this->request->data['Point']);
+            }
             $this->Article->create();
-            if ($this->Article->save($this->request->data)) {
+            if ($this->Article->saveAll($this->request->data)) {
                 $this->Session->setFlash('資料已經儲存');
                 $this->redirect(array('action' => 'index'));
             } else {
@@ -39,7 +74,44 @@ class ArticlesController extends AppController {
             $this->redirect($this->referer());
         }
         if (!empty($this->request->data)) {
-            if ($this->Article->save($this->request->data)) {
+            $this->request->data['ArticlesLink'] = array();
+            if (!empty($this->request->data['Drug'])) {
+                $licenses = $this->Article->License->Drug->find('list', array(
+                    'fields' => array('Drug.license_uuid', 'Drug.license_uuid'),
+                    'conditions' => array(
+                        'Drug.id' => $this->request->data['Drug'],
+                    ),
+                ));
+                foreach ($licenses AS $licenseId) {
+                    $this->request->data['ArticlesLink'][] = array(
+                        'model' => 'License',
+                        'foreign_id' => $licenseId,
+                    );
+                }
+                unset($this->request->data['Drug']);
+            }
+            if (!empty($this->request->data['Ingredient'])) {
+                foreach ($this->request->data['Ingredient'] AS $ingredientId) {
+                    $this->request->data['ArticlesLink'][] = array(
+                        'model' => 'Ingredient',
+                        'foreign_id' => $ingredientId,
+                    );
+                }
+                unset($this->request->data['Ingredient']);
+            }
+            if (!empty($this->request->data['Point'])) {
+                foreach ($this->request->data['Point'] AS $pointId) {
+                    $this->request->data['ArticlesLink'][] = array(
+                        'model' => 'Point',
+                        'foreign_id' => $pointId,
+                    );
+                }
+                unset($this->request->data['Point']);
+            }
+            $this->Article->ArticlesLink->deleteAll(array(
+                'article_id' => $this->request->data['Article']['id']
+            ));
+            if ($this->Article->saveAll($this->request->data)) {
                 $this->Session->setFlash('資料已經儲存');
                 $this->redirect(array('action' => 'index'));
             } else {
@@ -47,7 +119,20 @@ class ArticlesController extends AppController {
             }
         }
         if (empty($this->request->data)) {
-            $this->request->data = $this->Article->read(null, $id);
+            $this->request->data = $this->Article->find('first', array(
+                'conditions' => array('Article.id' => $id),
+                'contain' => array('ArticlesLink'),
+            ));
+            foreach ($this->request->data['ArticlesLink'] AS $link) {
+                if ($link['model'] === 'License') {
+                    $link['model'] = 'Drug';
+                    $link['foreign_id'] = $this->Article->License->Drug->field('id', array('license_uuid' => $link['foreign_id']));
+                }
+                if (!isset($this->request->data[$link['model']])) {
+                    $this->request->data[$link['model']] = array();
+                }
+                $this->request->data[$link['model']][] = $link['foreign_id'];
+            }
         }
     }
 
@@ -79,39 +164,12 @@ class ArticlesController extends AppController {
         }
     }
 
-    public function admin_link_add($articleId = '', $candidateId = '') {
-        $linkId = $this->Article->CandidatesArticle->field('id', array(
-            'Candidate_id' => $candidateId,
-            'Article_id' => $articleId,
-        ));
-        if (empty($linkId)) {
-            $this->Article->CandidatesArticle->create();
-            $this->Article->CandidatesArticle->save(array('CandidatesArticle' => array(
-                    'Candidate_id' => $candidateId,
-                    'Article_id' => $articleId,
-            )));
-            $this->Article->updateAll(array('Article.count' => 'Article.count + 1'), array('Article.id' => $articleId));
-        }
-        echo 'ok';
-        exit();
-    }
-
-    public function admin_link_delete($linkId = '') {
-        $articleId = $this->Article->CandidatesArticle->field('Article_id', array('id' => $linkId));
-        $this->Article->CandidatesArticle->delete($linkId);
-        if (!empty($articleId)) {
-            $this->Article->updateAll(array('Article.count' => 'Article.count - 1'), array('Article.id' => $articleId));
-        }
-        echo 'ok';
-        exit();
-    }
-
     public function index() {
         $this->paginate['Article']['limit'] = 100;
         $articles = $this->paginate($this->Article);
         $this->set('articles', $articles);
     }
-    
+
     public function view() {
         $this->paginate['Article']['limit'] = 100;
         $articles = $this->paginate($this->Article);

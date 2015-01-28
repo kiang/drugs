@@ -84,4 +84,24 @@ class IngredientsController extends ApiAppController {
         }
     }
 
+    public function auto() {
+        $this->jsonData = array();
+        if (!empty($_GET['term'])) {
+            $keyword = trim(Sanitize::clean($_GET['term']));
+            $items = $this->Ingredient->find('all', array(
+                'fields' => array('id', 'name'),
+                'conditions' => array(
+                    'name LIKE' => "%{$keyword}%",
+                ),
+                'limit' => 20,
+            ));
+            foreach ($items AS $item) {
+                $this->jsonData[] = array(
+                    'label' => "{$item['Ingredient']['name']}",
+                    'value' => $item['Ingredient']['id'],
+                );
+            }
+        }
+    }
+
 }
