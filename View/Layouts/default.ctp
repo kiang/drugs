@@ -122,6 +122,15 @@
                                         <li><a href="<?php echo $this->Html->url('/admin/articles/add'); ?>"><i class="fa fa-angle-double-right"></i> 新增</a></li>
                                     </ul>
                                 </li>
+                                <li class="treeview">
+                                    <a href="#">
+                                        <i class="fa fa-newspaper-o"></i> <span>地點管理</span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a href="<?php echo $this->Html->url('/admin/points/index'); ?>"><i class="fa fa-angle-double-right"></i> 列表</a></li>
+                                        <li><a href="<?php echo $this->Html->url('/admin/points/add'); ?>"><i class="fa fa-angle-double-right"></i> 新增</a></li>
+                                    </ul>
+                                </li>
                                 <li>
                                     <a href="<?php echo $this->Html->url('/members/logout'); ?>">
                                         <i class="fa fa-sign-out"></i>

@@ -31,7 +31,7 @@ CREATE TABLE `acos` (
   `lft` int(11) DEFAULT NULL,
   `rght` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -360,19 +360,22 @@ DROP TABLE IF EXISTS `points`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `points` (
   `id` binary(36) NOT NULL,
+  `nhi_id` char(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `nhi_end` date NOT NULL,
   `type` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `status` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `category` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `biz_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `service` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `city` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
   `town` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
   `address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `longitude` decimal(11,8) DEFAULT NULL,
   `latitude` decimal(10,8) DEFAULT NULL,
-  `owner` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `owner_gender` tinyint(1) DEFAULT NULL,
   `phone` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `is_nhc` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`)
+  `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `nhi_id` (`nhi_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -406,4 +409,4 @@ CREATE TABLE `prices` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-01-28 17:32:38
+-- Dump completed on 2015-01-28 23:05:47

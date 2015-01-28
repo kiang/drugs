@@ -14,18 +14,20 @@
                     <div class="points form">
                         <?php echo $this->Form->create('Point'); ?>
                         <?php
+                        echo $this->Form->input('nhi_id');
+                        echo $this->Form->input('nhi_end');
                         echo $this->Form->input('type');
-                        echo $this->Form->input('status');
+                        echo $this->Form->input('category');
+                        echo $this->Form->input('biz_type');
+                        echo $this->Form->input('service');
                         echo $this->Form->input('name');
                         echo $this->Form->input('city');
                         echo $this->Form->input('town');
                         echo $this->Form->input('address');
                         echo $this->Form->input('longitude');
                         echo $this->Form->input('latitude');
-                        echo $this->Form->input('owner');
-                        echo $this->Form->input('owner_gender');
                         echo $this->Form->input('phone');
-                        echo $this->Form->input('is_nhc');
+                        echo $this->Form->input('url');
                         ?>
                         <?php echo $this->Form->end(__('Submit')); ?>
                     </div>

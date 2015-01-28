@@ -17,6 +17,13 @@ class PointsController extends AppController {
      * @var array
      */
     public $components = array('Paginator', 'Session');
+    
+    public function beforeFilter() {
+        parent::beforeFilter();
+        if (isset($this->Auth)) {
+            $this->Auth->allow('index', 'view');
+        }
+    }
 
     /**
      * index method

@@ -18,14 +18,34 @@
                                 <?php echo h($point['Point']['id']); ?>
                                 &nbsp;
                             </dd>
+                            <dt><?php echo __('Nhi Id'); ?></dt>
+                            <dd>
+                                <?php echo h($point['Point']['nhi_id']); ?>
+                                &nbsp;
+                            </dd>
+                            <dt><?php echo __('Nhi End'); ?></dt>
+                            <dd>
+                                <?php echo h($point['Point']['nhi_end']); ?>
+                                &nbsp;
+                            </dd>
                             <dt><?php echo __('Type'); ?></dt>
                             <dd>
                                 <?php echo h($point['Point']['type']); ?>
                                 &nbsp;
                             </dd>
-                            <dt><?php echo __('Status'); ?></dt>
+                            <dt><?php echo __('Category'); ?></dt>
                             <dd>
-                                <?php echo h($point['Point']['status']); ?>
+                                <?php echo h($point['Point']['category']); ?>
+                                &nbsp;
+                            </dd>
+                            <dt><?php echo __('Biz Type'); ?></dt>
+                            <dd>
+                                <?php echo h($point['Point']['biz_type']); ?>
+                                &nbsp;
+                            </dd>
+                            <dt><?php echo __('Service'); ?></dt>
+                            <dd>
+                                <?php echo h($point['Point']['service']); ?>
                                 &nbsp;
                             </dd>
                             <dt><?php echo __('Name'); ?></dt>
@@ -58,24 +78,14 @@
                                 <?php echo h($point['Point']['latitude']); ?>
                                 &nbsp;
                             </dd>
-                            <dt><?php echo __('Owner'); ?></dt>
-                            <dd>
-                                <?php echo h($point['Point']['owner']); ?>
-                                &nbsp;
-                            </dd>
-                            <dt><?php echo __('Owner Gender'); ?></dt>
-                            <dd>
-                                <?php echo h($point['Point']['owner_gender']); ?>
-                                &nbsp;
-                            </dd>
                             <dt><?php echo __('Phone'); ?></dt>
                             <dd>
                                 <?php echo h($point['Point']['phone']); ?>
                                 &nbsp;
                             </dd>
-                            <dt><?php echo __('Is Nhc'); ?></dt>
+                            <dt><?php echo __('Url'); ?></dt>
                             <dd>
-                                <?php echo h($point['Point']['is_nhc']); ?>
+                                <?php echo h($point['Point']['url']); ?>
                                 &nbsp;
                             </dd>
                         </dl>

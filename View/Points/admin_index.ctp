@@ -17,18 +17,20 @@
                             <thead>
                                 <tr>
                                     <th><?php echo $this->Paginator->sort('id'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('nhi_id'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('nhi_end'); ?></th>
                                     <th><?php echo $this->Paginator->sort('type'); ?></th>
-                                    <th><?php echo $this->Paginator->sort('status'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('category'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('biz_type'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('service'); ?></th>
                                     <th><?php echo $this->Paginator->sort('name'); ?></th>
                                     <th><?php echo $this->Paginator->sort('city'); ?></th>
                                     <th><?php echo $this->Paginator->sort('town'); ?></th>
                                     <th><?php echo $this->Paginator->sort('address'); ?></th>
                                     <th><?php echo $this->Paginator->sort('longitude'); ?></th>
                                     <th><?php echo $this->Paginator->sort('latitude'); ?></th>
-                                    <th><?php echo $this->Paginator->sort('owner'); ?></th>
-                                    <th><?php echo $this->Paginator->sort('owner_gender'); ?></th>
                                     <th><?php echo $this->Paginator->sort('phone'); ?></th>
-                                    <th><?php echo $this->Paginator->sort('is_nhc'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('url'); ?></th>
                                     <th class="actions"><?php echo __('Actions'); ?></th>
                                 </tr>
                             </thead>
@@ -36,18 +38,20 @@
                                 <?php foreach ($points as $point): ?>
                                     <tr>
                                         <td><?php echo h($point['Point']['id']); ?>&nbsp;</td>
+                                        <td><?php echo h($point['Point']['nhi_id']); ?>&nbsp;</td>
+                                        <td><?php echo h($point['Point']['nhi_end']); ?>&nbsp;</td>
                                         <td><?php echo h($point['Point']['type']); ?>&nbsp;</td>
-                                        <td><?php echo h($point['Point']['status']); ?>&nbsp;</td>
+                                        <td><?php echo h($point['Point']['category']); ?>&nbsp;</td>
+                                        <td><?php echo h($point['Point']['biz_type']); ?>&nbsp;</td>
+                                        <td><?php echo h($point['Point']['service']); ?>&nbsp;</td>
                                         <td><?php echo h($point['Point']['name']); ?>&nbsp;</td>
                                         <td><?php echo h($point['Point']['city']); ?>&nbsp;</td>
                                         <td><?php echo h($point['Point']['town']); ?>&nbsp;</td>
                                         <td><?php echo h($point['Point']['address']); ?>&nbsp;</td>
                                         <td><?php echo h($point['Point']['longitude']); ?>&nbsp;</td>
                                         <td><?php echo h($point['Point']['latitude']); ?>&nbsp;</td>
-                                        <td><?php echo h($point['Point']['owner']); ?>&nbsp;</td>
-                                        <td><?php echo h($point['Point']['owner_gender']); ?>&nbsp;</td>
                                         <td><?php echo h($point['Point']['phone']); ?>&nbsp;</td>
-                                        <td><?php echo h($point['Point']['is_nhc']); ?>&nbsp;</td>
+                                        <td><?php echo h($point['Point']['url']); ?>&nbsp;</td>
                                         <td class="actions">
                                             <?php echo $this->Html->link(__('View'), array('action' => 'view', $point['Point']['id'])); ?>
                                             <?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $point['Point']['id'])); ?>
