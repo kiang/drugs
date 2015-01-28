@@ -57,7 +57,7 @@
                     <!-- search form -->
                     <form action="#" method="get" class="sidebar-form">
                         <div class="input-group">
-                            <input type="text" id="keyword" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="搜尋..."/>
+                            <input type="text" id="keyword" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="搜尋藥物..."/>
                         </div>
                         <div class="divider">&nbsp;</div>
                         <div class="btn-group-justified">

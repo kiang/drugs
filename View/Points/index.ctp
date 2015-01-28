@@ -1,6 +1,13 @@
+<?php
+echo $this->Html->script('c/points/index', array('inline' => false));
+?>
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>醫療院所</h1>
+    <ol class="breadcrumb">
+        <li class="col-xs-8"><input type="text" id="pointKeyword" value="<?php echo isset($pointKeyword) ? $pointKeyword : ''; ?>" class="form-control" placeholder="搜尋..."/></li>
+        <li><a href="#" class="btn btn-default btn-find-point">搜尋</a></li>
+    </ol>
 </section>
 
 <!-- Main content -->

@@ -66,7 +66,7 @@ class IngredientsController extends AppController {
         }
         $this->set('title_for_layout', $title . '藥品成份一覽 @ ');
         $this->set('items', $this->paginate($this->Ingredient, $scope));
-        $this->set('keyword', $name);
+        $this->set('ingredientKeyword', $name);
     }
 
     public function view($id = null) {
