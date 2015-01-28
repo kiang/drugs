@@ -107,7 +107,7 @@ class NhiShell extends AppShell {
                             break;
                         case 9:
                             foreach ($cols AS $k => $v) {
-                                $cols[$k] = str_replace('&nbsp;', '', trim(strip_tags($cols[3])));
+                                $cols[$k] = str_replace('&nbsp;', '', trim(strip_tags($v)));
                             }
                             unset($cols[0]);
                             unset($cols[8]);
@@ -115,7 +115,7 @@ class NhiShell extends AppShell {
                             break;
                         case 10:
                             foreach ($cols AS $k => $v) {
-                                $cols[$k] = str_replace('&nbsp;', '', trim(strip_tags($cols[3])));
+                                $cols[$k] = str_replace('&nbsp;', '', trim(strip_tags($v)));
                             }
                             unset($cols[0]);
                             unset($cols[8]);
@@ -123,7 +123,7 @@ class NhiShell extends AppShell {
                             break;
                         case 11:
                             foreach ($cols AS $k => $v) {
-                                $cols[$k] = str_replace('&nbsp;', '', trim(strip_tags($cols[3])));
+                                $cols[$k] = str_replace('&nbsp;', '', trim(strip_tags($v)));
                             }
                             unset($cols[0]);
                             unset($cols[8]);
