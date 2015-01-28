@@ -1,0 +1,25 @@
+{
+    "nhi_id": "3521051528",
+    "url": "http:\/\/www.nhi.gov.tw\/Query\/Query3_Detail.aspx?HospID=3521051528",
+    "type": "診所",
+    "name": "張永昌小兒科診所",
+    "category": "兒科",
+    "biz_type": "專科診所",
+    "service": "門診診療、兒童預防保健、成人預防保健、定量免疫法糞便潛血檢查",
+    "phone": "06-2292360",
+    "address": "台南市中區新美街６６之１號",
+    "latitude": "25.001689",
+    "longitude": "121.460809",
+    "nhi_admin": "南區業務組",
+    "nhi_end": "",
+    "morning": {
+        "1": ""
+    },
+    "afternoon": {
+        "1": ""
+    },
+    "evening": {
+        "1": "",
+        "2": ""
+    }
+}

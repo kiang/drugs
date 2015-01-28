@@ -1,0 +1,25 @@
+{
+    "nhi_id": "3701105181",
+    "url": "http:\/\/www.nhi.gov.tw\/Query\/Query3_Detail.aspx?HospID=3701105181",
+    "type": "",
+    "name": "",
+    "category": "",
+    "biz_type": "",
+    "service": "",
+    "phone": "",
+    "address": "",
+    "latitude": "25.001689",
+    "longitude": "121.460809",
+    "nhi_admin": "",
+    "nhi_end": "",
+    "morning": {
+        "1": ""
+    },
+    "afternoon": {
+        "1": ""
+    },
+    "evening": {
+        "1": "",
+        "2": ""
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "nhi_id": "3802082036",
+    "url": "http:\/\/www.nhi.gov.tw\/Query\/Query3_Detail.aspx?HospID=3802082036",
+    "type": "診所",
+    "name": "調明中醫診所",
+    "category": "中醫科",
+    "biz_type": "中醫一般診所",
+    "service": "門診診療",
+    "phone": "07-7527522",
+    "address": "高雄市苓雅區三多二路２６３、２６５號１、２樓",
+    "latitude": "25.001689",
+    "longitude": "121.460809",
+    "nhi_admin": "高屏業務組",
+    "nhi_end": "",
+    "morning": {
+        "1": ""
+    },
+    "afternoon": {
+        "1": ""
+    },
+    "evening": {
+        "1": "",
+        "2": ""
+    }
+}

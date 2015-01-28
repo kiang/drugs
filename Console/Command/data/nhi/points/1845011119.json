@@ -1,0 +1,25 @@
+{
+    "nhi_id": "1845011119",
+    "url": "http:\/\/www.nhi.gov.tw\/Query\/Query3_Detail.aspx?HospID=1845011119",
+    "type": "診所",
+    "name": "和平中醫醫院",
+    "category": "中醫科",
+    "biz_type": "中醫醫院",
+    "service": "門診診療",
+    "phone": "03-8333491",
+    "address": "花蓮縣花蓮市信義街６１號",
+    "latitude": "25.001689",
+    "longitude": "121.460809",
+    "nhi_admin": "東區業務組",
+    "nhi_end": "",
+    "morning": {
+        "1": ""
+    },
+    "afternoon": {
+        "1": ""
+    },
+    "evening": {
+        "1": "",
+        "2": ""
+    }
+}

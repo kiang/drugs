@@ -1,0 +1,25 @@
+{
+    "nhi_id": "3545040090",
+    "url": "http:\/\/www.nhi.gov.tw\/Query\/Query3_Detail.aspx?HospID=3545040090",
+    "type": "診所",
+    "name": "安台診所",
+    "category": "不分科",
+    "biz_type": "一般診所（醫務室）",
+    "service": "門診診療、成人預防保健",
+    "phone": "03-8261457",
+    "address": "花蓮縣新城鄉北埔村北埔路５２號",
+    "latitude": "25.001689",
+    "longitude": "121.460809",
+    "nhi_admin": "東區業務組",
+    "nhi_end": "",
+    "morning": {
+        "1": ""
+    },
+    "afternoon": {
+        "1": ""
+    },
+    "evening": {
+        "1": "",
+        "2": ""
+    }
+}
