@@ -1,6 +1,6 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1><?php echo __('Point'); ?></h1>
+    <h1><?php echo h($point['Point']['name']); ?> - <?php echo h($point['Point']['phone']); ?></h1>
 </section>
 
 <!-- Main content -->
@@ -13,93 +13,78 @@
                 <div class="box-body">
                     <div class="points view">
                         <dl>
-                            <dt><?php echo __('Id'); ?></dt>
-                            <dd>
-                                <?php echo h($point['Point']['id']); ?>
-                                &nbsp;
-                            </dd>
-                            <dt><?php echo __('Nhi Id'); ?></dt>
+                            <dt>醫事機構代碼</dt>
                             <dd>
                                 <?php echo h($point['Point']['nhi_id']); ?>
                                 &nbsp;
                             </dd>
-                            <dt><?php echo __('Nhi End'); ?></dt>
+                            <dt>健保終止合約或歇業日期</dt>
                             <dd>
-                                <?php echo h($point['Point']['nhi_end']); ?>
+                                <?php echo ($point['Point']['nhi_end'] !== '0000-00-00') ? $point['Point']['nhi_end'] : '--'; ?>
                                 &nbsp;
                             </dd>
-                            <dt><?php echo __('Type'); ?></dt>
+                            <dt>健保特約類別</dt>
                             <dd>
                                 <?php echo h($point['Point']['type']); ?>
                                 &nbsp;
                             </dd>
-                            <dt><?php echo __('Category'); ?></dt>
+                            <dt>診療科別</dt>
                             <dd>
                                 <?php echo h($point['Point']['category']); ?>
                                 &nbsp;
                             </dd>
-                            <dt><?php echo __('Biz Type'); ?></dt>
+                            <dt>醫事機構種類</dt>
                             <dd>
                                 <?php echo h($point['Point']['biz_type']); ?>
                                 &nbsp;
                             </dd>
-                            <dt><?php echo __('Service'); ?></dt>
+                            <dt>服務項目</dt>
                             <dd>
                                 <?php echo h($point['Point']['service']); ?>
                                 &nbsp;
                             </dd>
-                            <dt><?php echo __('Name'); ?></dt>
+                            <dt>醫事機構名稱</dt>
                             <dd>
                                 <?php echo h($point['Point']['name']); ?>
                                 &nbsp;
                             </dd>
-                            <dt><?php echo __('City'); ?></dt>
+                            <dt>縣市</dt>
                             <dd>
                                 <?php echo h($point['Point']['city']); ?>
                                 &nbsp;
                             </dd>
-                            <dt><?php echo __('Town'); ?></dt>
+                            <dt>鄉鎮市區</dt>
                             <dd>
                                 <?php echo h($point['Point']['town']); ?>
                                 &nbsp;
                             </dd>
-                            <dt><?php echo __('Address'); ?></dt>
+                            <dt>住址</dt>
                             <dd>
                                 <?php echo h($point['Point']['address']); ?>
                                 &nbsp;
                             </dd>
-                            <dt><?php echo __('Longitude'); ?></dt>
+                            <dt>經度</dt>
                             <dd>
                                 <?php echo h($point['Point']['longitude']); ?>
                                 &nbsp;
                             </dd>
-                            <dt><?php echo __('Latitude'); ?></dt>
+                            <dt>緯度</dt>
                             <dd>
                                 <?php echo h($point['Point']['latitude']); ?>
                                 &nbsp;
                             </dd>
-                            <dt><?php echo __('Phone'); ?></dt>
+                            <dt>電話</dt>
                             <dd>
                                 <?php echo h($point['Point']['phone']); ?>
                                 &nbsp;
                             </dd>
-                            <dt><?php echo __('Url'); ?></dt>
+                            <dt>網址</dt>
                             <dd>
-                                <?php echo h($point['Point']['url']); ?>
+                                <?php echo $this->Html->link($point['Point']['url'], $point['Point']['url'], array('target' => '_blank')); ?>
                                 &nbsp;
                             </dd>
                         </dl>
                     </div>
-                    <div class="actions">
-                        <h3><?php echo __('Actions'); ?></h3>
-                        <ul>
-                            <li><?php echo $this->Html->link(__('Edit Point'), array('action' => 'edit', $point['Point']['id'])); ?> </li>
-                            <li><?php echo $this->Form->postLink(__('Delete Point'), array('action' => 'delete', $point['Point']['id']), array(), __('Are you sure you want to delete # %s?', $point['Point']['id'])); ?> </li>
-                            <li><?php echo $this->Html->link(__('List Points'), array('action' => 'index')); ?> </li>
-                            <li><?php echo $this->Html->link(__('New Point'), array('action' => 'add')); ?> </li>
-                        </ul>
-                    </div>
-
                 </div>
             </div>
         </div>

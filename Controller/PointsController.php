@@ -1,6 +1,7 @@
 <?php
 
 App::uses('AppController', 'Controller');
+App::uses('Sanitize', 'Utility');
 
 /**
  * Points Controller
@@ -17,12 +18,31 @@ class PointsController extends AppController {
      * @var array
      */
     public $components = array('Paginator', 'Session');
-    
+    public $paginate = array();
+
     public function beforeFilter() {
         parent::beforeFilter();
         if (isset($this->Auth)) {
             $this->Auth->allow('index', 'view');
         }
+    }
+    
+    public function beforeRender() {
+        $path = "/api/{$this->request->params['controller']}/{$this->request->params['action']}";
+        if (!empty($this->request->params['pass'][0])) {
+            $path .= '/' . $this->request->params['pass'][0];
+        }
+        if (!empty($this->request->params['named'])) {
+            foreach ($this->request->params['named'] AS $k => $v) {
+                if ($k !== 'page') {
+                    $path .= "/{$k}:{$v}";
+                }
+            }
+        }
+        if (!empty($this->request->params['paging']['Point']['page'])) {
+            $path .= '/page:' . $this->request->params['paging']['Point']['page'];
+        }
+        $this->set('apiRoute', $path);
     }
 
     /**
@@ -30,9 +50,36 @@ class PointsController extends AppController {
      *
      * @return void
      */
-    public function index() {
-        $this->Point->recursive = 0;
-        $this->set('points', $this->Paginator->paginate());
+    public function index($name = '') {
+        $scope = array();
+        if (!empty($name)) {
+            $name = Sanitize::clean($name);
+            $keywords = explode(' ', $name);
+            $keywordCount = 0;
+            foreach ($keywords AS $keyword) {
+                if (++$keywordCount < 5) {
+                    $scope[]['OR'] = array(
+                        'Point.name LIKE' => "%{$keyword}%",
+                        'Point.category LIKE' => "%{$keyword}%",
+                        'Point.city LIKE' => "%{$keyword}%",
+                        'Point.town LIKE' => "%{$keyword}%",
+                        'Point.phone LIKE' => "%{$keyword}%",
+                        'Point.nhi_id' => $keyword,
+                    );
+                }
+            }
+        }
+        $this->paginate['Point'] = array(
+            'limit' => 20,
+        );
+        $this->set('url', array($name));
+        $title = '';
+        if (!empty($name)) {
+            $title = "{$name} 相關";
+        }
+        $this->set('points', $this->paginate($this->Point, $scope));
+        $this->set('title_for_layout', $title . '醫療院所一覽 @ ');
+        $this->set('keyword', $name);
     }
 
     /**
@@ -47,7 +94,9 @@ class PointsController extends AppController {
             throw new NotFoundException(__('Invalid point'));
         }
         $options = array('conditions' => array('Point.' . $this->Point->primaryKey => $id));
-        $this->set('point', $this->Point->find('first', $options));
+        $point = $this->Point->find('first', $options);
+        $this->set('point', $point);
+        $this->set('title_for_layout', "{$point['Point']['name']} @ ");
     }
 
     /**

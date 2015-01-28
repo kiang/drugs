@@ -91,6 +91,13 @@
                                 <i class="fa pull-right"></i>
                             </a>
                         </li>
+                        <li>
+                            <a href="<?php echo $this->Html->url('/points'); ?>">
+                                <i class="fa fa-hospital-o"></i>
+                                <span>醫療院所</span>
+                                <i class="fa pull-right"></i>
+                            </a>
+                        </li>
                         <?php
                         switch (Configure::read('loginMember.group_id')) {
                             case '0':
@@ -104,15 +111,6 @@
                                 break;
                             case '1':
                                 ?>
-                                <li class="treeview">
-                                    <a href="#">
-                                        <i class="fa fa-newspaper-o"></i> <span>會員管理</span>
-                                    </a>
-                                    <ul class="treeview-menu">
-                                        <li><a href="<?php echo $this->Html->url('/admin/members/index'); ?>"><i class="fa fa-angle-double-right"></i> 會員</a></li>
-                                        <li><a href="<?php echo $this->Html->url('/admin/groups/index'); ?>"><i class="fa fa-angle-double-right"></i> 群組</a></li>
-                                    </ul>
-                                </li>
                                 <li class="treeview">
                                     <a href="#">
                                         <i class="fa fa-newspaper-o"></i> <span>文章管理</span>
@@ -129,6 +127,15 @@
                                     <ul class="treeview-menu">
                                         <li><a href="<?php echo $this->Html->url('/admin/points/index'); ?>"><i class="fa fa-angle-double-right"></i> 列表</a></li>
                                         <li><a href="<?php echo $this->Html->url('/admin/points/add'); ?>"><i class="fa fa-angle-double-right"></i> 新增</a></li>
+                                    </ul>
+                                </li>
+                                <li class="treeview">
+                                    <a href="#">
+                                        <i class="fa fa-newspaper-o"></i> <span>會員管理</span>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a href="<?php echo $this->Html->url('/admin/members/index'); ?>"><i class="fa fa-angle-double-right"></i> 會員</a></li>
+                                        <li><a href="<?php echo $this->Html->url('/admin/groups/index'); ?>"><i class="fa fa-angle-double-right"></i> 群組</a></li>
                                     </ul>
                                 </li>
                                 <li>
@@ -195,7 +202,7 @@
             });
             //]]>
         </script>
-        <?php if (Configure::read('debug') === 0) { ?>
+        <?php if (Configure::read('debug') === 0 && Configure::read('loginMember.group_id') !== '1') { ?>
             <script>
                 (function (i, s, o, g, r, a, m) {
                     i['GoogleAnalyticsObject'] = r;
