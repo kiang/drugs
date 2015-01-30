@@ -1,6 +1,6 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>編輯醫療院所</h1>
+    <h1>編輯醫事機構</h1>
 </section>
 
 <!-- Main content -->

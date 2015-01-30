@@ -65,7 +65,7 @@
                             ?></ul>
                     </div>
                     <div class="form-group">
-                        <label for="relatedPoint">相關醫療院所</label>
+                        <label for="relatedPoint">相關醫事機構</label>
                         <ul id="relatedPoint"><?php
                             if (!empty($this->data['Point'])) {
                                 foreach ($this->data['Point'] AS $itemId => $itemLabel) {

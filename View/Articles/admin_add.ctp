@@ -51,7 +51,7 @@
                         <ul id="relatedIngredient"></ul>
                     </div>
                     <div class="form-group">
-                        <label for="relatedPoint">相關醫療院所</label>
+                        <label for="relatedPoint">相關醫事機構</label>
                         <ul id="relatedPoint"></ul>
                     </div>
                     <?php echo $this->Form->end(__('Submit')); ?>
