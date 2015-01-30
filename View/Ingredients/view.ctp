@@ -13,10 +13,10 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                <?php echo $this->element('paginator'); ?>
+                    <?php echo $this->element('paginator'); ?>
                 </div>
-                <div class="box-body table-responsive no-padding">
-                    <table class="table table-hover" id="DrugsIndexTable">
+                <div class="box-body no-padding">
+                    <table class="table table-hover table-responsive" id="DrugsIndexTable">
                         <thead>
                             <tr>
                                 <th>品名</th>
@@ -27,34 +27,50 @@
                             </tr>
                         </thead>
                         <tbody>
-            <?php
-            $i = 0;
-            foreach ($items as $item) {
-                ?>
-                            <tr>
-                                <td>
-                        <?php echo $this->Html->link("{$item['License']['name']}({$item['License']['name_english']})", array('controller' => 'drugs', 'action' => 'view', $item['Drug']['id'])); ?></td>
-                                <td><?php
-                        echo $item['License']['license_id'];
-                        ?></td>
-                                <td><?php
-                        echo $item['License']['expired_date'];
-                        ?></td>
-                                <td><?php
-                        echo $item['License']['license_date'];
-                        ?></td>
-                                <td><?php
-                        echo $item['License']['submitted'];
-                        ?></td>
-                            </tr>
-            <?php }; // End of foreach ($items as $item) {  ?>
+                            <?php
+                            $i = 0;
+                            foreach ($items as $item) {
+                                ?>
+                                <tr>
+                                    <td>
+                                        <?php echo $this->Html->link("{$item['License']['name']}({$item['License']['name_english']})", array('controller' => 'drugs', 'action' => 'view', $item['Drug']['id'])); ?></td>
+                                    <td><?php
+                                        echo $item['License']['license_id'];
+                                        ?></td>
+                                    <td><?php
+                                        echo $item['License']['expired_date'];
+                                        ?></td>
+                                    <td><?php
+                                        echo $item['License']['license_date'];
+                                        ?></td>
+                                    <td><?php
+                                        echo $item['License']['submitted'];
+                                        ?></td>
+                                </tr>
+                            <?php }; // End of foreach ($items as $item) {  ?>
                         </tbody>
                     </table>
                 </div>
                 <div class="box-footer clearfix">
-                <?php echo $this->element('paginator'); ?>
+                    <?php echo $this->element('paginator'); ?>
                 </div>
             </div>
+            <?php if (!empty($ingredient['Article'])) { ?>
+                <div class="box">
+                    <div class="box-header">
+                        <h4>醫事新知</h4>
+                    </div>
+                    <div class="box-body">
+                        <ul>
+                            <?php
+                            foreach ($ingredient['Article'] AS $article) {
+                                echo '<li>' . $this->Html->link("{$article['date_published']} {$article['title']}", $article['url'], array('target' => '_blank')) . '</li>';
+                            }
+                            ?>
+                        </ul>
+                    </div>
+                </div>
+            <?php } ?>
         </div>
 
     </div>

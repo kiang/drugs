@@ -26,7 +26,7 @@ class PointsController extends AppController {
             $this->Auth->allow('index', 'view');
         }
     }
-    
+
     public function beforeRender() {
         $path = "/api/{$this->request->params['controller']}/{$this->request->params['action']}";
         if (!empty($this->request->params['pass'][0])) {
@@ -93,8 +93,18 @@ class PointsController extends AppController {
         if (!$this->Point->exists($id)) {
             throw new NotFoundException(__('Invalid point'));
         }
-        $options = array('conditions' => array('Point.' . $this->Point->primaryKey => $id));
-        $point = $this->Point->find('first', $options);
+        $point = $this->Point->find('first', array(
+            'conditions' => array(
+                'Point.' . $this->Point->primaryKey => $id
+            ),
+            'contain' => array(
+                'Article' => array(
+                    'fields' => array('id', 'title', 'date_published', 'url'),
+                    'order' => array('date_published' => 'DESC'),
+                    'limit' => 10,
+                ),
+            ),
+        ));
         $this->set('point', $point);
         $this->set('title_for_layout', "{$point['Point']['name']} @ ");
     }

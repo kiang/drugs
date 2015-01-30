@@ -71,6 +71,13 @@ class License extends AppModel {
             'offset' => '',
             'finderQuery' => '',
         ),
+        'Article' => array(
+            'joinTable' => 'articles_links',
+            'conditions' => array('model' => 'License'),
+            'foreignKey' => 'foreign_id',
+            'associationForeignKey' => 'article_id',
+            'className' => 'Article',
+        ),
     );
 
 }

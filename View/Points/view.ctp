@@ -87,6 +87,22 @@
                     </div>
                 </div>
             </div>
+            <?php if (!empty($point['Article'])) { ?>
+                <div class="box">
+                    <div class="box-header">
+                        <h4>醫事新知</h4>
+                    </div>
+                    <div class="box-body">
+                        <ul>
+                            <?php
+                            foreach ($point['Article'] AS $article) {
+                                echo '<li>' . $this->Html->link("{$article['date_published']} {$article['title']}", $article['url'], array('target' => '_blank')) . '</li>';
+                            }
+                            ?>
+                        </ul>
+                    </div>
+                </div>
+            <?php } ?>
         </div>
     </div>
 </section>

@@ -14,27 +14,27 @@
             <div class="box">
                 <div class="box-body">
                     <?php if (!empty($this->data['License']['image'])) { ?>
-                    <div class="row">
-                        <img src="<?php echo $this->Html->url('/') . $this->data['License']['image']; ?>" class="img-thumbnail col-md-4" />
-                    </div>
-    <?php } ?>
+                        <div class="row">
+                            <img src="<?php echo $this->Html->url('/') . $this->data['License']['image']; ?>" class="img-thumbnail col-md-4" />
+                        </div>
+                    <?php } ?>
                     <div class="row">
                         <dl class="dl-horizontal">
                             <dt>許可證字號</dt>
                             <dd><?php
-            $prefixCode = $prefixLength = false;
-            foreach ($this->Olc->prefixCodes AS $code => $prefix) {
-                if (false === $prefixCode && false !== strpos($this->data['Drug']['license_id'], $prefix)) {
-                    $prefixCode = $code;
-                    $prefixLength = strlen($prefix);
-                }
-            }
-            if (false !== $prefixCode) {
-                echo $this->Html->link($this->data['Drug']['license_id'], 'http://www.fda.gov.tw/MLMS/(S(zhayg3j2oyozxi45fx41gi55))/H0001D.aspx?Type=Lic&LicId=' . $prefixCode . substr($this->data['Drug']['license_id'], $prefixLength + 6, -3), array('target' => '_blank', 'class' => 'btn btn-default'));
-            } else {
-                echo $this->data['Drug']['license_id'];
-            }
-            ?>&nbsp;
+                                $prefixCode = $prefixLength = false;
+                                foreach ($this->Olc->prefixCodes AS $code => $prefix) {
+                                    if (false === $prefixCode && false !== strpos($this->data['Drug']['license_id'], $prefix)) {
+                                        $prefixCode = $code;
+                                        $prefixLength = strlen($prefix);
+                                    }
+                                }
+                                if (false !== $prefixCode) {
+                                    echo $this->Html->link($this->data['Drug']['license_id'], 'http://www.fda.gov.tw/MLMS/(S(zhayg3j2oyozxi45fx41gi55))/H0001D.aspx?Type=Lic&LicId=' . $prefixCode . substr($this->data['Drug']['license_id'], $prefixLength + 6, -3), array('target' => '_blank', 'class' => 'btn btn-default'));
+                                } else {
+                                    echo $this->data['Drug']['license_id'];
+                                }
+                                ?>&nbsp;
 
 
                             </dd>
@@ -115,23 +115,23 @@
                             </dd>
                             <dt>主成分略述</dt>
                             <dd><?php
-            $majorIngredients = explode(';;', $this->data['License']['ingredient']);
-            foreach ($majorIngredients AS $ingredient) {
-                if(isset($ingredientKeys[$ingredient])) {
-                    echo $this->Html->link($ingredient, '/ingredients/view/' . $ingredientKeys[$ingredient], array('class' => 'btn btn-default'));
-                } else {
-                    echo $this->Html->link($ingredient, '/drugs/index/' . $ingredient, array('class' => 'btn btn-default'));
-                }
-                echo '&nbsp;';
-            }
-            ?>
+                                $majorIngredients = explode(';;', $this->data['License']['ingredient']);
+                                foreach ($majorIngredients AS $ingredient) {
+                                    if (isset($ingredientKeys[$ingredient])) {
+                                        echo $this->Html->link($ingredient, '/ingredients/view/' . $ingredientKeys[$ingredient], array('class' => 'btn btn-default'));
+                                    } else {
+                                        echo $this->Html->link($ingredient, '/drugs/index/' . $ingredient, array('class' => 'btn btn-default'));
+                                    }
+                                    echo '&nbsp;';
+                                }
+                                ?>
 
 
                             </dd>
                             <dt>申請商名稱</dt>
                             <dd><?php
-            echo $this->Html->link($this->data['License']['vendor'], '/drugs/index/' . $this->data['License']['vendor'], array('class' => 'btn btn-default'));
-            ?>&nbsp;
+                                echo $this->Html->link($this->data['License']['vendor'], '/drugs/index/' . $this->data['License']['vendor'], array('class' => 'btn btn-default'));
+                                ?>&nbsp;
 
 
                             </dd>
@@ -142,17 +142,17 @@
                             </dd>
                             <dt>申請商統一編號</dt>
                             <dd><?php
-            if (!empty($this->data['License']['vendor_id'])) {
-                echo $this->Html->link($this->data['License']['vendor_id'], 'http://gcis.nat.g0v.tw/id/' . $this->data['License']['vendor_id'], array('class' => 'btn btn-default', 'target' => '_blank'));
-            }
-            ?>&nbsp;
+                                if (!empty($this->data['License']['vendor_id'])) {
+                                    echo $this->Html->link($this->data['License']['vendor_id'], 'http://gcis.nat.g0v.tw/id/' . $this->data['License']['vendor_id'], array('class' => 'btn btn-default', 'target' => '_blank'));
+                                }
+                                ?>&nbsp;
 
 
                             </dd>
                             <dt>製造商名稱</dt>
                             <dd><?php
-            echo $this->Html->link($this->data['Drug']['manufacturer'], '/drugs/index/' . $this->data['Drug']['manufacturer'], array('class' => 'btn btn-default'));
-            ?>&nbsp;
+                                echo $this->Html->link($this->data['Drug']['manufacturer'], '/drugs/index/' . $this->data['Drug']['manufacturer'], array('class' => 'btn btn-default'));
+                                ?>&nbsp;
 
 
                             </dd>
@@ -173,26 +173,26 @@
                             </dd>
                             <dt>製程</dt>
                             <dd><?php echo $this->data['Drug']['manufacturer_description']; ?>&nbsp;
-<?php
-if(!empty($drugs)) {
-    echo '<dt>其他製造商</dt>';
-    echo '<dd><ul>';
-    foreach($drugs AS $drug) {
-        echo '<li>';
-        $drugName = '';
-        if(!empty($drug['Drug']['manufacturer_description'])) {
-            $drugName .= "[{$drug['Drug']['manufacturer_description']}]";
-        }
-        $drugName .= $drug['Drug']['manufacturer'];
-        if(!empty($drug['Drug']['manufacturer_country'])) {
-            $drugName .= " ({$drug['Drug']['manufacturer_country']})";
-        }
-        echo $this->Html->link($drugName, '/drugs/view/' . $drug['Drug']['id']);
-        echo '</li>';
-    }
-    echo '</ul></dd>';
-}
-?>
+                                <?php
+                                if (!empty($drugs)) {
+                                    echo '<dt>其他製造商</dt>';
+                                    echo '<dd><ul>';
+                                    foreach ($drugs AS $drug) {
+                                        echo '<li>';
+                                        $drugName = '';
+                                        if (!empty($drug['Drug']['manufacturer_description'])) {
+                                            $drugName .= "[{$drug['Drug']['manufacturer_description']}]";
+                                        }
+                                        $drugName .= $drug['Drug']['manufacturer'];
+                                        if (!empty($drug['Drug']['manufacturer_country'])) {
+                                            $drugName .= " ({$drug['Drug']['manufacturer_country']})";
+                                        }
+                                        echo $this->Html->link($drugName, '/drugs/view/' . $drug['Drug']['id']);
+                                        echo '</li>';
+                                    }
+                                    echo '</ul></dd>';
+                                }
+                                ?>
 
                             </dd>
                             <dt>異動日期</dt>
@@ -262,10 +262,10 @@ if(!empty($drugs)) {
                             </dd>
                             <dt>相關連結 </dt>
                             <dd><?php
-            foreach ($links AS $link) {
-                echo $this->Html->link($link['Link']['title'], $link['Link']['url'], array('class' => 'btn btn-default', 'target' => '_blank'));
-            }
-            ?>&nbsp;
+                                foreach ($links AS $link) {
+                                    echo $this->Html->link($link['Link']['title'], $link['Link']['url'], array('class' => 'btn btn-default', 'target' => '_blank'));
+                                }
+                                ?>&nbsp;
                             </dd>
                         </dl>
                     </div>
@@ -273,74 +273,88 @@ if(!empty($drugs)) {
                     <div class="clearfix"><br /></div>
                     <h3>成份表</h3>
                     <div class="clearfix"><br /></div>
-    <?php
-    if (!empty($ingredients)) {
-        ?><table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>處方標示</th>
-                                <th>成分名稱</th>
-                                <th>含量描述</th>
-                                <th>含量單位</th>
-                            </tr>
-                        </thead>
-                        <tbody><?php
-                foreach ($ingredients AS $ingredient) {
-                    ?><tr>
-                                <td><?php echo $ingredient['IngredientsLicense']['remark']; ?></td>
-                                <td><?php echo $this->Html->link($ingredient['IngredientsLicense']['name'], '/ingredients/view/' . $ingredient['IngredientsLicense']['ingredient_id'], array('class' => 'btn btn-default')); ?></td>
-                                <td><?php echo!empty($ingredient['IngredientsLicense']['dosage_text']) ? $ingredient['IngredientsLicense']['dosage_text'] : $ingredient['IngredientsLicense']['dosage']; ?></td>
-                                <td><?php echo $ingredient['IngredientsLicense']['unit']; ?></td>
-                            </tr><?php
-                }
-                ?></tbody>
-                    </table><?php
-    }
-    ?>
-    <?php if (!empty($this->data['License']['Category'])) { ?>
-                    <div class="clearfix"><br /></div>
-                    <h3>ATC 分類</h3>
-                    <div class="clearfix"><br /></div>
-                    <ul>
-            <?php
-            foreach ($this->data['License']['Category'] AS $category) {
-                $tree = array();
-                foreach ($categoryNames[$category['CategoriesLicense']['category_id']] AS $item) {
-                    $tree[] = $this->Html->link($item['Category']['name'], '/drugs/category/' . $item['Category']['id']);
-                }
-                echo '<li>';
-                echo " [{$category['CategoriesLicense']['type']}] ";
-                echo $this->Html->link($category['code'], 'http://www.whocc.no/atc_ddd_index/?code=' . $category['code'] . '&showdescription=yes', array('target' => '_blank'));
-                echo " {$category['name_chinese']}<br />";
-                echo implode(' > ', $tree);
-                echo '</li>';
-            }
-            ?>
-                    </ul>
-    <?php } ?>
-    <?php if (!empty($prices)) { ?>
-                    <div class="clearfix"><br /></div>
-                    <h3>健保價格記錄</h3>
-                    <div class="clearfix"><br /></div>
-                    <div class="row">
-                        <ul>
-                <?php
-                $currentNhiId = false;
-                foreach ($prices AS $price) {
-                    if (false === $currentNhiId) {
-                        echo "<li><strong>[{$price['Price']['nhi_id']}] {$price['Price']['nhi_dosage']} {$price['Price']['nhi_unit']}</strong></li>";
-                        $currentNhiId = $price['Price']['nhi_id'];
-                    } elseif ($currentNhiId != $price['Price']['nhi_id']) {
-                        echo '</ul><ul>';
-                        echo "<li><strong>[{$price['Price']['nhi_id']}] {$price['Price']['nhi_dosage']} {$price['Price']['nhi_unit']}</strong></li>";
-                        $currentNhiId = $price['Price']['nhi_id'];
+                    <?php
+                    if (!empty($ingredients)) {
+                        ?><table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>處方標示</th>
+                                    <th>成分名稱</th>
+                                    <th>含量描述</th>
+                                    <th>含量單位</th>
+                                </tr>
+                            </thead>
+                            <tbody><?php
+                                foreach ($ingredients AS $ingredient) {
+                                    ?><tr>
+                                        <td><?php echo $ingredient['IngredientsLicense']['remark']; ?></td>
+                                        <td><?php echo $this->Html->link($ingredient['IngredientsLicense']['name'], '/ingredients/view/' . $ingredient['IngredientsLicense']['ingredient_id'], array('class' => 'btn btn-default')); ?></td>
+                                        <td><?php echo!empty($ingredient['IngredientsLicense']['dosage_text']) ? $ingredient['IngredientsLicense']['dosage_text'] : $ingredient['IngredientsLicense']['dosage']; ?></td>
+                                        <td><?php echo $ingredient['IngredientsLicense']['unit']; ?></td>
+                                    </tr><?php
+                                }
+                                ?></tbody>
+                        </table><?php
                     }
-                    echo '<li>' . "{$price['Price']['date_begin']} ~ {$price['Price']['date_end']} - > &nbsp; &nbsp; &nbsp; \${$price['Price']['nhi_price']}</li>";
-                }
-                ?>
+                    ?>
+                    <?php if (!empty($this->data['License']['Category'])) { ?>
+                        <div class="clearfix"><br /></div>
+                        <h3>ATC 分類</h3>
+                        <div class="clearfix"><br /></div>
+                        <ul>
+                            <?php
+                            foreach ($this->data['License']['Category'] AS $category) {
+                                $tree = array();
+                                foreach ($categoryNames[$category['CategoriesLicense']['category_id']] AS $item) {
+                                    $tree[] = $this->Html->link($item['Category']['name'], '/drugs/category/' . $item['Category']['id']);
+                                }
+                                echo '<li>';
+                                echo " [{$category['CategoriesLicense']['type']}] ";
+                                echo $this->Html->link($category['code'], 'http://www.whocc.no/atc_ddd_index/?code=' . $category['code'] . '&showdescription=yes', array('target' => '_blank'));
+                                echo " {$category['name_chinese']}<br />";
+                                echo implode(' > ', $tree);
+                                echo '</li>';
+                            }
+                            ?>
                         </ul>
-                    </div>
-    <?php } ?>
+                    <?php } ?>
+                    <?php if (!empty($prices)) { ?>
+                        <div class="clearfix"><br /></div>
+                        <h3>健保價格記錄</h3>
+                        <div class="clearfix"><br /></div>
+                        <div class="row">
+                            <ul>
+                                <?php
+                                $currentNhiId = false;
+                                foreach ($prices AS $price) {
+                                    if (false === $currentNhiId) {
+                                        echo "<li><strong>[{$price['Price']['nhi_id']}] {$price['Price']['nhi_dosage']} {$price['Price']['nhi_unit']}</strong></li>";
+                                        $currentNhiId = $price['Price']['nhi_id'];
+                                    } elseif ($currentNhiId != $price['Price']['nhi_id']) {
+                                        echo '</ul><ul>';
+                                        echo "<li><strong>[{$price['Price']['nhi_id']}] {$price['Price']['nhi_dosage']} {$price['Price']['nhi_unit']}</strong></li>";
+                                        $currentNhiId = $price['Price']['nhi_id'];
+                                    }
+                                    echo '<li>' . "{$price['Price']['date_begin']} ~ {$price['Price']['date_end']} - > &nbsp; &nbsp; &nbsp; \${$price['Price']['nhi_price']}</li>";
+                                }
+                                ?>
+                            </ul>
+                        </div>
+                    <?php } ?>
+                    <?php if (!empty($this->data['License']['Article'])) { ?>
+                        <div class="clearfix"><br /></div>
+                        <h3>醫事新知</h3>
+                        <div class="clearfix"><br /></div>
+                        <div class="row">
+                            <ul>
+                                <?php
+                                foreach ($this->data['License']['Article'] AS $article) {
+                                    echo '<li>' . $this->Html->link("{$article['date_published']} {$article['title']}", $article['url'], array('target' => '_blank')) . '</li>';
+                                }
+                                ?>
+                            </ul>
+                        </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>

@@ -38,7 +38,14 @@ class Ingredient extends AppModel {
             'limit' => '',
             'offset' => '',
             'finderQuery' => '',
-        )
+        ),
+        'Article' => array(
+            'joinTable' => 'articles_links',
+            'conditions' => array('model' => 'Ingredient'),
+            'foreignKey' => 'foreign_id',
+            'associationForeignKey' => 'article_id',
+            'className' => 'Article',
+        ),
     );
 
 }

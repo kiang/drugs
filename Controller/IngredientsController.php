@@ -73,6 +73,13 @@ class IngredientsController extends AppController {
         if (!empty($id)) {
             $ingredient = $this->Ingredient->find('first', array(
                 'conditions' => array('id' => $id),
+                'contain' => array(
+                    'Article' => array(
+                        'fields' => array('id', 'title', 'date_published', 'url'),
+                        'order' => array('date_published' => 'DESC'),
+                        'limit' => 10,
+                    ),
+                ),
             ));
         }
         if (!empty($ingredient)) {

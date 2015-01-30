@@ -189,6 +189,11 @@ class DrugsController extends AppController {
                         'Category' => array(
                             'fields' => array('code', 'name', 'name_chinese'),
                         ),
+                        'Article' => array(
+                            'fields' => array('id', 'title', 'date_published', 'url'),
+                            'order' => array('date_published' => 'DESC'),
+                            'limit' => 10,
+                        ),
                     ),
                 ),
             ));
