@@ -1,6 +1,6 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1><?php echo __('Admin Edit Point'); ?></h1>
+    <h1>編輯醫療院所</h1>
 </section>
 
 <!-- Main content -->
@@ -15,30 +15,92 @@
                         <?php echo $this->Form->create('Point'); ?>
                         <?php
                         echo $this->Form->input('id');
-                        echo $this->Form->input('nhi_id');
-                        echo $this->Form->input('nhi_end');
-                        echo $this->Form->input('type');
-                        echo $this->Form->input('category');
-                        echo $this->Form->input('biz_type');
-                        echo $this->Form->input('service');
-                        echo $this->Form->input('name');
-                        echo $this->Form->input('city');
-                        echo $this->Form->input('town');
-                        echo $this->Form->input('address');
-                        echo $this->Form->input('longitude');
-                        echo $this->Form->input('latitude');
-                        echo $this->Form->input('phone');
-                        echo $this->Form->input('url');
+                        echo $this->Form->input('name', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '醫事機構名稱',
+                            'class' => 'form-control',
+                        ));
+                        echo $this->Form->input('nhi_id', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '醫事機構代碼',
+                            'class' => 'form-control',
+                        ));
+                        echo $this->Form->input('nhi_end', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '健保終止合約或歇業日期',
+                            'class' => 'form-control',
+                        ));
+                        echo $this->Form->input('type', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '健保特約類別',
+                            'class' => 'form-control',
+                        ));
+                        echo $this->Form->input('category', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '診療科別',
+                            'class' => 'form-control',
+                        ));
+                        echo $this->Form->input('biz_type', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '醫事機構種類',
+                            'class' => 'form-control',
+                        ));
+                        echo $this->Form->input('service', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '服務項目',
+                            'class' => 'form-control',
+                        ));
+                        echo $this->Form->input('city', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '縣市',
+                            'class' => 'form-control',
+                        ));
+                        echo $this->Form->input('town', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '鄉鎮市區',
+                            'class' => 'form-control',
+                        ));
+                        echo $this->Form->input('address', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '住址',
+                            'class' => 'form-control',
+                        ));
+                        echo $this->Form->input('longitude', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '經度',
+                            'class' => 'form-control',
+                        ));
+                        echo $this->Form->input('latitude', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '緯度',
+                            'class' => 'form-control',
+                        ));
+                        echo $this->Form->input('phone', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '電話',
+                            'class' => 'form-control',
+                        ));
+                        echo $this->Form->input('url', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '網址',
+                            'class' => 'form-control',
+                        ));
                         ?>
                         <?php echo $this->Form->end(__('Submit')); ?>
-                    </div>
-                    <div class="actions">
-                        <h3><?php echo __('Actions'); ?></h3>
-                        <ul>
-
-                            <li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('Point.id')), array(), __('Are you sure you want to delete # %s?', $this->Form->value('Point.id'))); ?></li>
-                            <li><?php echo $this->Html->link(__('List Points'), array('action' => 'index')); ?></li>
-                        </ul>
                     </div>
                 </div>
             </div>

@@ -122,7 +122,7 @@
                                 </li>
                                 <li class="treeview">
                                     <a href="#">
-                                        <i class="fa fa-newspaper-o"></i> <span>地點管理</span>
+                                        <i class="fa fa-newspaper-o"></i> <span>醫療院所管理</span>
                                     </a>
                                     <ul class="treeview-menu">
                                         <li><a href="<?php echo $this->Html->url('/admin/points/index'); ?>"><i class="fa fa-angle-double-right"></i> 列表</a></li>
