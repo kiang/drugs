@@ -178,7 +178,7 @@
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" type="text/javascript"></script>
         <?php
         echo $this->Html->script('app');
-        echo $this->Html->script('tag-it.min');
+        echo $this->Html->script('tag-it');
         echo $this->element('sql_dump');
         ?>
         <script type="text/javascript">

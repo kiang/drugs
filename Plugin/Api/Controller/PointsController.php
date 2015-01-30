@@ -54,15 +54,18 @@ class PointsController extends ApiAppController {
         if (!empty($_GET['term'])) {
             $keyword = trim(Sanitize::clean($_GET['term']));
             $items = $this->Point->find('all', array(
-                'fields' => array('id', 'name'),
+                'fields' => array('id', 'nhi_id', 'name'),
                 'conditions' => array(
-                    'name LIKE' => "%{$keyword}%",
+                    'OR' => array(
+                        'name LIKE' => "%{$keyword}%",
+                        'nhi_id LIKE' => "%{$keyword}%",
+                    ),
                 ),
                 'limit' => 20,
             ));
             foreach ($items AS $item) {
                 $this->jsonData[] = array(
-                    'label' => "{$item['Point']['name']}",
+                    'label' => "[{$item['Point']['nhi_id']}]{$item['Point']['name']}",
                     'value' => $item['Point']['id'],
                 );
             }
