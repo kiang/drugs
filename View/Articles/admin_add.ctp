@@ -34,6 +34,13 @@
                         'class' => 'form-control',
                         'placeholder' => '外部網址',
                     ));
+                    echo $this->Form->input('date_published', array(
+                        'type' => 'text',
+                        'div' => 'form-group',
+                        'label' => '文章日期',
+                        'class' => 'form-control',
+                        'placeholder' => '',
+                    ));
                     ?>
                     <div class="form-group">
                         <label for="relatedDrug">相關藥物</label>
