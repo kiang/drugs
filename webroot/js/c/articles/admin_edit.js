@@ -6,7 +6,7 @@ $(function () {
         },
         onTagClicked: function (event, ui) {
             event.preventDefault();
-            window.open(baseUrl + 'drugs/view/' + ui.tagLabel);
+            window.open(baseUrl + 'drugs/view/' + $('input', ui.tag).val());
         }
     });
     $('#relatedIngredient').tagit({
@@ -16,7 +16,7 @@ $(function () {
         },
         onTagClicked: function (event, ui) {
             event.preventDefault();
-            window.open(baseUrl + 'ingredients/view/' + ui.tagLabel);
+            window.open(baseUrl + 'ingredients/view/' + $('input', ui.tag).val());
         }
     });
     $('#relatedPoint').tagit({
@@ -26,7 +26,7 @@ $(function () {
         },
         onTagClicked: function (event, ui) {
             event.preventDefault();
-            window.open(baseUrl + 'points/view/' + ui.tagLabel);
+            window.open(baseUrl + 'points/view/' + $('input', ui.tag).val());
         }
     });
 });
