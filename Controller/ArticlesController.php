@@ -221,6 +221,7 @@ class ArticlesController extends AppController {
             }
             $articles[$k] = $article;
         }
+        $this->set('title_for_layout', '醫事新知 @ ');
         $this->set('articles', $articles);
     }
 
