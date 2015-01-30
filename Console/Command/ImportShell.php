@@ -9,14 +9,14 @@ class ImportShell extends AppShell {
     public $key2code = array();
 
     public function main() {
-        //$this->dumpDbKeys();
+        $this->dumpDbKeys();
         //$this->importDrug();
         //$this->importPrice();
         //$this->importImage();
         //$this->importBox();
         //$this->importIngredients();
         //$this->importATC();
-        $this->importPoints();
+        //$this->importPoints();
     }
 
     public function importPoints() {
@@ -721,6 +721,19 @@ class ImportShell extends AppShell {
                 $ingredient['Ingredient']['id'],
             ));
         }
+        fclose($fh);
+        $fh = fopen(__DIR__ . '/data/points.csv', 'w');
+        $points = $this->License->Article->Point->find('all', array(
+            'fields' => array('id', 'nhi_id'),
+            'order' => array('nhi_id' => 'ASC'),
+        ));
+        foreach ($points AS $point) {
+            fputcsv($fh, array(
+                $point['Point']['nhi_id'],
+                $point['Point']['id'],
+            ));
+        }
+        fclose($fh);
     }
 
     public function importDrug() {
