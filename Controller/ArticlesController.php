@@ -183,8 +183,44 @@ class ArticlesController extends AppController {
     }
 
     public function index() {
-        $this->paginate['Article']['limit'] = 100;
+        $this->paginate['Article']['limit'] = 5;
+        $this->paginate['Article']['order'] = array(
+            'Article.date_published' => 'DESC',
+            'Article.created' => 'DESC',
+        );
+        $this->paginate['Article']['contain'] = array('ArticlesLink');
         $articles = $this->paginate($this->Article);
+        foreach ($articles AS $k => $article) {
+            foreach ($article['ArticlesLink'] AS $link) {
+                if (!isset($article[$link['model']])) {
+                    $article[$link['model']] = array();
+                }
+                $article[$link['model']][] = $link['foreign_id'];
+            }
+            if (!empty($article['License'])) {
+                $article['Drug'] = $this->Article->License->Drug->find('list', array(
+                    'conditions' => array(
+                        'Drug.license_uuid' => $article['License'],
+                    ),
+                    'contain' => array('License'),
+                    'fields' => array('Drug.id', 'License.name'),
+                    'group' => array('Drug.license_uuid'),
+                ));
+            }
+            if (!empty($article['Ingredient'])) {
+                $article['Ingredient'] = $this->Article->Ingredient->find('list', array(
+                    'conditions' => array('Ingredient.id' => $article['Ingredient']),
+                    'fields' => array('Ingredient.id', 'Ingredient.name'),
+                ));
+            }
+            if (!empty($article['Point'])) {
+                $article['Point'] = $this->Article->Point->find('list', array(
+                    'conditions' => array('Point.id' => $article['Point']),
+                    'fields' => array('Point.id', 'Point.name'),
+                ));
+            }
+            $articles[$k] = $article;
+        }
         $this->set('articles', $articles);
     }
 

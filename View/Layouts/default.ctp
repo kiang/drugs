@@ -98,6 +98,13 @@
                                 <i class="fa pull-right"></i>
                             </a>
                         </li>
+                        <li>
+                            <a href="<?php echo $this->Html->url('/articles'); ?>">
+                                <i class="fa fa-book"></i>
+                                <span>醫事新知</span>
+                                <i class="fa pull-right"></i>
+                            </a>
+                        </li>
                         <?php
                         switch (Configure::read('loginMember.group_id')) {
                             case '0':
