@@ -124,14 +124,32 @@ class ArticlesController extends AppController {
                 'contain' => array('ArticlesLink'),
             ));
             foreach ($this->request->data['ArticlesLink'] AS $link) {
-                if ($link['model'] === 'License') {
-                    $link['model'] = 'Drug';
-                    $link['foreign_id'] = $this->Article->License->Drug->field('id', array('license_uuid' => $link['foreign_id']));
-                }
                 if (!isset($this->request->data[$link['model']])) {
                     $this->request->data[$link['model']] = array();
                 }
                 $this->request->data[$link['model']][] = $link['foreign_id'];
+            }
+            if (!empty($this->request->data['License'])) {
+                $this->request->data['Drug'] = $this->Article->License->Drug->find('list', array(
+                    'conditions' => array(
+                        'Drug.license_uuid' => $this->request->data['License'],
+                    ),
+                    'contain' => array('License'),
+                    'fields' => array('Drug.id', 'License.name'),
+                    'group' => array('Drug.license_uuid'),
+                ));
+            }
+            if (!empty($this->request->data['Ingredient'])) {
+                $this->request->data['Ingredient'] = $this->Article->Ingredient->find('list', array(
+                    'conditions' => array('Ingredient.id' => $this->request->data['Ingredient']),
+                    'fields' => array('Ingredient.id', 'Ingredient.name'),
+                ));
+            }
+            if (!empty($this->request->data['Point'])) {
+                $this->request->data['Point'] = $this->Article->Point->find('list', array(
+                    'conditions' => array('Point.id' => $this->request->data['Point']),
+                    'fields' => array('Point.id', 'Point.name'),
+                ));
             }
         }
     }

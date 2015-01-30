@@ -214,7 +214,12 @@
             if (!addedExistingFromSingleFieldNode) {
                 this.tagList.children('li').each(function() {
                     if (!$(this).hasClass('tagit-new')) {
-                        that.createTag($(this).text(), $(this).text(), $(this).attr('class'), true);
+                        var eId = $(this).attr('data-id');
+                        var eLabel = $(this).text();
+                        if(typeof eId === 'undefined') {
+                            eId = eLabel;
+                        }
+                        that.createTag(eLabel, eId, $(this).attr('class'), true);
                         $(this).remove();
                     }
                 });

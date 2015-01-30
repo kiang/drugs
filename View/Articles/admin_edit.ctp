@@ -40,8 +40,8 @@
                         <label for="relatedDrug">相關藥物</label>
                         <ul id="relatedDrug"><?php
                             if (!empty($this->data['Drug'])) {
-                                foreach ($this->data['Drug'] AS $itemId) {
-                                    echo "<li>{$itemId}</li>";
+                                foreach ($this->data['Drug'] AS $itemId => $itemLabel) {
+                                    echo '<li data-id="' . $itemId . '">' . $itemLabel . '</li>';
                                 }
                             }
                             ?></ul>
@@ -50,8 +50,8 @@
                         <label for="relatedIngredient">相關成份</label>
                         <ul id="relatedIngredient"><?php
                             if (!empty($this->data['Ingredient'])) {
-                                foreach ($this->data['Ingredient'] AS $itemId) {
-                                    echo "<li>{$itemId}</li>";
+                                foreach ($this->data['Ingredient'] AS $itemId => $itemLabel) {
+                                    echo '<li data-id="' . $itemId . '">' . $itemLabel . '</li>';
                                 }
                             }
                             ?></ul>
@@ -60,8 +60,8 @@
                         <label for="relatedPoint">相關醫療院所</label>
                         <ul id="relatedPoint"><?php
                             if (!empty($this->data['Point'])) {
-                                foreach ($this->data['Point'] AS $itemId) {
-                                    echo "<li>{$itemId}</li>";
+                                foreach ($this->data['Point'] AS $itemId => $itemLabel) {
+                                    echo '<li data-id="' . $itemId . '">' . $itemLabel . '</li>';
                                 }
                             }
                             ?></ul>
