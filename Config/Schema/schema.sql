@@ -86,6 +86,7 @@ CREATE TABLE `articles` (
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date_published` date NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -409,4 +410,4 @@ CREATE TABLE `prices` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-01-28 23:05:47
+-- Dump completed on 2015-01-30 21:18:48

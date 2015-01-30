@@ -29,4 +29,7 @@ $(function () {
             window.open(baseUrl + 'points/view/' + $('input', ui.tag).val());
         }
     });
+    $('input#ArticleDatePublished').datepicker({
+        dateFormat: 'yy-mm-dd'
+    });
 });
