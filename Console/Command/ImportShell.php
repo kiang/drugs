@@ -9,13 +9,26 @@ class ImportShell extends AppShell {
     public $key2code = array();
 
     public function main() {
-        $this->dumpDbKeys();
-        //$this->importDrug();
-        //$this->importPrice();
-        //$this->importImage();
-        //$this->importBox();
-        //$this->importIngredients();
-        //$this->importATC();
+        //$this->dumpDbKeys();
+        /*
+         * Execute before importing:
+         * TRUNCATE `drugs`;
+          TRUNCATE `ingredients`;
+          TRUNCATE `ingredients_licenses`;
+          TRUNCATE `licenses`;
+          TRUNCATE `links`;
+          TRUNCATE `prices`;
+         * 
+         * and dump generated data using another one:
+         * 
+         * mysqldump -uroot -p kiang_drug drugs ingredients ingredients_licenses licenses prices > db.sql
+         */
+        $this->importDrug();
+        $this->importPrice();
+        $this->importImage();
+        $this->importBox();
+        $this->importIngredients();
+        $this->importATC();
         //$this->importPoints();
     }
 
@@ -342,7 +355,7 @@ class ImportShell extends AppShell {
             while ($line = fgetcsv($ingredientKeysFh, 1024)) {
                 $ingredientKeys[$line[0]] = array(
                     'id' => $line[1],
-                    'count' => 0,
+                    'count_licenses' => 0,
                 );
             }
             fclose($ingredientKeysFh);
@@ -371,10 +384,10 @@ class ImportShell extends AppShell {
             if (!isset($ingredientKeys[$ingredientKey])) {
                 $ingredientKeys[$ingredientKey] = array(
                     'id' => String::uuid(),
-                    'count' => 0,
+                    'count_licenses' => 0,
                 );
             }
-            $ingredientKeys[$ingredientKey]['count'] += 1;
+            $ingredientKeys[$ingredientKey]['count_licenses'] += 1;
 
             for ($i = 1; $i <= 5; $i++) {
                 $line[$i] = $this->mysqli->real_escape_string(trim($line[$i]));
@@ -407,7 +420,9 @@ class ImportShell extends AppShell {
             $valueStack[] = implode(',', array(
                 "('{$ingredient['id']}'", //ingredient_id
                 "'{$name}'", //name
-                "'{$ingredient['count']}')", //count
+                "'{$ingredient['count_licenses']}'", //count_licenses
+                "0", //count_daily
+                "0)", //count_all
             ));
             ++$sn;
             if ($sn > 50) {
@@ -869,7 +884,9 @@ class ImportShell extends AppShell {
                     "'{$cols[25]}'", //submitted
                     "'{$cols[26]}'", //usage
                     "'{$cols[27]}'", //package_note
-                    "'{$cols[28]}')", //barcode
+                    "'{$cols[28]}'", //barcode
+                    "0", //count_daily
+                    "0)", //count_all
                 );
             }
             $valueStack[] = implode(',', $dbCols) . ')';
