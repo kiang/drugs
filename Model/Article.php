@@ -12,6 +12,12 @@ class Article extends AppModel {
                 'message' => 'This field is required',
             ),
         ),
+        'date_published' => array(
+            'notEmpty' => array(
+                'rule' => 'notEmpty',
+                'message' => 'This field is required',
+            ),
+        ),
     );
     var $hasAndBelongsToMany = array(
         'License' => array(
