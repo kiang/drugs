@@ -130,6 +130,7 @@ class DrugsController extends AppController {
                 'License.count_all' => 'DESC',
                 'License.submitted' => 'DESC',
             ),
+            'group' => array('Drug.license_uuid'),
         );
         $this->set('url', array($name));
         $title = '';
@@ -169,6 +170,7 @@ class DrugsController extends AppController {
                 'License.count_all' => 'DESC',
                 'License.submitted' => 'DESC',
             ),
+            'group' => array('Drug.license_uuid'),
         );
         $this->set('url', array($name));
         $title = '';
