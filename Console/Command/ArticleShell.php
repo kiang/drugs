@@ -73,10 +73,10 @@ class ArticleShell extends AppShell {
                 $body = implode("\n", array(
                     "回收分級：{$line[0]}",
                     "文號：{$line[1]}",
-                    "產品：{$line[2]}",
+                    "產品：{$line[3]}",
                     "許可證字號：{$line[4]}",
                     "批號：{$line[5]}",
-                    "許可證持有者：{$line[7]}",
+                    "許可證持有者：{$line[6]}",
                     "原因：{$line[7]}",
                 ));
                 $this->Article->create();
