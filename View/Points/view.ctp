@@ -96,7 +96,7 @@
                         <ul>
                             <?php
                             foreach ($point['Article'] AS $article) {
-                                echo '<li>' . $this->Html->link("{$article['date_published']} {$article['title']}", $article['url'], array('target' => '_blank')) . '</li>';
+                                echo '<li>' . $this->Html->link("{$article['date_published']} {$article['title']}", '/articles/view/' . $article['id']) . '</li>';
                             }
                             ?>
                         </ul>
