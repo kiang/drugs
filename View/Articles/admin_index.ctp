@@ -15,7 +15,7 @@
                             <tr>
                                 <th><?php echo $this->Paginator->sort('title'); ?></th>
                                 <th><?php echo $this->Paginator->sort('url'); ?></th>
-                                <th><?php echo $this->Paginator->sort('created'); ?></th>
+                                <th><?php echo $this->Paginator->sort('date_published'); ?></th>
                                 <th><?php echo $this->Paginator->sort('modified'); ?></th>
                                 <th class="actions"><?php echo __('Actions'); ?></th>
                             </tr>
@@ -29,7 +29,7 @@
                                         echo $this->Html->link($article['Article']['url'], $article['Article']['url'], array('target' => '_blank'));
                                     }
                                     ?>&nbsp;</td>
-                                    <td><?php echo h($article['Article']['created']); ?>&nbsp;</td>
+                                    <td><?php echo h($article['Article']['date_published']); ?>&nbsp;</td>
                                     <td><?php echo h($article['Article']['modified']); ?>&nbsp;</td>
                                     <td class="actions">
                                         <?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $article['Article']['id']), array('class' => 'btn btn-default')); ?>

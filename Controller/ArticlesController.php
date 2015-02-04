@@ -18,6 +18,10 @@ class ArticlesController extends AppController {
     }
 
     public function admin_index() {
+        $this->paginate['Article']['order'] = array(
+            'Article.date_published' => 'DESC',
+            'Article.created' => 'DESC',
+        );
         $articles = $this->paginate($this->Article);
         $this->set('articles', $articles);
     }
@@ -225,10 +229,45 @@ class ArticlesController extends AppController {
         $this->set('articles', $articles);
     }
 
-    public function view() {
-        $this->paginate['Article']['limit'] = 100;
-        $articles = $this->paginate($this->Article);
-        $this->set('articles', $articles);
+    public function view($articleId = '') {
+        $article = $this->Article->find('first', array(
+            'conditions' => array('Article.id' => $articleId),
+            'contain' => array('ArticlesLink'),
+        ));
+        if (!empty($article)) {
+            foreach ($article['ArticlesLink'] AS $link) {
+                if (!isset($article[$link['model']])) {
+                    $article[$link['model']] = array();
+                }
+                $article[$link['model']][] = $link['foreign_id'];
+            }
+            if (!empty($article['License'])) {
+                $article['Drug'] = $this->Article->License->Drug->find('all', array(
+                    'conditions' => array(
+                        'Drug.license_uuid' => $article['License'],
+                    ),
+                    'contain' => array('License'),
+                    'fields' => array('Drug.id', 'License.name', 'License.disease'),
+                    'group' => array('Drug.license_uuid'),
+                ));
+            }
+            if (!empty($article['Ingredient'])) {
+                $article['Ingredient'] = $this->Article->Ingredient->find('all', array(
+                    'conditions' => array('Ingredient.id' => $article['Ingredient']),
+                    'fields' => array('Ingredient.id', 'Ingredient.name', 'Ingredient.count_licenses'),
+                ));
+            }
+            if (!empty($article['Point'])) {
+                $article['Point'] = $this->Article->Point->find('all', array(
+                    'conditions' => array('Point.id' => $article['Point']),
+                    'fields' => array('Point.id', 'Point.name', 'Point.phone', 'Point.city', 'Point.town', 'Point.address'),
+                ));
+            }
+            $this->set('article', $article);
+        } else {
+            $this->Session->setFlash('請依照網頁指示操作！');
+            $this->redirect(array('action' => 'index'));
+        }
     }
 
 }

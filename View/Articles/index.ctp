@@ -15,8 +15,8 @@
                             <ul class="nav nav-tabs pull-right">
                                 <li class="active"><a href="#<?php echo $article['Article']['id']; ?>-1" data-toggle="tab">內容</a></li>
                                 <li><a href="#<?php echo $article['Article']['id']; ?>-2" data-toggle="tab">關聯</a></li>
-                                <li class="pull-left header"><i class="fa fa-book"></i><?php
-                                    echo "{$article['Article']['date_published']} {$article['Article']['title']}";
+                                <li class="pull-left header"><?php
+                                    echo $this->Html->link('<i class="fa fa-book"></i> ' . "{$article['Article']['date_published']} {$article['Article']['title']}", '/articles/view/' . $article['Article']['id'], array('escape' => false));
                                     ?></li>
                             </ul>
                             <div class="tab-content">
@@ -33,7 +33,7 @@
                                 <div class="tab-pane" id="<?php echo $article['Article']['id']; ?>-2">
                                     <?php
                                     if (!empty($article['Drug'])) {
-                                        echo '<div class="clearfix"></div><h2 class="page-header">藥物證書</h2>';
+                                        echo '<div class="clearfix"></div><h3 class="page-header">藥物證書</h3>';
                                         foreach ($article['Drug'] AS $itemId => $itemLabel) {
                                             ?><div class="col-md-4">
                                                 <div class="box box-solid">
@@ -46,7 +46,7 @@
                                         }
                                     }
                                     if (!empty($article['Ingredient'])) {
-                                        echo '<div class="clearfix"></div><h2 class="page-header">藥物成份</h2>';
+                                        echo '<div class="clearfix"></div><h3 class="page-header">藥物成份</h3>';
                                         foreach ($article['Ingredient'] AS $itemId => $itemLabel) {
                                             ?><div class="col-md-4">
                                                 <div class="box box-solid">
@@ -59,7 +59,7 @@
                                         }
                                     }
                                     if (!empty($article['Point'])) {
-                                        echo '<div class="clearfix"></div><h2 class="page-header">醫事機構</h2>';
+                                        echo '<div class="clearfix"></div><h3 class="page-header">醫事機構</h3>';
                                         foreach ($article['Point'] AS $itemId => $itemLabel) {
                                             ?><div class="col-md-4">
                                                 <div class="box box-solid">
