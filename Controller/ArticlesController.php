@@ -264,6 +264,7 @@ class ArticlesController extends AppController {
                 ));
             }
             $this->set('article', $article);
+            $this->set('title_for_layout', $article['Article']['title'] . ' | 醫事新知 @ ');
         } else {
             $this->Session->setFlash('請依照網頁指示操作！');
             $this->redirect(array('action' => 'index'));
