@@ -241,6 +241,7 @@ class ArticlesController extends AppController {
                 }
                 $article[$link['model']][] = $link['foreign_id'];
             }
+            $keywords = array();
             if (!empty($article['License'])) {
                 $article['Drug'] = $this->Article->License->Drug->find('all', array(
                     'conditions' => array(
@@ -250,21 +251,25 @@ class ArticlesController extends AppController {
                     'fields' => array('Drug.id', 'License.name', 'License.disease'),
                     'group' => array('Drug.license_uuid'),
                 ));
+                $keywords = array_merge($keywords, Set::extract('Drug.{n}.License.name', $article));
             }
             if (!empty($article['Ingredient'])) {
                 $article['Ingredient'] = $this->Article->Ingredient->find('all', array(
                     'conditions' => array('Ingredient.id' => $article['Ingredient']),
                     'fields' => array('Ingredient.id', 'Ingredient.name', 'Ingredient.count_licenses'),
                 ));
+                $keywords = array_merge($keywords, Set::extract('Ingredient.{n}.Ingredient.name', $article));
             }
             if (!empty($article['Point'])) {
                 $article['Point'] = $this->Article->Point->find('all', array(
                     'conditions' => array('Point.id' => $article['Point']),
                     'fields' => array('Point.id', 'Point.name', 'Point.phone', 'Point.city', 'Point.town', 'Point.address'),
                 ));
+                $keywords = array_merge($keywords, Set::extract('Point.{n}.Point.name', $article));
             }
             $this->set('article', $article);
             $this->set('title_for_layout', $article['Article']['title'] . ' | 醫事新知 @ ');
+            $this->set('desc_for_layout', $article['Article']['body'] . ' (' . implode(',', $keywords) . ') / ');
         } else {
             $this->Session->setFlash('請依照網頁指示操作！');
             $this->redirect(array('action' => 'index'));
