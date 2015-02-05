@@ -167,11 +167,6 @@
 
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
-                <!-- drug_layout_head -->
-                <ins class="adsbygoogle"
-                     style="display:inline-block;width:728px;height:90px;"
-                     data-ad-client="ca-pub-5571465503362954"
-                     data-ad-slot="5753585229"></ins>
                      <?php echo $this->Session->flash(); ?>
                      <?php echo $content_for_layout; ?>
             </aside><!-- /.right-side -->
