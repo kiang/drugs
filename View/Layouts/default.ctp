@@ -157,18 +157,31 @@
                         }
                         ?>
                     </ul>
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:160px;height:600px"
+                         data-ad-client="ca-pub-5571465503362954"
+                         data-ad-slot="8707051624"></ins>
                 </section>
                 <!-- /.sidebar -->
             </aside>
 
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
-                <?php echo $this->Session->flash(); ?>
-                <?php echo $content_for_layout; ?>
+                <!-- drug_layout_head -->
+                <ins class="adsbygoogle"
+                     style="display:inline-block;width:728px;height:90px;"
+                     data-ad-client="ca-pub-5571465503362954"
+                     data-ad-slot="5753585229"></ins>
+                     <?php echo $this->Session->flash(); ?>
+                     <?php echo $content_for_layout; ?>
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
         <footer class="footer" style="margin-left: auto;margin-right: auto; margin-bottom: 15px;">
             <div class="row" align="center">
+                <ins class="adsbygoogle"
+                     style="display:inline-block;width:728px;height:90px"
+                     data-ad-client="ca-pub-5571465503362954"
+                     data-ad-slot="2660518025"></ins>
                 <hr />
                 <?php echo $this->Html->link('江明宗 . 政 . 路過', 'http://k.olc.tw/', array('target' => '_blank')); ?>
                 / <?php echo $this->Html->link('關於本站', '/pages/about'); ?>
@@ -183,6 +196,7 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <?php
         echo $this->Html->script('app');
         echo $this->Html->script('tag-it');
@@ -225,6 +239,7 @@
 
                 ga('create', 'UA-40055059-4', 'auto');
                 ga('send', 'pageview');
+                (adsbygoogle = window.adsbygoogle || []).push({});
 
             </script>
         <?php } ?>
