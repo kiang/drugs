@@ -167,16 +167,20 @@
 
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
-                     <?php echo $this->Session->flash(); ?>
-                     <?php echo $content_for_layout; ?>
+                <?php echo $this->Session->flash(); ?>
+                <?php echo $content_for_layout; ?>
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
         <footer class="footer" style="margin-left: auto;margin-right: auto; margin-bottom: 15px;">
             <div class="row" align="center">
                 <ins class="adsbygoogle"
-                     style="display:inline-block;width:728px;height:90px"
+                     style="display:inline-block;width:336px;height:280px"
                      data-ad-client="ca-pub-5571465503362954"
-                     data-ad-slot="2660518025"></ins>
+                     data-ad-slot="3985487224"></ins>
+                <ins class="adsbygoogle"
+                     style="display:inline-block;width:336px;height:280px"
+                     data-ad-client="ca-pub-5571465503362954"
+                     data-ad-slot="3985487224"></ins>
                 <hr />
                 <?php echo $this->Html->link('江明宗 . 政 . 路過', 'http://k.olc.tw/', array('target' => '_blank')); ?>
                 / <?php echo $this->Html->link('關於本站', '/pages/about'); ?>
