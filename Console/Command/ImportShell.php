@@ -9,7 +9,8 @@ class ImportShell extends AppShell {
     public $key2code = array();
 
     public function main() {
-        //$this->dumpDbKeys();
+        $this->dumpDbKeys();
+        exit();
         /*
          * Execute before importing:
          * TRUNCATE `drugs`;
