@@ -6,7 +6,37 @@ class ArticleShell extends AppShell {
     public $dataPath = '/home/kiang/public_html/data.fda.gov.tw-list';
 
     public function main() {
-        $this->data34();
+        $this->data65();
+    }
+
+    public function data65() {
+        $dateLatestFile = __DIR__ . '/data/articles_65_latest.txt';
+        $dateLatest = false;
+        if (file_exists($dateLatestFile)) {
+            $dateLatest = strtotime(trim(file_get_contents($dateLatestFile)));
+        }
+
+        $fh = fopen($this->dataPath . '/dataset/65.csv', 'r');
+        $currentLatest = 0;
+        //燈號、標題名稱、內容、附檔、更新日期
+        while ($line = fgetcsv($fh, 30000, "\t")) {
+            $recordTime = strtotime($line[4]);
+            if (false === $dateLatest || $recordTime > $dateLatest) {
+                if ($recordTime > $currentLatest) {
+                    $currentLatest = $recordTime;
+                }
+                $this->Article->create();
+                $this->Article->save(array('Article' => array(
+                        'id' => String::uuid(),
+                        'title' => '[國際藥品]' . $line[1],
+                        'body' => $line[2],
+                        'date_published' => $line[4],
+                )));
+            }
+        }
+        if ($currentLatest > 0) {
+            file_put_contents($dateLatestFile, date('Y-m-d', $currentLatest));
+        }
     }
 
     public function data34() {
