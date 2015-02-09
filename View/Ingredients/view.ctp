@@ -6,11 +6,29 @@
         <li class="active"><?php echo $ingredient['Ingredient']['name']; ?></li>
     </ol>
 </section>
-
+<?php
+$pos = strpos($ingredient['Ingredient']['name'], '(');
+if (false === $pos) {
+    $query = str_replace(' ', '+', $ingredient['Ingredient']['name']);
+} else {
+    $query = str_replace(' ', '+', trim(substr($ingredient['Ingredient']['name'], 0, $pos)));
+}
+?>
 <!-- Main content -->
 <section class="content">
     <div id="IngredientsView" class="row">
         <div class="col-xs-12">
+            <div class="box box-danger" id="ingredientEventBox" style="display:none;" data-query="<?php echo $query; ?>">
+                <div class="box-header">
+                    <i class="fa fa-warning"></i>
+                    <h4>常見不良反應 - MedDRA term(s)</h4>
+                </div>
+                <div class="box-body">
+                    <ul id="ingredientEventList"></ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="box-footer"></div>
+            </div>
             <div class="box">
                 <div class="box-header">
                     <?php echo $this->element('paginator'); ?>
@@ -75,3 +93,6 @@
 
     </div>
 </section><!-- /.content -->
+<?php
+echo $this->Html->script('c/ingredients/view', array('inline' => false));
+?>
