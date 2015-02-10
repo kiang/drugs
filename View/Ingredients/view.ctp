@@ -21,14 +21,14 @@ if (false === $pos) {
             <div class="box box-danger" id="ingredientEventBox" style="display:none;" data-query="<?php echo $query; ?>">
                 <div class="box-header">
                     <i class="fa fa-warning"></i>
-                    <h4>常見不良反應 - MedDRA term(s)</h4>
+                    <h4>常見不良反應</h4>
                 </div>
                 <div class="box-body">
                     <ul id="ingredientEventList"></ul>
                     <div class="clearfix"></div>
                 </div>
                 <div class="box-footer">
-                    括弧中的數字為 openFDA 提供的通報數量，資料來自美國 FDA<br />
+                    括弧中的數字為 openFDA 提供的通報數量，資料來自美國 FDA ；個別詞彙是使用 MedDRA 定義，但點選連結後則是透過這個定義去搜尋 MeSH 資料庫(因為 MedDRA 的使用需要額外付費)，找到的資料僅供參考<br />
                 </div>
             </div>
             <div class="box">
