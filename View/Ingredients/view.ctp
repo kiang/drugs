@@ -27,7 +27,9 @@ if (false === $pos) {
                     <ul id="ingredientEventList"></ul>
                     <div class="clearfix"></div>
                 </div>
-                <div class="box-footer"></div>
+                <div class="box-footer">
+                    括弧中的數字為 openFDA 提供的通報數量，資料來自美國 FDA<br />
+                </div>
             </div>
             <div class="box">
                 <div class="box-header">
