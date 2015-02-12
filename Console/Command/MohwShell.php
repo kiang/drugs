@@ -8,7 +8,91 @@ class MohwShell extends AppShell {
     public $mysqli = false;
 
     public function main() {
-        $this->importDrug();
+        //$this->importDrug();
+        $this->importIngredients();
+    }
+
+    public function importIngredients() {
+        $db = ConnectionManager::getDataSource('default');
+        $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
+        $this->dbQuery('SET NAMES utf8mb4;');
+        $valueStack = $ingredientKeys = array();
+
+        if (file_exists(__DIR__ . '/data/mohw_ingredients.csv')) {
+            $ingredientKeysFh = fopen(__DIR__ . '/data/mohw_ingredients.csv', 'r');
+            while ($line = fgetcsv($ingredientKeysFh, 1024)) {
+                $ingredientKeys[$line[0]] = array(
+                    'id' => $line[1],
+                    'count_licenses' => 0,
+                );
+            }
+            fclose($ingredientKeysFh);
+        }
+        $sn = 1;
+        foreach (glob(__DIR__ . '/data/mohw/license/*/*.json') AS $jsonFile) {
+            $p = pathinfo($jsonFile);
+            $json = json_decode(file_get_contents($jsonFile), true);
+            foreach ($json['ingredients'] AS $ingredient) {
+                foreach ($ingredient AS $k => $v) {
+                    $ingredient[$k] = trim(str_replace('&nbsp;', '', $v));
+                }
+                if (!empty($ingredient[1])) {
+                    $ingredientKey = $ingredient[0];
+                    if (!isset($ingredientKeys[$ingredientKey])) {
+                        $ingredientKeys[$ingredientKey] = array(
+                            'id' => String::uuid(),
+                            'count_licenses' => 0,
+                        );
+                    }
+                    $ingredientKeys[$ingredientKey]['count_licenses'] += 1;
+
+                    $currentId = String::uuid();
+                    $valueStack[] = implode(',', array(
+                        "('{$currentId}'", //id
+                        "'{$p['filename']}'", //license_id
+                        "'{$ingredientKeys[$ingredientKey]['id']}'", //ingredient_id
+                        "NULL", //remark
+                        "'{$ingredient[0]}'", //name
+                        "'{$ingredient[1]}'", //dosage_text
+                        "'{$ingredient[1]}'", //dosage
+                        "'{$ingredient[2]}')", //unit
+                    ));
+                    ++$sn;
+                    if ($sn > 50) {
+                        $sn = 1;
+                        $this->dbQuery('INSERT INTO `ingredients_licenses` VALUES ' . implode(',', $valueStack) . ';');
+                        $valueStack = array();
+                    }
+                }
+            }
+        }
+        if (!empty($valueStack)) {
+            $this->dbQuery('INSERT INTO `ingredients_licenses` VALUES ' . implode(',', $valueStack) . ';');
+        }
+        $valueStack = array();
+        $sn = 1;
+        $fh = fopen(__DIR__ . '/data/mohw_ingredients.csv', 'w');
+        foreach ($ingredientKeys AS $name => $ingredient) {
+            $name = $this->mysqli->real_escape_string($name);
+            $valueStack[] = implode(',', array(
+                "('{$ingredient['id']}'", //ingredient_id
+                "'{$name}'", //name
+                "'{$ingredient['count_licenses']}'", //count_licenses
+                "0", //count_daily
+                "0)", //count_all
+            ));
+            fputcsv($fh, array($name, $ingredient['id']));
+            ++$sn;
+            if ($sn > 50) {
+                $sn = 1;
+                $this->dbQuery('INSERT INTO `ingredients` VALUES ' . implode(',', $valueStack) . ';');
+                $valueStack = array();
+            }
+        }
+        fclose($fh);
+        if (!empty($valueStack)) {
+            $this->dbQuery('INSERT INTO `ingredients` VALUES ' . implode(',', $valueStack) . ';');
+        }
     }
 
     public function importDrug() {
