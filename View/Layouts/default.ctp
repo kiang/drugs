@@ -208,6 +208,8 @@
                     var keyword = $('input#keyword').val();
                     if (keyword !== '') {
                         location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
+                    } else {
+                        alert('您尚未輸入關鍵字！');
                     }
                     return false;
                 });
@@ -215,6 +217,8 @@
                     var keyword = $('input#keyword').val();
                     if (keyword !== '') {
                         location.href = '<?php echo $this->Html->url('/drugs/outward/'); ?>' + encodeURIComponent(keyword);
+                    } else {
+                        alert('您尚未輸入關鍵字！');
                     }
                     return false;
                 });
