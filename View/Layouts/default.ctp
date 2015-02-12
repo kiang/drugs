@@ -55,7 +55,7 @@
                 <!-- sidebar: style can be found in sidebar.less -->
                 <section class="sidebar">
                     <!-- search form -->
-                    <form action="#" method="get" class="sidebar-form">
+                    <form action="#" method="get" class="sidebar-form" id="keywordForm">
                         <div class="input-group">
                             <input type="text" id="keyword" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="搜尋藥物..."/>
                         </div>
@@ -218,7 +218,14 @@
                     }
                     return false;
                 });
-
+                $('form#keywordForm').submit(function() {
+                    var keyword = $('input#keyword').val();
+                    if (keyword !== '') {
+                        location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
+                    } else {
+                        alert('您尚未輸入關鍵字！');
+                    }
+                });
             });
             //]]>
         </script>
