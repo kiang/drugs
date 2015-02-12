@@ -50,10 +50,14 @@ if (false === $pos) {
                             <?php
                             $i = 0;
                             foreach ($items as $item) {
+                                $name = $item['License']['name'];
+                                if (!empty($item['License']['name_english'])) {
+                                    $name .= "({$item['License']['name_english']})";
+                                }
                                 ?>
                                 <tr>
                                     <td>
-                                        <?php echo $this->Html->link("{$item['License']['name']}({$item['License']['name_english']})", array('controller' => 'drugs', 'action' => 'view', $item['Drug']['id'])); ?></td>
+                                        <?php echo $this->Html->link($name, array('controller' => 'drugs', 'action' => 'view', $item['Drug']['id'])); ?></td>
                                     <td><?php
                                         echo $item['License']['license_id'];
                                         ?></td>

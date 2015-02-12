@@ -1,6 +1,12 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1><?php echo $this->data['License']['name']; ?> (<?php echo $this->data['License']['name_english']; ?>)</h1>
+    <h1><?php
+        $name = $this->data['License']['name'];
+        if (!empty($this->data['License']['name_english'])) {
+            $name .= "({$this->data['License']['name_english']})";
+        }
+        echo $name;
+        ?></h1>
     <ol class="breadcrumb">
         <li><?php echo $this->Html->link('藥物證書', '/drugs/index'); ?></li>
         <li class="active"><?php echo $this->data['License']['name']; ?></li>

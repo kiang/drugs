@@ -9,7 +9,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                <?php echo $this->element('paginator'); ?>
+                    <?php echo $this->element('paginator'); ?>
                 </div>
                 <div class="box-body table-responsive no-padding">
                     <table class="table table-hover" id="DrugsIndexTable">
@@ -25,38 +25,42 @@
                             </tr>
                         </thead>
                         <tbody>
-            <?php
-            $i = 0;
-            foreach ($items as $item) {
-                ?>
-                            <tr>
-                                <td>
-                        <?php echo $this->Html->link("{$item['License']['name']}({$item['License']['name_english']})", array('action' => 'view', $item['Drug']['id'])); ?></td>
-                                <td><?php
-                        echo $item['Drug']['license_id'];
-                        ?></td>
-                                <td><?php
-                        echo $item['Drug']['manufacturer'];
-                        ?></td>
-                                <td><?php
-                        echo $item['Drug']['manufacturer_country'];
-                        ?></td>
-                                <td><?php
-                        echo $item['License']['expired_date'];
-                        ?></td>
-                                <td><?php
-                        echo $item['License']['license_date'];
-                        ?></td>
-                                <td><?php
-                        echo $item['License']['submitted'];
-                        ?></td>
-                            </tr>
-            <?php }; // End of foreach ($items as $item) {  ?>
+                            <?php
+                            $i = 0;
+                            foreach ($items as $item) {
+                                $name = $item['License']['name'];
+                                if (!empty($item['License']['name_english'])) {
+                                    $name .= "({$item['License']['name_english']})";
+                                }
+                                ?>
+                                <tr>
+                                    <td>
+                                        <?php echo $this->Html->link($name, array('action' => 'view', $item['Drug']['id'])); ?></td>
+                                    <td><?php
+                                        echo $item['Drug']['license_id'];
+                                        ?></td>
+                                    <td><?php
+                                        echo $item['Drug']['manufacturer'];
+                                        ?></td>
+                                    <td><?php
+                                        echo $item['Drug']['manufacturer_country'];
+                                        ?></td>
+                                    <td><?php
+                                        echo $item['License']['expired_date'];
+                                        ?></td>
+                                    <td><?php
+                                        echo $item['License']['license_date'];
+                                        ?></td>
+                                    <td><?php
+                                        echo $item['License']['submitted'];
+                                        ?></td>
+                                </tr>
+                            <?php }; // End of foreach ($items as $item) {  ?>
                         </tbody>
                     </table>
                 </div>
                 <div class="box-footer clearfix">
-                <?php echo $this->element('paginator'); ?>
+                    <?php echo $this->element('paginator'); ?>
                 </div>
             </div>
         </div>
