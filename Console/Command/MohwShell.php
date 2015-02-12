@@ -9,7 +9,104 @@ class MohwShell extends AppShell {
 
     public function main() {
         //$this->importDrug();
-        $this->importIngredients();
+        //$this->importIngredients();
+        $this->importNhiCodes();
+    }
+
+    public function importNhiCodes() {
+        $tmpPath = TMP . 'mohw/nhi';
+        if (!file_exists($tmpPath)) {
+            mkdir($tmpPath, 0777, true);
+        }
+        $targetPath = __DIR__ . '/data/mohw/nhi';
+        if (!file_exists($targetPath)) {
+            mkdir($targetPath, 0777, true);
+        }
+        $listUrl = 'http://www.nhi.gov.tw/webdata/webdata.aspx?menu=21&menu_id=713&WD_ID=849&webdata_id=932';
+        $listFile = $tmpPath . '/list';
+        if (!file_exists($listFile)) {
+            file_put_contents($listFile, file_get_contents($listUrl));
+        }
+        $list = file_get_contents($listFile);
+        $pos = strpos($list, '/Resource/webdata/');
+        $toReplace = array('〞', '“', '”', '〝', '『', '』', '\'', '(', ')', '（', '）');
+        while (false !== $pos) {
+            $posEnd = strpos($list, '"', $pos);
+            $fileUrl = 'http://www.nhi.gov.tw' . substr($list, $pos, $posEnd - $pos);
+            if (substr($fileUrl, -3) === 'xls') {
+                $csvFile = $targetPath . '/' . md5($fileUrl) . '.csv';
+                if (!file_exists($csvFile)) {
+                    $filePath = $tmpPath . '/' . md5($fileUrl) . '.xls';
+                    if (!file_exists($filePath)) {
+                        $fileUrlParts = explode('/', $fileUrl);
+                        end($fileUrlParts);
+                        $endKey = key($fileUrlParts);
+                        $fileUrlParts[$endKey] = urlencode($fileUrlParts[$endKey]);
+                        file_put_contents($filePath, file_get_contents(implode('/', $fileUrlParts)));
+                    }
+                    exec("/usr/bin/libreoffice --headless --convert-to csv --infilter=CSV:44,34,big5 $filePath --outdir $targetPath");
+                }
+                $fh = fopen($csvFile, 'r');
+                fgetcsv($fh, 2048);
+                /*
+                 * (
+                  [0] => 藥品代碼
+                  [1] => 中文名稱
+                  [2] => 劑型
+                  [3] => 製造廠名稱
+                  [4] => 發證日期
+                  [5] => 有效期間
+                  [6] => 收載日
+                  [7] => 不再收載日
+                  [8] => 備註
+                  )
+                 */
+                while ($line = fgetcsv($fh, 2048)) {
+                    $line[1] = str_replace($toReplace, '"', $line[1]);
+                    $keywords = preg_split('/["]+/', $line[1]);
+                    if (count($keywords) === 1) {
+                        $prefix = mb_substr($keywords[0], 0, 2, 'utf-8');
+                        switch ($prefix) {
+                            case '順然':
+                            case '壽美':
+                            case '富田':
+                            case '三帆':
+                            case '華昌':
+                                $keywords = array(
+                                    mb_substr($keywords[0], 0, 2, 'utf-8'),
+                                    mb_substr($keywords[0], 2, null, 'utf-8')
+                                );
+                                break;
+                            case '順天':
+                            case '香生':
+                                $keywords = array(
+                                    mb_substr($keywords[0], 0, 3, 'utf-8'),
+                                    mb_substr($keywords[0], 3, null, 'utf-8')
+                                );
+                                break;
+                        }
+                    }
+                    $conditions = array(
+                        "License.package_note NOT LIKE '%外銷%'",
+                    );
+                    foreach ($keywords AS $keyword) {
+                        if (!empty($keyword)) {
+                            $conditions[] = "License.name LIKE '%{$keyword}%'";
+                        }
+                    }
+                    $licenses = $this->License->find('all', array(
+                        'fields' => array('License.id', 'License.name'),
+                        'conditions' => $conditions,
+                    ));
+                    if (count($licenses) !== 1) {
+                        echo "{$line[1]}\n";
+                        print_r($licenses);
+                    }
+                }
+                fclose($fh);
+            }
+            $pos = strpos($list, '/Resource/webdata/', $posEnd);
+        }
     }
 
     public function importIngredients() {
