@@ -5,9 +5,102 @@ App::uses('HttpSocket', 'Network/Http');
 class MohwShell extends AppShell {
 
     public $uses = array('License');
+    public $mysqli = false;
 
     public function main() {
-        $this->extractLicenseHtml();
+        $this->importDrug();
+    }
+
+    public function importDrug() {
+        $db = ConnectionManager::getDataSource('default');
+        $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
+        $this->dbQuery('SET NAMES utf8mb4;');
+        $valueStack = $licenseData = array();
+        $sn = 1;
+        foreach (glob(__DIR__ . '/data/mohw/license/*/*.json') AS $jsonFile) {
+            $p = pathinfo($jsonFile);
+            $json = json_decode(file_get_contents($jsonFile), true);
+            $json['license']['發證日期'] = date('Y-m-d', strtotime($json['license']['發證日期']));
+            $json['license']['有效日期'] = date('Y-m-d', strtotime($json['license']['有效日期']));
+            foreach ($json['license'] AS $k => $v) {
+                $json['license'][$k] = $this->mysqli->real_escape_string($v);
+            }
+
+            $dbCols = array(
+                "('{$p['filename']}'", //id
+                "'{$p['filename']}'", //license_uuid
+                "'{$json['license']['許可證字號']}'", //license_id
+                "'{$json['license']['製造廠名稱']}'", //manufacturer
+                "'{$json['license']['製造廠地址']}'", //manufacturer_address
+                "NULL", //manufacturer_office
+                "NULL", //manufacturer_country
+                "NULL", //manufacturer_description
+            );
+            $disease = trim("{$json['license']['適應症']}\n{$json['license']['效能']}");
+            $licenseData[] = array(
+                "('{$p['filename']}'", //id
+                "'{$json['license']['許可證字號']}'", //license_id
+                "NULL", //nhi_id
+                "NULL", //shape
+                "NULL", //s_type
+                "NULL", //color
+                "NULL", //odor
+                "NULL", //abrasion
+                "NULL", //size
+                "NULL", //note_1
+                "NULL", //note_2
+                "NULL", //image
+                "NULL", //cancel_status
+                "NULL", //cancel_date
+                "NULL", //cancel_reason
+                "'{$json['license']['有效日期']}'", //expired_date
+                "'{$json['license']['發證日期']}'", //license_date
+                "'{$json['license']['類別']}'", //license_type
+                "NULL", //old_id
+                "NULL", //document_id
+                "'{$json['license']['中文品名']}'", //name
+                "'{$json['license']['英文品名']}'", //name_english
+                "'{$disease}'", //disease
+                "'{$json['license']['劑型']}'", //formulation
+                "'{$json['license']['包裝']}'", //package
+                "'{$json['license']['單複方']}'", //type
+                "NULL", //class
+                "NULL", //ingredient
+                "'{$json['license']['申請商名稱']}'", //vendor
+                "'{$json['license']['申請商地址']}'", //vendor_address
+                "NULL", //vendor_id
+                "'{$json['license']['發證日期']}'", //submitted
+                "NULL", //usage
+                "'{$json['license']['限制項目']}'", //package_note
+                "NULL", //barcode
+                "0", //count_daily
+                "0)", //count_all
+            );
+            $valueStack[] = implode(',', $dbCols) . ')';
+            ++$sn;
+            if ($sn > 50) {
+                $sn = 1;
+                $this->dbQuery('INSERT INTO `drugs` VALUES ' . implode(',', $valueStack) . ';');
+                $valueStack = array();
+            }
+        }
+        if (!empty($valueStack)) {
+            $this->dbQuery('INSERT INTO `drugs` VALUES ' . implode(',', $valueStack) . ';');
+        }
+        $sn = 1;
+        $valueStack = array();
+        foreach ($licenseData AS $dbCols) {
+            $valueStack[] = implode(',', $dbCols);
+            ++$sn;
+            if ($sn > 50) {
+                $sn = 1;
+                $this->dbQuery('INSERT INTO `licenses` VALUES ' . implode(',', $valueStack) . ';');
+                $valueStack = array();
+            }
+        }
+        if (!empty($valueStack)) {
+            $this->dbQuery('INSERT INTO `licenses` VALUES ' . implode(',', $valueStack) . ';');
+        }
     }
 
     public function extractLicenseHtml() {
@@ -161,6 +254,14 @@ class MohwShell extends AppShell {
             $selectPos = strpos($form, '<select', $selectPosEnd);
         }
         return $formValues;
+    }
+
+    public function dbQuery($sql) {
+        if (!$this->mysqli->query($sql)) {
+            printf("Error: %s\n", $this->mysqli->error);
+            echo $sql;
+            exit();
+        }
     }
 
 }
