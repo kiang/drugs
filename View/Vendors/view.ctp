@@ -99,6 +99,3 @@ if (false === $pos) {
 
     </div>
 </section><!-- /.content -->
-<?php
-echo $this->Html->script('c/vendors/view', array('inline' => false));
-?>
