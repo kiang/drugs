@@ -6,29 +6,20 @@
         <li class="active"><?php echo $vendor['Vendor']['name']; ?></li>
     </ol>
 </section>
-<?php
-$pos = strpos($vendor['Vendor']['name'], '(');
-if (false === $pos) {
-    $query = str_replace(' ', '+', $vendor['Vendor']['name']);
-} else {
-    $query = str_replace(' ', '+', trim(substr($vendor['Vendor']['name'], 0, $pos)));
-}
-?>
 <!-- Main content -->
 <section class="content">
     <div id="VendorsView" class="row">
         <div class="col-xs-12">
-            <div class="box box-danger" id="vendorEventBox" style="display:none;" data-query="<?php echo $query; ?>">
-                <div class="box-header">
-                    <i class="fa fa-warning"></i>
-                    <h4>常見不良反應</h4>
-                </div>
+            <div class="box">
+                <div class="box-header"></div>
                 <div class="box-body">
-                    <ul id="vendorEventList"></ul>
+                    <ul id="vendorEventList">
+                        <li class="col-xs-3">國家： <?php echo $vendor['Vendor']['country']; ?></li>
+                        <li class="col-xs-3">統一編號：<?php echo $vendor['Vendor']['tax_id']; ?> </li>
+                        <li class="col-xs-3">地址：<?php echo $vendor['Vendor']['address']; ?></li>
+                        <li class="col-xs-3">辦公室：<?php echo $vendor['Vendor']['address_office']; ?></li>
+                    </ul>
                     <div class="clearfix"></div>
-                </div>
-                <div class="box-footer">
-                    括弧中的數字為 openFDA 提供的通報數量，資料來自美國 FDA ；個別詞彙是使用 MedDRA 定義，但點選連結後則是透過這個定義去搜尋 MeSH 資料庫(因為 MedDRA 的使用需要額外付費)，找到的資料僅供參考<br />
                 </div>
             </div>
             <div class="box">

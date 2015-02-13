@@ -105,7 +105,7 @@ class VendorsController extends AppController {
                     ),
                 ),
             );
-            $this->set('title_for_layout', "來自 {$vendor['Vendor']['name']} 廠商的藥物 @ ");
+            $this->set('title_for_layout', "{$vendor['Vendor']['name']} 相關藥物 @ ");
             $this->set('items', $this->paginate($this->Vendor->License, array('OR' => array(
                             'License.vendor_id' => $id,
                             'Drug.vendor_id' => $id,
