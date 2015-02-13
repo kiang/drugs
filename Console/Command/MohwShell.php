@@ -27,6 +27,17 @@ class MohwShell extends AppShell {
         if (!file_exists($listFile)) {
             file_put_contents($listFile, file_get_contents($listUrl));
         }
+
+        $licenses = $this->License->find('list', array(
+            'fields' => array('License.id', 'License.name'),
+            'conditions' => array(
+                "License.package_note NOT LIKE '%外銷%'",
+                'OR' => array(
+                    'License.nhi_id IS NULL',
+                    'License.nhi_id' => '',
+                )),
+        ));
+
         $list = file_get_contents($listFile);
         $pos = strpos($list, '/Resource/webdata/');
         $toReplace = array('〞', '“', '”', '〝', '『', '』', '\'', '(', ')', '（', '）');
@@ -86,21 +97,29 @@ class MohwShell extends AppShell {
                                 break;
                         }
                     }
-                    $conditions = array(
-                        "License.package_note NOT LIKE '%外銷%'",
-                    );
+                    $matches = false;
                     foreach ($keywords AS $keyword) {
                         if (!empty($keyword)) {
-                            $conditions[] = "License.name LIKE '%{$keyword}%'";
+                            if (false === $matches) {
+                                $matches = array();
+                                foreach ($licenses AS $licenseId => $name) {
+                                    if (false !== strpos($name, $keyword)) {
+                                        $matches[$licenseId] = $name;
+                                    }
+                                }
+                            } elseif (!empty($matches)) {
+                                foreach ($matches AS $licenseId => $name) {
+                                    if (false === strpos($name, $keyword)) {
+                                        unset($matches[$licenseId]);
+                                    }
+                                }
+                            }
                         }
                     }
-                    $licenses = $this->License->find('all', array(
-                        'fields' => array('License.id', 'License.name'),
-                        'conditions' => $conditions,
-                    ));
-                    if (count($licenses) !== 1) {
-                        echo "{$line[1]}\n";
-                        print_r($licenses);
+                    if (count($matches) === 1) {
+                        $this->License->id = key($matches);
+                        echo "{$this->License->id} => {$line[0]}\n";
+                        $this->License->saveField('nhi_id', $line[0]);
                     }
                 }
                 fclose($fh);
