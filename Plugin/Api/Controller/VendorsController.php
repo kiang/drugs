@@ -3,10 +3,10 @@
 App::uses('AppController', 'Controller');
 App::uses('Sanitize', 'Utility');
 
-class IngredientsController extends ApiAppController {
+class VendorsController extends ApiAppController {
 
-    public $name = 'Ingredients';
-    public $uses = array('Ingredient');
+    public $name = 'Vendors';
+    public $uses = array('Vendor');
     public $paginate = array();
     public $helpers = array();
 
@@ -19,16 +19,19 @@ class IngredientsController extends ApiAppController {
             foreach ($keywords AS $keyword) {
                 if (++$keywordCount < 5) {
                     $scope[]['OR'] = array(
-                        'Ingredient.name LIKE' => "%{$keyword}%",
+                        'Vendor.name LIKE' => "%{$keyword}%",
+                        'Vendor.address LIKE' => "%{$keyword}%",
+                        'Vendor.address_office LIKE' => "%{$keyword}%",
+                        'Vendor.country LIKE' => "%{$keyword}%",
+                        'Vendor.tax_id' => "{$keyword}",
                     );
                 }
             }
         }
-        $this->paginate['Ingredient'] = array(
+        $this->paginate['Vendor'] = array(
             'limit' => 20,
-            'order' => array('Ingredient.count_licenses' => 'DESC'),
         );
-        $items = $this->paginate($this->Ingredient, $scope);
+        $items = $this->paginate($this->Vendor, $scope);
         $this->jsonData = array(
             'meta' => array(
                 'paging' => $this->request->params['paging'],
@@ -39,26 +42,17 @@ class IngredientsController extends ApiAppController {
 
     public function view($id = null) {
         if (!empty($id)) {
-            $ingredient = $this->Ingredient->find('first', array(
+            $vendor = $this->Vendor->find('first', array(
                 'conditions' => array('id' => $id),
             ));
         }
-        if (!empty($ingredient)) {
+        if (!empty($vendor)) {
             $this->paginate['License'] = array(
                 'fields' => array(
                     'License.*', 'Drug.id'
                 ),
                 'limit' => 20,
                 'joins' => array(
-                    array(
-                        'table' => 'ingredients_licenses',
-                        'alias' => 'IngredientsLicense',
-                        'type' => 'INNER',
-                        'conditions' => array(
-                            'License.id = IngredientsLicense.license_id',
-                            'IngredientsLicense.ingredient_id' => $id,
-                        ),
-                    ),
                     array(
                         'table' => 'drugs',
                         'alias' => 'Drug',
@@ -69,7 +63,10 @@ class IngredientsController extends ApiAppController {
                     ),
                 ),
             );
-            $items = $this->paginate($this->Ingredient->License, array('IngredientsLicense.ingredient_id' => $id));
+            $items = $this->paginate($this->Vendor->License, array('OR' => array(
+                    'License.vendor_id' => $id,
+                    'Drug.vendor_id' => $id,
+            )));
             $this->jsonData = array(
                 'meta' => array(
                     'paging' => $this->request->params['paging'],
@@ -88,7 +85,7 @@ class IngredientsController extends ApiAppController {
         $this->jsonData = array();
         if (!empty($_GET['term'])) {
             $keyword = trim(Sanitize::clean($_GET['term']));
-            $items = $this->Ingredient->find('all', array(
+            $items = $this->Vendor->find('all', array(
                 'fields' => array('id', 'name'),
                 'conditions' => array(
                     'name LIKE' => "%{$keyword}%",
@@ -97,8 +94,8 @@ class IngredientsController extends ApiAppController {
             ));
             foreach ($items AS $item) {
                 $this->jsonData[] = array(
-                    'label' => "{$item['Ingredient']['name']}",
-                    'value' => $item['Ingredient']['id'],
+                    'label' => "{$item['Vendor']['name']}",
+                    'value' => $item['Vendor']['id'],
                 );
             }
         }

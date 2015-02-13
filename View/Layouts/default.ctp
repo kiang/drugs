@@ -93,7 +93,7 @@
                         </li>
                         <li>
                             <a href="<?php echo $this->Html->url('/vendors'); ?>">
-                                <i class="fa fa-cogs"></i>
+                                <i class="fa fa-truck"></i>
                                 <span>藥物廠商</span>
                                 <i class="fa pull-right"></i>
                             </a>
