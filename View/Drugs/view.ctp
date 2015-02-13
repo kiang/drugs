@@ -141,7 +141,7 @@
                         </dd>
                         <dt>申請商名稱</dt>
                         <dd><?php
-                            echo $this->Html->link($this->data['License']['Vendor']['name'], '/drugs/index/' . $this->data['License']['Vendor']['name'], array('class' => 'btn btn-default'));
+                            echo $this->Html->link($this->data['License']['Vendor']['name'], '/vendors/view/' . $this->data['License']['Vendor']['id'], array('class' => 'btn btn-default'));
                             ?>&nbsp;
                         </dd>
                         <dt>申請商地址</dt>
@@ -156,7 +156,7 @@
                         </dd>
                         <dt>製造商名稱</dt>
                         <dd><?php
-                            echo $this->Html->link($this->data['Vendor']['name'], '/drugs/index/' . $this->data['Vendor']['name'], array('class' => 'btn btn-default'));
+                            echo $this->Html->link($this->data['Vendor']['name'], '/vendors/view/' . $this->data['Vendor']['id'], array('class' => 'btn btn-default'));
                             ?>&nbsp;
                         </dd>
                         <dt>製造廠廠址</dt>

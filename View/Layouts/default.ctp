@@ -92,6 +92,13 @@
                             </a>
                         </li>
                         <li>
+                            <a href="<?php echo $this->Html->url('/vendors'); ?>">
+                                <i class="fa fa-cogs"></i>
+                                <span>藥物廠商</span>
+                                <i class="fa pull-right"></i>
+                            </a>
+                        </li>
+                        <li>
                             <a href="<?php echo $this->Html->url('/points'); ?>">
                                 <i class="fa fa-hospital-o"></i>
                                 <span>醫事機構</span>

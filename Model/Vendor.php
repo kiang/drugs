@@ -27,5 +27,15 @@ class Vendor extends AppModel {
             'className' => 'License',
         ),
     );
+    
+    public $hasAndBelongsToMany = array(
+        'Article' => array(
+            'joinTable' => 'articles_links',
+            'conditions' => array('model' => 'Vendor'),
+            'foreignKey' => 'foreign_id',
+            'associationForeignKey' => 'article_id',
+            'className' => 'Article',
+        ),
+    );
 
 }
