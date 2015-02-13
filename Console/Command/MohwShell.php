@@ -8,16 +8,16 @@ class MohwShell extends AppShell {
     public $mysqli = false;
 
     public function main() {
-        //$this->importDrug();
-        //$this->importIngredients();
-        $this->importNhiCodes();
+        $this->importDrug();
+        $this->importIngredients();
+        //$this->importNhiCodes();
     }
 
     public function importNhiCodes() {
         /*
          * fixed rules to apply nhi_code
-         UPDATE licenses SET nhi_id = REPLACE(license_id, '衛署藥製', 'A') WHERE license_id LIKE '衛署藥製%' AND license_id NOT LIKE '%號%' AND (nhi_id = '' OR nhi_id IS NULL);
-         UPDATE licenses SET nhi_id = REPLACE(license_id, '衛部藥製', 'A') WHERE license_id LIKE '衛部藥製%' AND license_id NOT LIKE '%號%' AND (nhi_id = '' OR nhi_id IS NULL);
+          UPDATE licenses SET nhi_id = REPLACE(license_id, '衛署藥製', 'A') WHERE license_id LIKE '衛署藥製%' AND license_id NOT LIKE '%號%' AND (nhi_id = '' OR nhi_id IS NULL);
+          UPDATE licenses SET nhi_id = REPLACE(license_id, '衛部藥製', 'A') WHERE license_id LIKE '衛部藥製%' AND license_id NOT LIKE '%號%' AND (nhi_id = '' OR nhi_id IS NULL);
          */
         $tmpPath = TMP . 'mohw/nhi';
         if (!file_exists($tmpPath)) {
@@ -137,10 +137,10 @@ class MohwShell extends AppShell {
         $db = ConnectionManager::getDataSource('default');
         $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
         $this->dbQuery('SET NAMES utf8mb4;');
-        $valueStack = $ingredientKeys = array();
+        $valueStack = $ingredientKeys = $newIngredients = array();
 
-        if (file_exists(__DIR__ . '/data/mohw_ingredients.csv')) {
-            $ingredientKeysFh = fopen(__DIR__ . '/data/mohw_ingredients.csv', 'r');
+        if (file_exists(__DIR__ . '/data/ingredients.csv')) {
+            $ingredientKeysFh = fopen(__DIR__ . '/data/ingredients.csv', 'r');
             while ($line = fgetcsv($ingredientKeysFh, 1024)) {
                 $ingredientKeys[$line[0]] = array(
                     'id' => $line[1],
@@ -164,6 +164,7 @@ class MohwShell extends AppShell {
                             'id' => String::uuid(),
                             'count_licenses' => 0,
                         );
+                        $newIngredients[] = $ingredientKey;
                     }
                     $ingredientKeys[$ingredientKey]['count_licenses'] += 1;
 
@@ -192,17 +193,15 @@ class MohwShell extends AppShell {
         }
         $valueStack = array();
         $sn = 1;
-        $fh = fopen(__DIR__ . '/data/mohw_ingredients.csv', 'w');
-        foreach ($ingredientKeys AS $name => $ingredient) {
-            $name = $this->mysqli->real_escape_string($name);
+        foreach ($newIngredients AS $newIngredient) {
+            $name = $this->mysqli->real_escape_string($newIngredient);
             $valueStack[] = implode(',', array(
-                "('{$ingredient['id']}'", //ingredient_id
+                "('{$ingredientKeys[$newIngredient]['id']}'", //ingredient_id
                 "'{$name}'", //name
-                "'{$ingredient['count_licenses']}'", //count_licenses
+                "'{$ingredientKeys[$newIngredient]['count_licenses']}'", //count_licenses
                 "0", //count_daily
                 "0)", //count_all
             ));
-            fputcsv($fh, array($name, $ingredient['id']));
             ++$sn;
             if ($sn > 50) {
                 $sn = 1;
@@ -210,7 +209,6 @@ class MohwShell extends AppShell {
                 $valueStack = array();
             }
         }
-        fclose($fh);
         if (!empty($valueStack)) {
             $this->dbQuery('INSERT INTO `ingredients` VALUES ' . implode(',', $valueStack) . ';');
         }
@@ -220,7 +218,14 @@ class MohwShell extends AppShell {
         $db = ConnectionManager::getDataSource('default');
         $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
         $this->dbQuery('SET NAMES utf8mb4;');
-        $valueStack = $licenseData = array();
+        $valueStack = $licenseData = $vendorKeys = $vendorStack = array();
+        if (file_exists(__DIR__ . '/data/vendors.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/vendors.csv', 'r');
+            while ($line = fgetcsv($dbKeysFh, 1024)) {
+                $vendorKeys[$line[0]] = $line[1];
+            }
+            fclose($dbKeysFh);
+        }
         $sn = 1;
         foreach (glob(__DIR__ . '/data/mohw/license/*/*.json') AS $jsonFile) {
             $p = pathinfo($jsonFile);
@@ -231,14 +236,38 @@ class MohwShell extends AppShell {
                 $json['license'][$k] = $this->mysqli->real_escape_string($v);
             }
 
+            if (!isset($vendorKeys[$json['license']['製造廠名稱']])) {
+                $vendorKeys[$json['license']['製造廠名稱']] = String::uuid();
+                $vendorStack[$json['license']['製造廠名稱']] = array(
+                    'id' => $vendorKeys[$json['license']['製造廠名稱']],
+                    'tax_id' => '',
+                    'name' => $json['license']['製造廠名稱'],
+                    'address' => $json['license']['製造廠地址'],
+                    'address_office' => '',
+                    'country' => '',
+                    'count_daily' => 0,
+                    'count_all' => 0,
+                );
+            }
+            if (!isset($vendorKeys[$json['license']['申請商名稱']])) {
+                $vendorKeys[$json['license']['申請商名稱']] = String::uuid();
+                $vendorStack[$json['license']['申請商名稱']] = array(
+                    'id' => $vendorKeys[$json['license']['申請商名稱']],
+                    'tax_id' => '',
+                    'name' => $json['license']['申請商名稱'],
+                    'address' => $json['license']['申請商地址'],
+                    'address_office' => '',
+                    'country' => '',
+                    'count_daily' => 0,
+                    'count_all' => 0,
+                );
+            }
+
             $dbCols = array(
                 "('{$p['filename']}'", //id
                 "'{$p['filename']}'", //license_uuid
                 "'{$json['license']['許可證字號']}'", //license_id
-                "'{$json['license']['製造廠名稱']}'", //manufacturer
-                "'{$json['license']['製造廠地址']}'", //manufacturer_address
-                "NULL", //manufacturer_office
-                "NULL", //manufacturer_country
+                "'{$vendorKeys[$json['license']['製造廠名稱']]}'", //vendor_id
                 "NULL", //manufacturer_description
             );
             $disease = trim("{$json['license']['適應症']}\n{$json['license']['效能']}");
@@ -271,9 +300,7 @@ class MohwShell extends AppShell {
                 "'{$json['license']['單複方']}'", //type
                 "NULL", //class
                 "NULL", //ingredient
-                "'{$json['license']['申請商名稱']}'", //vendor
-                "'{$json['license']['申請商地址']}'", //vendor_address
-                "NULL", //vendor_id
+                "'{$vendorKeys[$json['license']['申請商名稱']]}'", //vendor_id
                 "'{$json['license']['發證日期']}'", //submitted
                 "NULL", //usage
                 "'{$json['license']['限制項目']}'", //package_note
@@ -305,6 +332,21 @@ class MohwShell extends AppShell {
         }
         if (!empty($valueStack)) {
             $this->dbQuery('INSERT INTO `licenses` VALUES ' . implode(',', $valueStack) . ';');
+        }
+
+        $sn = 1;
+        $valueStack = array();
+        foreach ($vendorStack AS $vendor) {
+            $valueStack[] = "('" . implode("', '", $vendor) . "')";
+            ++$sn;
+            if ($sn > 50) {
+                $sn = 1;
+                $this->dbQuery('INSERT INTO `vendors` VALUES ' . implode(',', $valueStack) . ';');
+                $valueStack = array();
+            }
+        }
+        if (!empty($valueStack)) {
+            $this->dbQuery('INSERT INTO `vendors` VALUES ' . implode(',', $valueStack) . ';');
         }
     }
 

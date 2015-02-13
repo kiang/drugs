@@ -31,7 +31,7 @@ CREATE TABLE `acos` (
   `lft` int(11) DEFAULT NULL,
   `rght` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,7 +50,7 @@ CREATE TABLE `aros` (
   `lft` int(11) DEFAULT NULL,
   `rght` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,10 +181,7 @@ CREATE TABLE `drugs` (
   `id` binary(36) NOT NULL COMMENT '主索引',
   `license_uuid` binary(36) NOT NULL COMMENT '藥證索引',
   `license_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL COMMENT '許可證字號',
-  `manufacturer` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '製造商名稱',
-  `manufacturer_address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '製造廠廠址',
-  `manufacturer_office` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '製造廠公司地址',
-  `manufacturer_country` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '製造廠國別',
+  `vendor_id` binary(36) DEFAULT NULL COMMENT '申請商編號',
   `manufacturer_description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '製程',
   PRIMARY KEY (`id`),
   KEY `license_uuid` (`license_uuid`)
@@ -300,9 +297,7 @@ CREATE TABLE `licenses` (
   `type` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '藥品類別',
   `class` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '管制藥品分類級別',
   `ingredient` text COLLATE utf8mb4_unicode_ci COMMENT '主成分略述',
-  `vendor` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '申請商名稱',
-  `vendor_address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '申請商地址',
-  `vendor_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '申請商統一編號',
+  `vendor_id` binary(36) DEFAULT NULL COMMENT '申請商編號',
   `submitted` date NOT NULL COMMENT '異動日期',
   `usage` text COLLATE utf8mb4_unicode_ci COMMENT '用法用量',
   `package_note` text COLLATE utf8mb4_unicode_ci COMMENT '包裝',
@@ -349,7 +344,7 @@ CREATE TABLE `members` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -400,6 +395,28 @@ CREATE TABLE `prices` (
   KEY `drug_id` (`license_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `vendors`
+--
+
+DROP TABLE IF EXISTS `vendors`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `vendors` (
+  `id` binary(36) NOT NULL COMMENT '主索引',
+  `tax_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '統一編號',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '名稱',
+  `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '地址',
+  `address_office` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '辦公室地址',
+  `country` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '國家',
+  `count_daily` int(11) NOT NULL DEFAULT '0',
+  `count_all` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `count_daily` (`count_daily`),
+  KEY `count_all` (`count_all`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -410,4 +427,4 @@ CREATE TABLE `prices` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-01-30 21:18:48
+-- Dump completed on 2015-02-14  0:37:37

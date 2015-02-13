@@ -9,8 +9,8 @@ class ImportShell extends AppShell {
     public $key2code = array();
 
     public function main() {
-        $this->dumpDbKeys();
-        exit();
+//        $this->dumpDbKeys();
+//        exit();
         /*
          * Execute before importing:
          * TRUNCATE `drugs`;
@@ -19,10 +19,11 @@ class ImportShell extends AppShell {
           TRUNCATE `licenses`;
           TRUNCATE `links`;
           TRUNCATE `prices`;
+          TRUNCATE `vendors`;
          * 
          * and dump generated data using another one:
          * 
-         * mysqldump -uroot -p kiang_drug drugs ingredients ingredients_licenses licenses prices > db.sql
+         * mysqldump -uroot -p kiang_drug drugs ingredients ingredients_licenses licenses prices vendors > db.sql
          */
         $this->importDrug();
         $this->importPrice();
@@ -750,6 +751,18 @@ class ImportShell extends AppShell {
             ));
         }
         fclose($fh);
+        $fh = fopen(__DIR__ . '/data/vendors.csv', 'w');
+        $vendors = $this->License->Vendor->find('list', array(
+            'fields' => array('id', 'name'),
+            'order' => array('name' => 'ASC'),
+        ));
+        foreach ($vendors AS $vendorId => $vendorName) {
+            fputcsv($fh, array(
+                $vendorId,
+                $vendorName,
+            ));
+        }
+        fclose($fh);
     }
 
     public function importDrug() {
@@ -762,7 +775,7 @@ class ImportShell extends AppShell {
         $db = ConnectionManager::getDataSource('default');
         $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
         $this->dbQuery('SET NAMES utf8mb4;');
-        $stack = $urlKeys = $valueStack = $licenseId = $licenseStack = array();
+        $stack = $urlKeys = $valueStack = $licenseId = $licenseStack = $vendorKeys = $vendorStack = array();
         if (file_exists(__DIR__ . '/data/drugs.csv')) {
             $dbKeysFh = fopen(__DIR__ . '/data/drugs.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
@@ -774,6 +787,13 @@ class ImportShell extends AppShell {
             $dbKeysFh = fopen(__DIR__ . '/data/licenses.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
                 $licenseId[$line[0]] = $line[1];
+            }
+            fclose($dbKeysFh);
+        }
+        if (file_exists(__DIR__ . '/data/vendors.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/vendors.csv', 'r');
+            while ($line = fgetcsv($dbKeysFh, 1024)) {
+                $vendorKeys[$line[0]] = $line[1];
             }
             fclose($dbKeysFh);
         }
@@ -838,15 +858,41 @@ class ImportShell extends AppShell {
             if (!isset($stack[$key])) {
                 $stack[$key] = String::uuid();
             }
+            if (!isset($vendorKeys[$cols[17]])) {
+                $vendorKeys[$cols[17]] = String::uuid();
+                $vendorStack[$cols[17]] = array(
+                    'id' => $vendorKeys[$cols[17]],
+                    'tax_id' => $cols[19],
+                    'name' => $cols[17],
+                    'address' => $cols[18],
+                    'address_office' => '',
+                    'country' => (!empty($cols[19])) ? 'TAIWAN' : '',
+                    'count_daily' => 0,
+                    'count_all' => 0,
+                );
+            } elseif (empty($vendorStack[$cols[17]]['tax_id']) && !empty($cols[19])) {
+                $vendorStack[$cols[17]]['tax_id'] = $cols[19];
+                $vendorStack[$cols[17]]['country'] = !empty($cols[19]) ? 'TAIWAN' : '';
+            }
+            if (!isset($vendorKeys[$cols[20]])) {
+                $vendorKeys[$cols[20]] = String::uuid();
+                $vendorStack[$cols[20]] = array(
+                    'id' => $vendorKeys[$cols[20]],
+                    'tax_id' => '',
+                    'name' => $cols[20],
+                    'address' => $cols[21],
+                    'address_office' => $cols[22],
+                    'country' => $cols[23],
+                    'count_daily' => 0,
+                    'count_all' => 0,
+                );
+            }
 
             $dbCols = array(
                 "('{$stack[$key]}'", //id
                 "'{$licenseId[$cols[0]]}'", //license_uuid
                 "'{$cols[0]}'", //license_id
-                "'{$cols[20]}'", //manufacturer
-                "'{$cols[21]}'", //manufacturer_address
-                "'{$cols[22]}'", //manufacturer_office
-                "'{$cols[23]}'", //manufacturer_country
+                "'{$vendorKeys[$cols[20]]}'", //vendor_id
                 "'{$cols[24]}'", //manufacturer_description
             );
             if (!isset($licenseData[$licenseId[$cols[0]]])) {
@@ -879,9 +925,7 @@ class ImportShell extends AppShell {
                     "'{$cols[14]}'", //type
                     "'{$cols[15]}'", //class
                     "'{$cols[16]}'", //ingredient
-                    "'{$cols[17]}'", //vendor
-                    "'{$cols[18]}'", //vendor_address
-                    "'{$cols[19]}'", //vendor_id
+                    "'{$vendorKeys[$cols[17]]}'", //vendor_id
                     "'{$cols[25]}'", //submitted
                     "'{$cols[26]}'", //usage
                     "'{$cols[27]}'", //package_note
@@ -914,6 +958,20 @@ class ImportShell extends AppShell {
         }
         if (!empty($valueStack)) {
             $this->dbQuery('INSERT INTO `licenses` VALUES ' . implode(',', $valueStack) . ';');
+        }
+        $sn = 1;
+        $valueStack = array();
+        foreach ($vendorStack AS $vendor) {
+            $valueStack[] = "('" . implode("', '", $vendor) . "')";
+            ++$sn;
+            if ($sn > 50) {
+                $sn = 1;
+                $this->dbQuery('INSERT INTO `vendors` VALUES ' . implode(',', $valueStack) . ';');
+                $valueStack = array();
+            }
+        }
+        if (!empty($valueStack)) {
+            $this->dbQuery('INSERT INTO `vendors` VALUES ' . implode(',', $valueStack) . ';');
         }
     }
 
