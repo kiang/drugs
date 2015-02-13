@@ -40,10 +40,10 @@
                                         echo $item['Drug']['license_id'];
                                         ?></td>
                                     <td><?php
-                                        echo $item['Drug']['manufacturer'];
+                                        echo $item['Vendor']['name'];
                                         ?></td>
                                     <td><?php
-                                        echo $item['Drug']['manufacturer_country'];
+                                        echo $item['Vendor']['country'];
                                         ?></td>
                                     <td><?php
                                         echo $item['License']['expired_date'];

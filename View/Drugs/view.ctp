@@ -141,32 +141,32 @@
                         </dd>
                         <dt>申請商名稱</dt>
                         <dd><?php
-                            echo $this->Html->link($this->data['License']['vendor'], '/drugs/index/' . $this->data['License']['vendor'], array('class' => 'btn btn-default'));
+                            echo $this->Html->link($this->data['License']['Vendor']['name'], '/drugs/index/' . $this->data['License']['Vendor']['name'], array('class' => 'btn btn-default'));
                             ?>&nbsp;
                         </dd>
                         <dt>申請商地址</dt>
-                        <dd><?php echo $this->data['License']['vendor_address']; ?>&nbsp;
+                        <dd><?php echo $this->data['License']['Vendor']['address']; ?>&nbsp;
                         </dd>
                         <dt>申請商統一編號</dt>
                         <dd><?php
-                            if (!empty($this->data['License']['vendor_id'])) {
-                                echo $this->Html->link($this->data['License']['vendor_id'], 'http://gcis.nat.g0v.tw/id/' . $this->data['License']['vendor_id'], array('class' => 'btn btn-default', 'target' => '_blank'));
+                            if (!empty($this->data['License']['Vendor']['tax_id'])) {
+                                echo $this->Html->link($this->data['License']['Vendor']['tax_id'], 'http://gcis.nat.g0v.tw/id/' . $this->data['License']['Vendor']['tax_id'], array('class' => 'btn btn-default', 'target' => '_blank'));
                             }
                             ?>&nbsp;
                         </dd>
                         <dt>製造商名稱</dt>
                         <dd><?php
-                            echo $this->Html->link($this->data['Drug']['manufacturer'], '/drugs/index/' . $this->data['Drug']['manufacturer'], array('class' => 'btn btn-default'));
+                            echo $this->Html->link($this->data['Vendor']['name'], '/drugs/index/' . $this->data['Vendor']['name'], array('class' => 'btn btn-default'));
                             ?>&nbsp;
                         </dd>
                         <dt>製造廠廠址</dt>
-                        <dd><?php echo $this->data['Drug']['manufacturer_address']; ?>&nbsp;
+                        <dd><?php echo $this->data['Vendor']['address']; ?>&nbsp;
                         </dd>
                         <dt>製造廠公司地址</dt>
-                        <dd><?php echo $this->data['Drug']['manufacturer_office']; ?>&nbsp;
+                        <dd><?php echo $this->data['Vendor']['address_office']; ?>&nbsp;
                         </dd>
                         <dt>製造廠國別</dt>
-                        <dd><?php echo $this->data['Drug']['manufacturer_country']; ?>&nbsp;
+                        <dd><?php echo $this->data['Vendor']['country']; ?>&nbsp;
                         </dd>
                         <dt>製程</dt>
                         <dd><?php echo $this->data['Drug']['manufacturer_description']; ?>&nbsp;
@@ -180,9 +180,9 @@
                                     if (!empty($drug['Drug']['manufacturer_description'])) {
                                         $drugName .= "[{$drug['Drug']['manufacturer_description']}]";
                                     }
-                                    $drugName .= $drug['Drug']['manufacturer'];
-                                    if (!empty($drug['Drug']['manufacturer_country'])) {
-                                        $drugName .= " ({$drug['Drug']['manufacturer_country']})";
+                                    $drugName .= $drug['Vendor']['name'];
+                                    if (!empty($drug['Vendor']['country'])) {
+                                        $drugName .= " ({$drug['Vendor']['country']})";
                                     }
                                     echo $this->Html->link($drugName, '/drugs/view/' . $drug['Drug']['id']);
                                     echo '</li>';

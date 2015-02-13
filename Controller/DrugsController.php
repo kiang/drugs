@@ -152,10 +152,9 @@ class DrugsController extends AppController {
                 if (++$keywordCount < 5) {
                     $scope[]['OR'] = array(
                         'Drug.license_id LIKE' => "%{$keyword}%",
-                        'Drug.manufacturer LIKE' => "%{$keyword}%",
+                        'Vendor.name LIKE' => "%{$keyword}%",
                         'License.name LIKE' => "%{$keyword}%",
                         'License.name_english LIKE' => "%{$keyword}%",
-                        'License.vendor LIKE' => "%{$keyword}%",
                         'License.ingredient LIKE' => "%{$keyword}%",
                         'License.nhi_id LIKE' => "%{$keyword}%",
                     );
@@ -164,7 +163,12 @@ class DrugsController extends AppController {
         }
         $this->paginate['Drug'] = array(
             'limit' => 20,
-            'contain' => array('License'),
+            'contain' => array(
+                'License',
+                'Vendor' => array(
+                    'fields' => array('name', 'country'),
+                ),
+            ),
             'order' => array(
                 'License.count_daily' => 'DESC',
                 'License.count_all' => 'DESC',
@@ -188,6 +192,7 @@ class DrugsController extends AppController {
                 'conditions' => array('Drug.id' => $id),
                 'contain' => array(
                     'License' => array(
+                        'Vendor',
                         'Category' => array(
                             'fields' => array('code', 'name', 'name_chinese'),
                         ),
@@ -197,6 +202,7 @@ class DrugsController extends AppController {
                             'limit' => 10,
                         ),
                     ),
+                    'Vendor',
                 ),
             ));
         }
@@ -235,12 +241,15 @@ class DrugsController extends AppController {
             $this->set('ingredientKeys', $ingredientKeys);
             $this->set('drugs', $this->Drug->find('all', array(
                         'fields' => array(
-                            'id', 'manufacturer', 'manufacturer_country', 'manufacturer_description'
+                            'id', 'manufacturer_description',
                         ),
                         'conditions' => array(
                             'Drug.license_uuid' => $this->data['Drug']['license_uuid'],
                             'Drug.id !=' => $this->data['Drug']['id'],
                         ),
+                        'contain' => array('Vendor' => array(
+                            'fields' => array('name', 'country'),
+                        )),
             )));
             $this->set('categoryNames', $categoryNames);
         } else {

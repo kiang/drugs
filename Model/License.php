@@ -15,7 +15,15 @@ class License extends AppModel {
      */
     public $displayField = 'id';
     //The Associations below have been created with all possible keys, those that are not needed can be removed
-
+    public $belongsTo = array(
+        'Vendor' => array(
+            'className' => 'Vendor',
+            'foreignKey' => 'vendor_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        ),
+    );
     var $hasMany = array(
         'Drug' => array(
             'foreignKey' => 'license_uuid',

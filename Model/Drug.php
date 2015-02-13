@@ -14,8 +14,6 @@ class Drug extends AppModel {
      * @var string
      */
     public $displayField = 'license_id';
-
-
     //The Associations below have been created with all possible keys, those that are not needed can be removed
     public $belongsTo = array(
         'License' => array(
@@ -24,7 +22,14 @@ class Drug extends AppModel {
             'conditions' => '',
             'fields' => '',
             'order' => ''
-        )
+        ),
+        'Vendor' => array(
+            'className' => 'Vendor',
+            'foreignKey' => 'vendor_id',
+            'conditions' => '',
+            'fields' => '',
+            'order' => ''
+        ),
     );
     var $hasMany = array(
         'Price' => array(
