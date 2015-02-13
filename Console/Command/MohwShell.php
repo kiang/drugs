@@ -14,6 +14,11 @@ class MohwShell extends AppShell {
     }
 
     public function importNhiCodes() {
+        /*
+         * fixed rules to apply nhi_code
+         UPDATE licenses SET nhi_id = REPLACE(license_id, '衛署藥製', 'A') WHERE license_id LIKE '衛署藥製%' AND license_id NOT LIKE '%號%' AND (nhi_id = '' OR nhi_id IS NULL);
+         UPDATE licenses SET nhi_id = REPLACE(license_id, '衛部藥製', 'A') WHERE license_id LIKE '衛部藥製%' AND license_id NOT LIKE '%號%' AND (nhi_id = '' OR nhi_id IS NULL);
+         */
         $tmpPath = TMP . 'mohw/nhi';
         if (!file_exists($tmpPath)) {
             mkdir($tmpPath, 0777, true);
