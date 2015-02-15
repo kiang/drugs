@@ -29,6 +29,16 @@ $(function () {
             window.open(baseUrl + 'points/view/' + $('input', ui.tag).val());
         }
     });
+    $('#relatedVendor').tagit({
+        fieldName: 'data[Vendor][]',
+        autocomplete: {
+            source: baseUrl + 'api/vendors/auto'
+        },
+        onTagClicked: function (event, ui) {
+            event.preventDefault();
+            window.open(baseUrl + 'vendors/view/' + $('input', ui.tag).val());
+        }
+    });
     $('input#ArticleDatePublished').datepicker({
         dateFormat: 'yy-mm-dd'
     });

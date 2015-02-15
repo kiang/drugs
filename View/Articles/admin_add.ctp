@@ -54,6 +54,10 @@
                         <label for="relatedPoint">相關醫事機構</label>
                         <ul id="relatedPoint"></ul>
                     </div>
+                    <div class="form-group">
+                        <label for="relatedVendor">相關藥廠</label>
+                        <ul id="relatedVendor"></ul>
+                    </div>
                     <?php echo $this->Form->end(__('Submit')); ?>
                 </div>
             </div>

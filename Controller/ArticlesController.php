@@ -62,6 +62,15 @@ class ArticlesController extends AppController {
                 }
                 unset($this->request->data['Point']);
             }
+            if (!empty($this->request->data['Vendor'])) {
+                foreach ($this->request->data['Vendor'] AS $vendorId) {
+                    $this->request->data['ArticlesLink'][] = array(
+                        'model' => 'Vendor',
+                        'foreign_id' => $vendorId,
+                    );
+                }
+                unset($this->request->data['Vendor']);
+            }
             $this->Article->create();
             if ($this->Article->saveAll($this->request->data)) {
                 $this->Session->setFlash('資料已經儲存');
@@ -112,6 +121,15 @@ class ArticlesController extends AppController {
                 }
                 unset($this->request->data['Point']);
             }
+            if (!empty($this->request->data['Vendor'])) {
+                foreach ($this->request->data['Vendor'] AS $vendorId) {
+                    $this->request->data['ArticlesLink'][] = array(
+                        'model' => 'Vendor',
+                        'foreign_id' => $vendorId,
+                    );
+                }
+                unset($this->request->data['Vendor']);
+            }
             $this->Article->ArticlesLink->deleteAll(array(
                 'article_id' => $this->request->data['Article']['id']
             ));
@@ -153,6 +171,12 @@ class ArticlesController extends AppController {
                 $this->request->data['Point'] = $this->Article->Point->find('list', array(
                     'conditions' => array('Point.id' => $this->request->data['Point']),
                     'fields' => array('Point.id', 'Point.name'),
+                ));
+            }
+            if (!empty($this->request->data['Vendor'])) {
+                $this->request->data['Vendor'] = $this->Article->Vendor->find('list', array(
+                    'conditions' => array('Vendor.id' => $this->request->data['Vendor']),
+                    'fields' => array('Vendor.id', 'Vendor.name'),
                 ));
             }
         }
@@ -223,6 +247,12 @@ class ArticlesController extends AppController {
                     'fields' => array('Point.id', 'Point.name'),
                 ));
             }
+            if (!empty($article['Vendor'])) {
+                $article['Vendor'] = $this->Article->Vendor->find('list', array(
+                    'conditions' => array('Vendor.id' => $article['Vendor']),
+                    'fields' => array('Vendor.id', 'Vendor.name'),
+                ));
+            }
             $articles[$k] = $article;
         }
         $this->set('title_for_layout', '醫事新知 @ ');
@@ -266,6 +296,13 @@ class ArticlesController extends AppController {
                     'fields' => array('Point.id', 'Point.name', 'Point.phone', 'Point.city', 'Point.town', 'Point.address'),
                 ));
                 $keywords = array_merge($keywords, Set::extract('Point.{n}.Point.name', $article));
+            }
+            if (!empty($article['Vendor'])) {
+                $article['Vendor'] = $this->Article->Vendor->find('all', array(
+                    'conditions' => array('Vendor.id' => $article['Vendor']),
+                    'fields' => array('Vendor.id', 'Vendor.name', 'Vendor.tax_id', 'Vendor.address', 'Vendor.country'),
+                ));
+                $keywords = array_merge($keywords, Set::extract('Vendor.{n}.Vendor.name', $article));
             }
             $this->set('article', $article);
             $this->set('title_for_layout', $article['Article']['title'] . ' | 醫事新知 @ ');

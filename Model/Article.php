@@ -41,6 +41,13 @@ class Article extends AppModel {
             'associationForeignKey' => 'foreign_id',
             'className' => 'Point',
         ),
+        'Vendor' => array(
+            'joinTable' => 'articles_links',
+            'conditions' => array('model' => 'Vendor'),
+            'foreignKey' => 'article_id',
+            'associationForeignKey' => 'foreign_id',
+            'className' => 'Vendor',
+        ),
     );
     var $hasMany = array(
         'ArticlesLink' => array(

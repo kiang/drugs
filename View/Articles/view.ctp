@@ -99,6 +99,28 @@
                     </div>
                 </div><?php
             }
+            if (!empty($article['Vendor'])) {
+                ?><div class="box">
+                    <div class="box-header"><h3 class="box-title">藥物廠商</h3></div>
+                    <div class="box-body"><?php
+                        foreach ($article['Vendor'] AS $vendor) {
+                            ?><div class="col-md-4">
+                                <div class="box box-solid">
+                                    <div class="box-header">
+                                        <i class="fa fa-tag"></i>
+                                        <h3 class="box-title"><?php echo $this->Html->link($vendor['Vendor']['name'], '/vendors/view/' . $vendor['Vendor']['id']); ?></h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <i class="fa fa-home"></i> <?php echo "{$vendor['Vendor']['address']} {$vendor['Vendor']['country']}"; ?>
+                                    </div>
+                                </div>
+                            </div><?php
+                        }
+                        ?>
+                        <div class="clearfix"></div>
+                    </div>
+                </div><?php
+            }
             ?>
         </div>
     </div>

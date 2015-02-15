@@ -71,6 +71,19 @@
                                             </div><?php
                                         }
                                     }
+                                    if (!empty($article['Vendor'])) {
+                                        echo '<div class="clearfix"></div><h3 class="page-header">藥物廠商</h3>';
+                                        foreach ($article['Vendor'] AS $itemId => $itemLabel) {
+                                            ?><div class="col-md-4">
+                                                <div class="box box-solid">
+                                                    <div class="box-header">
+                                                        <i class="fa fa-tag"></i>
+                                                        <h3 class="box-title"><?php echo $this->Html->link($itemLabel, '/vendors/view/' . $itemId, array('target' => '_blank')); ?></h3>
+                                                    </div>
+                                                </div>
+                                            </div><?php
+                                        }
+                                    }
                                     ?>
                                     <div class="clearfix"></div>
                                 </div><!-- /.tab-pane -->

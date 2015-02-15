@@ -74,6 +74,16 @@
                             }
                             ?></ul>
                     </div>
+                    <div class="form-group">
+                        <label for="relatedVendor">相關藥廠</label>
+                        <ul id="relatedPoint"><?php
+                            if (!empty($this->data['Vendor'])) {
+                                foreach ($this->data['Vendor'] AS $itemId => $itemLabel) {
+                                    echo '<li data-id="' . $itemId . '">' . $itemLabel . '</li>';
+                                }
+                            }
+                            ?></ul>
+                    </div>
                     <?php echo $this->Form->end(__('Submit')); ?>
                 </div>
             </div>
