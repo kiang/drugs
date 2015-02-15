@@ -858,10 +858,12 @@ class ImportShell extends AppShell {
             if (!isset($stack[$key])) {
                 $stack[$key] = String::uuid();
             }
-            if (!isset($vendorKeys[$cols[17]])) {
-                $vendorKeys[$cols[17]] = String::uuid();
-                $vendorStack[$cols[17]] = array(
-                    'id' => $vendorKeys[$cols[17]],
+            $vendorKey1 = trim(strtolower($cols[17]), '.');
+            $vendorKey2 = trim(strtolower($cols[20]), '.');
+            if (!isset($vendorKeys[$vendorKey1])) {
+                $vendorKeys[$vendorKey1] = String::uuid();
+                $vendorStack[$vendorKey1] = array(
+                    'id' => $vendorKeys[$vendorKey1],
                     'tax_id' => $cols[19],
                     'name' => $cols[17],
                     'address' => $cols[18],
@@ -870,14 +872,14 @@ class ImportShell extends AppShell {
                     'count_daily' => 0,
                     'count_all' => 0,
                 );
-            } elseif (empty($vendorStack[$cols[17]]['tax_id']) && !empty($cols[19])) {
-                $vendorStack[$cols[17]]['tax_id'] = $cols[19];
-                $vendorStack[$cols[17]]['country'] = !empty($cols[19]) ? 'TAIWAN' : '';
+            } elseif (empty($vendorStack[$vendorKey1]['tax_id']) && !empty($cols[19])) {
+                $vendorStack[$vendorKey1]['tax_id'] = $cols[19];
+                $vendorStack[$vendorKey1]['country'] = 'TAIWAN';
             }
-            if (!isset($vendorKeys[$cols[20]])) {
-                $vendorKeys[$cols[20]] = String::uuid();
-                $vendorStack[$cols[20]] = array(
-                    'id' => $vendorKeys[$cols[20]],
+            if (!isset($vendorKeys[$vendorKey2])) {
+                $vendorKeys[$vendorKey2] = String::uuid();
+                $vendorStack[$vendorKey2] = array(
+                    'id' => $vendorKeys[$vendorKey2],
                     'tax_id' => '',
                     'name' => $cols[20],
                     'address' => $cols[21],
@@ -892,7 +894,7 @@ class ImportShell extends AppShell {
                 "('{$stack[$key]}'", //id
                 "'{$licenseId[$cols[0]]}'", //license_uuid
                 "'{$cols[0]}'", //license_id
-                "'{$vendorKeys[$cols[20]]}'", //vendor_id
+                "'{$vendorKeys[$vendorKey2]}'", //vendor_id
                 "'{$cols[24]}'", //manufacturer_description
             );
             if (!isset($licenseData[$licenseId[$cols[0]]])) {
@@ -925,7 +927,7 @@ class ImportShell extends AppShell {
                     "'{$cols[14]}'", //type
                     "'{$cols[15]}'", //class
                     "'{$cols[16]}'", //ingredient
-                    "'{$vendorKeys[$cols[17]]}'", //vendor_id
+                    "'{$vendorKeys[$vendorKey1]}'", //vendor_id
                     "'{$cols[25]}'", //submitted
                     "'{$cols[26]}'", //usage
                     "'{$cols[27]}'", //package_note
