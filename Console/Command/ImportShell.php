@@ -9,8 +9,8 @@ class ImportShell extends AppShell {
     public $key2code = array();
 
     public function main() {
-//        $this->dumpDbKeys();
-//        exit();
+        $this->dumpDbKeys();
+        exit();
         /*
          * Execute before importing:
          * TRUNCATE `drugs`;
@@ -20,6 +20,8 @@ class ImportShell extends AppShell {
           TRUNCATE `links`;
           TRUNCATE `prices`;
           TRUNCATE `vendors`;
+         * 
+         * and remember to execute mohw to import another part of drugs
          * 
          * and dump generated data using another one:
          * 
@@ -704,15 +706,20 @@ class ImportShell extends AppShell {
 
     public function dumpDbKeys() {
         $drugs = $this->License->Drug->find('all', array(
-            'fields' => array('id', 'license_uuid', 'license_id', 'manufacturer',
-                'manufacturer_address', 'manufacturer_description'),
+            'fields' => array('id', 'license_uuid', 'license_id', 'manufacturer_description'),
             'order' => array('Drug.license_id' => 'ASC'),
+            'contain' => array(
+                'Vendor' => array(
+                    'fields' => array('name', 'address'),
+                ),
+            ),
         ));
         $fh = fopen(__DIR__ . '/data/drugs.csv', 'w');
         $fhL = fopen(__DIR__ . '/data/licenses.csv', 'w');
         $stack = array();
         foreach ($drugs AS $drug) {
-            $key = $drug['Drug']['license_id'] . md5($drug['Drug']['manufacturer'] . $drug['Drug']['manufacturer_address'] . $drug['Drug']['manufacturer_description']);
+            $vendorKey2 = trim(strtolower($drug['Vendor']['name']), '.');
+            $key = $drug['Drug']['license_id'] . md5($vendorKey2 . $drug['Vendor']['address'] . $drug['Drug']['manufacturer_description']);
             fputcsv($fh, array(
                 $key,
                 $drug['Drug']['id'],
@@ -850,7 +857,9 @@ class ImportShell extends AppShell {
             if (!isset($licenseId[$cols[0]])) {
                 $licenseId[$cols[0]] = String::uuid();
             }
-            $key = $cols[0] . md5($cols[20] . $cols[21] . $cols[24]);
+            $vendorKey1 = trim(strtolower($cols[17]), '.');
+            $vendorKey2 = trim(strtolower($cols[20]), '.');
+            $key = $cols[0] . md5($vendorKey2 . $cols[21] . $cols[24]);
             foreach ($escapesKeys AS $escapesKey) {
                 $cols[$escapesKey] = str_replace(array('　'), array(''), $cols[$escapesKey]);
                 $cols[$escapesKey] = $this->mysqli->real_escape_string($cols[$escapesKey]);
@@ -858,8 +867,6 @@ class ImportShell extends AppShell {
             if (!isset($stack[$key])) {
                 $stack[$key] = String::uuid();
             }
-            $vendorKey1 = trim(strtolower($cols[17]), '.');
-            $vendorKey2 = trim(strtolower($cols[20]), '.');
             if (!isset($vendorKeys[$vendorKey1])) {
                 $vendorKeys[$vendorKey1] = String::uuid();
                 $vendorStack[$vendorKey1] = array(
