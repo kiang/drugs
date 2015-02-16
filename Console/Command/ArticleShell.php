@@ -6,7 +6,76 @@ class ArticleShell extends AppShell {
     public $dataPath = '/home/kiang/public_html/data.fda.gov.tw-list';
 
     public function main() {
-        $this->data65();
+        $this->data45();
+    }
+
+    public function data45() {
+        $dateLatestFile = __DIR__ . '/data/articles_45_latest.txt';
+        $dateLatest = false;
+        if (file_exists($dateLatestFile)) {
+            $dateLatest = strtotime(trim(file_get_contents($dateLatestFile)));
+        }
+
+        $currentLatest = 0;
+        $fh = fopen($this->dataPath . '/dataset/45.csv', 'r');
+        //廠名、地址、查廠日期、發佈日期、類別
+        while ($line = fgetcsv($fh, 2048, "\t")) {
+            foreach ($line AS $k => $v) {
+                $line[$k] = trim($v);
+            }
+            $recordTime = strtotime(implode('-', array(
+                substr($line[3], 0, 3) + 1911,
+                substr($line[3], 3, 2),
+                substr($line[3], 5, 2)
+            )));
+            if (false === $dateLatest || $recordTime > $dateLatest) {
+                if ($recordTime > $currentLatest) {
+                    $currentLatest = $recordTime;
+                }
+                switch ($line[0]) {
+                    case '聯華氣體工業股份有限公司高雄廠':
+                        $line[0] = '聯華氣體工業股份有限公司高雄工廠';
+                        break;
+                    case 'Teika Pharmaceutical. Co., Ltd.':
+                        $line[0] = 'TEIKA PHARMACEUTICAL CO.,LTD.';
+                        break;
+                }
+                $body = implode("\n", array(
+                    "廠名： {$line[0]}",
+                    "地址： {$line[1]}",
+                    "查廠日期： {$line[2]}",
+                    "發佈日期： {$line[3]}",
+                    "類別： {$line[4]}"
+                ));
+                $this->Article->create();
+                if ($this->Article->save(array('Article' => array(
+                                'title' => '嚴重違反GMP藥廠公告',
+                                'body' => $body,
+                                'date_published' => date('Y-m-d', $recordTime),
+                    )))) {
+                    $articleId = $this->Article->getInsertID();
+                    $vendors = $this->Article->Vendor->find('list', array(
+                        'fields' => array('Vendor.id', 'Vendor.id'),
+                        'conditions' => array(
+                            'Vendor.name' => $line[0],
+                        ),
+                    ));
+                    if (count($vendors) > 0) {
+                        foreach ($vendors AS $vendorId) {
+                            $this->Article->ArticlesLink->create();
+                            $this->Article->ArticlesLink->save(array('ArticlesLink' => array(
+                                    'article_id' => $articleId,
+                                    'model' => 'Vendor',
+                                    'foreign_id' => $vendorId,
+                            )));
+                        }
+                    }
+                }
+            }
+        }
+        if ($currentLatest > 0) {
+            file_put_contents($dateLatestFile, date('Y-m-d', $currentLatest));
+        }
     }
 
     public function data65() {
