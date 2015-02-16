@@ -217,7 +217,7 @@ class ArticlesController extends AppController {
             'Article.created' => 'DESC',
         );
         $this->paginate['Article']['contain'] = array('ArticlesLink');
-        $articles = $this->paginate($this->Article);
+        $articles = $this->paginate($this->Article, array('Article.date_published < now()'));
         foreach ($articles AS $k => $article) {
             foreach ($article['ArticlesLink'] AS $link) {
                 if (!isset($article[$link['model']])) {

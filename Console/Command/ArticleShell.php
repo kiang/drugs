@@ -6,7 +6,91 @@ class ArticleShell extends AppShell {
     public $dataPath = '/home/kiang/public_html/data.fda.gov.tw-list';
 
     public function main() {
-        $this->data45();
+        $this->data31();
+    }
+
+    public function data31() {
+        $fh = fopen($this->dataPath . '/dataset/31.csv', 'r');
+        $records = array();
+        $previousKey = 0;
+        //類別、藥品製造許可編號、藥品製造許可有效期限、名稱、地址、電話、核准劑型、備註
+        while ($line = fgetcsv($fh, 4096, "\t")) {
+            if (isset($line[1]) && substr($line[1], 0, 1) === '(') {
+                ++$previousKey;
+                $records[$previousKey] = $line;
+            } else {
+                foreach ($line AS $p) {
+                    $p = trim($p);
+                    if (!empty($p)) {
+                        $records[$previousKey][6] .= "\n{$p}";
+                    }
+                }
+            }
+        }
+        foreach ($records AS $record) {
+            $dateParts = preg_split('/(年|月|日)/', $record[2]);
+            $recordTime = mktime(0, 0, 0, $dateParts[1], $dateParts[2], $dateParts[0] + 1911);
+            if (!isset($record[7])) {
+                $record[7] = '';
+            }
+            $body = implode("\n", array(
+                "類別： {$record[0]}",
+                "藥品製造許可編號： {$record[1]}",
+                "藥品製造許可有效期限： {$record[2]}",
+                "名稱： {$record[3]}",
+                "地址： {$record[4]}",
+                "電話： {$record[5]}",
+                "核准劑型： \n{$record[6]}\n",
+                "備註： {$record[7]}"
+            ));
+            switch ($record[3]) {
+                case '台灣大塚製藥股份有限公司中壢工廠':
+                    $record[3] = '臺灣大塚製藥股份有限公司中壢工廠';
+                    break;
+                case '台灣田邊製藥股份有限公司新竹廠':
+                    $record[3] = '臺灣田邊製藥股份有限公司新竹廠';
+                    break;
+                case '台灣東洋藥品工業股份有限公司六堵廠':
+                    $record[3] = '臺灣東洋藥品工業股份有限公司六堵廠';
+                    break;
+                case '高氧實業有限公司岡山本洲廠':
+                    $record[3] = '高氧實業有限公司';
+                    break;
+                case '聯華氣體工業股份有限公司高雄廠':
+                    $record[3] = '聯華氣體工業股份有限公司高雄工廠';
+                    break;
+                case '臺北氧氣股份有限公司大肚廠':
+                    $record[3] = '台北氧氣股份有限公司大肚廠';
+                    break;
+                case '藍海氣體工業股份有限公司台中廠':
+                    $record[3] = '藍海氣體工業股份有限公司 台中廠';
+                    break;
+            }
+            $this->Article->create();
+            if ($this->Article->save(array('Article' => array(
+                            'title' => "{$record[0]}許可編號{$record[1]}",
+                            'body' => $body,
+                            'date_published' => date('Y-m-d', $recordTime),
+                )))) {
+                $articleId = $this->Article->getInsertID();
+                $vendors = $this->Article->Vendor->find('list', array(
+                    'fields' => array('Vendor.id', 'Vendor.id'),
+                    'conditions' => array(
+                        'Vendor.name' => $record[3],
+                    ),
+                ));
+                if (count($vendors) > 0) {
+                    foreach ($vendors AS $vendorId) {
+                        $this->Article->ArticlesLink->create();
+                        $this->Article->ArticlesLink->save(array('ArticlesLink' => array(
+                                'article_id' => $articleId,
+                                'model' => 'Vendor',
+                                'foreign_id' => $vendorId,
+                        )));
+                    }
+                }
+            }
+        }
     }
 
     public function data45() {
