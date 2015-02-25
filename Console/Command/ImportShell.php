@@ -805,6 +805,9 @@ class ImportShell extends AppShell {
             }
             fclose($dbKeysFh);
         }
+        $dbVendorKeys = $this->License->Vendor->find('list', array(
+            'fields' => array('id', 'id')
+        ));
         $fh = fopen($this->dataPath . '/dataset/36.csv', 'r');
         $count = 0;
         /*
@@ -870,22 +873,30 @@ class ImportShell extends AppShell {
             }
             if (!isset($vendorKeys[$vendorKey1])) {
                 $vendorKeys[$vendorKey1] = String::uuid();
-                $vendorStack[$vendorKey1] = array(
-                    'id' => $vendorKeys[$vendorKey1],
-                    'tax_id' => $cols[19],
-                    'name' => $cols[17],
-                    'address' => $cols[18],
-                    'address_office' => '',
-                    'country' => (!empty($cols[19])) ? 'TAIWAN' : '',
-                    'count_daily' => 0,
-                    'count_all' => 0,
-                );
-            } elseif (empty($vendorStack[$vendorKey1]['tax_id']) && !empty($cols[19])) {
-                $vendorStack[$vendorKey1]['tax_id'] = $cols[19];
-                $vendorStack[$vendorKey1]['country'] = 'TAIWAN';
             }
+            if (!isset($dbVendorKeys[$vendorKeys[$vendorKey1]])) {
+                if (!isset($vendorStack[$vendorKey1])) {
+                    $vendorStack[$vendorKey1] = array(
+                        'id' => $vendorKeys[$vendorKey1],
+                        'tax_id' => $cols[19],
+                        'name' => $cols[17],
+                        'address' => $cols[18],
+                        'address_office' => '',
+                        'country' => (!empty($cols[19])) ? 'TAIWAN' : '',
+                        'count_daily' => 0,
+                        'count_all' => 0,
+                    );
+                } elseif (empty($vendorStack[$vendorKey1]['tax_id']) && !empty($cols[19])) {
+                    $vendorStack[$vendorKey1]['tax_id'] = $cols[19];
+                    $vendorStack[$vendorKey1]['country'] = 'TAIWAN';
+                }
+            }
+
             if (!isset($vendorKeys[$vendorKey2])) {
                 $vendorKeys[$vendorKey2] = String::uuid();
+            }
+
+            if (!isset($dbVendorKeys[$vendorKeys[$vendorKey2]]) && !isset($vendorStack[$vendorKey2])) {
                 $vendorStack[$vendorKey2] = array(
                     'id' => $vendorKeys[$vendorKey2],
                     'tax_id' => '',

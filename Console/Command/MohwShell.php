@@ -226,6 +226,9 @@ class MohwShell extends AppShell {
             }
             fclose($dbKeysFh);
         }
+        $dbVendorKeys = $this->License->Vendor->find('list', array(
+            'fields' => array('id', 'id')
+        ));
         $sn = 1;
         foreach (glob(__DIR__ . '/data/mohw/license/*/*.json') AS $jsonFile) {
             $p = pathinfo($jsonFile);
@@ -238,6 +241,9 @@ class MohwShell extends AppShell {
 
             if (!isset($vendorKeys[$json['license']['製造廠名稱']])) {
                 $vendorKeys[$json['license']['製造廠名稱']] = String::uuid();
+            }
+
+            if (!isset($dbVendorKeys[$vendorKeys[$json['license']['製造廠名稱']]]) && !isset($vendorStack[$json['license']['製造廠名稱']])) {
                 $vendorStack[$json['license']['製造廠名稱']] = array(
                     'id' => $vendorKeys[$json['license']['製造廠名稱']],
                     'tax_id' => '',
@@ -251,6 +257,8 @@ class MohwShell extends AppShell {
             }
             if (!isset($vendorKeys[$json['license']['申請商名稱']])) {
                 $vendorKeys[$json['license']['申請商名稱']] = String::uuid();
+            }
+            if (!isset($dbVendorKeys[$vendorKeys[$json['license']['申請商名稱']]]) && !isset($vendorStack[$json['license']['申請商名稱']])) {
                 $vendorStack[$json['license']['申請商名稱']] = array(
                     'id' => $vendorKeys[$json['license']['申請商名稱']],
                     'tax_id' => '',
