@@ -8,8 +8,11 @@ class MohwShell extends AppShell {
     public $mysqli = false;
 
     public function main() {
-        $this->importDrug();
-        $this->importIngredients();
+        $this->getLicenseHtml();
+        $this->extractLicenseHtml();
+//        $this->importDrug();
+//        $this->importIngredients();
+
         //$this->importNhiCodes();
     }
 
@@ -459,7 +462,7 @@ class MohwShell extends AppShell {
         $pos = strpos($currentPage, '<span id="Paging1_lblTotalPage">') + 32;
         $pageCount = substr($currentPage, $pos, strpos($currentPage, '<', $pos) - $pos);
         for ($i = 1; $i <= $pageCount; $i++) {
-            echo "processing page {$i}\n";
+            echo "processing page {$i} / {$pageCount}\n";
             $pageValues = $this->getFormValues($currentPage);
             unset($pageValues['btnBackQuery']);
             $pageValues['Paging1$ddlCurrentPage'] = $i;
