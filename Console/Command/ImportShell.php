@@ -20,12 +20,13 @@ class ImportShell extends AppShell {
           TRUNCATE `links`;
           TRUNCATE `prices`;
           TRUNCATE `vendors`;
+          TRUNCATE `categories_licenses`;
          * 
          * and remember to execute mohw to import another part of drugs
          * 
          * and dump generated data using another one:
          * 
-         * mysqldump -uroot -p kiang_drug drugs ingredients ingredients_licenses licenses prices vendors > db.sql
+         * mysqldump -uroot -p kiang_drug drugs ingredients ingredients_licenses licenses prices categories_licenses vendors > db.sql
          */
         $this->importDrug();
         $this->importPrice();
@@ -765,8 +766,8 @@ class ImportShell extends AppShell {
         ));
         foreach ($vendors AS $vendorId => $vendorName) {
             fputcsv($fh, array(
-                $vendorId,
                 $vendorName,
+                $vendorId,
             ));
         }
         fclose($fh);
