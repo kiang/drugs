@@ -151,7 +151,7 @@ class DrugsController extends AppController {
             foreach ($keywords AS $keyword) {
                 if (++$keywordCount < 5) {
                     $scope[]['OR'] = array(
-                        'Drug.license_id LIKE' => "%{$keyword}%",
+                        'License.license_id LIKE' => "%{$keyword}%",
                         'Vendor.name LIKE' => "%{$keyword}%",
                         'License.name LIKE' => "%{$keyword}%",
                         'License.name_english LIKE' => "%{$keyword}%",

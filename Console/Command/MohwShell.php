@@ -358,12 +358,16 @@ class MohwShell extends AppShell {
                 $licenseCode = '';
                 echo "{$json['license']['許可證字號']} can't find prefix\n";
             }
+            $nhiId = '';
+            if (false !== strpos($json['license']['許可證字號'], '衛署藥製') || false !== strpos($json['license']['許可證字號'], '衛部藥製')) {
+                $nhiId = 'A' . substr($licenseCode, 2);
+            }
             $licenseData[] = array(
                 "('{$p['filename']}'", //id
                 "'{$json['license']['許可證字號']}'", //license_id
                 "'{$licenseCode}'", //code
                 "'mohw'", //source
-                "NULL", //nhi_id
+                "'{$nhiId}'", //nhi_id
                 "NULL", //shape
                 "NULL", //s_type
                 "NULL", //color
@@ -437,8 +441,6 @@ class MohwShell extends AppShell {
         if (!empty($valueStack)) {
             $this->dbQuery('INSERT INTO `vendors` VALUES ' . implode(',', $valueStack) . ';');
         }
-        $this->dbQuery("UPDATE licenses SET nhi_id = REPLACE(license_id, '衛署藥製', 'A') WHERE license_id LIKE '衛署藥製%' AND source = 'mohw' AND (nhi_id = '' OR nhi_id IS NULL);");
-        $this->dbQuery("UPDATE licenses SET nhi_id = REPLACE(license_id, '衛部藥製', 'A') WHERE license_id LIKE '衛部藥製%' AND source = 'mohw' AND (nhi_id = '' OR nhi_id IS NULL);");
     }
 
     public function extractLicenseHtml() {

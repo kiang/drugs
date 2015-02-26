@@ -73,8 +73,8 @@ class ImportShell extends AppShell {
 
     public function main() {
         //$this->updateCode();
-        $this->dumpDbKeys();
-        exit();
+        //$this->dumpDbKeys();
+        //exit();
         /*
          * Execute before importing:
          * TRUNCATE `drugs`;
@@ -108,13 +108,14 @@ class ImportShell extends AppShell {
         ));
         $i = 1;
         $c = count($licenses);
-        foreach($licenses AS $id => $str) {
+        foreach ($licenses AS $id => $str) {
             $code = $this->getLicenseCode($str);
-            if(false !== $code) {
+            if (false !== $code) {
+                $code = substr($code, 3);
                 $this->License->id = $id;
                 $this->License->saveField('code', $code);
             }
-            if($i++ % 300 === 0) {
+            if ($i++ % 300 === 0) {
                 echo "processing {$i} / {$c}\n";
             }
         }
@@ -129,7 +130,7 @@ class ImportShell extends AppShell {
         }
         if (false !== $prefixCode) {
             preg_match('/[0-9]+/', $str, $match);
-            return "{$prefixCode}{$match[0]}";
+            return "fda{$prefixCode}{$match[0]}";
         } else {
             return false;
         }
@@ -831,12 +832,13 @@ class ImportShell extends AppShell {
                 "{$drug['Drug']['license_id']}{$drug['Drug']['vendor_id']}{$drug['Drug']['manufacturer_description']}",
                 $drug['Drug']['id'],
             ));
-            if (!isset($stack[$drug['License']['code']])) {
+            $key = $drug['License']['source'] . $drug['License']['code'];
+            if (!isset($stack[$key])) {
                 fputcsv($fhL, array(
-                    $drug['License']['source'] . $drug['License']['code'],
+                    $key,
                     $drug['Drug']['license_id'],
                 ));
-                $stack[$drug['License']['code']] = true;
+                $stack[$key] = true;
             }
         }
         fclose($fh);
@@ -1033,10 +1035,11 @@ class ImportShell extends AppShell {
                 "'{$cols[24]}'", //manufacturer_description
             );
             if (!isset($licenseData[$licenseId[$licenseCode]])) {
+                $dbCode = substr($licenseCode, 3);
                 $licenseData[$licenseId[$licenseCode]] = array(
                     "('{$licenseId[$licenseCode]}'", //id
                     "'{$cols[0]}'", //license_id
-                    "'{$licenseCode}'", //code
+                    "'{$dbCode}'", //code
                     "'fda'", //source
                     "NULL", //nhi_id
                     "NULL", //shape
