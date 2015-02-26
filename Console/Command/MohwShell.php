@@ -299,8 +299,8 @@ class MohwShell extends AppShell {
             $json['license']['發證日期'] = date('Y-m-d', strtotime($json['license']['發證日期']));
             $json['license']['有效日期'] = date('Y-m-d', strtotime($json['license']['有效日期']));
 
-            $vendorKey1 = "{$json['license']['申請商名稱']}{$json['license']['申請商地址']}";
-            $vendorKey2 = "{$json['license']['製造廠名稱']}{$json['license']['製造廠地址']}";
+            $vendorKey1 = $json['license']['申請商名稱'];
+            $vendorKey2 = $json['license']['製造廠名稱'];
             if (!isset($vendorKeys[$vendorKey1])) {
                 $vendorKeys[$vendorKey1] = String::uuid();
             }

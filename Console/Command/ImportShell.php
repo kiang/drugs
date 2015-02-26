@@ -869,12 +869,12 @@ class ImportShell extends AppShell {
         fclose($fh);
         $fh = fopen(__DIR__ . '/data/keys/vendors.csv', 'w');
         $vendors = $this->License->Vendor->find('all', array(
-            'fields' => array('id', 'name', 'address'),
+            'fields' => array('id', 'name'),
             'order' => array('name' => 'ASC'),
         ));
         foreach ($vendors AS $vendor) {
             fputcsv($fh, array(
-                "{$vendor['Vendor']['name']}{$vendor['Vendor']['address']}",
+                $vendor['Vendor']['name'],
                 $vendor['Vendor']['id'],
             ));
         }
@@ -891,7 +891,7 @@ class ImportShell extends AppShell {
         $db = ConnectionManager::getDataSource('default');
         $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
         $this->dbQuery('SET NAMES utf8mb4;');
-        $stack = $urlKeys = $valueStack = $licenseId = $licenseStack = $vendorKeys = $vendorStack = array();
+        $stack = $urlKeys = $valueStack = $licenseId = $licenseStack = $vendorKeys = $vendorStack = $drugsQueued = array();
         if (file_exists(__DIR__ . '/data/keys/drugs.csv')) {
             $dbKeysFh = fopen(__DIR__ . '/data/keys/drugs.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
@@ -976,8 +976,8 @@ class ImportShell extends AppShell {
             if (!isset($licenseId[$licenseCode])) {
                 $licenseId[$licenseCode] = String::uuid();
             }
-            $vendorKey1 = "{$cols[17]}{$cols[18]}";
-            $vendorKey2 = "{$cols[20]}{$cols[21]}";
+            $vendorKey1 = $cols[17];
+            $vendorKey2 = $cols[20];
             if (!isset($vendorKeys[$vendorKey1])) {
                 $vendorKeys[$vendorKey1] = String::uuid();
             }
@@ -1076,8 +1076,12 @@ class ImportShell extends AppShell {
                     "0)", //count_all
                 );
             }
-            $valueStack[] = implode(',', $dbCols) . ')';
-            ++$sn;
+            if (!isset($drugsQueued[$stack[$key]])) {
+                $drugsQueued[$stack[$key]] = true;
+                $valueStack[] = implode(',', $dbCols) . ')';
+                ++$sn;
+            }
+
             if ($sn > 50) {
                 $sn = 1;
                 $this->dbQuery('INSERT INTO `drugs` VALUES ' . implode(',', $valueStack) . ';');
