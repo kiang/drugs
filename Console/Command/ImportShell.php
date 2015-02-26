@@ -819,7 +819,7 @@ class ImportShell extends AppShell {
             'order' => array('License.code' => 'ASC'),
             'contain' => array(
                 'License' => array(
-                    'fields' => array('code'),
+                    'fields' => array('code', 'source'),
                 ),
             ),
         ));
@@ -833,7 +833,7 @@ class ImportShell extends AppShell {
             ));
             if (!isset($stack[$drug['License']['code']])) {
                 fputcsv($fhL, array(
-                    $drug['License']['code'],
+                    $drug['License']['source'] . $drug['License']['code'],
                     $drug['Drug']['license_id'],
                 ));
                 $stack[$drug['License']['code']] = true;
