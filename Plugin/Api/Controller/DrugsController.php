@@ -29,7 +29,7 @@ class DrugsController extends ApiAppController {
                         'alias' => 'CategoriesLicense',
                         'type' => 'INNER',
                         'conditions' => array(
-                            'Drug.license_uuid = CategoriesLicense.license_id',
+                            'Drug.license_id = CategoriesLicense.license_id',
                         ),
                     ),
                     array(

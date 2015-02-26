@@ -336,8 +336,7 @@ class MohwShell extends AppShell {
 
             $dbCols = array(
                 "('{$p['filename']}'", //id
-                "'{$p['filename']}'", //license_uuid
-                "'{$json['license']['許可證字號']}'", //license_id
+                "'{$p['filename']}'", //license_id
                 "'{$vendorKeys[$json['license']['製造廠名稱']]}'", //vendor_id
                 "NULL", //manufacturer_description
             );

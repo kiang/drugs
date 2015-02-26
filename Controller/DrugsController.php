@@ -76,9 +76,9 @@ class DrugsController extends AppController {
             );
             $items = $this->paginate($this->Drug->License, $scope);
             $drugIds = $this->Drug->find('list', array(
-                'fields' => array('license_uuid', 'id'),
+                'fields' => array('license_id', 'id'),
                 'conditions' => array(
-                    'license_uuid' => Set::extract('{n}.License.id', $items),
+                    'license_id' => Set::extract('{n}.License.id', $items),
                 ),
             ));
             foreach ($items AS $k => $v) {
@@ -130,7 +130,7 @@ class DrugsController extends AppController {
                 'License.count_all' => 'DESC',
                 'License.submitted' => 'DESC',
             ),
-            'group' => array('Drug.license_uuid'),
+            'group' => array('Drug.license_id'),
         );
         $this->set('url', array($name));
         $title = '';
@@ -174,7 +174,7 @@ class DrugsController extends AppController {
                 'License.count_all' => 'DESC',
                 'License.submitted' => 'DESC',
             ),
-            'group' => array('Drug.license_uuid'),
+            'group' => array('Drug.license_id'),
         );
         $this->set('url', array($name));
         $title = '';
@@ -207,7 +207,7 @@ class DrugsController extends AppController {
             ));
         }
         if (!empty($this->data)) {
-            $this->Drug->License->counterIncrement($this->data['Drug']['license_uuid']);
+            $this->Drug->License->counterIncrement($this->data['Drug']['license_id']);
             $categoryNames = array();
             foreach ($this->data['License']['Category'] AS $k => $category) {
                 $categoryNames[$category['CategoriesLicense']['category_id']] = $this->Drug->License->Category->getPath($category['CategoriesLicense']['category_id'], array('id', 'name'));
@@ -215,14 +215,14 @@ class DrugsController extends AppController {
             $this->set('title_for_layout', "{$this->data['License']['name']} {{$this->data['License']['name_english']}} @ ");
             $this->set('desc_for_layout', "{$this->data['License']['name']} {$this->data['License']['name_english']} / {$this->data['License']['disease']} / ");
             $this->set('prices', $this->Drug->License->Price->find('all', array(
-                        'conditions' => array('Price.license_id' => $this->data['Drug']['license_uuid']),
+                        'conditions' => array('Price.license_id' => $this->data['Drug']['license_id']),
                         'order' => array(
                             'Price.nhi_id' => 'ASC',
                             'Price.date_end' => 'DESC',
                         ),
             )));
             $this->set('links', $this->Drug->License->Link->find('all', array(
-                        'conditions' => array('Link.license_id' => $this->data['Drug']['license_uuid']),
+                        'conditions' => array('Link.license_id' => $this->data['Drug']['license_id']),
                         'fields' => array('url', 'title'),
                         'order' => array(
                             'Link.type' => 'ASC',
@@ -230,7 +230,7 @@ class DrugsController extends AppController {
                         ),
             )));
             $ingredients = $this->Drug->License->IngredientsLicense->find('all', array(
-                'conditions' => array('IngredientsLicense.license_id' => $this->data['Drug']['license_uuid']),
+                'conditions' => array('IngredientsLicense.license_id' => $this->data['Drug']['license_id']),
                 'fields' => array('ingredient_id', 'remark', 'name', 'dosage', 'dosage_text', 'unit'),
                 'order' => array(
                     'IngredientsLicense.dosage' => 'DESC',
@@ -244,7 +244,7 @@ class DrugsController extends AppController {
                             'id', 'manufacturer_description',
                         ),
                         'conditions' => array(
-                            'Drug.license_uuid' => $this->data['Drug']['license_uuid'],
+                            'Drug.license_id' => $this->data['Drug']['license_id'],
                             'Drug.id !=' => $this->data['Drug']['id'],
                         ),
                         'contain' => array('Vendor' => array(

@@ -31,7 +31,7 @@ class ArticlesController extends AppController {
             $this->request->data['ArticlesLink'] = array();
             if (!empty($this->request->data['Drug'])) {
                 $licenses = $this->Article->License->Drug->find('list', array(
-                    'fields' => array('Drug.license_uuid', 'Drug.license_uuid'),
+                    'fields' => array('Drug.license_id', 'Drug.license_id'),
                     'conditions' => array(
                         'Drug.id' => $this->request->data['Drug'],
                     ),
@@ -90,7 +90,7 @@ class ArticlesController extends AppController {
             $this->request->data['ArticlesLink'] = array();
             if (!empty($this->request->data['Drug'])) {
                 $licenses = $this->Article->License->Drug->find('list', array(
-                    'fields' => array('Drug.license_uuid', 'Drug.license_uuid'),
+                    'fields' => array('Drug.license_id', 'Drug.license_id'),
                     'conditions' => array(
                         'Drug.id' => $this->request->data['Drug'],
                     ),
@@ -154,11 +154,11 @@ class ArticlesController extends AppController {
             if (!empty($this->request->data['License'])) {
                 $this->request->data['Drug'] = $this->Article->License->Drug->find('list', array(
                     'conditions' => array(
-                        'Drug.license_uuid' => $this->request->data['License'],
+                        'Drug.license_id' => $this->request->data['License'],
                     ),
                     'contain' => array('License'),
                     'fields' => array('Drug.id', 'License.name'),
-                    'group' => array('Drug.license_uuid'),
+                    'group' => array('Drug.license_id'),
                 ));
             }
             if (!empty($this->request->data['Ingredient'])) {
@@ -228,11 +228,11 @@ class ArticlesController extends AppController {
             if (!empty($article['License'])) {
                 $article['Drug'] = $this->Article->License->Drug->find('list', array(
                     'conditions' => array(
-                        'Drug.license_uuid' => $article['License'],
+                        'Drug.license_id' => $article['License'],
                     ),
                     'contain' => array('License'),
                     'fields' => array('Drug.id', 'License.name'),
-                    'group' => array('Drug.license_uuid'),
+                    'group' => array('Drug.license_id'),
                 ));
             }
             if (!empty($article['Ingredient'])) {
@@ -275,11 +275,11 @@ class ArticlesController extends AppController {
             if (!empty($article['License'])) {
                 $article['Drug'] = $this->Article->License->Drug->find('all', array(
                     'conditions' => array(
-                        'Drug.license_uuid' => $article['License'],
+                        'Drug.license_id' => $article['License'],
                     ),
                     'contain' => array('License'),
                     'fields' => array('Drug.id', 'License.name', 'License.disease'),
-                    'group' => array('Drug.license_uuid'),
+                    'group' => array('Drug.license_id'),
                 ));
                 $keywords = array_merge($keywords, Set::extract('Drug.{n}.License.name', $article));
             }

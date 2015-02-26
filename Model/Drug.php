@@ -18,7 +18,7 @@ class Drug extends AppModel {
     public $belongsTo = array(
         'License' => array(
             'className' => 'License',
-            'foreignKey' => 'license_uuid',
+            'foreignKey' => 'license_id',
             'conditions' => '',
             'fields' => '',
             'order' => ''

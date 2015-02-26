@@ -179,12 +179,11 @@ DROP TABLE IF EXISTS `drugs`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `drugs` (
   `id` binary(36) NOT NULL COMMENT '主索引',
-  `license_uuid` binary(36) NOT NULL COMMENT '藥證索引',
-  `license_id` varchar(32) COLLATE utf8_unicode_ci NOT NULL COMMENT '許可證字號',
+  `license_id` binary(36) NOT NULL COMMENT '藥證索引',
   `vendor_id` binary(36) DEFAULT NULL COMMENT '申請商編號',
   `manufacturer_description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '製程',
   PRIMARY KEY (`id`),
-  KEY `license_uuid` (`license_uuid`)
+  KEY `license_id` (`license_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -429,4 +428,4 @@ CREATE TABLE `vendors` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-02-26 16:12:08
+-- Dump completed on 2015-02-26 16:27:55

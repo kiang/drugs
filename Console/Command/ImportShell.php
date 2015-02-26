@@ -72,8 +72,8 @@ class ImportShell extends AppShell {
     );
 
     public function main() {
-        //$this->dumpDbKeys();
-        //exit();
+        $this->dumpDbKeys();
+        exit();
         /*
          * Execute before importing:
          * TRUNCATE `drugs`;
@@ -770,7 +770,7 @@ class ImportShell extends AppShell {
 
     public function dumpDbKeys() {
         $drugs = $this->License->Drug->find('all', array(
-            'fields' => array('id', 'license_uuid', 'license_id', 'manufacturer_description'),
+            'fields' => array('id', 'license_id', 'manufacturer_description'),
             'order' => array('Drug.license_id' => 'ASC'),
             'contain' => array(
                 'Vendor' => array(
@@ -788,12 +788,12 @@ class ImportShell extends AppShell {
                 $key,
                 $drug['Drug']['id'],
             ));
-            if (!isset($stack[$drug['Drug']['license_uuid']])) {
+            if (!isset($stack[$drug['Drug']['license_id']])) {
                 fputcsv($fhL, array(
                     $drug['Drug']['license_id'],
-                    $drug['Drug']['license_uuid'],
+                    $drug['Drug']['license_id'],
                 ));
-                $stack[$drug['Drug']['license_uuid']] = true;
+                $stack[$drug['Drug']['license_id']] = true;
             }
         }
         fclose($fh);
@@ -974,8 +974,7 @@ class ImportShell extends AppShell {
 
             $dbCols = array(
                 "('{$stack[$key]}'", //id
-                "'{$licenseId[$cols[0]]}'", //license_uuid
-                "'{$cols[0]}'", //license_id
+                "'{$licenseId[$cols[0]]}'", //license_id
                 "'{$vendorKeys[$vendorKey2]}'", //vendor_id
                 "'{$cols[24]}'", //manufacturer_description
             );

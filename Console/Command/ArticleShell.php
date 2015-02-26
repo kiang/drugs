@@ -245,9 +245,9 @@ class ArticleShell extends AppShell {
                         if (false !== $pos) {
                             $keyword = substr($v, 0, $pos);
                             $licensePk = $this->Article->License->Drug->find('list', array(
-                                'fields' => array('license_uuid', 'license_uuid'),
+                                'fields' => array('license_id', 'license_id'),
                                 'conditions' => array('manufacturer LIKE' => "%{$keyword}%"),
-                                'group' => array('license_uuid'),
+                                'group' => array('license_id'),
                             ));
                         }
                     }

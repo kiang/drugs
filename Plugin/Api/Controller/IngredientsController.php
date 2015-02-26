@@ -64,7 +64,7 @@ class IngredientsController extends ApiAppController {
                         'alias' => 'Drug',
                         'type' => 'INNER',
                         'conditions' => array(
-                            'License.id = Drug.license_uuid',
+                            'License.id = Drug.license_id',
                         ),
                     ),
                 ),

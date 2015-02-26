@@ -26,7 +26,7 @@ class License extends AppModel {
     );
     var $hasMany = array(
         'Drug' => array(
-            'foreignKey' => 'license_uuid',
+            'foreignKey' => 'license_id',
             'dependent' => true,
             'className' => 'Drug',
         ),

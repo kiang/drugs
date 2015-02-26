@@ -35,7 +35,7 @@
                                     <td>
                                         <?php echo $this->Html->link($name, array('action' => 'view', $item['Drug']['id'])); ?></td>
                                     <td><?php
-                                        echo $item['Drug']['license_id'];
+                                        echo $item['License']['license_id'];
                                         ?></td>
                                     <td><?php
                                         echo $item['License']['shape'];
