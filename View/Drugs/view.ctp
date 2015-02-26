@@ -72,19 +72,8 @@
                 <div class="box-body">
                     <dl class="dl-horizontal">                        <dt>許可證字號</dt>
                         <dd><?php
-                            $prefixCode = false;
-                            if (mb_substr($this->data['Drug']['license_id'], -1, 1, 'utf-8') === '號') {
-                                foreach ($this->Olc->prefixCodes AS $code => $prefix) {
-                                    if (false === $prefixCode && false !== strpos($this->data['Drug']['license_id'], $prefix)) {
-                                        $prefixCode = $code;
-                                    }
-                                }
-                            }
-
-
-                            if (false !== $prefixCode) {
-                                preg_match('/[0-9]+/', $this->data['Drug']['license_id'], $match);
-                                echo $this->Html->link($this->data['Drug']['license_id'], 'http://www.fda.gov.tw/MLMS/(S(zhayg3j2oyozxi45fx41gi55))/H0001D.aspx?Type=Lic&LicId=' . $prefixCode . $match[0], array('target' => '_blank', 'class' => 'btn btn-default'));
+                            if ($this->data['License']['source'] === 'fda' && !empty($this->data['License']['code'])) {
+                                echo $this->Html->link($this->data['Drug']['license_id'], 'http://www.fda.gov.tw/MLMS/(S(zhayg3j2oyozxi45fx41gi55))/H0001D.aspx?Type=Lic&LicId=' . $this->data['License']['code'], array('target' => '_blank', 'class' => 'btn btn-default'));
                             } else {
                                 echo $this->data['Drug']['license_id'];
                             }

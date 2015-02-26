@@ -271,6 +271,8 @@ DROP TABLE IF EXISTS `licenses`;
 CREATE TABLE `licenses` (
   `id` binary(36) NOT NULL COMMENT '主索引',
   `license_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '藥證編號',
+  `code` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `source` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `nhi_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '健保代碼(逗點分隔)',
   `shape` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '形狀',
   `s_type` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '特殊劑型',
@@ -427,4 +429,4 @@ CREATE TABLE `vendors` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-02-14  0:37:37
+-- Dump completed on 2015-02-26 16:12:08

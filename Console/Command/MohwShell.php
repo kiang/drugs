@@ -6,13 +6,75 @@ class MohwShell extends AppShell {
 
     public $uses = array('License');
     public $mysqli = false;
+    public $prefixCodes = array(
+        '01' => '衛署藥製',
+        '02' => '衛署藥輸',
+        '03' => '衛署成製',
+        '04' => '衛署中藥輸',
+        '05' => '衛署醫器製',
+        '06' => '衛署醫器輸',
+        '07' => '衛署粧製',
+        '08' => '衛署粧輸',
+        '09' => '衛署菌疫製',
+        '10' => '衛署菌疫輸',
+        '11' => '衛署色輸',
+        '12' => '內衛藥製',
+        '13' => '內衛藥輸',
+        '14' => '內衛成製',
+        '15' => '內衛菌疫製',
+        '16' => '內衛菌疫輸',
+        '17' => '內藥登',
+        '18' => '署藥兼食製',
+        '19' => '衛署成輸',
+        '20' => '衛署罕藥輸',
+        '21' => '衛署罕藥製',
+        '22' => '罕菌疫輸',
+        '23' => '罕菌疫製',
+        '24' => '罕醫器輸',
+        '25' => '罕醫器製',
+        '31' => '衛署色製',
+        '40' => '衛署粧陸輸',
+        '41' => '衛署藥陸輸',
+        '42' => '衛署醫器陸輸',
+        '43' => '衛署醫器製壹',
+        '44' => '衛署醫器輸壹',
+        '45' => '衛署醫器外製',
+        '46' => '衛署醫器陸輸壹',
+        '47' => '衛署醫器外製壹',
+        '51' => '衛部藥製',
+        '52' => '衛部藥輸',
+        '53' => '衛部成製',
+        '55' => '衛部醫器製',
+        '56' => '衛部醫器輸',
+        '57' => '衛部粧製',
+        '58' => '衛部粧輸',
+        '59' => '衛部菌疫製',
+        '60' => '衛部菌疫輸',
+        '61' => '衛部色輸',
+        '68' => '部藥兼食製',
+        '69' => '衛部成輸',
+        '70' => '衛部罕藥輸',
+        '71' => '衛部罕藥製',
+        '72' => '衛部罕菌疫輸',
+        '73' => '衛部罕菌疫製',
+        '74' => '衛部罕醫器輸',
+        '81' => '衛部色製',
+        '90' => '衛部粧陸輸',
+        '91' => '衛部藥陸輸',
+        '92' => '衛部醫器陸輸',
+        '93' => '衛部醫器製壹',
+        '94' => '衛部醫器輸壹',
+        '95' => '衛部醫器外製',
+        '96' => '衛部醫器陸輸壹',
+        '97' => '衛部醫器外製壹',
+        '99' => '衛署菌製',
+    );
 
     public function main() {
-        $this->getLicenseHtml();
-        $this->extractLicenseHtml();
-//        $this->importDrug();
-//        $this->importIngredients();
-
+        //$this->getLicenseHtml();
+        //$this->extractLicenseHtml();
+        $this->importDrug();
+        $this->importIngredients();
         //$this->importNhiCodes();
     }
 
@@ -231,6 +293,9 @@ class MohwShell extends AppShell {
         foreach (glob(__DIR__ . '/data/mohw/license/*/*.json') AS $jsonFile) {
             $p = pathinfo($jsonFile);
             $json = json_decode(file_get_contents($jsonFile), true);
+            if (empty($json['license']['許可證字號'])) {
+                continue;
+            }
             $json['license']['發證日期'] = date('Y-m-d', strtotime($json['license']['發證日期']));
             $json['license']['有效日期'] = date('Y-m-d', strtotime($json['license']['有效日期']));
             foreach ($json['license'] AS $k => $v) {
@@ -277,9 +342,25 @@ class MohwShell extends AppShell {
                 "NULL", //manufacturer_description
             );
             $disease = trim("{$json['license']['適應症']}\n{$json['license']['效能']}");
+
+            $prefixCode = false;
+            foreach ($this->prefixCodes AS $code => $prefix) {
+                if (false === $prefixCode && false !== strpos($json['license']['許可證字號'], $prefix)) {
+                    $prefixCode = $code;
+                }
+            }
+            if (false !== $prefixCode) {
+                preg_match('/[0-9]+/', $json['license']['許可證字號'], $match);
+                $licenseCode = "{$prefixCode}{$match[0]}";
+            } else {
+                $licenseCode = '';
+                echo "{$json['license']['許可證字號']} can't find prefix\n";
+            }
             $licenseData[] = array(
                 "('{$p['filename']}'", //id
                 "'{$json['license']['許可證字號']}'", //license_id
+                "'{$licenseCode}'", //code
+                "'mohw'", //source
                 "NULL", //nhi_id
                 "NULL", //shape
                 "NULL", //s_type
@@ -354,8 +435,8 @@ class MohwShell extends AppShell {
         if (!empty($valueStack)) {
             $this->dbQuery('INSERT INTO `vendors` VALUES ' . implode(',', $valueStack) . ';');
         }
-        $this->dbQuery("UPDATE licenses SET nhi_id = REPLACE(license_id, '衛署藥製', 'A') WHERE license_id LIKE '衛署藥製%' AND license_id NOT LIKE '%號%' AND (nhi_id = '' OR nhi_id IS NULL);");
-        $this->dbQuery("UPDATE licenses SET nhi_id = REPLACE(license_id, '衛部藥製', 'A') WHERE license_id LIKE '衛部藥製%' AND license_id NOT LIKE '%號%' AND (nhi_id = '' OR nhi_id IS NULL);");
+        $this->dbQuery("UPDATE licenses SET nhi_id = REPLACE(license_id, '衛署藥製', 'A') WHERE license_id LIKE '衛署藥製%' AND source = 'mohw' AND (nhi_id = '' OR nhi_id IS NULL);");
+        $this->dbQuery("UPDATE licenses SET nhi_id = REPLACE(license_id, '衛部藥製', 'A') WHERE license_id LIKE '衛部藥製%' AND source = 'mohw' AND (nhi_id = '' OR nhi_id IS NULL);");
     }
 
     public function extractLicenseHtml() {
