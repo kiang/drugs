@@ -750,11 +750,10 @@ class ImportShell extends AppShell {
 
     public function dumpDbKeys() {
         $drugs = $this->License->Drug->find('all', array(
-            'fields' => array('id', 'license_id', 'manufacturer_description'),
-            'order' => array('Drug.license_id' => 'ASC'),
+            'order' => array('License.license_id' => 'ASC'),
             'contain' => array(
-                'Vendor' => array(
-                    'fields' => array('name', 'address'),
+                'License' => array(
+                    'fields' => array('code'),
                 ),
             ),
         ));
@@ -762,18 +761,16 @@ class ImportShell extends AppShell {
         $fhL = fopen(__DIR__ . '/data/keys/licenses.csv', 'w');
         $stack = array();
         foreach ($drugs AS $drug) {
-            $vendorKey2 = trim(strtolower($drug['Vendor']['name']), '.');
-            $key = $drug['Drug']['license_id'] . md5($vendorKey2 . $drug['Vendor']['address'] . $drug['Drug']['manufacturer_description']);
             fputcsv($fh, array(
-                $key,
+                "{$drug['Drug']['license_id']}{$drug['Drug']['vendor_id']}{$drug['Drug']['manufacturer_description']}",
                 $drug['Drug']['id'],
             ));
-            if (!isset($stack[$drug['Drug']['license_id']])) {
+            if (!isset($stack[$drug['License']['code']])) {
                 fputcsv($fhL, array(
-                    $drug['Drug']['license_id'],
+                    $drug['License']['code'],
                     $drug['Drug']['license_id'],
                 ));
-                $stack[$drug['Drug']['license_id']] = true;
+                $stack[$drug['License']['code']] = true;
             }
         }
         fclose($fh);
@@ -803,14 +800,14 @@ class ImportShell extends AppShell {
         }
         fclose($fh);
         $fh = fopen(__DIR__ . '/data/keys/vendors.csv', 'w');
-        $vendors = $this->License->Vendor->find('list', array(
-            'fields' => array('id', 'name'),
+        $vendors = $this->License->Vendor->find('all', array(
+            'fields' => array('id', 'name', 'address'),
             'order' => array('name' => 'ASC'),
         ));
-        foreach ($vendors AS $vendorId => $vendorName) {
+        foreach ($vendors AS $vendor) {
             fputcsv($fh, array(
-                $vendorName,
-                $vendorId,
+                "{$vendor['Vendor']['name']}{$vendor['Vendor']['address']}",
+                $vendor['Vendor']['id'],
             ));
         }
         fclose($fh);
@@ -965,7 +962,7 @@ class ImportShell extends AppShell {
                         $prefixCode = $code;
                     }
                 }
-                if(false !== $prefixCode) {
+                if (false !== $prefixCode) {
                     preg_match('/[0-9]+/', $cols[0], $match);
                     $licenseCode = "{$prefixCode}{$match[0]}";
                 } else {
