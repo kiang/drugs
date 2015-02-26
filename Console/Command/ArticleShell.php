@@ -94,7 +94,7 @@ class ArticleShell extends AppShell {
     }
 
     public function data45() {
-        $dateLatestFile = __DIR__ . '/data/articles_45_latest.txt';
+        $dateLatestFile = __DIR__ . '/data/keys/articles_45_latest.txt';
         $dateLatest = false;
         if (file_exists($dateLatestFile)) {
             $dateLatest = strtotime(trim(file_get_contents($dateLatestFile)));
@@ -163,7 +163,7 @@ class ArticleShell extends AppShell {
     }
 
     public function data65() {
-        $dateLatestFile = __DIR__ . '/data/articles_65_latest.txt';
+        $dateLatestFile = __DIR__ . '/data/keys/articles_65_latest.txt';
         $dateLatest = false;
         if (file_exists($dateLatestFile)) {
             $dateLatest = strtotime(trim(file_get_contents($dateLatestFile)));
@@ -194,7 +194,7 @@ class ArticleShell extends AppShell {
 
     public function data34() {
         $keys = array();
-        $keysFile = __DIR__ . '/data/articles.csv';
+        $keysFile = __DIR__ . '/data/keys/articles.csv';
         if (file_exists($keysFile)) {
             $fh = fopen($keysFile, 'r');
             while ($line = fgetcsv($fh, 2048)) {

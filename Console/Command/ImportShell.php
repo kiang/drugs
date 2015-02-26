@@ -286,26 +286,6 @@ class ImportShell extends AppShell {
         fclose($fh);
     }
 
-    public function renameDrugImages() {
-        $fh = fopen(__DIR__ . '/data/oldDrugId.csv', 'r');
-        $map = array();
-        while ($line = fgetcsv($fh, 512)) {
-            $map[$line[0]] = $line[1];
-        }
-        $list = $this->License->find('list', array(
-            'fields' => array('license_id', 'id'),
-        ));
-        foreach (glob(WWW_ROOT . 'img/drugs/*/*.jpg') AS $img) {
-            $p = pathinfo($img);
-            $uuid = $list[$map[$p['filename']]];
-            $targetFile = WWW_ROOT . 'img/drugs/' . substr($uuid, 0, 8);
-            if (!file_exists($targetFile)) {
-                mkdir($targetFile, 0777, true);
-            }
-            exec("git mv {$img} {$targetFile}/{$uuid}.jpg");
-        }
-    }
-
     public function rKeys($arr = array(), $prefix = '') {
         foreach ($arr AS $category) {
             $newPrefix = $prefix . $category['Category']['name'];
@@ -325,8 +305,8 @@ class ImportShell extends AppShell {
                     'fields' => array('id', 'parent_id', 'name', 'code'),
         )));
         $dbKeys = $valueStack = array();
-        if (file_exists(__DIR__ . '/data/licenses.csv')) {
-            $dbKeysFh = fopen(__DIR__ . '/data/licenses.csv', 'r');
+        if (file_exists(__DIR__ . '/data/keys/licenses.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/keys/licenses.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
                 $dbKeys[$line[0]] = $line[1];
             }
@@ -411,15 +391,15 @@ class ImportShell extends AppShell {
         $fields = array('許可證字號', '處方標示', '成分名稱', '含量描述', '含量', '含量單位', '-');
         $dbKeys = $valueStack = $ingredientKeys = array();
 
-        if (file_exists(__DIR__ . '/data/licenses.csv')) {
-            $dbKeysFh = fopen(__DIR__ . '/data/licenses.csv', 'r');
+        if (file_exists(__DIR__ . '/data/keys/licenses.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/keys/licenses.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
                 $dbKeys[$line[0]] = $line[1];
             }
             fclose($dbKeysFh);
         }
-        if (file_exists(__DIR__ . '/data/ingredients.csv')) {
-            $ingredientKeysFh = fopen(__DIR__ . '/data/ingredients.csv', 'r');
+        if (file_exists(__DIR__ . '/data/keys/ingredients.csv')) {
+            $ingredientKeysFh = fopen(__DIR__ . '/data/keys/ingredients.csv', 'r');
             while ($line = fgetcsv($ingredientKeysFh, 1024)) {
                 $ingredientKeys[$line[0]] = array(
                     'id' => $line[1],
@@ -518,8 +498,8 @@ class ImportShell extends AppShell {
 
         $dbKeys = $valueStack = array();
 
-        if (file_exists(__DIR__ . '/data/licenses.csv')) {
-            $dbKeysFh = fopen(__DIR__ . '/data/licenses.csv', 'r');
+        if (file_exists(__DIR__ . '/data/keys/licenses.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/keys/licenses.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
                 $dbKeys[$line[0]] = $line[1];
             }
@@ -623,8 +603,8 @@ class ImportShell extends AppShell {
         $fh = fopen($this->dataPath . '/dataset/42.csv', 'r');
 
         $dbKeys = array();
-        if (file_exists(__DIR__ . '/data/licenses.csv')) {
-            $dbKeysFh = fopen(__DIR__ . '/data/licenses.csv', 'r');
+        if (file_exists(__DIR__ . '/data/keys/licenses.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/keys/licenses.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
                 $dbKeys[$line[0]] = $line[1];
             }
@@ -706,8 +686,8 @@ class ImportShell extends AppShell {
         $this->dbQuery('SET NAMES utf8mb4;');
         $fields = array('許可證字號', '健保代碼', '規格量', '規格單位', '起期', '終期', '參考價', '-');
         $dbKeys = array();
-        if (file_exists(__DIR__ . '/data/licenses.csv')) {
-            $dbKeysFh = fopen(__DIR__ . '/data/licenses.csv', 'r');
+        if (file_exists(__DIR__ . '/data/keys/licenses.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/keys/licenses.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
                 $dbKeys[$line[0]] = $line[1];
             }
@@ -778,8 +758,8 @@ class ImportShell extends AppShell {
                 ),
             ),
         ));
-        $fh = fopen(__DIR__ . '/data/drugs.csv', 'w');
-        $fhL = fopen(__DIR__ . '/data/licenses.csv', 'w');
+        $fh = fopen(__DIR__ . '/data/keys/drugs.csv', 'w');
+        $fhL = fopen(__DIR__ . '/data/keys/licenses.csv', 'w');
         $stack = array();
         foreach ($drugs AS $drug) {
             $vendorKey2 = trim(strtolower($drug['Vendor']['name']), '.');
@@ -802,7 +782,7 @@ class ImportShell extends AppShell {
             'fields' => array('id', 'name'),
             'order' => array('Ingredient.name' => 'ASC'),
         ));
-        $fh = fopen(__DIR__ . '/data/ingredients.csv', 'w');
+        $fh = fopen(__DIR__ . '/data/keys/ingredients.csv', 'w');
         foreach ($ingredients AS $ingredient) {
             fputcsv($fh, array(
                 $ingredient['Ingredient']['name'],
@@ -810,7 +790,7 @@ class ImportShell extends AppShell {
             ));
         }
         fclose($fh);
-        $fh = fopen(__DIR__ . '/data/points.csv', 'w');
+        $fh = fopen(__DIR__ . '/data/keys/points.csv', 'w');
         $points = $this->License->Article->Point->find('all', array(
             'fields' => array('id', 'nhi_id'),
             'order' => array('nhi_id' => 'ASC'),
@@ -822,7 +802,7 @@ class ImportShell extends AppShell {
             ));
         }
         fclose($fh);
-        $fh = fopen(__DIR__ . '/data/vendors.csv', 'w');
+        $fh = fopen(__DIR__ . '/data/keys/vendors.csv', 'w');
         $vendors = $this->License->Vendor->find('list', array(
             'fields' => array('id', 'name'),
             'order' => array('name' => 'ASC'),
@@ -847,22 +827,22 @@ class ImportShell extends AppShell {
         $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
         $this->dbQuery('SET NAMES utf8mb4;');
         $stack = $urlKeys = $valueStack = $licenseId = $licenseStack = $vendorKeys = $vendorStack = array();
-        if (file_exists(__DIR__ . '/data/drugs.csv')) {
-            $dbKeysFh = fopen(__DIR__ . '/data/drugs.csv', 'r');
+        if (file_exists(__DIR__ . '/data/keys/drugs.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/keys/drugs.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
                 $stack[$line[0]] = $line[1];
             }
             fclose($dbKeysFh);
         }
-        if (file_exists(__DIR__ . '/data/licenses.csv')) {
-            $dbKeysFh = fopen(__DIR__ . '/data/licenses.csv', 'r');
+        if (file_exists(__DIR__ . '/data/keys/licenses.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/keys/licenses.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
                 $licenseId[$line[0]] = $line[1];
             }
             fclose($dbKeysFh);
         }
-        if (file_exists(__DIR__ . '/data/vendors.csv')) {
-            $dbKeysFh = fopen(__DIR__ . '/data/vendors.csv', 'r');
+        if (file_exists(__DIR__ . '/data/keys/vendors.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/keys/vendors.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
                 $vendorKeys[$line[0]] = $line[1];
             }

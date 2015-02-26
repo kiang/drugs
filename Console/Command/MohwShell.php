@@ -199,8 +199,8 @@ class MohwShell extends AppShell {
         $this->dbQuery('SET NAMES utf8mb4;');
         $valueStack = $ingredientKeys = $newIngredients = array();
 
-        if (file_exists(__DIR__ . '/data/ingredients.csv')) {
-            $ingredientKeysFh = fopen(__DIR__ . '/data/ingredients.csv', 'r');
+        if (file_exists(__DIR__ . '/data/keys/ingredients.csv')) {
+            $ingredientKeysFh = fopen(__DIR__ . '/data/keys/ingredients.csv', 'r');
             while ($line = fgetcsv($ingredientKeysFh, 1024)) {
                 $ingredientKeys[$line[0]] = array(
                     'id' => $line[1],
@@ -279,8 +279,8 @@ class MohwShell extends AppShell {
         $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
         $this->dbQuery('SET NAMES utf8mb4;');
         $valueStack = $licenseData = $vendorKeys = $vendorStack = array();
-        if (file_exists(__DIR__ . '/data/vendors.csv')) {
-            $dbKeysFh = fopen(__DIR__ . '/data/vendors.csv', 'r');
+        if (file_exists(__DIR__ . '/data/keys/vendors.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/keys/vendors.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
                 $vendorKeys[$line[0]] = $line[1];
             }
@@ -443,7 +443,7 @@ class MohwShell extends AppShell {
         if (!file_exists($targetPath)) {
             mkdir($targetPath, 0777, true);
         }
-        $mohwKeyFile = __DIR__ . '/data/mohw_licenses.csv';
+        $mohwKeyFile = __DIR__ . '/data/keys/mohw_licenses.csv';
         $mohwKeys = array();
         if (file_exists($mohwKeyFile)) {
             $kFh = fopen($mohwKeyFile, 'r');
