@@ -72,6 +72,7 @@ class ImportShell extends AppShell {
     );
 
     public function main() {
+        //$this->updateCode();
         $this->dumpDbKeys();
         exit();
         /*
@@ -91,6 +92,7 @@ class ImportShell extends AppShell {
          * 
          * mysqldump -uroot -p kiang_drug drugs ingredients ingredients_licenses licenses prices categories_licenses vendors > db.sql
          */
+        $this->emptyDrugs();
         $this->importDrug();
         $this->importPrice();
         $this->importImage();
@@ -98,6 +100,52 @@ class ImportShell extends AppShell {
         $this->importIngredients();
         $this->importATC();
         //$this->importPoints();
+    }
+
+    public function updateCode() {
+        $licenses = $this->License->find('list', array(
+            'fields' => array('id', 'license_id'),
+        ));
+        $i = 1;
+        $c = count($licenses);
+        foreach($licenses AS $id => $str) {
+            $code = $this->getLicenseCode($str);
+            if(false !== $code) {
+                $this->License->id = $id;
+                $this->License->saveField('code', $code);
+            }
+            if($i++ % 300 === 0) {
+                echo "processing {$i} / {$c}\n";
+            }
+        }
+    }
+
+    public function getLicenseCode($str) {
+        $prefixCode = false;
+        foreach ($this->prefixCodes AS $code => $prefix) {
+            if (false === $prefixCode && false !== strpos($str, $prefix)) {
+                $prefixCode = $code;
+            }
+        }
+        if (false !== $prefixCode) {
+            preg_match('/[0-9]+/', $str, $match);
+            return "{$prefixCode}{$match[0]}";
+        } else {
+            return false;
+        }
+    }
+
+    public function emptyDrugs() {
+        $db = ConnectionManager::getDataSource('default');
+        $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
+        $this->dbQuery('TRUNCATE `drugs`;');
+        $this->dbQuery('TRUNCATE `ingredients`;');
+        $this->dbQuery('TRUNCATE `ingredients_licenses`;');
+        $this->dbQuery('TRUNCATE `licenses`;');
+        $this->dbQuery('TRUNCATE `links`;');
+        $this->dbQuery('TRUNCATE `prices`;');
+        $this->dbQuery('TRUNCATE `vendors`;');
+        $this->dbQuery('TRUNCATE `categories_licenses`;');
     }
 
     public function importPoints() {
@@ -326,9 +374,14 @@ class ImportShell extends AppShell {
          */
         $fh = fopen($this->dataPath . '/dataset/41.csv', 'r');
         $sn = 1;
+        echo "categories importing\n";
         while ($line = fgetcsv($fh, 2048, "\t")) {
             foreach ($line AS $k => $v) {
                 $line[$k] = trim($v);
+            }
+            $licenseCode = $this->getLicenseCode($line[0]);
+            if (false === $licenseCode) {
+                continue;
             }
             $tree = explode(' / ', $line[3]);
             $treeCount = count($tree);
@@ -363,12 +416,12 @@ class ImportShell extends AppShell {
                     $this->dbQuery('UPDATE `categories` SET code = \'' . $code . '\' WHERE id = \'' . $this->key2id[$currentKey] . '\';');
                 }
             }
-            if (isset($dbKeys[$line[0]])) {
+            if (isset($dbKeys[$licenseCode])) {
                 $currentId = String::uuid();
                 $valueStack[] = implode(',', array(
                     "('{$currentId}'", //id
                     $this->key2id[implode('', $tree)], //category_id
-                    "'{$dbKeys[$line[0]]}'", //license_id
+                    "'{$dbKeys[$licenseCode]}'", //license_id
                     "'{$line[1]}')", //type
                 ));
                 ++$sn;
@@ -421,11 +474,13 @@ class ImportShell extends AppShell {
           )
          */
         $sn = 1;
+        echo "ingredients importing\n";
         while ($line = fgetcsv($fh, 2048, "\t")) {
             if (substr($line[4], 0, 1) === '-') {
                 $line[4] = substr($line[4], 1);
             }
-            if (!isset($dbKeys[$line[0]])) {
+            $licenseCode = $this->getLicenseCode($line[0]);
+            if (false === $licenseCode || !isset($dbKeys[$licenseCode])) {
                 continue;
             }
             $ingredientKey = trim($line[2]);
@@ -443,7 +498,7 @@ class ImportShell extends AppShell {
             $currentId = String::uuid();
             $valueStack[] = implode(',', array(
                 "('{$currentId}'", //id
-                "'{$dbKeys[$line[0]]}'", //license_id
+                "'{$dbKeys[$licenseCode]}'", //license_id
                 "'{$ingredientKeys[$ingredientKey]['id']}'", //ingredient_id
                 "'{$line[1]}'", //remark
                 "'{$line[2]}'", //name
@@ -519,11 +574,13 @@ class ImportShell extends AppShell {
         $wLength = strlen(WWW_ROOT);
         $imagick = new Imagick();
         $sn = 0;
+        echo "links importing\n";
         /*
          * get longest line lenth using command `wc -L filename`
          */
         while ($line = fgetcsv($fh, 10770, "\t")) {
-            if (!isset($dbKeys[$line[0]])) {
+            $licenseCode = $this->getLicenseCode($line[0]);
+            if (false === $licenseCode || !isset($dbKeys[$licenseCode])) {
                 continue;
             }
             if (!empty($line[3])) {
@@ -541,7 +598,7 @@ class ImportShell extends AppShell {
                     $url = $this->mysqli->real_escape_string($url);
                     $valueStack[] = implode(',', array(
                         "('{$currentId}'", //id
-                        "'{$dbKeys[$line[0]]}'", //license_id
+                        "'{$dbKeys[$licenseCode]}'", //license_id
                         "'{$url}'", //url
                         "'仿單 - {$count}'", //title
                         "1", //type
@@ -570,7 +627,7 @@ class ImportShell extends AppShell {
                     $url = $this->mysqli->real_escape_string($url);
                     $valueStack[] = implode(',', array(
                         "('{$currentId}'", //id
-                        "'{$dbKeys[$line[0]]}'", //license_id
+                        "'{$dbKeys[$licenseCode]}'", //license_id
                         "'{$url}'", //url
                         "'外盒 - {$count}'", //title
                         "2", //type
@@ -631,20 +688,25 @@ class ImportShell extends AppShell {
         $wLength = strlen(WWW_ROOT);
         $imagick = new Imagick();
         while ($line = fgetcsv($fh, 2048, "\t")) {
-            $dataFound = false;
+            $dataFound = $licenseCode = false;
             for ($k = 3; $k <= 11; $k++) {
                 if (!empty($line[$k])) {
                     $dataFound = true;
                 }
             }
-            if (true === $dataFound && isset($dbKeys[$line[0]])) {
-                echo "processing {$dbKeys[$line[0]]}\n";
+            if ($dataFound) {
+                $licenseCode = $this->getLicenseCode($line[0]);
+            }
+
+            if (false === $licenseCode || !isset($dbKeys[$licenseCode])) {
+                continue;
+            } else {
                 if (!empty($line[11])) {
                     $imgs = explode(';;', $line[11]);
                     $line[11] = $imgs[0];
-                    $targetFile = WWW_ROOT . 'img/drugs/' . substr($dbKeys[$line[0]], 0, 8) . '/' . $dbKeys[$line[0]] . '.jpg';
+                    $targetFile = WWW_ROOT . 'img/drugs/' . substr($dbKeys[$licenseCode], 0, 8) . '/' . $dbKeys[$licenseCode] . '.jpg';
                     if (!file_exists($targetFile)) {
-                        $imageFile = $imagePath . '/' . $dbKeys[$line[0]];
+                        $imageFile = $imagePath . '/' . $dbKeys[$licenseCode];
                         file_put_contents($imageFile, file_get_contents($line[11]));
                         $line[11] = '';
                         if (file_exists($imageFile)) {
@@ -655,11 +717,11 @@ class ImportShell extends AppShell {
                                         ))) {
                                     unlink($imageFile);
                                 } else {
-                                    $targetFile = WWW_ROOT . 'img/drugs/' . substr($dbKeys[$line[0]], 0, 8);
+                                    $targetFile = WWW_ROOT . 'img/drugs/' . substr($dbKeys[$licenseCode], 0, 8);
                                     if (!file_exists($targetFile)) {
                                         mkdir($targetFile, 0777, true);
                                     }
-                                    $targetFile .= '/' . $dbKeys[$line[0]] . '.jpg';
+                                    $targetFile .= '/' . $dbKeys[$licenseCode] . '.jpg';
                                     $line[11] = substr($targetFile, $wLength);
                                     if (!file_exists($targetFile)) {
                                         $imagick->readimage($imageFile);
@@ -675,7 +737,7 @@ class ImportShell extends AppShell {
                         $line[11] = substr($targetFile, $wLength);
                     }
                 }
-                $this->dbQuery("UPDATE licenses SET shape = '{$line[3]}', s_type = '{$line[4]}', color = '{$line[5]}', odor = '{$line[6]}', abrasion = '{$line[7]}', size = '{$line[8]}', note_1 = '{$line[9]}', note_2 = '{$line[10]}', image = '{$line[11]}' WHERE id = '{$dbKeys[$line[0]]}'");
+                $this->dbQuery("UPDATE licenses SET shape = '{$line[3]}', s_type = '{$line[4]}', color = '{$line[5]}', odor = '{$line[6]}', abrasion = '{$line[7]}', size = '{$line[8]}', note_1 = '{$line[9]}', note_2 = '{$line[10]}', image = '{$line[11]}' WHERE id = '{$dbKeys[$licenseCode]}'");
             }
         }
     }
@@ -709,35 +771,39 @@ class ImportShell extends AppShell {
          */
         $stack = $valueStack = array();
         $sn = 1;
+        echo "price importing\n";
         while ($line = fgetcsv($fh, 2048, "\t")) {
-            if (isset($dbKeys[$line[0]])) {
-                $currentId = String::uuid();
-                $line[7] = $dbKeys[$line[0]];
-                $line[4] = $this->getTwDate($line[4]);
-                $line[5] = $this->getTwDate($line[5]);
-                if (!isset($stack[$line[7]])) {
-                    $stack[$line[7]] = array();
-                }
-                if (!isset($stack[$line[7]][$line[1]])) {
-                    $stack[$line[7]][$line[1]] = $line[1];
-                }
-                $dbCols = array(
-                    "('{$currentId}'", //id
-                    "'{$line[7]}'", //license_id
-                    "'{$line[1]}'", //nhi_id
-                    "'{$line[2]}'", //nhi_dosage
-                    "'{$line[3]}'", //nhi_unit
-                    "'{$line[4]}'", //date_begin
-                    "'{$line[5]}'", //date_end
-                    "'{$line[6]}'", //nhi_price
-                );
-                $valueStack[] = implode(',', $dbCols) . ')';
-                ++$sn;
-                if ($sn > 50) {
-                    $sn = 1;
-                    $this->dbQuery('INSERT INTO `prices` VALUES ' . implode(',', $valueStack) . ';');
-                    $valueStack = array();
-                }
+            $licenseCode = $this->getLicenseCode($line[0]);
+            if (false === $licenseCode || !isset($dbKeys[$licenseCode])) {
+                continue;
+            }
+
+            $currentId = String::uuid();
+            $line[7] = $dbKeys[$licenseCode];
+            $line[4] = $this->getTwDate($line[4]);
+            $line[5] = $this->getTwDate($line[5]);
+            if (!isset($stack[$line[7]])) {
+                $stack[$line[7]] = array();
+            }
+            if (!isset($stack[$line[7]][$line[1]])) {
+                $stack[$line[7]][$line[1]] = $line[1];
+            }
+            $dbCols = array(
+                "('{$currentId}'", //id
+                "'{$line[7]}'", //license_id
+                "'{$line[1]}'", //nhi_id
+                "'{$line[2]}'", //nhi_dosage
+                "'{$line[3]}'", //nhi_unit
+                "'{$line[4]}'", //date_begin
+                "'{$line[5]}'", //date_end
+                "'{$line[6]}'", //nhi_price
+            );
+            $valueStack[] = implode(',', $dbCols) . ')';
+            ++$sn;
+            if ($sn > 50) {
+                $sn = 1;
+                $this->dbQuery('INSERT INTO `prices` VALUES ' . implode(',', $valueStack) . ';');
+                $valueStack = array();
             }
         }
         if (!empty($valueStack)) {
@@ -750,7 +816,7 @@ class ImportShell extends AppShell {
 
     public function dumpDbKeys() {
         $drugs = $this->License->Drug->find('all', array(
-            'order' => array('License.license_id' => 'ASC'),
+            'order' => array('License.code' => 'ASC'),
             'contain' => array(
                 'License' => array(
                     'fields' => array('code'),
@@ -889,6 +955,7 @@ class ImportShell extends AppShell {
          */
         $escapesKeys = array(1, 3, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 20, 21, 22, 24, 26, 27, 28);
         $sn = 1;
+        echo "drugs importing\n";
         while ($line = fgets($fh, 5000)) {
             $cols = explode("\t", $line);
             if (count($cols) !== 29) {
@@ -898,22 +965,36 @@ class ImportShell extends AppShell {
             foreach ($cols AS $k => $v) {
                 $cols[$k] = trim($v);
             }
-            if (!isset($licenseId[$cols[0]])) {
-                $licenseId[$cols[0]] = String::uuid();
+
+            $licenseCode = $this->getLicenseCode($cols[0]);
+            if (false === $licenseCode) {
+                continue;
             }
-            $vendorKey1 = trim(strtolower($cols[17]), '.');
-            $vendorKey2 = trim(strtolower($cols[20]), '.');
-            $key = $cols[0] . md5($vendorKey2 . $cols[21] . $cols[24]);
-            foreach ($escapesKeys AS $escapesKey) {
-                $cols[$escapesKey] = str_replace(array('　'), array(''), $cols[$escapesKey]);
-                $cols[$escapesKey] = $this->mysqli->real_escape_string($cols[$escapesKey]);
+
+            if (!isset($licenseId[$licenseCode])) {
+                $licenseId[$licenseCode] = String::uuid();
             }
-            if (!isset($stack[$key])) {
-                $stack[$key] = String::uuid();
-            }
+            $vendorKey1 = "{$cols[17]}{$cols[18]}";
+            $vendorKey2 = "{$cols[20]}{$cols[21]}";
             if (!isset($vendorKeys[$vendorKey1])) {
                 $vendorKeys[$vendorKey1] = String::uuid();
             }
+            if (!isset($vendorKeys[$vendorKey2])) {
+                $vendorKeys[$vendorKey2] = String::uuid();
+            }
+
+            foreach ($escapesKeys AS $escapesKey) {
+                $cols[$escapesKey] = str_replace(array('　'), array(''), $cols[$escapesKey]);
+            }
+            $key = "{$licenseId[$licenseCode]}{$vendorKeys[$vendorKey2]}{$cols[24]}";
+            foreach ($escapesKeys AS $escapesKey) {
+                $cols[$escapesKey] = $this->mysqli->real_escape_string($cols[$escapesKey]);
+            }
+
+            if (!isset($stack[$key])) {
+                $stack[$key] = String::uuid();
+            }
+
             if (!isset($dbVendorKeys[$vendorKeys[$vendorKey1]])) {
                 if (!isset($vendorStack[$vendorKey1])) {
                     $vendorStack[$vendorKey1] = array(
@@ -932,10 +1013,6 @@ class ImportShell extends AppShell {
                 }
             }
 
-            if (!isset($vendorKeys[$vendorKey2])) {
-                $vendorKeys[$vendorKey2] = String::uuid();
-            }
-
             if (!isset($dbVendorKeys[$vendorKeys[$vendorKey2]]) && !isset($vendorStack[$vendorKey2])) {
                 $vendorStack[$vendorKey2] = array(
                     'id' => $vendorKeys[$vendorKey2],
@@ -951,25 +1028,13 @@ class ImportShell extends AppShell {
 
             $dbCols = array(
                 "('{$stack[$key]}'", //id
-                "'{$licenseId[$cols[0]]}'", //license_id
+                "'{$licenseId[$licenseCode]}'", //license_id
                 "'{$vendorKeys[$vendorKey2]}'", //vendor_id
                 "'{$cols[24]}'", //manufacturer_description
             );
-            if (!isset($licenseData[$licenseId[$cols[0]]])) {
-                $prefixCode = false;
-                foreach ($this->prefixCodes AS $code => $prefix) {
-                    if (false === $prefixCode && false !== strpos($cols[0], $prefix)) {
-                        $prefixCode = $code;
-                    }
-                }
-                if (false !== $prefixCode) {
-                    preg_match('/[0-9]+/', $cols[0], $match);
-                    $licenseCode = "{$prefixCode}{$match[0]}";
-                } else {
-                    $licenseCode = '';
-                }
-                $licenseData[$licenseId[$cols[0]]] = array(
-                    "('{$licenseId[$cols[0]]}'", //id
+            if (!isset($licenseData[$licenseId[$licenseCode]])) {
+                $licenseData[$licenseId[$licenseCode]] = array(
+                    "('{$licenseId[$licenseCode]}'", //id
                     "'{$cols[0]}'", //license_id
                     "'{$licenseCode}'", //code
                     "'fda'", //source
@@ -1021,6 +1086,7 @@ class ImportShell extends AppShell {
         }
         $sn = 1;
         $valueStack = array();
+        echo "licenses importing\n";
         foreach ($licenseData AS $dbCols) {
             $valueStack[] = implode(',', $dbCols);
             ++$sn;
@@ -1035,6 +1101,7 @@ class ImportShell extends AppShell {
         }
         $sn = 1;
         $valueStack = array();
+        echo "vendors importing\n";
         foreach ($vendorStack AS $vendor) {
             $valueStack[] = "('" . implode("', '", $vendor) . "')";
             ++$sn;
