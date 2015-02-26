@@ -298,17 +298,23 @@ class MohwShell extends AppShell {
             }
             $json['license']['發證日期'] = date('Y-m-d', strtotime($json['license']['發證日期']));
             $json['license']['有效日期'] = date('Y-m-d', strtotime($json['license']['有效日期']));
+
+            $vendorKey1 = "{$json['license']['申請商名稱']}{$json['license']['申請商地址']}";
+            $vendorKey2 = "{$json['license']['製造廠名稱']}{$json['license']['製造廠地址']}";
+            if (!isset($vendorKeys[$vendorKey1])) {
+                $vendorKeys[$vendorKey1] = String::uuid();
+            }
+            if (!isset($vendorKeys[$vendorKey2])) {
+                $vendorKeys[$vendorKey2] = String::uuid();
+            }
+
             foreach ($json['license'] AS $k => $v) {
                 $json['license'][$k] = $this->mysqli->real_escape_string($v);
             }
 
-            if (!isset($vendorKeys[$json['license']['製造廠名稱']])) {
-                $vendorKeys[$json['license']['製造廠名稱']] = String::uuid();
-            }
-
-            if (!isset($dbVendorKeys[$vendorKeys[$json['license']['製造廠名稱']]]) && !isset($vendorStack[$json['license']['製造廠名稱']])) {
-                $vendorStack[$json['license']['製造廠名稱']] = array(
-                    'id' => $vendorKeys[$json['license']['製造廠名稱']],
+            if (!isset($dbVendorKeys[$vendorKeys[$vendorKey2]]) && !isset($vendorStack[$vendorKey2])) {
+                $vendorStack[$vendorKey2] = array(
+                    'id' => $vendorKeys[$vendorKey2],
                     'tax_id' => '',
                     'name' => $json['license']['製造廠名稱'],
                     'address' => $json['license']['製造廠地址'],
@@ -318,12 +324,9 @@ class MohwShell extends AppShell {
                     'count_all' => 0,
                 );
             }
-            if (!isset($vendorKeys[$json['license']['申請商名稱']])) {
-                $vendorKeys[$json['license']['申請商名稱']] = String::uuid();
-            }
-            if (!isset($dbVendorKeys[$vendorKeys[$json['license']['申請商名稱']]]) && !isset($vendorStack[$json['license']['申請商名稱']])) {
-                $vendorStack[$json['license']['申請商名稱']] = array(
-                    'id' => $vendorKeys[$json['license']['申請商名稱']],
+            if (!isset($dbVendorKeys[$vendorKeys[$vendorKey1]]) && !isset($vendorStack[$vendorKey1])) {
+                $vendorStack[$vendorKey1] = array(
+                    'id' => $vendorKeys[$vendorKey1],
                     'tax_id' => '',
                     'name' => $json['license']['申請商名稱'],
                     'address' => $json['license']['申請商地址'],
@@ -337,7 +340,7 @@ class MohwShell extends AppShell {
             $dbCols = array(
                 "('{$p['filename']}'", //id
                 "'{$p['filename']}'", //license_id
-                "'{$vendorKeys[$json['license']['製造廠名稱']]}'", //vendor_id
+                "'{$vendorKeys[$vendorKey2]}'", //vendor_id
                 "NULL", //manufacturer_description
             );
             $disease = trim("{$json['license']['適應症']}\n{$json['license']['效能']}");
@@ -386,7 +389,7 @@ class MohwShell extends AppShell {
                 "'{$json['license']['單複方']}'", //type
                 "NULL", //class
                 "NULL", //ingredient
-                "'{$vendorKeys[$json['license']['申請商名稱']]}'", //vendor_id
+                "'{$vendorKeys[$vendorKey1]}'", //vendor_id
                 "'{$json['license']['發證日期']}'", //submitted
                 "NULL", //usage
                 "'{$json['license']['限制項目']}'", //package_note
