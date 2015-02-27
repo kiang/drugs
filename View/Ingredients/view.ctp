@@ -21,7 +21,7 @@ if (false === $pos) {
             <div class="box box-danger" id="ingredientEventBox" style="display:none;" data-query="<?php echo $query; ?>">
                 <div class="box-header">
                     <i class="fa fa-warning"></i>
-                    <h4>常見不良反應</h4>
+                    <h4>美國 FDA 最近一年已知不良反應</h4>
                 </div>
                 <div class="box-body">
                     <ul id="ingredientEventList"></ul>
