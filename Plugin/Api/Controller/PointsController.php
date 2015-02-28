@@ -54,7 +54,8 @@ class PointsController extends ApiAppController {
         if (!empty($_GET['term'])) {
             $keyword = trim(Sanitize::clean($_GET['term']));
             $items = $this->Point->find('all', array(
-                'fields' => array('id', 'nhi_id', 'name', 'city', 'town'),
+                'fields' => array('id', 'nhi_id', 'name', 'city', 'town',
+                    'address', 'phone'),
                 'conditions' => array(
                     'OR' => array(
                         'name LIKE' => "%{$keyword}%",
@@ -71,6 +72,8 @@ class PointsController extends ApiAppController {
                     'nhi_id' => $item['Point']['nhi_id'],
                     'city' => $item['Point']['city'],
                     'town' => $item['Point']['town'],
+                    'address' => $item['Point']['address'],
+                    'phone' => $item['Point']['phone'],
                 );
             }
         }

@@ -64,7 +64,7 @@ class OrdersController extends AppController {
             $this->Order->create();
             if ($this->Order->save($this->request->data)) {
                 $this->Session->setFlash(__('The order has been saved.'));
-                return $this->redirect(array('controller' => 'accounts', 'action' => 'view', $accountId));
+                return $this->redirect(array('action' => 'view', $this->Order->getInsertID()));
             } else {
                 $this->Session->setFlash(__('The order could not be saved. Please, try again.'));
             }
@@ -80,23 +80,26 @@ class OrdersController extends AppController {
      * @return void
      */
     public function edit($id = null) {
-        if (!$this->Order->exists($id)) {
+        $order = $this->Order->find('first', array(
+            'conditions' => array(
+                'Order.id' => $id,
+                'Account.member_id' => Configure::read('loginMember.id'),
+            ),
+            'contain' => array('Account'),
+        ));
+        if (empty($order)) {
             throw new NotFoundException(__('Invalid order'));
         }
         if ($this->request->is(array('post', 'put'))) {
             if ($this->Order->save($this->request->data)) {
                 $this->Session->setFlash(__('The order has been saved.'));
-                return $this->redirect(array('action' => 'index'));
+                return $this->redirect(array('action' => 'view', $id));
             } else {
                 $this->Session->setFlash(__('The order could not be saved. Please, try again.'));
             }
         } else {
-            $options = array('conditions' => array('Order.' . $this->Order->primaryKey => $id));
-            $this->request->data = $this->Order->find('first', $options);
+            $this->request->data = $order;
         }
-        $accounts = $this->Order->Account->find('list');
-        $points = $this->Order->Point->find('list');
-        $this->set(compact('accounts', 'points'));
     }
 
     /**

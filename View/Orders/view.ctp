@@ -105,65 +105,6 @@
                             </dd>
                         </dl>
                     </div>
-                    <div class="actions">
-                        <h3><?php echo __('Actions'); ?></h3>
-                        <ul>
-                            <li><?php echo $this->Html->link(__('Edit Order'), array('action' => 'edit', $order['Order']['id'])); ?> </li>
-                            <li><?php echo $this->Form->postLink(__('Delete Order'), array('action' => 'delete', $order['Order']['id']), array(), __('Are you sure you want to delete # %s?', $order['Order']['id'])); ?> </li>
-                            <li><?php echo $this->Html->link(__('List Orders'), array('action' => 'index')); ?> </li>
-                            <li><?php echo $this->Html->link(__('New Order'), array('action' => 'add')); ?> </li>
-                            <li><?php echo $this->Html->link(__('List Accounts'), array('controller' => 'accounts', 'action' => 'index')); ?> </li>
-                            <li><?php echo $this->Html->link(__('New Account'), array('controller' => 'accounts', 'action' => 'add')); ?> </li>
-                            <li><?php echo $this->Html->link(__('List Points'), array('controller' => 'points', 'action' => 'index')); ?> </li>
-                            <li><?php echo $this->Html->link(__('New Point'), array('controller' => 'points', 'action' => 'add')); ?> </li>
-                            <li><?php echo $this->Html->link(__('List Order Lines'), array('controller' => 'order_lines', 'action' => 'index')); ?> </li>
-                            <li><?php echo $this->Html->link(__('New Order Line'), array('controller' => 'order_lines', 'action' => 'add')); ?> </li>
-                        </ul>
-                    </div>
-                    <div class="related">
-                        <h3><?php echo __('Related Order Lines'); ?></h3>
-                        <?php if (!empty($order['OrderLine'])): ?>
-                            <table cellpadding = "0" cellspacing = "0">
-                                <tr>
-                                    <th><?php echo __('Id'); ?></th>
-                                    <th><?php echo __('Order Id'); ?></th>
-                                    <th><?php echo __('Code'); ?></th>
-                                    <th><?php echo __('Note'); ?></th>
-                                    <th><?php echo __('Quantity'); ?></th>
-                                    <th><?php echo __('Model'); ?></th>
-                                    <th><?php echo __('Foreign Key'); ?></th>
-                                    <th><?php echo __('Created'); ?></th>
-                                    <th><?php echo __('Modified'); ?></th>
-                                    <th class="actions"><?php echo __('Actions'); ?></th>
-                                </tr>
-                                <?php foreach ($order['OrderLine'] as $orderLine): ?>
-                                    <tr>
-                                        <td><?php echo $orderLine['id']; ?></td>
-                                        <td><?php echo $orderLine['order_id']; ?></td>
-                                        <td><?php echo $orderLine['code']; ?></td>
-                                        <td><?php echo $orderLine['note']; ?></td>
-                                        <td><?php echo $orderLine['quantity']; ?></td>
-                                        <td><?php echo $orderLine['model']; ?></td>
-                                        <td><?php echo $orderLine['foreign_key']; ?></td>
-                                        <td><?php echo $orderLine['created']; ?></td>
-                                        <td><?php echo $orderLine['modified']; ?></td>
-                                        <td class="actions">
-                                            <?php echo $this->Html->link(__('View'), array('controller' => 'order_lines', 'action' => 'view', $orderLine['id'])); ?>
-                                            <?php echo $this->Html->link(__('Edit'), array('controller' => 'order_lines', 'action' => 'edit', $orderLine['id'])); ?>
-                                            <?php echo $this->Form->postLink(__('Delete'), array('controller' => 'order_lines', 'action' => 'delete', $orderLine['id']), array(), __('Are you sure you want to delete # %s?', $orderLine['id'])); ?>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </table>
-                        <?php endif; ?>
-
-                        <div class="actions">
-                            <ul>
-                                <li><?php echo $this->Html->link(__('New Order Line'), array('controller' => 'order_lines', 'action' => 'add')); ?> </li>
-                            </ul>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>

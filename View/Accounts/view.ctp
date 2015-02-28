@@ -49,7 +49,7 @@
                                         <td>
                                             <?php
                                             if (!empty($order['Order']['point_id'])) {
-                                                echo $this->Html->link($order['Order']['point'], array('controller' => 'points', 'action' => 'view', $order['Order']['point_id']));
+                                                echo $this->Html->link($order['Order']['point'], array('controller' => 'points', 'action' => 'view', $order['Order']['point_id']), array('target' => '_blank'));
                                             } else {
                                                 echo $order['Order']['point'];
                                             }
@@ -62,9 +62,9 @@
                                         <td><?php echo h($order['Order']['process']); ?>&nbsp;</td>
                                         <td><?php echo h($order['Order']['modified']); ?>&nbsp;</td>
                                         <td class="actions">
-                                            <?php echo $this->Html->link(__('View'), array('action' => 'view', $order['Order']['id'])); ?>
-                                            <?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $order['Order']['id'])); ?>
-                                            <?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $order['Order']['id']), array(), __('Are you sure you want to delete # %s?', $order['Order']['id'])); ?>
+                                            <?php echo $this->Html->link('檢視', array('controller' => 'orders', 'action' => 'view', $order['Order']['id']), array('class' => 'btn btn-default')); ?>
+                                            <?php echo $this->Html->link('編輯', array('controller' => 'orders', 'action' => 'edit', $order['Order']['id']), array('class' => 'btn btn-default')); ?>
+                                            <?php echo $this->Form->postLink('刪除', array('action' => 'delete', $order['Order']['id']), array('class' => 'btn btn-default'), '確定要刪除？'); ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

@@ -32,6 +32,20 @@ echo $this->Html->script('c/orders/add', array('inline' => false));
                             'class' => 'form-control',
                             'placeholder' => '醫療院所的名稱',
                         ));
+                        echo $this->Form->input('phone', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '醫事機構電話',
+                            'class' => 'form-control',
+                            'placeholder' => '醫療院所的電話',
+                        ));
+                        echo $this->Form->input('address', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '醫事機構住址',
+                            'class' => 'form-control',
+                            'placeholder' => '醫療院所的住址',
+                        ));
                         echo $this->Form->input('note_date', array(
                             'type' => 'text',
                             'div' => 'form-group',
