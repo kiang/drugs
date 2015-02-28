@@ -51,7 +51,7 @@ CREATE TABLE `acos` (
   `lft` int(11) DEFAULT NULL,
   `rght` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -384,7 +384,6 @@ CREATE TABLE `order_lines` (
   `model` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `foreign_key` binary(36) DEFAULT NULL,
   `created` datetime NOT NULL,
-  `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -399,20 +398,22 @@ DROP TABLE IF EXISTS `orders`;
 CREATE TABLE `orders` (
   `id` binary(36) NOT NULL,
   `account_id` binary(36) NOT NULL,
-  `nhi_area` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nhi_area` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '健保署服務單位',
   `point_id` binary(36) DEFAULT NULL,
-  `point` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `order_date` date NOT NULL,
-  `note_date` date DEFAULT NULL,
-  `nhi_sn` varchar(8) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nhi_sort` tinyint(2) DEFAULT NULL,
-  `disease_code` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `disease` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `process_code` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `process` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `money_order` int(10) NOT NULL DEFAULT '0',
-  `money_register` int(10) NOT NULL DEFAULT '0',
-  `nhi_points` int(10) NOT NULL DEFAULT '0',
+  `point` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '醫事機構',
+  `phone` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `order_date` date NOT NULL COMMENT '就醫日期',
+  `note_date` date DEFAULT NULL COMMENT '交付調劑、檢查或復健治療日期',
+  `nhi_sn` varchar(8) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '健保卡就醫序號',
+  `nhi_sort` tinyint(2) DEFAULT NULL COMMENT '健保卡就醫序號排序',
+  `disease_code` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '疾病分類碼',
+  `disease` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '疾病分類名稱',
+  `process_code` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '處置碼',
+  `process` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '處置名稱',
+  `money_order` int(10) DEFAULT NULL COMMENT '部分負擔金額',
+  `money_register` int(10) DEFAULT NULL COMMENT '掛號費',
+  `nhi_points` int(10) DEFAULT NULL COMMENT '健保支付點數',
   `created` datetime NOT NULL,
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
@@ -499,4 +500,4 @@ CREATE TABLE `vendors` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-02-28 15:07:53
+-- Dump completed on 2015-03-01  0:11:11
