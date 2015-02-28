@@ -1,6 +1,16 @@
+<?php
+echo $this->Html->script('c/order_lines/add', array('inline' => false));
+?>
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1><?php echo __('Add Order Line'); ?></h1>
+    <h1><?php
+        echo implode(' > ', array(
+            $this->Html->link('健康存摺', array('controller' => 'accounts', 'action' => 'index')),
+            $this->Html->link($order['Account']['name'] . ' 的就醫記錄', array('controller' => 'accounts', 'action' => 'view', $order['Account']['id'])),
+            $this->Html->link($order['Order']['order_date'], array('controller' => 'orders', 'action' => 'view', $order['Order']['id'])),
+            '新增記錄明細',
+        ));
+        ?></h1>
 </section>
 
 <!-- Main content -->
@@ -14,23 +24,33 @@
                     <div class="orderLines form">
                         <?php echo $this->Form->create('OrderLine'); ?>
                         <?php
-                        echo $this->Form->input('order_id');
-                        echo $this->Form->input('code');
-                        echo $this->Form->input('note');
-                        echo $this->Form->input('quantity');
-                        echo $this->Form->input('model');
-                        echo $this->Form->input('foreign_key');
+                        echo $this->Form->input('code', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '醫囑代碼',
+                            'class' => 'form-control',
+                            'placeholder' => '醫囑代碼',
+                        ));
+                        echo $this->Form->input('note', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '醫囑名稱',
+                            'class' => 'form-control',
+                            'placeholder' => '醫囑名稱',
+                        ));
+                        echo $this->Form->input('quantity', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '醫囑總量',
+                            'class' => 'form-control',
+                            'placeholder' => '醫囑總量',
+                        ));
+                        echo $this->Form->hidden('model');
+                        echo $this->Form->hidden('foreign_key');
+                        echo $this->Form->submit('儲存', array('class' => 'btn btn-primary', 'div' => false));
+                        echo $this->Html->link('取消', array('controller' => 'orders', 'action' => 'view', $order['Order']['id']), array('class' => 'btn btn-default'));
+                        echo $this->Form->end();
                         ?>
-                        <?php echo $this->Form->end(__('Submit')); ?>
-                    </div>
-                    <div class="actions">
-                        <h3><?php echo __('Actions'); ?></h3>
-                        <ul>
-
-                            <li><?php echo $this->Html->link(__('List Order Lines'), array('action' => 'index')); ?></li>
-                            <li><?php echo $this->Html->link(__('List Orders'), array('controller' => 'orders', 'action' => 'index')); ?> </li>
-                            <li><?php echo $this->Html->link(__('New Order'), array('controller' => 'orders', 'action' => 'add')); ?> </li>
-                        </ul>
                     </div>
                 </div>
             </div>

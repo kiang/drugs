@@ -18,73 +18,34 @@ class OrderLinesController extends AppController {
     public $components = array('Paginator');
 
     /**
-     * index method
-     *
-     * @return void
-     */
-    public function index() {
-        $this->OrderLine->recursive = 0;
-        $this->set('orderLines', $this->Paginator->paginate());
-    }
-
-    /**
-     * view method
-     *
-     * @throws NotFoundException
-     * @param string $id
-     * @return void
-     */
-    public function view($id = null) {
-        if (!$this->OrderLine->exists($id)) {
-            throw new NotFoundException(__('Invalid order line'));
-        }
-        $options = array('conditions' => array('OrderLine.' . $this->OrderLine->primaryKey => $id));
-        $this->set('orderLine', $this->OrderLine->find('first', $options));
-    }
-
-    /**
      * add method
      *
+     * @throws NotFoundException
+     * @param string $orderId
      * @return void
      */
-    public function add() {
+    public function add($orderId = null) {
+        $order = $this->OrderLine->Order->find('first', array(
+            'conditions' => array(
+                'Order.id' => $orderId,
+                'Account.member_id' => Configure::read('loginMember.id'),
+            ),
+            'contain' => array('Account'),
+        ));
+        if (empty($order)) {
+            throw new NotFoundException(__('Invalid order'));
+        }
         if ($this->request->is('post')) {
+            $this->request->data['OrderLine']['order_id'] = $orderId;
             $this->OrderLine->create();
             if ($this->OrderLine->save($this->request->data)) {
                 $this->Session->setFlash(__('The order line has been saved.'));
-                return $this->redirect(array('action' => 'index'));
+                return $this->redirect(array('controller' => 'orders', 'action' => 'view', $orderId));
             } else {
                 $this->Session->setFlash(__('The order line could not be saved. Please, try again.'));
             }
         }
-        $orders = $this->OrderLine->Order->find('list');
-        $this->set(compact('orders'));
-    }
-
-    /**
-     * edit method
-     *
-     * @throws NotFoundException
-     * @param string $id
-     * @return void
-     */
-    public function edit($id = null) {
-        if (!$this->OrderLine->exists($id)) {
-            throw new NotFoundException(__('Invalid order line'));
-        }
-        if ($this->request->is(array('post', 'put'))) {
-            if ($this->OrderLine->save($this->request->data)) {
-                $this->Session->setFlash(__('The order line has been saved.'));
-                return $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The order line could not be saved. Please, try again.'));
-            }
-        } else {
-            $options = array('conditions' => array('OrderLine.' . $this->OrderLine->primaryKey => $id));
-            $this->request->data = $this->OrderLine->find('first', $options);
-        }
-        $orders = $this->OrderLine->Order->find('list');
-        $this->set(compact('orders'));
+        $this->set('order', $order);
     }
 
     /**
@@ -95,17 +56,18 @@ class OrderLinesController extends AppController {
      * @return void
      */
     public function delete($id = null) {
-        $this->OrderLine->id = $id;
-        if (!$this->OrderLine->exists()) {
+        $orderId = $this->OrderLine->field('order_id', array('id' => $id));
+        if (empty($orderId)) {
             throw new NotFoundException(__('Invalid order line'));
         }
+        $this->OrderLine->id = $id;
         $this->request->allowMethod('post', 'delete');
         if ($this->OrderLine->delete()) {
             $this->Session->setFlash(__('The order line has been deleted.'));
         } else {
             $this->Session->setFlash(__('The order line could not be deleted. Please, try again.'));
         }
-        return $this->redirect(array('action' => 'index'));
+        return $this->redirect(array('controller' => 'orders', 'action' => 'view', $orderId));
     }
 
 }

@@ -180,10 +180,13 @@ class DrugsController extends ApiAppController {
                 ),
                 'limit' => 20,
             ));
-            foreach($items AS $item) {
+            foreach ($items AS $item) {
                 $this->jsonData[] = array(
                     'label' => "[{$item['Drug']['license_id']}]{$item['License']['name']}({$item['License']['name_english']})",
                     'value' => $item['Drug']['id'],
+                    'license_id' => $item['Drug']['license_id'],
+                    'name' => $item['License']['name'],
+                    'name_english' => $item['License']['name_english'],
                 );
             }
         }

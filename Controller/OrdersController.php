@@ -101,6 +101,7 @@ class OrdersController extends AppController {
             throw new NotFoundException(__('Invalid order'));
         }
         if ($this->request->is(array('post', 'put'))) {
+            $this->request->data['Order']['id'] = $id;
             if ($this->Order->save($this->request->data)) {
                 $this->Session->setFlash(__('The order has been saved.'));
                 return $this->redirect(array('action' => 'view', $id));

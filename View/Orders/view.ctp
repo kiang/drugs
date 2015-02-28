@@ -1,13 +1,13 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1><?php
-    echo implode(' > ', array(
-        $this->Html->link('健康存摺', array('controller' => 'accounts', 'action' => 'index')),
-        $this->Html->link($order['Account']['name'] . ' 的就醫記錄', array('controller' => 'accounts', 'action' => 'view', $order['Account']['id'])),
-        h($order['Order']['order_date']),
-        $this->Html->link('新增記錄明細', array('controller' => 'order_lines', 'action' => 'add', $order['Order']['id']), array('class' => 'btn btn-primary')),
-    ));
-    ?></h1>
+        echo implode(' > ', array(
+            $this->Html->link('健康存摺', array('controller' => 'accounts', 'action' => 'index')),
+            $this->Html->link($order['Account']['name'] . ' 的就醫記錄', array('controller' => 'accounts', 'action' => 'view', $order['Account']['id'])),
+            h($order['Order']['order_date']),
+            $this->Html->link('新增記錄明細', array('controller' => 'order_lines', 'action' => 'add', $order['Order']['id']), array('class' => 'btn btn-primary')),
+        ));
+        ?></h1>
 </section>
 
 <!-- Main content -->
@@ -112,6 +112,47 @@
                                 &nbsp;
                             </dd>
                         </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="box">
+                <div class="box-header">
+                </div>
+                <div class="box-body">
+                    <div class="orderLines index">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>醫囑代碼</th>
+                                    <th>醫囑名稱</th>
+                                    <th>醫囑總量</th>
+                                    <th class="actions">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($orderLines as $orderLine): ?>
+                                    <tr>
+                                        <td><?php echo h($orderLine['OrderLine']['code']); ?>&nbsp;</td>
+                                        <td><?php
+                                        if(!empty($orderLine['OrderLine']['foreign_key'])) {
+                                            switch($orderLine['OrderLine']['model']) {
+                                                case 'Drug':
+                                                    echo $this->Html->link($orderLine['OrderLine']['note'], array('controller' => 'drugs', 'action' => 'view', $orderLine['OrderLine']['foreign_key']), array('target' => '_blank'));
+                                                    break;
+                                            }
+                                        } else {
+                                            echo h($orderLine['OrderLine']['note']);
+                                        }
+                                        
+                                        ?>&nbsp;</td>
+                                        <td><?php echo h($orderLine['OrderLine']['quantity']); ?>&nbsp;</td>
+                                        <td class="actions">
+                                            <?php echo $this->Form->postLink('刪除', array('controller' => 'order_lines', 'action' => 'delete', $orderLine['OrderLine']['id']), array(), '確定要刪除？'); ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
