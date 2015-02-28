@@ -14,7 +14,6 @@ class Vendor extends AppModel {
      * @var string
      */
     public $displayField = 'name';
-
     var $hasMany = array(
         'Drug' => array(
             'foreignKey' => 'vendor_id',
@@ -27,7 +26,6 @@ class Vendor extends AppModel {
             'className' => 'License',
         ),
     );
-    
     public $hasAndBelongsToMany = array(
         'Article' => array(
             'joinTable' => 'articles_links',

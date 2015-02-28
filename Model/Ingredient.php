@@ -15,8 +15,6 @@ class Ingredient extends AppModel {
      * @var string
      */
     public $displayField = 'name';
-
-
     var $hasMany = array(
         'IngredientsLicense' => array(
             'foreignKey' => 'ingredient_id',
@@ -24,7 +22,6 @@ class Ingredient extends AppModel {
             'className' => 'IngredientsLicense',
         ),
     );
-    
     public $hasAndBelongsToMany = array(
         'License' => array(
             'className' => 'License',

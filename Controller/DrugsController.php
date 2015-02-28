@@ -248,8 +248,8 @@ class DrugsController extends AppController {
                             'Drug.id !=' => $this->data['Drug']['id'],
                         ),
                         'contain' => array('Vendor' => array(
-                            'fields' => array('name', 'country'),
-                        )),
+                                'fields' => array('name', 'country'),
+                            )),
             )));
             $this->set('categoryNames', $categoryNames);
         } else {
