@@ -16,6 +16,26 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `accounts`
+--
+
+DROP TABLE IF EXISTS `accounts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `accounts` (
+  `id` binary(36) NOT NULL,
+  `member_id` int(11) NOT NULL,
+  `name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `dob` date DEFAULT NULL,
+  `gender` char(1) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `note` text COLLATE utf8mb4_unicode_ci,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `acos`
 --
 
@@ -183,7 +203,7 @@ CREATE TABLE `drugs` (
   `vendor_id` binary(36) DEFAULT NULL COMMENT '申請商編號',
   `manufacturer_description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '製程',
   PRIMARY KEY (`id`),
-  KEY `license_id` (`license_id`)
+  KEY `license_uuid` (`license_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -270,8 +290,8 @@ DROP TABLE IF EXISTS `licenses`;
 CREATE TABLE `licenses` (
   `id` binary(36) NOT NULL COMMENT '主索引',
   `license_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '藥證編號',
-  `code` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `source` varchar(16) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `code` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `source` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL,
   `nhi_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL COMMENT '健保代碼(逗點分隔)',
   `shape` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '形狀',
   `s_type` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '特殊劑型',
@@ -346,6 +366,57 @@ CREATE TABLE `members` (
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `order_lines`
+--
+
+DROP TABLE IF EXISTS `order_lines`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `order_lines` (
+  `id` binary(36) NOT NULL,
+  `order_id` binary(36) NOT NULL,
+  `code` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `note` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `quantity` int(11) DEFAULT '0',
+  `model` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `foreign_key` binary(36) DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `orders`
+--
+
+DROP TABLE IF EXISTS `orders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `orders` (
+  `id` binary(36) NOT NULL,
+  `account_id` binary(36) NOT NULL,
+  `nhi_area` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `point_id` binary(36) DEFAULT NULL,
+  `point` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `order_date` date NOT NULL,
+  `note_date` date DEFAULT NULL,
+  `nhi_sn` varchar(8) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nhi_sort` tinyint(2) DEFAULT NULL,
+  `disease_code` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `disease` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `process_code` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `process` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `money_order` int(10) NOT NULL DEFAULT '0',
+  `money_register` int(10) NOT NULL DEFAULT '0',
+  `nhi_points` int(10) NOT NULL DEFAULT '0',
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -428,4 +499,4 @@ CREATE TABLE `vendors` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-02-26 16:27:55
+-- Dump completed on 2015-02-28 15:07:53
