@@ -54,7 +54,7 @@
                                     <tr>
                                         <td>
                                             <?php
-                                            if (!empty($order['Order']['point_id'])) {
+                                            if (false !== strpos($order['Order']['point_id'], '-')) {
                                                 echo $this->Html->link($order['Order']['point'], array('controller' => 'points', 'action' => 'view', $order['Order']['point_id']), array('target' => '_blank'));
                                             } else {
                                                 echo $order['Order']['point'];

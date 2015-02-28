@@ -46,7 +46,7 @@ echo $this->Html->script('c/order_lines/add', array('inline' => false));
                             'placeholder' => '醫囑總量',
                         ));
                         echo $this->Form->hidden('model');
-                        echo $this->Form->hidden('foreign_key');
+                        echo $this->Form->hidden('foreign_id');
                         echo $this->Form->submit('儲存', array('class' => 'btn btn-primary', 'div' => false));
                         echo $this->Html->link('取消', array('controller' => 'orders', 'action' => 'view', $order['Order']['id']), array('class' => 'btn btn-default'));
                         echo $this->Form->end();

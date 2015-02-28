@@ -170,19 +170,20 @@ class DrugsController extends ApiAppController {
             $keyword = trim(Sanitize::clean($_GET['term']));
             $items = $this->Drug->find('all', array(
                 'contain' => array('License'),
-                'fields' => array('Drug.id', 'Drug.license_id', 'License.name', 'License.name_english'),
+                'fields' => array('Drug.id', 'Drug.license_id',
+                    'License.license_id', 'License.name', 'License.name_english'),
                 'conditions' => array(
                     'OR' => array(
                         'License.name LIKE' => "%{$keyword}%",
                         'License.name_english LIKE' => "%{$keyword}%",
-                        'Drug.license_id LIKE' => "%{$keyword}%",
+                        'License.license_id LIKE' => "%{$keyword}%",
                     ),
                 ),
                 'limit' => 20,
             ));
             foreach ($items AS $item) {
                 $this->jsonData[] = array(
-                    'label' => "[{$item['Drug']['license_id']}]{$item['License']['name']}({$item['License']['name_english']})",
+                    'label' => "[{$item['License']['license_id']}]{$item['License']['name']}({$item['License']['name_english']})",
                     'value' => $item['Drug']['id'],
                     'license_id' => $item['Drug']['license_id'],
                     'name' => $item['License']['name'],

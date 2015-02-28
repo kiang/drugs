@@ -45,9 +45,22 @@ class OrdersController extends AppController {
         if (empty($order)) {
             throw new NotFoundException(__('Invalid order'));
         }
+        $orderLines = $this->Order->OrderLine->find('all', array(
+            'conditions' => array('OrderLine.order_id' => $id),
+        ));
+        $licenseIds = array();
+        foreach ($orderLines AS $orderLine) {
+            if ($orderLine['OrderLine']['model'] === 'License') {
+                $licenseIds[] = $orderLine['OrderLine']['foreign_id'];
+            }
+        }
         $this->set('order', $order);
-        $this->set('orderLines', $this->Order->OrderLine->find('all', array(
-                    'conditions' => array('OrderLine.order_id' => $id),
+        $this->set('orderLines', $orderLines);
+        $this->set('drugs', $this->Order->License->Drug->find('list', array(
+                    'fields' => array('license_id', 'id'),
+                    'conditions' => array(
+                        'license_id' => $licenseIds,
+                    ),
         )));
         $this->set('url', array($id));
     }

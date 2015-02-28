@@ -134,10 +134,10 @@
                                     <tr>
                                         <td><?php echo h($orderLine['OrderLine']['code']); ?>&nbsp;</td>
                                         <td><?php
-                                        if(!empty($orderLine['OrderLine']['foreign_key'])) {
+                                        if(!empty($orderLine['OrderLine']['model'])) {
                                             switch($orderLine['OrderLine']['model']) {
-                                                case 'Drug':
-                                                    echo $this->Html->link($orderLine['OrderLine']['note'], array('controller' => 'drugs', 'action' => 'view', $orderLine['OrderLine']['foreign_key']), array('target' => '_blank'));
+                                                case 'License':
+                                                    echo $this->Html->link($orderLine['OrderLine']['note'], array('controller' => 'drugs', 'action' => 'view', $drugs[$orderLine['OrderLine']['foreign_id']]), array('target' => '_blank'));
                                                     break;
                                             }
                                         } else {

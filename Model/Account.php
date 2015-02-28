@@ -87,8 +87,11 @@ class Account extends AppModel {
     );
 
     public function zipExtract($zipFile, $password) {
-        $zipFile = '/home/kiang/Desktop/k.olc.tw/drugs/kiang/健康存摺_1040210.zip';
         $tmpPath = TMP . 'zip/' . date('YmdHis');
+        if (!file_exists($tmpPath)) {
+            mkdir($tmpPath, 0777, true);
+        }
+        copy($zipFile, $tmpPath . '/orig.zip');
         exec("/usr/bin/unzip -P{$password} {$zipFile} -d {$tmpPath}");
         return $tmpPath;
     }
