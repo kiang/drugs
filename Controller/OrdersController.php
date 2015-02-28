@@ -45,21 +45,31 @@ class OrdersController extends AppController {
     /**
      * add method
      *
+     * @throws NotFoundException
+     * @param string $accountId
      * @return void
      */
-    public function add() {
+    public function add($accountId = null) {
+        $account = $this->Order->Account->find('first', array(
+            'conditions' => array(
+                'id' => $accountId,
+                'member_id' => Configure::read('loginMember.id'),
+            ),
+        ));
+        if (empty($account)) {
+            throw new NotFoundException(__('Invalid order'));
+        }
         if ($this->request->is('post')) {
+            $this->request->data['Order']['account_id'] = $accountId;
             $this->Order->create();
             if ($this->Order->save($this->request->data)) {
                 $this->Session->setFlash(__('The order has been saved.'));
-                return $this->redirect(array('action' => 'index'));
+                return $this->redirect(array('controller' => 'accounts', 'action' => 'view', $accountId));
             } else {
                 $this->Session->setFlash(__('The order could not be saved. Please, try again.'));
             }
         }
-        $accounts = $this->Order->Account->find('list');
-        $points = $this->Order->Point->find('list');
-        $this->set(compact('accounts', 'points'));
+        $this->set('account', $account);
     }
 
     /**

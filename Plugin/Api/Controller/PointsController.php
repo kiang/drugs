@@ -67,6 +67,10 @@ class PointsController extends ApiAppController {
                 $this->jsonData[] = array(
                     'label' => "[{$item['Point']['nhi_id']}]{$item['Point']['name']} @ {$item['Point']['city']}{$item['Point']['town']}",
                     'value' => $item['Point']['id'],
+                    'name' => $item['Point']['name'],
+                    'nhi_id' => $item['Point']['nhi_id'],
+                    'city' => $item['Point']['city'],
+                    'town' => $item['Point']['town'],
                 );
             }
         }

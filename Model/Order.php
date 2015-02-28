@@ -20,8 +20,8 @@ class Order extends AppModel {
         'order_date' => array(
             'date' => array(
                 'rule' => array('date'),
-            //'message' => 'Your custom message here',
-            //'allowEmpty' => false,
+                //'message' => 'Your custom message here',
+                'allowEmpty' => false,
             //'required' => false,
             //'last' => false, // Stop validation after this rule
             //'on' => 'create', // Limit validation to 'create' or 'update' operations
@@ -30,8 +30,8 @@ class Order extends AppModel {
         'money_order' => array(
             'numeric' => array(
                 'rule' => array('numeric'),
-            //'message' => 'Your custom message here',
-            //'allowEmpty' => false,
+                //'message' => 'Your custom message here',
+                'allowEmpty' => true,
             //'required' => false,
             //'last' => false, // Stop validation after this rule
             //'on' => 'create', // Limit validation to 'create' or 'update' operations
@@ -40,8 +40,8 @@ class Order extends AppModel {
         'money_register' => array(
             'numeric' => array(
                 'rule' => array('numeric'),
-            //'message' => 'Your custom message here',
-            //'allowEmpty' => false,
+                //'message' => 'Your custom message here',
+                'allowEmpty' => true,
             //'required' => false,
             //'last' => false, // Stop validation after this rule
             //'on' => 'create', // Limit validation to 'create' or 'update' operations
@@ -50,8 +50,8 @@ class Order extends AppModel {
         'nhi_points' => array(
             'numeric' => array(
                 'rule' => array('numeric'),
-            //'message' => 'Your custom message here',
-            //'allowEmpty' => false,
+                //'message' => 'Your custom message here',
+                'allowEmpty' => true,
             //'required' => false,
             //'last' => false, // Stop validation after this rule
             //'on' => 'create', // Limit validation to 'create' or 'update' operations
