@@ -125,6 +125,13 @@
                                 break;
                             case '1':
                                 ?>
+                                <li>
+                                    <a href="<?php echo $this->Html->url('/accounts'); ?>">
+                                        <i class="fa fa-book"></i>
+                                        <span>健康存摺</span>
+                                        <i class="fa pull-right"></i>
+                                    </a>
+                                </li>
                                 <li class="treeview">
                                     <a href="#">
                                         <i class="fa fa-newspaper-o"></i> <span>文章管理</span>
@@ -229,7 +236,7 @@
                     }
                     return false;
                 });
-                $('form#keywordForm').submit(function() {
+                $('form#keywordForm').submit(function () {
                     var keyword = $('input#keyword').val();
                     if (keyword !== '') {
                         location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);

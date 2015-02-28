@@ -15,7 +15,6 @@
                         <div class="btn-group">
                             <?php echo $this->Html->link(__('Add', true), array('action' => 'add'), array('class' => 'btn dialogControl')); ?>
                             <?php echo $this->Html->link(__('Groups', true), array('controller' => 'groups'), array('class' => 'btn')); ?>
-                            <?php echo $this->Html->link(__('Generate testing members', true), array('action' => 'test'), array('class' => 'btn')); ?>
                             <?php echo $this->Html->link(__('Generate ACOs', true), array('action' => 'acos'), array('class' => 'btn')); ?>
                         </div>
                         <?php

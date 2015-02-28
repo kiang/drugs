@@ -156,28 +156,6 @@ class MembersController extends AppController {
         }
     }
 
-    public function admin_test($count = 50) {
-        $count = intval($count);
-        if ($count > 0) {
-            for ($i = 0; $i < $count; $i++) {
-                $uid = uniqid();
-                $this->Member->create();
-                if ($this->Member->save(array('Member' => array(
-                                'username' => $uid,
-                                'password' => $this->Auth->password($uid),
-                                'group_id' => 1,
-                                'user_status' => 'Y',
-                                'nick' => $uid,
-                                'email' => $uid . '@example.com',
-                    )))) {
-                    $this->Acl->Aro->saveField('alias', 'Member' . $this->Member->getInsertID());
-                }
-            }
-        }
-        $this->Session->setFlash(__('Testing members generated.', true));
-        $this->redirect($this->referer());
-    }
-
     public function admin_acos() {
         $this->loadModel('Permissible.PermissibleAco');
         $this->PermissibleAco->refresh();
