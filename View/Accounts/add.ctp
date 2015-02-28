@@ -1,6 +1,9 @@
+<?php
+echo $this->Html->script('c/accounts/add', array('inline' => false));
+?>
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1><?php echo __('Add Account'); ?></h1>
+    <h1>新增健康存摺</h1>
 </section>
 
 <!-- Main content -->
@@ -14,24 +17,41 @@
                     <div class="accounts form">
                         <?php echo $this->Form->create('Account'); ?>
                         <?php
-                        echo $this->Form->input('member_id');
-                        echo $this->Form->input('name');
-                        echo $this->Form->input('dob');
-                        echo $this->Form->input('gender');
-                        echo $this->Form->input('note');
+                        echo $this->Form->input('name', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '名稱',
+                            'class' => 'form-control',
+                            'placeholder' => '家人或自己的名稱或暱稱',
+                        ));
+                        echo $this->Form->input('gender', array(
+                            'type' => 'select',
+                            'label' => '性別',
+                            'options' => array(
+                                'm' => '男',
+                                'f' => '女',
+                            ),
+                            'div' => 'form-group',
+                            'class' => 'form-control',
+                        ));
+                        echo $this->Form->input('dob', array(
+                            'type' => 'text',
+                            'div' => 'form-group',
+                            'label' => '生日',
+                            'class' => 'form-control',
+                            'placeholder' => '',
+                        ));
+                        echo $this->Form->input('note', array(
+                            'type' => 'textarea',
+                            'div' => 'form-group',
+                            'label' => '備註',
+                            'class' => 'form-control',
+                            'placeholder' => '關於家人或自己的備註，像是過敏情況或偏好等等',
+                        ));
+                        echo $this->Form->submit('儲存', array('class' => 'btn btn-primary', 'div' => false));
+                        echo $this->Html->link('取消', array('action' => 'index'), array('class' => 'btn btn-default'));
+                        echo $this->Form->end();
                         ?>
-                        <?php echo $this->Form->end(__('Submit')); ?>
-                    </div>
-                    <div class="actions">
-                        <h3><?php echo __('Actions'); ?></h3>
-                        <ul>
-
-                            <li><?php echo $this->Html->link(__('List Accounts'), array('action' => 'index')); ?></li>
-                            <li><?php echo $this->Html->link(__('List Members'), array('controller' => 'members', 'action' => 'index')); ?> </li>
-                            <li><?php echo $this->Html->link(__('New Member'), array('controller' => 'members', 'action' => 'add')); ?> </li>
-                            <li><?php echo $this->Html->link(__('List Orders'), array('controller' => 'orders', 'action' => 'index')); ?> </li>
-                            <li><?php echo $this->Html->link(__('New Order'), array('controller' => 'orders', 'action' => 'add')); ?> </li>
-                        </ul>
                     </div>
                 </div>
             </div>

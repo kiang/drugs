@@ -1,6 +1,6 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1><?php echo __('Account'); ?></h1>
+    <h1><?php echo h($account['Account']['name']); ?></h1>
 </section>
 
 <!-- Main content -->
@@ -11,125 +11,82 @@
                 <div class="box-header">
                 </div>
                 <div class="box-body">
-                    <div class="accounts view">
-                        <dl>
-                            <dt><?php echo __('Id'); ?></dt>
-                            <dd>
-                                <?php echo h($account['Account']['id']); ?>
-                                &nbsp;
-                            </dd>
-                            <dt><?php echo __('Member'); ?></dt>
-                            <dd>
-                                <?php echo $this->Html->link($account['Member']['id'], array('controller' => 'members', 'action' => 'view', $account['Member']['id'])); ?>
-                                &nbsp;
-                            </dd>
-                            <dt><?php echo __('Name'); ?></dt>
-                            <dd>
-                                <?php echo h($account['Account']['name']); ?>
-                                &nbsp;
-                            </dd>
-                            <dt><?php echo __('Dob'); ?></dt>
-                            <dd>
-                                <?php echo h($account['Account']['dob']); ?>
-                                &nbsp;
-                            </dd>
-                            <dt><?php echo __('Gender'); ?></dt>
-                            <dd>
-                                <?php echo h($account['Account']['gender']); ?>
-                                &nbsp;
-                            </dd>
-                            <dt><?php echo __('Note'); ?></dt>
-                            <dd>
-                                <?php echo h($account['Account']['note']); ?>
-                                &nbsp;
-                            </dd>
-                            <dt><?php echo __('Created'); ?></dt>
-                            <dd>
-                                <?php echo h($account['Account']['created']); ?>
-                                &nbsp;
-                            </dd>
-                            <dt><?php echo __('Modified'); ?></dt>
-                            <dd>
-                                <?php echo h($account['Account']['modified']); ?>
-                                &nbsp;
-                            </dd>
-                        </dl>
-                    </div>
-                    <div class="actions">
-                        <h3><?php echo __('Actions'); ?></h3>
-                        <ul>
-                            <li><?php echo $this->Html->link(__('Edit Account'), array('action' => 'edit', $account['Account']['id'])); ?> </li>
-                            <li><?php echo $this->Form->postLink(__('Delete Account'), array('action' => 'delete', $account['Account']['id']), array(), __('Are you sure you want to delete # %s?', $account['Account']['id'])); ?> </li>
-                            <li><?php echo $this->Html->link(__('List Accounts'), array('action' => 'index')); ?> </li>
-                            <li><?php echo $this->Html->link(__('New Account'), array('action' => 'add')); ?> </li>
-                            <li><?php echo $this->Html->link(__('List Members'), array('controller' => 'members', 'action' => 'index')); ?> </li>
-                            <li><?php echo $this->Html->link(__('New Member'), array('controller' => 'members', 'action' => 'add')); ?> </li>
-                            <li><?php echo $this->Html->link(__('List Orders'), array('controller' => 'orders', 'action' => 'index')); ?> </li>
-                            <li><?php echo $this->Html->link(__('New Order'), array('controller' => 'orders', 'action' => 'add')); ?> </li>
-                        </ul>
-                    </div>
-                    <div class="related">
-                        <h3><?php echo __('Related Orders'); ?></h3>
-                        <?php if (!empty($account['Order'])): ?>
-                            <table cellpadding = "0" cellspacing = "0">
+                    <ul>
+                        <li class="col-xs-3">性別：<?php echo $account['Account']['gender'] === 'm' ? '男' : '女'; ?> </li>
+                        <li class="col-xs-3">生日：<?php echo h($account['Account']['dob']); ?></li>
+                        <li class="col-xs-3">建立時間：<?php echo h($account['Account']['created']); ?> </li>
+                        <li class="col-xs-3">更新時間：<?php echo h($account['Account']['modified']); ?></li>
+                    </ul>
+                    <div class="clearfix"></div>
+                    <?php echo nl2br(h($account['Account']['note'])); ?>
+                </div>
+            </div>
+            <div class="box">
+                <div class="box-header">
+                </div>
+                <div class="box-body">
+                    <div class="orders index">
+                        <div class="paging"><?php echo $this->element('paginator'); ?></div>
+                        <table class="table table-bordered">
+                            <thead>
                                 <tr>
-                                    <th><?php echo __('Id'); ?></th>
-                                    <th><?php echo __('Account Id'); ?></th>
-                                    <th><?php echo __('Nhi Area'); ?></th>
-                                    <th><?php echo __('Point Id'); ?></th>
-                                    <th><?php echo __('Point'); ?></th>
-                                    <th><?php echo __('Order Date'); ?></th>
-                                    <th><?php echo __('Note Date'); ?></th>
-                                    <th><?php echo __('Nhi Sn'); ?></th>
-                                    <th><?php echo __('Nhi Sort'); ?></th>
-                                    <th><?php echo __('Disease Code'); ?></th>
-                                    <th><?php echo __('Disease'); ?></th>
-                                    <th><?php echo __('Process Code'); ?></th>
-                                    <th><?php echo __('Process'); ?></th>
-                                    <th><?php echo __('Money Order'); ?></th>
-                                    <th><?php echo __('Money Register'); ?></th>
-                                    <th><?php echo __('Nhi Points'); ?></th>
-                                    <th><?php echo __('Created'); ?></th>
-                                    <th><?php echo __('Modified'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('id'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('account_id'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('nhi_area'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('point_id'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('point'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('order_date'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('note_date'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('nhi_sn'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('nhi_sort'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('disease_code'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('disease'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('process_code'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('process'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('money_order'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('money_register'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('nhi_points'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('created'); ?></th>
+                                    <th><?php echo $this->Paginator->sort('modified'); ?></th>
                                     <th class="actions"><?php echo __('Actions'); ?></th>
                                 </tr>
-                                <?php foreach ($account['Order'] as $order): ?>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($orders as $order): ?>
                                     <tr>
-                                        <td><?php echo $order['id']; ?></td>
-                                        <td><?php echo $order['account_id']; ?></td>
-                                        <td><?php echo $order['nhi_area']; ?></td>
-                                        <td><?php echo $order['point_id']; ?></td>
-                                        <td><?php echo $order['point']; ?></td>
-                                        <td><?php echo $order['order_date']; ?></td>
-                                        <td><?php echo $order['note_date']; ?></td>
-                                        <td><?php echo $order['nhi_sn']; ?></td>
-                                        <td><?php echo $order['nhi_sort']; ?></td>
-                                        <td><?php echo $order['disease_code']; ?></td>
-                                        <td><?php echo $order['disease']; ?></td>
-                                        <td><?php echo $order['process_code']; ?></td>
-                                        <td><?php echo $order['process']; ?></td>
-                                        <td><?php echo $order['money_order']; ?></td>
-                                        <td><?php echo $order['money_register']; ?></td>
-                                        <td><?php echo $order['nhi_points']; ?></td>
-                                        <td><?php echo $order['created']; ?></td>
-                                        <td><?php echo $order['modified']; ?></td>
+                                        <td><?php echo h($order['Order']['id']); ?>&nbsp;</td>
+                                        <td>
+                                            <?php echo $this->Html->link($order['Account']['name'], array('controller' => 'accounts', 'action' => 'view', $order['Account']['id'])); ?>
+                                        </td>
+                                        <td><?php echo h($order['Order']['nhi_area']); ?>&nbsp;</td>
+                                        <td>
+                                            <?php echo $this->Html->link($order['Point']['name'], array('controller' => 'points', 'action' => 'view', $order['Point']['id'])); ?>
+                                        </td>
+                                        <td><?php echo h($order['Order']['point']); ?>&nbsp;</td>
+                                        <td><?php echo h($order['Order']['order_date']); ?>&nbsp;</td>
+                                        <td><?php echo h($order['Order']['note_date']); ?>&nbsp;</td>
+                                        <td><?php echo h($order['Order']['nhi_sn']); ?>&nbsp;</td>
+                                        <td><?php echo h($order['Order']['nhi_sort']); ?>&nbsp;</td>
+                                        <td><?php echo h($order['Order']['disease_code']); ?>&nbsp;</td>
+                                        <td><?php echo h($order['Order']['disease']); ?>&nbsp;</td>
+                                        <td><?php echo h($order['Order']['process_code']); ?>&nbsp;</td>
+                                        <td><?php echo h($order['Order']['process']); ?>&nbsp;</td>
+                                        <td><?php echo h($order['Order']['money_order']); ?>&nbsp;</td>
+                                        <td><?php echo h($order['Order']['money_register']); ?>&nbsp;</td>
+                                        <td><?php echo h($order['Order']['nhi_points']); ?>&nbsp;</td>
+                                        <td><?php echo h($order['Order']['created']); ?>&nbsp;</td>
+                                        <td><?php echo h($order['Order']['modified']); ?>&nbsp;</td>
                                         <td class="actions">
-                                            <?php echo $this->Html->link(__('View'), array('controller' => 'orders', 'action' => 'view', $order['id'])); ?>
-                                            <?php echo $this->Html->link(__('Edit'), array('controller' => 'orders', 'action' => 'edit', $order['id'])); ?>
-                                            <?php echo $this->Form->postLink(__('Delete'), array('controller' => 'orders', 'action' => 'delete', $order['id']), array(), __('Are you sure you want to delete # %s?', $order['id'])); ?>
+                                            <?php echo $this->Html->link(__('View'), array('action' => 'view', $order['Order']['id'])); ?>
+                                            <?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $order['Order']['id'])); ?>
+                                            <?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $order['Order']['id']), array(), __('Are you sure you want to delete # %s?', $order['Order']['id'])); ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
-                            </table>
-                        <?php endif; ?>
-
-                        <div class="actions">
-                            <ul>
-                                <li><?php echo $this->Html->link(__('New Order'), array('controller' => 'orders', 'action' => 'add')); ?> </li>
-                            </ul>
-                        </div>
+                            </tbody>
+                        </table>
+                        <div class="paging"><?php echo $this->element('paginator'); ?></div>
                     </div>
-
                 </div>
             </div>
         </div>

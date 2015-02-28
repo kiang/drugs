@@ -35,11 +35,20 @@ class AccountsController extends AppController {
      * @return void
      */
     public function view($id = null) {
-        if (!$this->Account->exists($id)) {
-            throw new NotFoundException(__('Invalid account'));
+        $account = $this->Account->find('first', array(
+            'conditions' => array(
+                'Account.id' => $id,
+                'Account.member_id' => Configure::read('loginMember.id'),
+            ),
+        ));
+        if (empty($account)) {
+            throw new NotFoundException('請依照網頁指示操作');
+        } else {
+            $options = array('conditions' => array('Account.' . $this->Account->primaryKey => $id));
+            $this->set('account', $this->Account->find('first', $options));
+            $this->set('orders', $this->Paginator->paginate($this->Account->Order, array('Order.account_id' => $id)));
+            $this->set('url', array($id));
         }
-        $options = array('conditions' => array('Account.' . $this->Account->primaryKey => $id));
-        $this->set('account', $this->Account->find('first', $options));
     }
 
     /**
@@ -49,6 +58,7 @@ class AccountsController extends AppController {
      */
     public function add() {
         if ($this->request->is('post')) {
+            $this->request->data['Account']['member_id'] = Configure::read('loginMember.id');
             $this->Account->create();
             if ($this->Account->save($this->request->data)) {
                 $this->Session->setFlash(__('The account has been saved.'));
@@ -57,8 +67,6 @@ class AccountsController extends AppController {
                 $this->Session->setFlash(__('The account could not be saved. Please, try again.'));
             }
         }
-        $members = $this->Account->Member->find('list');
-        $this->set(compact('members'));
     }
 
     /**
@@ -73,6 +81,7 @@ class AccountsController extends AppController {
             throw new NotFoundException(__('Invalid account'));
         }
         if ($this->request->is(array('post', 'put'))) {
+            $this->request->data['Account']['id'] = $id;
             if ($this->Account->save($this->request->data)) {
                 $this->Session->setFlash(__('The account has been saved.'));
                 return $this->redirect(array('action' => 'index'));
