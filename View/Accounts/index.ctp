@@ -1,6 +1,11 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>健康存摺</h1>
+    <h1><?php
+        echo implode(' > ', array(
+            '健康存摺',
+            $this->Html->link('新增健康存摺', array('action' => 'add'), array('class' => 'btn btn-primary')),
+        ));
+        ?></h1>
 </section>
 
 <!-- Main content -->
@@ -45,10 +50,6 @@
                         </table>
                         <div class="paging"><?php echo $this->element('paginator'); ?></div>
                     </div>
-                    <div class="actions">
-                        <?php echo $this->Html->link('新增健康存摺', array('action' => 'add'), array('class' => 'btn btn-primary')); ?>
-                    </div>
-
                 </div>
             </div>
         </div>

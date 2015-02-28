@@ -35,11 +35,21 @@ class OrdersController extends AppController {
      * @return void
      */
     public function view($id = null) {
-        if (!$this->Order->exists($id)) {
+        $order = $this->Order->find('first', array(
+            'conditions' => array(
+                'Order.id' => $id,
+                'Account.member_id' => Configure::read('loginMember.id'),
+            ),
+            'contain' => array('Account'),
+        ));
+        if (empty($order)) {
             throw new NotFoundException(__('Invalid order'));
         }
-        $options = array('conditions' => array('Order.' . $this->Order->primaryKey => $id));
-        $this->set('order', $this->Order->find('first', $options));
+        $this->set('order', $order);
+        $this->set('orderLines', $this->Order->OrderLine->find('all', array(
+                    'conditions' => array('OrderLine.order_id' => $id),
+        )));
+        $this->set('url', array($id));
     }
 
     /**
