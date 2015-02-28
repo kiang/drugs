@@ -62,7 +62,7 @@ class Account extends AppModel {
             'conditions' => '',
             'fields' => '',
             'order' => ''
-        )
+        ),
     );
 
     /**
@@ -85,5 +85,129 @@ class Account extends AppModel {
             'counterQuery' => ''
         )
     );
+
+    public function zipExtract($zipFile, $password) {
+        $zipFile = '/home/kiang/Desktop/k.olc.tw/drugs/kiang/健康存摺_1040210.zip';
+        $tmpPath = TMP . 'zip/' . date('YmdHis');
+        exec("/usr/bin/unzip -P{$password} {$zipFile} -d {$tmpPath}");
+        return $tmpPath;
+    }
+
+    public function importPath($id, $path) {
+        $count = 0;
+        foreach (glob($path . '/*.html') AS $htmlFile) {
+            $html = file_get_contents($htmlFile);
+            if (false !== strpos($html, '醫令明細表')) {
+                $lines = explode('</tr>', $html);
+                /*
+                 * example:
+                 * Array
+                  (
+                  [0] => 臺北              //健保署服務單位
+                  [1] => 江幸蓉皮膚         //醫事機構
+                  [2] => 103/05/05        //就醫日期
+                  [3] =>                  //交付調劑、檢查或復健治療日期
+                  [4] => 0001             //健保卡就醫序號
+                  [5] => 6908             //疾病分類碼
+                  [6] => 其他紅斑脫屑皮膚病  //疾病分類名稱
+                  [7] =>                  //處置碼
+                  [8] =>                  //處置名稱
+                  [9] => 50               //部分負擔金額
+                  [10] => 200             //健保支付點數
+                  [11] =>
+                  )
+                  Array
+                  (
+                  [0] =>
+                  [1] => 00223C            //醫囑代碼
+                  [2] => 一般門診診察費      //醫囑名稱
+                  [3] => 1                 //醫囑總量
+                  [4] =>
+                  )
+                 */
+                $currentOrderId = false;
+                $pointPool = $licensePool = array();
+                foreach ($lines AS $line) {
+                    $line = str_replace('&nbsp;', '', $line);
+                    $cols = explode('</td>', $line);
+                    switch (count($cols)) {
+                        case 12:
+                            foreach ($cols AS $k => $v) {
+                                $cols[$k] = trim(strip_tags($v));
+                            }
+                            if (!isset($pointPool[$cols[1]])) {
+                                $pointPool[$cols[1]] = '';
+                                $pointList = $this->Order->Point->find('list', array(
+                                    'fields' => array('id', 'id'),
+                                    'conditions' => array('name' => $cols[1]),
+                                ));
+                                if (count($pointList) === 1) {
+                                    $pointPool[$cols[1]] = array_pop($pointList);
+                                }
+                            }
+                            $orderDate = explode('/', $cols[2]);
+                            $orderDate[0] += 1911;
+                            $orderDate = implode('-', $orderDate);
+                            $noteDate = explode('/', $cols[3]);
+                            if (count($noteDate) === 3) {
+                                $noteDate[0] += 1911;
+                                $noteDate = implode('-', $noteDate);
+                            } else {
+                                $noteDate = '';
+                            }
+                            $this->Order->create();
+                            if ($this->Order->save(array('Order' => array(
+                                            'account_id' => $id,
+                                            'nhi_area' => $cols[0],
+                                            'point' => $cols[1],
+                                            'point_id' => $pointPool[$cols[1]],
+                                            'order_date' => $orderDate,
+                                            'note_date' => $noteDate,
+                                            'nhi_sn' => $cols[4],
+                                            'disease_code' => $cols[5],
+                                            'disease' => $cols[6],
+                                            'process_code' => $cols[7],
+                                            'process' => $cols[8],
+                                            'money_order' => $cols[9],
+                                            'nhi_points' => $cols[10],
+                                )))) {
+                                ++$count;
+                                $currentOrderId = $this->Order->getInsertID();
+                            } else {
+                                $currentOrderId = false;
+                            }
+                            break;
+                        case 5:
+                            foreach ($cols AS $k => $v) {
+                                $cols[$k] = trim(strip_tags($v));
+                            }
+                            if (false !== $currentOrderId) {
+                                if (!isset($licensePool[$cols[1]])) {
+                                    $licensePool[$cols[1]] = $this->Order->License->Price->field('license_id', array(
+                                        'nhi_id' => $cols[1],
+                                    ));
+                                }
+                                if (!empty($licensePool[$cols[1]])) {
+                                    $model = 'License';
+                                } else {
+                                    $model = '';
+                                }
+                                $this->Order->OrderLine->create();
+                                $this->Order->OrderLine->save(array('OrderLine' => array(
+                                        'order_id' => $currentOrderId,
+                                        'code' => $cols[1],
+                                        'note' => $cols[2],
+                                        'quantity' => $cols[3],
+                                        'model' => $model,
+                                        'foreign_id' => $licensePool[$cols[1]],
+                                )));
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+        return $count;
+    }
 
 }

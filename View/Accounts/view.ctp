@@ -4,7 +4,10 @@
     echo implode(' > ', array(
         $this->Html->link('健康存摺', array('controller' => 'accounts', 'action' => 'index')),
         h($account['Account']['name']) . ' 的就醫記錄',
-        $this->Html->link('新增就醫記錄', array('controller' => 'orders', 'action' => 'add', $account['Account']['id']), array('class' => 'btn btn-primary')),
+        implode(' | ', array(
+            $this->Html->link('新增就醫記錄', array('controller' => 'orders', 'action' => 'add', $account['Account']['id']), array('class' => 'btn btn-primary')),
+            $this->Html->link('匯入健保局健康存摺', array('action' => 'import', $account['Account']['id']), array('class' => 'btn btn-primary')),
+        ))
     ));
     ?></h1>
 </section>

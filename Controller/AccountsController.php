@@ -17,6 +17,32 @@ class AccountsController extends AppController {
      */
     public $components = array('Paginator');
 
+    public function import($id = null) {
+        $account = $this->Account->find('first', array(
+            'conditions' => array(
+                'Account.id' => $id,
+                'Account.member_id' => Configure::read('loginMember.id'),
+            ),
+        ));
+        if (empty($account)) {
+            throw new NotFoundException('請依照網頁指示操作');
+        } else {
+            if ($this->request->is('post') && !empty($this->request->data['Account']['file']['size'])) {
+                $count = 0;
+                switch ($this->request->data['Account']['file']['type']) {
+                    case 'application/zip':
+                        $zipPath = $this->Account->zipExtract($this->request->data['Account']['file']['tmp_name'], $this->request->data['Account']['password']);
+                        $count = $this->Account->importPath($id, $zipPath);
+                        break;
+                }
+                $this->Session->setFlash("匯入了 {$count} 筆資料");
+                return $this->redirect(array('action' => 'view', $id));
+            }
+            $options = array('conditions' => array('Account.' . $this->Account->primaryKey => $id));
+            $this->set('account', $this->Account->find('first', $options));
+        }
+    }
+
     /**
      * index method
      *

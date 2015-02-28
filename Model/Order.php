@@ -103,5 +103,14 @@ class Order extends AppModel {
             'counterQuery' => ''
         )
     );
+    var $hasAndBelongsToMany = array(
+        'License' => array(
+            'joinTable' => 'order_lines',
+            'conditions' => array('model' => 'License'),
+            'foreignKey' => 'order_id',
+            'associationForeignKey' => 'foreign_id',
+            'className' => 'License',
+        ),
+    );
 
 }
