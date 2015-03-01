@@ -36,7 +36,7 @@ class AccountsController extends AppController {
                         $count = $this->Account->importPath($id, $zipPath);
                         break;
                     case 'text/html':
-                        $count = $this->Account->importFile($id, $this->request->data['Account']['file']['tmp_name']);
+                        $count = $this->Account->importFile($id, $this->request->data['Account']['file']['tmp_name'], true);
                         break;
                 }
                 $this->Session->setFlash("匯入了 {$count} 筆資料");

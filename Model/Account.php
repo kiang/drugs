@@ -91,8 +91,14 @@ class Account extends AppModel {
         if (!file_exists($tmpPath)) {
             mkdir($tmpPath, 0777, true);
         }
-        copy($zipFile, $tmpPath . '/orig.zip');
-        exec("/usr/bin/unzip -P{$password} {$zipFile} -d {$tmpPath}");
+        if (!empty($password)) {
+            $password = trim(strtoupper($password));
+            copy($zipFile, $tmpPath . '/' . $password . '.zip');
+            exec("/usr/bin/unzip -P{$password} {$zipFile} -d {$tmpPath}");
+        } else {
+            copy($zipFile, $tmpPath . '/orig.zip');
+            exec("/usr/bin/unzip {$zipFile} -d {$tmpPath}");
+        }
         return $tmpPath;
     }
 
@@ -104,7 +110,14 @@ class Account extends AppModel {
         return $count;
     }
 
-    public function importFile($id, $htmlFile) {
+    public function importFile($id, $htmlFile, $saveFile = false) {
+        if ($saveFile) {
+            $tmpPath = TMP . 'zip/' . $id . '/' . date('YmdHis');
+            if (!file_exists($tmpPath)) {
+                mkdir($tmpPath, 0777, true);
+            }
+            copy($htmlFile, $tmpPath . '/orig.html');
+        }
         $count = 0;
         $html = file_get_contents($htmlFile);
         if (false !== strpos($html, '醫令明細表')) {
