@@ -13,6 +13,7 @@
                     <table class="table table-hover" id="DrugsIndexTable">
                         <thead>
                             <tr>
+                                <th>圖片</th>
                                 <th>品名</th>
                                 <th>許可證字號</th>
                                 <th>形狀</th>
@@ -32,6 +33,12 @@
                                 }
                                 ?>
                                 <tr>
+                                    <td>
+                                        <?php if (!empty($item['License']['image'])) { ?>
+                                            <img src="<?php echo $this->Html->url('/') . $item['License']['image']; ?>" class="img-thumbnail" style="width: 120px;" />
+                                            <div class="clearfix"></div>
+                                        <?php } ?>
+                                    </td>
                                     <td>
                                         <?php echo $this->Html->link($name, array('action' => 'view', $item['Drug']['id'])); ?></td>
                                     <td><?php

@@ -121,6 +121,9 @@ class DrugsController extends AppController {
                     );
                 }
             }
+        } else {
+            $scope[] = 'License.image != \'\'';
+            $scope[] = 'License.image IS NOT NULL';
         }
         $this->paginate['Drug'] = array(
             'limit' => 20,
