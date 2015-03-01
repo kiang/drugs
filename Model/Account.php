@@ -189,6 +189,11 @@ class Account extends AppModel {
                                     $licensePool[$cols[1]] = $this->Order->License->Price->field('license_id', array(
                                         'nhi_id' => $cols[1],
                                     ));
+                                    if (empty($licensePool[$cols[1]])) {
+                                        $licensePool[$cols[1]] = $this->Order->License->field('id', array(
+                                            'nhi_id' => $cols[1],
+                                        ));
+                                    }
                                 }
                                 if (!empty($licensePool[$cols[1]])) {
                                     $model = 'License';
