@@ -16,6 +16,7 @@ class OrdersController extends AppController {
      * @var array
      */
     public $components = array('Paginator');
+    public $paginate = array();
 
     /**
      * index method
@@ -47,6 +48,7 @@ class OrdersController extends AppController {
         }
         $orderLines = $this->Order->OrderLine->find('all', array(
             'conditions' => array('OrderLine.order_id' => $id),
+            'order' => array('OrderLine.code' => 'ASC'),
         ));
         $licenseIds = array();
         foreach ($orderLines AS $orderLine) {

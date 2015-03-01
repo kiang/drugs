@@ -16,6 +16,7 @@ class AccountsController extends AppController {
      * @var array
      */
     public $components = array('Paginator');
+    public $paginate = array();
 
     public function import($id = null) {
         $account = $this->Account->find('first', array(
@@ -70,6 +71,9 @@ class AccountsController extends AppController {
         if (empty($account)) {
             throw new NotFoundException('請依照網頁指示操作');
         } else {
+            $this->paginate['Order'] = array(
+                'order' => array('Order.order_date' => 'DESC'),
+            );
             $options = array('conditions' => array('Account.' . $this->Account->primaryKey => $id));
             $this->set('account', $this->Account->find('first', $options));
             $this->set('orders', $this->Paginator->paginate($this->Account->Order, array('Order.account_id' => $id)));
