@@ -13,7 +13,49 @@
 <!-- Main content -->
 <section class="content">
     <div class="row">
-        <div class="col-xs-12">
+        <div class="col-xs-6">
+            <div class="box">
+                <div class="box-header">
+                </div>
+                <div class="box-body">
+                    <div class="orderLines index">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>醫囑代碼</th>
+                                    <th>醫囑名稱</th>
+                                    <th>醫囑總量</th>
+                                    <th class="actions">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($orderLines as $orderLine): ?>
+                                    <tr>
+                                        <td><?php echo h($orderLine['OrderLine']['code']); ?>&nbsp;</td>
+                                        <td><?php
+                                            if (!empty($orderLine['OrderLine']['model'])) {
+                                                switch ($orderLine['OrderLine']['model']) {
+                                                    case 'License':
+                                                        echo $this->Html->link($orderLine['OrderLine']['note'], array('controller' => 'drugs', 'action' => 'view', $drugs[$orderLine['OrderLine']['foreign_id']]), array('target' => '_blank'));
+                                                        break;
+                                                }
+                                            } else {
+                                                echo h($orderLine['OrderLine']['note']);
+                                            }
+                                            ?>&nbsp;</td>
+                                        <td><?php echo h($orderLine['OrderLine']['quantity']); ?>&nbsp;</td>
+                                        <td class="actions">
+                                            <?php echo $this->Form->postLink('刪除', array('controller' => 'order_lines', 'action' => 'delete', $orderLine['OrderLine']['id']), array(), '確定要刪除？'); ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6">
             <div class="box">
                 <div class="box-header">
                 </div>
@@ -112,47 +154,6 @@
                                 &nbsp;
                             </dd>
                         </dl>
-                    </div>
-                </div>
-            </div>
-            <div class="box">
-                <div class="box-header">
-                </div>
-                <div class="box-body">
-                    <div class="orderLines index">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>醫囑代碼</th>
-                                    <th>醫囑名稱</th>
-                                    <th>醫囑總量</th>
-                                    <th class="actions">操作</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($orderLines as $orderLine): ?>
-                                    <tr>
-                                        <td><?php echo h($orderLine['OrderLine']['code']); ?>&nbsp;</td>
-                                        <td><?php
-                                        if(!empty($orderLine['OrderLine']['model'])) {
-                                            switch($orderLine['OrderLine']['model']) {
-                                                case 'License':
-                                                    echo $this->Html->link($orderLine['OrderLine']['note'], array('controller' => 'drugs', 'action' => 'view', $drugs[$orderLine['OrderLine']['foreign_id']]), array('target' => '_blank'));
-                                                    break;
-                                            }
-                                        } else {
-                                            echo h($orderLine['OrderLine']['note']);
-                                        }
-                                        
-                                        ?>&nbsp;</td>
-                                        <td><?php echo h($orderLine['OrderLine']['quantity']); ?>&nbsp;</td>
-                                        <td class="actions">
-                                            <?php echo $this->Form->postLink('刪除', array('controller' => 'order_lines', 'action' => 'delete', $orderLine['OrderLine']['id']), array(), '確定要刪除？'); ?>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>
