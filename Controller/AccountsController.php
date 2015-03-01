@@ -32,8 +32,11 @@ class AccountsController extends AppController {
                 $count = 0;
                 switch ($this->request->data['Account']['file']['type']) {
                     case 'application/zip':
-                        $zipPath = $this->Account->zipExtract($this->request->data['Account']['file']['tmp_name'], $this->request->data['Account']['password']);
+                        $zipPath = $this->Account->zipExtract($id, $this->request->data['Account']['file']['tmp_name'], $this->request->data['Account']['password']);
                         $count = $this->Account->importPath($id, $zipPath);
+                        break;
+                    case 'text/html':
+                        $count = $this->Account->importFile($id, $this->request->data['Account']['file']['tmp_name']);
                         break;
                 }
                 $this->Session->setFlash("匯入了 {$count} 筆資料");
