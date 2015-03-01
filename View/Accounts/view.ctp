@@ -7,6 +7,7 @@
         implode(' | ', array(
             $this->Html->link('新增就醫記錄', array('controller' => 'orders', 'action' => 'add', $account['Account']['id']), array('class' => 'btn btn-primary')),
             $this->Html->link('匯入健保局健康存摺', array('action' => 'import', $account['Account']['id']), array('class' => 'btn btn-primary')),
+            $this->Html->link('用藥統計', array('action' => 'drugs', $account['Account']['id']), array('class' => 'btn btn-default')),
         ))
     ));
     ?></h1>

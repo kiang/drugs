@@ -18,6 +18,57 @@ class AccountsController extends AppController {
     public $components = array('Paginator');
     public $paginate = array();
 
+    public function drugs($id = null) {
+        $account = $this->Account->find('first', array(
+            'conditions' => array(
+                'Account.id' => $id,
+                'Account.member_id' => Configure::read('loginMember.id'),
+            ),
+        ));
+        if (empty($account)) {
+            throw new NotFoundException('請依照網頁指示操作');
+        } else {
+            $orderLines = $this->Account->Order->OrderLine->find('all', array(
+                'conditions' => array(
+                    'OrderLine.model' => 'License',
+                ),
+                'order' => array('total' => 'DESC'),
+                'fields' => array(
+                    'OrderLine.foreign_id', '(SUM(OrderLine.quantity)) AS total',
+                    '(COUNT(*)) AS count',
+                ),
+                'joins' => array(
+                    array(
+                        'table' => 'orders',
+                        'alias' => 'Order',
+                        'type' => 'INNER',
+                        'conditions' => array(
+                            'Order.id = OrderLine.order_id',
+                            'Order.account_id' => $id,
+                        ),
+                    ),
+                ),
+                'group' => array('OrderLine.foreign_id'),
+            ));
+            $licenseIds = Set::extract('{n}.OrderLine.foreign_id', $orderLines);
+            $licenses = $this->Account->Order->License->find('all', array(
+                'conditions' => array('License.id' => $licenseIds),
+                'fields' => array('id', 'name', 'disease', 'image'),
+            ));
+            $licenses = Set::combine($licenses, '{n}.License.id', '{n}.License');
+            $drugs = $this->Account->Order->License->Drug->find('list', array(
+                'conditions' => array('Drug.license_id' => $licenseIds),
+                'fields' => array('license_id', 'id'),
+                'group' => array('Drug.license_id'),
+            ));
+            $this->set('account', $account);
+            $this->set('orderLines', $orderLines);
+            $this->set('licenses', $licenses);
+            $this->set('drugs', $drugs);
+            $this->set('url', array($id));
+        }
+    }
+
     public function import($id = null) {
         $account = $this->Account->find('first', array(
             'conditions' => array(
@@ -77,8 +128,7 @@ class AccountsController extends AppController {
             $this->paginate['Order'] = array(
                 'order' => array('Order.order_date' => 'DESC'),
             );
-            $options = array('conditions' => array('Account.' . $this->Account->primaryKey => $id));
-            $this->set('account', $this->Account->find('first', $options));
+            $this->set('account', $account);
             $this->set('orders', $this->Paginator->paginate($this->Account->Order, array('Order.account_id' => $id)));
             $this->set('url', array($id));
         }
