@@ -149,7 +149,7 @@ class Account extends AppModel {
               )
              */
             $currentOrderId = false;
-            $pointPool = $licensePool = array();
+            $pointPool = $licensePool = $nhiSortPool = array();
             foreach ($lines AS $line) {
                 $line = str_replace('&nbsp;', '', $line);
                 $cols = explode('</td>', $line);
@@ -169,7 +169,7 @@ class Account extends AppModel {
                             }
                         }
                         $orderDate = explode('/', $cols[2]);
-                        $orderDate[0] += 1911;
+                        $nhiYear = $orderDate[0] += 1911;
                         $orderDate = implode('-', $orderDate);
                         $noteDate = explode('/', $cols[3]);
                         if (count($noteDate) === 3) {
@@ -177,6 +177,12 @@ class Account extends AppModel {
                             $noteDate = implode('-', $noteDate);
                         } else {
                             $noteDate = '';
+                        }
+                        $nhiSortKey = $nhiYear . $cols[4];
+                        if (!isset($nhiSortPool[$nhiSortKey])) {
+                            $nhiSortPool[$nhiSortKey] = 1;
+                        } else {
+                            ++$nhiSortPool[$nhiSortKey];
                         }
                         $this->Order->create();
                         if ($this->Order->save(array('Order' => array(
@@ -186,7 +192,9 @@ class Account extends AppModel {
                                         'point_id' => $pointPool[$cols[1]],
                                         'order_date' => $orderDate,
                                         'note_date' => $noteDate,
+                                        'nhi_year' => $nhiYear,
                                         'nhi_sn' => $cols[4],
+                                        'nhi_sort' => $nhiSortPool[$nhiSortKey],
                                         'disease_code' => $cols[5],
                                         'disease' => $cols[6],
                                         'process_code' => $cols[7],

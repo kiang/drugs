@@ -405,6 +405,7 @@ CREATE TABLE `orders` (
   `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `order_date` date NOT NULL COMMENT '就醫日期',
   `note_date` date DEFAULT NULL COMMENT '交付調劑、檢查或復健治療日期',
+  `nhi_year` year(4) NOT NULL,
   `nhi_sn` varchar(8) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '健保卡就醫序號',
   `nhi_sort` tinyint(2) DEFAULT NULL COMMENT '健保卡就醫序號排序',
   `disease_code` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '疾病分類碼',
@@ -500,4 +501,4 @@ CREATE TABLE `vendors` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-01  2:42:24
+-- Dump completed on 2015-03-01 22:10:12
