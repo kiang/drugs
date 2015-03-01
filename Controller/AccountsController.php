@@ -104,8 +104,7 @@ class AccountsController extends AppController {
      * @return void
      */
     public function index() {
-        $this->Account->recursive = 0;
-        $this->set('accounts', $this->Paginator->paginate());
+        $this->set('accounts', $this->Paginator->paginate($this->Account, array('Account.member_id' => Configure::read('loginMember.id'))));
     }
 
     /**
