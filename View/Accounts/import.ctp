@@ -17,6 +17,16 @@
                 <div class="box-header">
                 </div>
                 <div class="box-body">
+                    <div class="alert alert-info alert-dismissable">
+                        <i class="fa fa-info"></i>
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                        <ul>
+                            <li>一般取得的檔案名稱像是 "健康存摺_1040210.zip" ，這個壓縮檔案需要透過身份證字號解壓縮</li>
+                            <li>也可以匯入個別網頁檔案，像是 "門診及交付機構資料+醫令明細表_10312_1040210.html"</li>
+                            <li>目前程式只處理 醫令明細表 中的資料，處理完成後會告知匯入的醫囑數量</li>
+                        </ul>
+                    </div>
+
                     <div class="accounts form">
                         <?php echo $this->Form->create('Account', array('type' => 'file')); ?>
                         <?php
@@ -25,7 +35,7 @@
                             'div' => 'form-group',
                             'label' => '密碼',
                             'class' => 'form-control',
-                            'placeholder' => '預設是本人的身份證字號',
+                            'placeholder' => '預設是本人的身份證字號，如果是匯入 html 格式則不需要輸入密碼',
                         ));
                         echo $this->Form->input('file', array(
                             'type' => 'file',
