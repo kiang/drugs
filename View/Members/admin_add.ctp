@@ -15,11 +15,31 @@
                         <?php echo $this->Form->create('Member'); ?>
                         <fieldset>
                             <?php
-                            echo $this->Form->input('group_id');
-                            echo $this->Form->input('username');
-                            echo $this->Form->input('password');
+                            echo $this->Form->input('group_id', array(
+                                'type' => 'select',
+                                'div' => 'form-group',
+                                'label' => '群組',
+                                'class' => 'form-control',
+                            ));
+                            echo $this->Form->input('username', array(
+                                'type' => 'text',
+                                'div' => 'form-group',
+                                'label' => '帳號',
+                                'class' => 'form-control',
+                            ));
+                            echo $this->Form->input('password', array(
+                                'type' => 'password',
+                                'div' => 'form-group',
+                                'label' => '密碼',
+                                'class' => 'form-control',
+                            ));
                             echo $this->Form->input('user_status', array(
                                 'type' => 'radio',
+                                'legend' => '狀態',
+                                'div' => 'form-group',
+                                'before' => '<div class="radio">',
+                                'after' => '</div>',
+                                'separator' => ' &nbsp; &nbsp; ',
                                 'options' => array('Y' => 'Y', 'N' => 'N'),
                                 'value' => 'Y'));
                             ?>
