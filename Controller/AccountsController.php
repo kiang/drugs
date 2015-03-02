@@ -83,6 +83,7 @@ class AccountsController extends AppController {
                 $count = 0;
                 switch ($this->request->data['Account']['file']['type']) {
                     case 'application/zip':
+                    case 'application/octet-stream':
                         $zipPath = $this->Account->zipExtract($id, $this->request->data['Account']['file']['tmp_name'], $this->request->data['Account']['password']);
                         $count = $this->Account->importPath($id, $zipPath);
                         break;
