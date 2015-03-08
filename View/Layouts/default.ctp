@@ -200,7 +200,34 @@
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
                 <?php echo $this->Session->flash(); ?>
-                <?php echo $content_for_layout; ?>
+                <?php
+                echo $content_for_layout;
+                switch ("{$this->request->params['controller']}/{$this->request->params['action']}") {
+                    case 'drugs/view':
+                    case 'ingredients/view':
+                    case 'vendors/view':
+                    case 'points/view':
+                    case 'articles/view':
+                        ?><div id="disqus_thread"></div>
+                        <script type="text/javascript">
+                            /* * * CONFIGURATION VARIABLES * * */
+                            var disqus_shortname = 'drugs-tw';
+                            var disqus_config = function () {
+                                this.language = "zh_TW";
+                            };
+
+                            /* * * DON'T EDIT BELOW THIS LINE * * */
+                            (function () {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript';
+                                dsq.async = true;
+                                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                            })();
+                        </script><?php
+                        break;
+                }
+                ?>
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
         <footer class="footer" style="margin-left: auto;margin-right: auto; margin-bottom: 15px;">
@@ -234,36 +261,36 @@
         echo $this->element('sql_dump');
         ?>
         <script type="text/javascript">
-            //<![CDATA[
-            $(function () {
-                $('a.btn-find').click(function () {
-                    var keyword = $('input#keyword').val();
-                    if (keyword !== '') {
-                        location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
-                    } else {
-                        alert('您尚未輸入關鍵字！');
-                    }
-                    return false;
-                });
-                $('a.btn-outward').click(function () {
-                    var keyword = $('input#keyword').val();
-                    if (keyword !== '') {
-                        location.href = '<?php echo $this->Html->url('/drugs/outward/'); ?>' + encodeURIComponent(keyword);
-                    } else {
-                        alert('您尚未輸入關鍵字！');
-                    }
-                    return false;
-                });
-                $('form#keywordForm').submit(function () {
-                    var keyword = $('input#keyword').val();
-                    if (keyword !== '') {
-                        location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
-                    } else {
-                        alert('您尚未輸入關鍵字！');
-                    }
-                });
-            });
-            //]]>
+                    //<![CDATA[
+                    $(function () {
+                        $('a.btn-find').click(function () {
+                            var keyword = $('input#keyword').val();
+                            if (keyword !== '') {
+                                location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
+                            } else {
+                                alert('您尚未輸入關鍵字！');
+                            }
+                            return false;
+                        });
+                        $('a.btn-outward').click(function () {
+                            var keyword = $('input#keyword').val();
+                            if (keyword !== '') {
+                                location.href = '<?php echo $this->Html->url('/drugs/outward/'); ?>' + encodeURIComponent(keyword);
+                            } else {
+                                alert('您尚未輸入關鍵字！');
+                            }
+                            return false;
+                        });
+                        $('form#keywordForm').submit(function () {
+                            var keyword = $('input#keyword').val();
+                            if (keyword !== '') {
+                                location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
+                            } else {
+                                alert('您尚未輸入關鍵字！');
+                            }
+                        });
+                    });
+                    //]]>
         </script>
         <?php if (Configure::read('debug') === 0 && Configure::read('loginMember.group_id') !== '1') { ?>
             <script>
