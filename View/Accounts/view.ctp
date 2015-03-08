@@ -71,7 +71,7 @@
                                         <td class="actions">
                                             <?php echo $this->Html->link('檢視', array('controller' => 'orders', 'action' => 'view', $order['Order']['id']), array('class' => 'btn btn-default')); ?>
                                             <?php echo $this->Html->link('編輯', array('controller' => 'orders', 'action' => 'edit', $order['Order']['id']), array('class' => 'btn btn-default')); ?>
-                                            <?php echo $this->Form->postLink('刪除', array('action' => 'delete', $order['Order']['id']), array('class' => 'btn btn-default'), '確定要刪除？'); ?>
+                                            <?php echo $this->Form->postLink('刪除', array('controller' => 'orders', 'action' => 'delete', $order['Order']['id']), array('class' => 'btn btn-default'), '確定要刪除？'); ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

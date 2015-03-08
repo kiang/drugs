@@ -86,6 +86,18 @@ class Account extends AppModel {
         )
     );
 
+    public function beforeDelete($cascade = true) {
+        /*
+         * to delete related orders/orderlines
+         */
+        $this->query("DELETE o.*, l.* FROM {$this->Order->table} AS o "
+                . "LEFT JOIN {$this->Order->OrderLine->table} AS l ON l.order_id = o.id "
+                . "WHERE o.account_id = '{$this->id}'");
+        $tmpPath = TMP . 'zip/' . $this->id;
+        exec("/bin/rm -Rf {$tmpPath}");
+        return parent::beforeDelete($cascade);
+    }
+
     public function zipExtract($id, $zipFile, $password) {
         $tmpPath = TMP . 'zip/' . $id . '/' . date('YmdHis');
         if (!file_exists($tmpPath)) {

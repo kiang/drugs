@@ -113,4 +113,12 @@ class Order extends AppModel {
         ),
     );
 
+    public function beforeDelete($cascade = true) {
+        /*
+         * to delete related orderlines
+         */
+        $this->query("DELETE FROM {$this->OrderLine->table} WHERE order_id = '{$this->id}'");
+        return parent::beforeDelete($cascade);
+    }
+
 }
