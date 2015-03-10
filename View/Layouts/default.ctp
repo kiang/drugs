@@ -57,9 +57,9 @@
                     <!-- search form -->
                     <form action="#" method="get" class="sidebar-form" id="keywordForm">
                         <div class="input-group">
-                            <input type="text" id="keyword" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="搜尋藥物..."/>
+                            <input type="text" id="keyword" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="搜尋藥物..."  style="width:198px;" />
                         </div>
-                        <div class="divider">&nbsp;</div>
+                        <div class="divider" style="height: 1px; background-color: #dbdbdb;"></div>
                         <div class="btn-group-justified">
                             <a href="#" class="btn btn-default btn-find">一般搜尋</a>
                             <a href="#" class="btn btn-default btn-outward">外觀搜尋</a>
