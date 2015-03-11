@@ -109,6 +109,7 @@ class IngredientsController extends AppController {
                         ),
                     ),
                 ),
+                'group' => array('IngredientsLicense.license_id'),
             );
             $this->set('title_for_layout', "含有 {$ingredient['Ingredient']['name']} 成份的藥物 @ ");
             $this->set('items', $this->paginate($this->Ingredient->License, array('IngredientsLicense.ingredient_id' => $id)));
