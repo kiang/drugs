@@ -160,6 +160,7 @@ class DrugsController extends AppController {
                         'License.name_english LIKE' => "%{$keyword}%",
                         'License.ingredient LIKE' => "%{$keyword}%",
                         'License.nhi_id LIKE' => "%{$keyword}%",
+                        'License.disease LIKE' => "%{$keyword}%",
                     );
                 }
             }
