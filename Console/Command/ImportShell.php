@@ -73,8 +73,8 @@ class ImportShell extends AppShell {
 
     public function main() {
         //$this->updateCode();
-        //$this->dumpDbKeys();
-        //exit();
+        $this->dumpDbKeys();
+        exit();
         /*
          * Execute before importing:
          * TRUNCATE `drugs`;
