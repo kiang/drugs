@@ -31,6 +31,7 @@ class ArticlesController extends AppController {
                 }
                 unlink(TMP . 'articles/tasks/' . $taskFileName);
                 fclose($taskFh);
+                $this->redirect(array('action' => 'tasks'));
             } else {
                 $taskFh = fopen($taskList, 'r');
                 while ($line = fgetcsv($taskFh, 2048, "\t")) {
@@ -95,11 +96,14 @@ class ArticlesController extends AppController {
                     }
                 }
             }
+            $count = 0;
             $fh = fopen($taskFile, 'w');
             foreach ($links AS $k => $v) {
                 fputcsv($fh, array($k, $v), "\t");
+                ++$count;
             }
             fclose($fh);
+            $this->Session->setFlash("加入了 {$count} 筆連結");
         }
     }
 

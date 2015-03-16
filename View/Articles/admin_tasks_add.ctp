@@ -22,6 +22,7 @@
                         'div' => 'form-group',
                         'label' => '連結日期',
                         'class' => 'form-control',
+                        'value' => '',
                     ));
                     echo $this->Form->input('links', array(
                         'type' => 'textarea',
@@ -29,6 +30,7 @@
                         'div' => 'form-group',
                         'label' => '連結',
                         'class' => 'form-control',
+                        'value' => '',
                     ));
                     ?>
                     <?php echo $this->Form->end(__('Submit')); ?>
