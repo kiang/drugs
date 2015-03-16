@@ -76,7 +76,7 @@
                     </div>
                     <div class="form-group">
                         <label for="relatedVendor">相關藥廠</label>
-                        <ul id="relatedPoint"><?php
+                        <ul id="relatedVendor"><?php
                             if (!empty($this->data['Vendor'])) {
                                 foreach ($this->data['Vendor'] AS $itemId => $itemLabel) {
                                     echo '<li data-id="' . $itemId . '">' . $itemLabel . '</li>';
