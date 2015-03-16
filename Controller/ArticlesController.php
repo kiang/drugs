@@ -17,6 +17,92 @@ class ArticlesController extends AppController {
         }
     }
 
+    public function admin_tasks($taskFileName = '', $op = '') {
+        $tasks = $links = array();
+        foreach (glob(TMP . 'articles/tasks/*') AS $taskFile) {
+            $tasks[] = pathinfo($taskFile);
+        }
+        $taskList = TMP . 'articles/tasks/' . $taskFileName;
+        if (!empty($taskFileName) && file_exists($taskList)) {
+            if ($op === 'delete') {
+                $taskFh = fopen($taskList, 'r');
+                while ($line = fgetcsv($taskFh, 2048, "\t")) {
+                    unlink($line[1]);
+                }
+                unlink(TMP . 'articles/tasks/' . $taskFileName);
+                fclose($taskFh);
+            } else {
+                $taskFh = fopen($taskList, 'r');
+                while ($line = fgetcsv($taskFh, 2048, "\t")) {
+                    $tags = get_meta_tags($line[1]);
+                    $content = file_get_contents($line[1]);
+                    preg_match('/\\<title\\>(.*)\\<\\/title\\>/i', $content, $matches);
+                    $tags['url'] = $line[0];
+                    $tags['file'] = $line[1];
+                    $tags['title-tag'] = isset($matches[1]) ? $matches[1] : '';
+                    $links[] = $tags;
+                }
+                fclose($taskFh);
+            }
+        }
+        $this->set('tasks', $tasks);
+        $this->set('taskFileName', $taskFileName);
+        $this->set('links', $links);
+    }
+
+    public function admin_tasks_add() {
+        if (!empty($this->request->data['Article']['links']) && !empty($this->request->data['Article']['task_date'])) {
+            $linksPool = TMP . 'articles/links';
+            $taskFile = TMP . 'articles/tasks';
+            if (!file_exists($taskFile)) {
+                mkdir($taskFile, 0777, true);
+            }
+            $taskFile .= '/' . $this->request->data['Article']['task_date'];
+            $links = array();
+            if (file_exists($taskFile)) {
+                $oldTasks = explode("\n", file_get_contents($taskFile));
+                foreach ($oldTasks AS $oldTask) {
+                    $parts = explode("\t", $oldTask);
+                    $links[$parts[0]] = $parts[1];
+                }
+            }
+            $lines = explode("\n", $this->request->data['Article']['links']);
+            foreach ($lines AS $line) {
+                if (substr($line, 0, 4) === 'http') {
+                    $parts = explode('/', trim($line));
+                    foreach ($parts AS $k => $part) {
+                        if ($k > 0) {
+                            $parts[$k] = urlencode($part);
+                        }
+                    }
+                    $line = implode('/', $parts);
+                    if (!isset($links[$line])) {
+                        $md5 = md5($line);
+                        $linksPoolFile = implode('/', array(
+                            $linksPool,
+                            substr($md5, 0, 4),
+                            substr($md5, 4, 4),
+                        ));
+                        if (!file_exists($linksPoolFile)) {
+                            mkdir($linksPoolFile, 0777, true);
+                        }
+                        $linksPoolFile .= '/' . $md5;
+                        if (!file_exists($linksPoolFile)) {
+                            file_put_contents($linksPoolFile, file_get_contents($line));
+                        }
+
+                        $links[$line] = $linksPoolFile;
+                    }
+                }
+            }
+            $fh = fopen($taskFile, 'w');
+            foreach ($links AS $k => $v) {
+                fputcsv($fh, array($k, $v), "\t");
+            }
+            fclose($fh);
+        }
+    }
+
     public function admin_index() {
         $this->paginate['Article']['order'] = array(
             'Article.date_published' => 'DESC',
@@ -26,7 +112,7 @@ class ArticlesController extends AppController {
         $this->set('articles', $articles);
     }
 
-    public function admin_add() {
+    public function admin_add($taskDate = '', $md5 = '') {
         if (!empty($this->request->data)) {
             $this->request->data['ArticlesLink'] = array();
             if (!empty($this->request->data['Drug'])) {
@@ -77,6 +163,21 @@ class ArticlesController extends AppController {
                 $this->redirect(array('action' => 'index'));
             } else {
                 $this->Session->setFlash('資料儲存時發生錯誤，請重試');
+            }
+        } elseif (!empty($taskDate) && !empty($md5)) {
+            $taskFh = fopen(TMP . 'articles/tasks/' . $taskDate, 'r');
+            while ($line = fgetcsv($taskFh, 2048, "\t")) {
+                if (md5($line[0]) === $md5 && file_exists($line[1])) {
+                    $tags = get_meta_tags($line[1]);
+                    $content = file_get_contents($line[1]);
+                    preg_match('/\\<title\\>(.*)\\<\\/title\\>/i', $content, $matches);
+                    $this->request->data['Article'] = array(
+                        'title' => isset($matches[1]) ? $matches[1] : '',
+                        'body' => isset($tags['description']) ? $tags['description'] : '',
+                        'url' => $line[0],
+                        'date_published' => $taskDate,
+                    );
+                }
             }
         }
     }
