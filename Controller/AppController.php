@@ -30,6 +30,8 @@ class AppController extends Controller {
                 'group_id' => 0,
                 'username' => '',
             );
+        } elseif($this->loginMember['group_id'] == '1') {
+            Configure::write('debug', 2);
         }
         Configure::write('loginMember', $this->loginMember);
     }
