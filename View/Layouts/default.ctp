@@ -68,6 +68,13 @@
                     <!-- /.search form -->
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
+                        <li>
+                            <a href="https://docs.google.com/forms/d/12VbriUzkqsiAHMw0KxZ7Uv9I2jqAG0cydSnKCvim5RA/viewform" target="_blank">
+                                <i class="fa fa-photo"></i>
+                                <span>網站發展調查</span>
+                                <small class="badge pull-right bg-green">new</small>
+                            </a>
+                        </li>
                         <li class="treeview">
                             <a href="<?php echo $this->Html->url('/drugs/index'); ?>">
                                 <i class="fa fa-newspaper-o"></i> <span>藥物證書</span>
