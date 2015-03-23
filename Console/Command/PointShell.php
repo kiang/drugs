@@ -10,11 +10,19 @@ class PointShell extends AppShell {
     }
 
     public function nhi() {
-
         $db = ConnectionManager::getDataSource('default');
         $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
         $this->dbQuery('SET NAMES utf8mb4;');
-        $valueStack = array();
+        $this->dbQuery('TRUNCATE `points`;');
+
+        $valueStack = $codes = array();
+
+        $fh = fopen(__DIR__ . '/data/keys/points.csv', 'r');
+        while ($line = fgetcsv($fh, 512)) {
+            $codes[$line[0]] = $line[1];
+        }
+        fclose($fh);
+
         /*
          * max length
          * Array
@@ -59,7 +67,12 @@ class PointShell extends AppShell {
                         $point['address'] = substr($point['address'], $matches[0][1] + 3);
                 }
             }
-            $currentId = String::uuid();
+            if (isset($codes[$point['nhi_id']])) {
+                $currentId = $codes[$point['nhi_id']];
+            } else {
+                $currentId = String::uuid();
+            }
+
             $dbCols = array(
                 "('{$currentId}'", //id
                 "'{$point['nhi_id']}'", // nhi_id 
