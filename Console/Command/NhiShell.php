@@ -7,7 +7,87 @@ class NhiShell extends AppShell {
     public $uses = array('License');
 
     public function main() {
-        $this->hospitals();
+        $this->codes();
+    }
+
+    public function codes() {
+        $tmpPath = TMP . 'nhi/codes';
+        if (!file_exists($tmpPath)) {
+            mkdir($tmpPath, 0777, true);
+        }
+        $targetPath = __DIR__ . '/data/nhi/codes';
+        if (!file_exists($targetPath)) {
+            mkdir($targetPath, 0777, true);
+        }
+        $dbNhiCodes = $this->License->Price->find('list', array(
+            'fields' => array('nhi_id', 'license_id'),
+        ));
+        $result = array();
+        $pageFile = $tmpPath . '/page_' . date('Ymd');
+        if (!file_exists($pageFile)) {
+            file_put_contents($pageFile, file_get_contents('http://www.nhi.gov.tw/webdata/webdata.aspx?menu=21&menu_id=713&webdata_id=873'));
+        }
+        $page = file_get_contents($pageFile);
+        $pos = strpos($page, 'all.b5.zip');
+        $pos = strpos($page, '>', $pos);
+        $page = substr($page, 0, $pos);
+        $pos = strrpos($page, '<font color="red">');
+        $parts = preg_split('/["><]/', substr($page, $pos));
+        if (count($parts) === 12) {
+            preg_match_all('/[0-9]+/', $parts[4], $matches);
+            $matches[0][0] += 1911;
+            $parts[8] = 'http://www.nhi.gov.tw/' . $parts[8];
+            $pool = implode('', $matches[0]) . '_' . md5($parts[8]);
+            $zipFile = $targetPath . '/' . $pool . '.zip';
+            if (!file_exists($zipFile)) {
+                file_put_contents($zipFile, file_get_contents($parts[8]));
+            }
+            if (!file_exists("{$tmpPath}/{$pool}")) {
+                mkdir("{$tmpPath}/{$pool}", 0777, true);
+                $zip = new ZipArchive;
+                $res = $zip->open($zipFile);
+                $zip->extractTo("{$tmpPath}/{$pool}");
+                $zip->close();
+            }
+            foreach (glob("{$tmpPath}/{$pool}/*") AS $b5) {
+                $fh = fopen($b5, 'r');
+                $len = array();
+                while ($line = fgets($fh, 2048)) {
+                    $nhiCode = substr($line, 17, 10);
+                    if (!isset($dbNhiCodes[$nhiCode]) && !isset($result[$nhiCode])) {
+                        $result[$nhiCode] = $nhiCode;
+                    }
+                    continue;
+                    $item = array(
+                        substr($line, 0, 2),
+                        substr($line, 3, 10),
+                        substr($line, 14, 2),
+                        substr($line, 17, 10),
+                        substr($line, 28, 9),
+                        substr($line, 38, 7),
+                        substr($line, 46, 7),
+                        substr($line, 54, 120),
+                        substr($line, 175, 17),
+                        substr($line, 183, 11),
+                        substr($line, 195, 55),
+                        substr($line, 251, 12),
+                        substr($line, 264, 10),
+                        substr($line, 275, 12),
+                        substr($line, 290, 12),
+                        substr($line, 301, 42),
+                        substr($line, 344, 8),
+                    );
+                    foreach ($item AS $k => $v) {
+                        $item[$k] = trim(mb_convert_encoding($v, 'utf-8', 'big5'));
+                    }
+                }
+                fclose($fh);
+            }
+            sort($result);
+            file_put_contents($targetPath . '/missing.csv', implode("\n", $result));
+        } else {
+            $this->out('網頁內容有變動，無法處理。');
+        }
     }
 
     public function hospitals() {
@@ -19,7 +99,7 @@ class NhiShell extends AppShell {
         if (!file_exists($targetPath)) {
             mkdir($targetPath, 0777, true);
         }
-        $listUrl = 'http://www.nhi.gov.tw/Query/query3_list.aspx?&PageNum=30200';
+        $listUrl = 'http://www.nhi.gov.tw/Query/query3_list.aspx?&PageNum=30234';
         $listFile = $tmpPath . '/list';
         if (!file_exists($listFile)) {
             file_put_contents($listFile, file_get_contents($listUrl));
