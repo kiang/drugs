@@ -82,9 +82,8 @@ Configure::write('Dispatcher.filters', array(
 	'CacheDispatcher'
 ));
 
+CakePlugin::loadAll();
 CakePlugin::load('Media', array('bootstrap'=>true));
-CakePlugin::load('Api');
-CakePlugin::load('Permissible');
 require App::pluginPath('Permissible') . 'Config/init.php';
 
 /**

@@ -6,7 +6,47 @@ class PointShell extends AppShell {
     public $mysqli = false;
 
     public function main() {
-        $this->nhi();
+        $this->gecode();
+    }
+
+    public function gecode() {
+        $addressMap = array();
+        $fh = fopen(__DIR__ . '/data/nhi/points_address.csv', 'r');
+        while ($line = fgetcsv($fh, 2048)) {
+            $addressMap[$line[0]] = array(
+                $line[1], $line[2]
+            );
+        }
+        fclose($fh);
+        $fh = fopen(__DIR__ . '/data/nhi/points_address.csv', 'w');
+        $points = $this->Point->find('all', array(
+            'fields' => array('city', 'town', 'address', 'latitude', 'longitude'),
+        ));
+        $notFoundLoopCount = 0;
+        foreach ($points AS $point) {
+            $address = "{$point['Point']['city']}{$point['Point']['town']}{$point['Point']['address']}";
+            $pos = strpos($address, '號');
+            if (false !== $pos) {
+                $address = substr($address, 0, $pos) . '號';
+            }
+            $this->out($address);
+            if (!isset($addressMap[$address])) {
+                $addressMap[$address] = $this->Point->geocode($address);
+            }
+            if (!empty($addressMap[$address])) {
+                $this->out("=> {$addressMap[$address][0]}, {$addressMap[$address][1]}");
+                fputcsv($fh, array($address, $addressMap[$address][0], $addressMap[$address][1]));
+                $notFoundLoopCount = 0;
+            } else {
+                ++$notFoundLoopCount;
+                $this->out('找不到');
+                if ($notFoundLoopCount > 10) {
+                    $this->out('太多找不到，中止');
+                    exit();
+                }
+            }
+        }
+        fclose($fh);
     }
 
     public function nhi() {
