@@ -53,11 +53,6 @@ class NhiShell extends AppShell {
                 $fh = fopen($b5, 'r');
                 $len = array();
                 while ($line = fgets($fh, 2048)) {
-                    $nhiCode = substr($line, 17, 10);
-                    if (!isset($dbNhiCodes[$nhiCode]) && !isset($result[$nhiCode])) {
-                        $result[$nhiCode] = $nhiCode;
-                    }
-                    continue;
                     $item = array(
                         substr($line, 0, 2),
                         substr($line, 3, 10),
@@ -80,11 +75,19 @@ class NhiShell extends AppShell {
                     foreach ($item AS $k => $v) {
                         $item[$k] = trim(mb_convert_encoding($v, 'utf-8', 'big5'));
                     }
+                    $nhiCode = $item[3];
+                    if (!isset($dbNhiCodes[$nhiCode]) && !isset($result[$nhiCode])) {
+                        $result[$nhiCode] = $item;
+                    }
                 }
                 fclose($fh);
             }
-            sort($result);
-            file_put_contents($targetPath . '/missing.csv', implode("\n", $result));
+            ksort($result);
+            $fh = fopen($targetPath . '/missing.csv', 'w');
+            foreach ($result AS $item) {
+                fputcsv($fh, $item);
+            }
+            fclose($fh);
         } else {
             $this->out('網頁內容有變動，無法處理。');
         }
