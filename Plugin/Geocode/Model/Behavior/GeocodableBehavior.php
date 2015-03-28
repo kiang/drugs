@@ -16,7 +16,7 @@ class GeocodableBehavior extends ModelBehavior {
 	 */
 	public $default = array(
 		'service' => 'google',
-		//'key' => 'AIzaSyA9zCSpy3HqVJv89Cj9k2aMhsuN-fAXR3g',
+	//	'key' => 'AIzaSyA9zCSpy3HqVJv89Cj9k2aMhsuN-fAXR3g',
             'key' => 'AIzaSyBhGYT8YefFCYubD7GRRZLg2CxNN6ZNFDw',
 		'fields' => array(
 			'hash' => false,

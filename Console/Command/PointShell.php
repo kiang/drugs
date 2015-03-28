@@ -6,10 +6,10 @@ class PointShell extends AppShell {
     public $mysqli = false;
 
     public function main() {
-        $this->gecode();
+        $this->geocode();
     }
 
-    public function gecode() {
+    public function geocode() {
         $addressMap = array();
         $fh = fopen(__DIR__ . '/data/nhi/points_address.csv', 'r');
         while ($line = fgetcsv($fh, 2048)) {
