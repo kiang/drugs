@@ -6,7 +6,7 @@ class PointShell extends AppShell {
     public $mysqli = false;
 
     public function main() {
-        $this->geocode();
+        $this->nhi();
     }
 
     public function geocode() {
@@ -63,6 +63,15 @@ class PointShell extends AppShell {
         }
         fclose($fh);
 
+        $addressMap = array();
+        $fh = fopen(__DIR__ . '/data/nhi/points_address.csv', 'r');
+        while ($line = fgetcsv($fh, 2048)) {
+            $addressMap[$line[0]] = array(
+                $line[1], $line[2]
+            );
+        }
+        fclose($fh);
+
         /*
          * max length
          * Array
@@ -111,6 +120,16 @@ class PointShell extends AppShell {
                 $currentId = $codes[$point['nhi_id']];
             } else {
                 $currentId = String::uuid();
+            }
+
+            $address = "{$city}{$town}{$point['address']}";
+            $pos = strpos($address, '號');
+            if (false !== $pos) {
+                $address = substr($address, 0, $pos) . '號';
+            }
+            if (isset($addressMap[$address])) {
+                $point['longitude'] = $addressMap[$address][0];
+                $point['latitude'] = $addressMap[$address][1];
             }
 
             $dbCols = array(
