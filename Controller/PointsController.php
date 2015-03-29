@@ -105,7 +105,20 @@ class PointsController extends AppController {
                 ),
             ),
         ));
+        $items = $this->Point->find('near', array(
+            'fields' => array(
+                'id', 'name', 'phone', 'address'
+            ),
+            'limit' => 15,
+            'distance' => 30,
+            'unit' => 'k',
+            'address' => array(
+                $point['Point']['latitude'],
+                $point['Point']['longitude'],
+            ),
+        ));
         $this->set('point', $point);
+        $this->set('nearPoints', $items);
         $this->set('title_for_layout', "{$point['Point']['name']} @ ");
         $this->set('desc_for_layout', "名稱：{$point['Point']['name']} / 電話：{$point['Point']['phone']} / 住址：{$point['Point']['city']}{$point['Point']['town']}{$point['Point']['address']} / ");
     }
