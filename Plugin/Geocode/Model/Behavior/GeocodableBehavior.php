@@ -3,14 +3,14 @@ App::uses('HttpSocket', 'Network/Http');
 
 class GeocodableBehavior extends ModelBehavior {
 	/**
-	 * Behavior settings
+	 * Behavior config
 	 *
 	 * @var array
 	 */
-	public $settings;
+	public $config;
 
 	/**
-	 * Default settings
+	 * Default config
 	 *
 	 * @var array
 	 */
@@ -88,10 +88,10 @@ class GeocodableBehavior extends ModelBehavior {
 	 * Setup behavior
 	 *
 	 * @param object $model Model
-	 * @param array $settings Settings
+	 * @param array $config Settings
 	 */
 	public function setup(Model $model, $config = array()) {
-		if (!isset($this->settings[$model->alias])) {
+		if (!isset($this->config[$model->alias])) {
 			$configured = Configure::read('Geocode');
 			if (!empty($configured)) {
 				foreach($this->default as $key => $value) {
@@ -100,12 +100,12 @@ class GeocodableBehavior extends ModelBehavior {
 					}
 				}
 			}
-			$this->settings[$model->alias] = $this->default;
+			$this->config[$model->alias] = $this->default;
 		}
 
-		if (!empty($settings['models'])) {
-			foreach($settings['models'] as $field => $data) {
-				unset($settings['models'][$field]);
+		if (!empty($config['models'])) {
+			foreach($config['models'] as $field => $data) {
+				unset($config['models'][$field]);
 				if (is_numeric($field) && !is_array($data)) {
 					$field = $data;
 					$data = array('model' => Inflectory::classify($field));
@@ -130,14 +130,14 @@ class GeocodableBehavior extends ModelBehavior {
 					$data['referenceField'] = Inflector::underscore($modelName) . '_id';
 				}
 
-				$settings['models'][$field] = array_merge(array('field' => 'name'), $data);
+				$config['models'][$field] = array_merge(array('field' => 'name'), $data);
 			}
 		}
 
-		$settings = Set::merge($this->settings[$model->alias], $settings);
+		$config = Set::merge($this->config[$model->alias], $config);
 
-		if (empty($this->services[strtolower($settings['service'])])) {
-			trigger_error(sprintf(__('Geocode service %s not implemented'), $settings['service']), E_USER_WARNING);
+		if (empty($this->services[strtolower($config['service'])])) {
+			trigger_error(sprintf(__('Geocode service %s not implemented'), $config['service']), E_USER_WARNING);
 			return false;
 		}
 
@@ -147,13 +147,13 @@ class GeocodableBehavior extends ModelBehavior {
 
 		foreach(array('fields', 'addressFields') as $parameter) {
 			$fields = array();
-			foreach($settings[$parameter] as $i => $field) {
+			foreach($config[$parameter] as $i => $field) {
 				$fields[is_numeric($i) ? $field : $i] = ($parameter != 'fields' || $model->hasField($field) ? $field : false);
 			}
-			$settings[$parameter] = $fields;
+			$config[$parameter] = $fields;
 		}
 
-		$this->settings[$model->alias] = $settings;
+		$this->config[$model->alias] = $config;
 	}
 
 	/**
@@ -163,24 +163,24 @@ class GeocodableBehavior extends ModelBehavior {
 	 * @return bool true if the operation should continue, false if it should abort
 	 */
 	public function beforeSave(Model $model, $options = array()) {
-		$settings = $this->settings[$model->alias];
-		$latitudeField = $settings['fields']['latitude'];
-		$longitudeField = $settings['fields']['longitude'];
+		$config = $this->config[$model->alias];
+		$latitudeField = $config['fields']['latitude'];
+		$longitudeField = $config['fields']['longitude'];
 
 		if (
 			!empty($latitudeField) && !empty($longitudeField) &&
 			!isset($model->data[$model->alias][$latitudeField]) && !isset($model->data[$model->alias][$longitudeField])
 		) {
 			$data = $model->data[$model->alias];
-			if (!empty($settings['models'])) {
-				$data = $this->_data($settings['models'], $data);
+			if (!empty($config['models'])) {
+				$data = $this->_data($config['models'], $data);
 			}
 			$geocode = $this->geocode($model, $data);
 			if (!empty($geocode)) {
 				$address = array();
 				list($address[$latitudeField], $address[$longitudeField]) = $geocode;
-				if (!empty($settings['fields']['address'])) {
-					$address[$settings['fields']['address']] = $this->_address($settings, $data);
+				if (!empty($config['fields']['address'])) {
+					$address[$config['fields']['address']] = $this->_address($config, $data);
 				}
 
 				$model->data[$model->alias] = array_merge(
@@ -204,8 +204,8 @@ class GeocodableBehavior extends ModelBehavior {
 	 * @return mixed Array (latitude, longitude), or false if error
 	 */
 	public function geocode($model, $address, $save = false) {
-		$settings = $this->settings[$model->alias];
-		$fullAddress = $this->_address($settings, $address);
+		$config = $this->config[$model->alias];
+		$fullAddress = $this->_address($config, $address);
 		if (empty($fullAddress)) {
 			return false;
 		}
@@ -213,28 +213,28 @@ class GeocodableBehavior extends ModelBehavior {
 		$data = array($model->alias => array());
 		$conditions = array();
 
-		if (!empty($settings['fields']['hash'])) {
+		if (!empty($config['fields']['hash'])) {
 			$hash = Security::hash($fullAddress);
-			$conditions[$model->alias . '.' . $settings['fields']['hash']] = $hash;
-			$data[$model->alias][$settings['fields']['hash']] = $hash;
-		} else if (!empty($settings['fields']['address'])) {
-			$conditions[$model->alias . '.' . $settings['fields']['address']] = $fullAddress;
+			$conditions[$model->alias . '.' . $config['fields']['hash']] = $hash;
+			$data[$model->alias][$config['fields']['hash']] = $hash;
+		} else if (!empty($config['fields']['address'])) {
+			$conditions[$model->alias . '.' . $config['fields']['address']] = $fullAddress;
 		}
 
-		if (!empty($settings['fields']['address'])) {
-			$data[$model->alias][$settings['fields']['address']] = $fullAddress;
+		if (!empty($config['fields']['address'])) {
+			$data[$model->alias][$config['fields']['address']] = $fullAddress;
 		}
 
 		if (is_array($address)) {
-			foreach(array_intersect_key($address, $settings['fields']) as $field => $value) {
-				if (empty($settings['fields']['hash']) && empty($settings['fields']['address'])) {
+			foreach(array_intersect_key($address, $config['fields']) as $field => $value) {
+				if (empty($config['fields']['hash']) && empty($config['fields']['address'])) {
 					$conditions[$model->alias . '.' . $field] = $value;
 				}
 				$data[$model->alias][$field] = $value;
 			}
 		}
 
-		if (empty($settings['fields']['latitude']) || empty($settings['fields']['longitude'])) {
+		if (empty($config['fields']['latitude']) || empty($config['fields']['longitude'])) {
 			$conditions = null;
 			$data = null;
 		}
@@ -244,23 +244,23 @@ class GeocodableBehavior extends ModelBehavior {
 			$coordinates = $model->find('first', array(
 				'conditions' => $conditions,
 				'recursive' => -1,
-				'fields' => array($settings['fields']['latitude'], $settings['fields']['longitude'])
+				'fields' => array($config['fields']['latitude'], $config['fields']['longitude'])
 			));
 			if (!empty($coordinates)) {
 				$coordinates = array(
-					$coordinates[$model->alias][$settings['fields']['latitude']],
-					$coordinates[$model->alias][$settings['fields']['longitude']],
+					$coordinates[$model->alias][$config['fields']['latitude']],
+					$coordinates[$model->alias][$config['fields']['longitude']],
 				);
 			}
 		}
 
-		if (empty($coordinates) && empty($settings['key'])) {
+		if (empty($coordinates) && empty($config['key'])) {
 			trigger_error(__('Address not found in model and no API key was provided'), E_USER_WARNING);
 			return false;
 		}
 
 		if (empty($coordinates)) {
-			$coordinates = $this->_fetchCoordinates($settings, $fullAddress);
+			$coordinates = $this->_fetchCoordinates($config, $fullAddress);
 		}
 
 		if (!empty($coordinates)) {
@@ -270,10 +270,10 @@ class GeocodableBehavior extends ModelBehavior {
 		}
 
 		if ($save && !empty($coordinates) && !empty($data)) {
-			$data[$model->alias][$settings['fields']['latitude']] = $coordinates[0];
-			$data[$model->alias][$settings['fields']['longitude']] = $coordinates[1];
+			$data[$model->alias][$config['fields']['latitude']] = $coordinates[0];
+			$data[$model->alias][$config['fields']['longitude']] = $coordinates[1];
 
-			if (!empty($data[$model->alias][$settings['fields']['state']])) {
+			if (!empty($data[$model->alias][$config['fields']['state']])) {
 				$model->create();
 				$model->save($data);
 			}
@@ -290,14 +290,14 @@ class GeocodableBehavior extends ModelBehavior {
 	 * @param mixed $origin A point (latitude, longitude), a full address string, or an array of address data
 	 * @param float $distance Set to a maximum distance if you wish to limit results
 	 * @param string $unit Unit (k: kilometers, m: miles, f: feet, i: inches, n: nautical miles)
-	 * @param array $query Query settings (as given to normal find operations) to override
+	 * @param array $query Query config (as given to normal find operations) to override
 	 * @return mixed Results
 	 */
 	public function near($model, $type, $origin, $distance = null, $unit = 'k', $query = array()) {
-		$settings = $this->settings[$model->alias];
+		$config = $this->config[$model->alias];
 		list($latitudeField, $longitudeField) = array(
-			$settings['fields']['latitude'],
-			$settings['fields']['longitude'],
+			$config['fields']['latitude'],
+			$config['fields']['longitude'],
 		);
 
 		if (!empty($query['fields'])) {
@@ -388,14 +388,14 @@ class GeocodableBehavior extends ModelBehavior {
 	 */
 	public function distanceQuery($model, $point, $distance = null, $unit = 'k', $direction = 'ASC') {
 		$unit = (!empty($unit) && array_key_exists(strtolower($unit), $this->units) ? $unit : 'k');
-		$settings = $this->settings[$model->alias];
+		$config = $this->config[$model->alias];
 		foreach($point as $k => $v) {
 			$point[$k] = floatval($v);
 		}
 		list($latitude, $longitude) = $point;
 		list($latitudeField, $longitudeField) = array(
-			$model->escapeField($settings['fields']['latitude']),
-			$model->escapeField($settings['fields']['longitude']),
+			$model->escapeField($config['fields']['latitude']),
+			$model->escapeField($config['fields']['longitude']),
 		);
 
 		/*
@@ -466,16 +466,16 @@ class GeocodableBehavior extends ModelBehavior {
 	/**
 	 * Query a service to get coordinates for given address
 	 *
-	 * @param array $settings Settings
+	 * @param array $config Settings
 	 * @param string $address Full address
 	 * @return array Coordinates (latitude, longitude), expressed in numeric degrees
 	 */
-	protected function _fetchCoordinates($settings, $address) {
+	protected function _fetchCoordinates($config, $address) {
 		$vars = array(
-			'${key}' => $settings['key'],
+			'${key}' => $config['key'],
 			'${address}' => $address
 		);
-		$service = $this->services[$settings['service']];
+		$service = $this->services[$config['service']];
 
 		foreach($vars as $var => $value) {
 			$vars[$var] = urlencode($value);
@@ -501,14 +501,14 @@ class GeocodableBehavior extends ModelBehavior {
 	/**
 	 * Build full address from given address
 	 *
-	 * @param array $settings Settings
+	 * @param array $config Settings
 	 * @param mixed $address If array, will look for normal address parameters (address, city, etc.)
 	 * @return string Full address
 	 */
-	protected function _address($settings, $address) {
+	protected function _address($config, $address) {
 		if (is_array($address)) {
 			$elements = array();
-			foreach($settings['addressFields'] as $type => $fields) {
+			foreach($config['addressFields'] as $type => $fields) {
 				$fields = array_merge(array($type => $type), (array) $fields);
 				$elements['${' . $type . '}'] = str_replace(',', ' ', trim(current(array_intersect_key($address, array_flip($fields)))));
 			}
@@ -517,7 +517,7 @@ class GeocodableBehavior extends ModelBehavior {
 				return null;
 			}
 
-			$address = trim(str_replace(array_keys($elements), $elements, $this->services[$settings['service']]['format']));
+			$address = trim(str_replace(array_keys($elements), $elements, $this->services[$config['service']]['format']));
 			$replacements = array(
 				'/(\s)\s+/' => '\\1',
 				'/\s+,(.+)/' => ',\\1',
@@ -535,7 +535,7 @@ class GeocodableBehavior extends ModelBehavior {
 	}
 
 	/**
-	 * Adds missing address information based on specified settings.
+	 * Adds missing address information based on specified config.
 	 * E.g: 'city' => array('model' => 'City', 'referenceField' => 'city_id', 'field' => 'name')
 	 *
 	 * @param array $models How to get missing info
