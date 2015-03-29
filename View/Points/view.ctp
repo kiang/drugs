@@ -7,6 +7,15 @@
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
+            <?php if (!empty($point['Point']['longitude']) && !empty($point['Point']['latitude'])) { ?>
+                <div class="box">
+                    <div class="box-header">
+                    </div>
+                    <div class="box-body">
+                        <div id="map" style="width: 100%; height: 400px;"></div>
+                    </div>
+                </div>
+            <?php } ?>
             <div class="box">
                 <div class="box-header">
                 </div>
@@ -106,3 +115,9 @@
         </div>
     </div>
 </section>
+<script>
+    var point = <?php echo json_encode($point['Point']); ?>;
+</script>
+<?php
+$this->Html->script('http://maps.google.com/maps/api/js?sensor=false', array('inline' => false));
+$this->Html->script('c/points/view', array('inline' => false));

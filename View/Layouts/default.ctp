@@ -27,9 +27,6 @@
         <script>
             var baseUrl = '<?php echo $this->Html->url('/'); ?>';
         </script>
-        <?php
-        echo $scripts_for_layout;
-        ?>
     </head>
     <body class="skin-blue">
         <!-- header logo: style can be found in header.less -->
