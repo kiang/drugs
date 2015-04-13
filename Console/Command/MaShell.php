@@ -16,7 +16,16 @@ class MaShell extends AppShell {
         if (!file_exists($tmpPath)) {
             mkdir($tmpPath, 0777, true);
         }
+        $targetPath = __DIR__ . '/data/ma/doc';
+        if (!file_exists($targetPath)) {
+            mkdir($targetPath, 0777, true);
+        }
+        $targetFh = array();
         foreach (glob(TMP . 'ma/doc/page_*') AS $pageFile) {
+            if (filesize($pageFile) < 1000) {
+                unlink($pageFile);
+                continue;
+            }
             $page = file_get_contents($pageFile);
             $page = substr($page, strpos($page, '<table cellspacing="1" cellpadding="3" bordercolor="White" border="0" id="ctl00_ContentPlaceHolder1_gviewMain"'));
             $lines = explode('</tr>', $page);
@@ -32,9 +41,60 @@ class MaShell extends AppShell {
                         mkdir("{$tmpPath}/{$prefix}", 0777, true);
                     }
                     if (!file_exists("{$tmpPath}/{$prefix}/{$cols[1]}")) {
-                        file_put_contents("{$tmpPath}/{$prefix}/{$cols[1]}", file_get_contents('https://ma.mohw.gov.tw/masearch/SearchDOC-101-2.aspx?DOC_SEQ=' . $cols[1]));
-                        $this->out("got {$cols[1]}");
+                        //file_put_contents("{$tmpPath}/{$prefix}/{$cols[1]}", file_get_contents('https://ma.mohw.gov.tw/masearch/SearchDOC-101-2.aspx?DOC_SEQ=' . $cols[1]));
+                        //$this->out("got {$cols[1]}");
+                        continue;
                     }
+                    if (filesize("{$tmpPath}/{$prefix}/{$cols[1]}") < 1000) {
+                        unlink("{$tmpPath}/{$prefix}/{$cols[1]}");
+                        continue;
+                    }
+                    $doc = file_get_contents("{$tmpPath}/{$prefix}/{$cols[1]}");
+                    $doc = substr($doc, strpos($doc, '<div id="ctl00_ContentPlaceHolder1_Panel2">'));
+                    $docLines = explode('</tr>', $doc);
+                    $lineCount = 0;
+                    $docData = array();
+                    foreach ($docLines AS $docLine) {
+                        ++$lineCount;
+                        $docCols = explode('</td>', $docLine);
+                        foreach ($docCols AS $docK => $docCol) {
+                            $docCols[$docK] = trim(strip_tags($docCol));
+                        }
+                        switch ($lineCount) {
+                            case 1:
+                                if (!isset($docCols[3])) {
+                                    print_r($docLines);
+                                    exit();
+                                }
+                                $docData[0] = $docCols[1];
+                                $docData[1] = $docCols[3];
+                                break;
+                            case 2:
+                                $docData[2] = $docCols[1];
+                                $docData[3] = $docCols[3];
+                                break;
+                            case 3:
+                                $docData[4] = $docCols[1];
+                                $docData[5] = $docCols[3];
+                                break;
+                            case 4:
+                                $docData[6] = $docCols[1];
+                                break;
+                        }
+                    }
+                    if (!isset($targetFh[$docData[6]])) {
+                        $targetFh[$docData[6]] = fopen("{$targetPath}/{$docData[6]}.csv", 'w');
+                        fputcsv($targetFh[$docData[6]], array(
+                            '姓名',
+                            '性別',
+                            '證書類別',
+                            '專科資格',
+                            '執登類別',
+                            '執業登記科別',
+                            '執業縣市',
+                        ));
+                    }
+                    fputcsv($targetFh[$docData[6]], $docData);
                 }
             }
         }
@@ -44,10 +104,6 @@ class MaShell extends AppShell {
         $tmpPath = TMP . 'ma/doc';
         if (!file_exists($tmpPath)) {
             mkdir($tmpPath, 0777, true);
-        }
-        $targetPath = __DIR__ . '/data/ma/doc';
-        if (!file_exists($targetPath)) {
-            mkdir($targetPath, 0777, true);
         }
         $query = array(
             '__eo_obj_states' => '',
