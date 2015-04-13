@@ -41,9 +41,9 @@ class MaShell extends AppShell {
                         mkdir("{$tmpPath}/{$prefix}", 0777, true);
                     }
                     if (!file_exists("{$tmpPath}/{$prefix}/{$cols[1]}")) {
-                        //file_put_contents("{$tmpPath}/{$prefix}/{$cols[1]}", file_get_contents('https://ma.mohw.gov.tw/masearch/SearchDOC-101-2.aspx?DOC_SEQ=' . $cols[1]));
-                        //$this->out("got {$cols[1]}");
-                        continue;
+                        file_put_contents("{$tmpPath}/{$prefix}/{$cols[1]}", file_get_contents('https://ma.mohw.gov.tw/masearch/SearchDOC-101-2.aspx?DOC_SEQ=' . $cols[1]));
+                        $this->out("got {$cols[1]}");
+                        //continue;
                     }
                     if (filesize("{$tmpPath}/{$prefix}/{$cols[1]}") < 1000) {
                         unlink("{$tmpPath}/{$prefix}/{$cols[1]}");
@@ -82,19 +82,23 @@ class MaShell extends AppShell {
                                 break;
                         }
                     }
-                    if (!isset($targetFh[$docData[6]])) {
-                        $targetFh[$docData[6]] = fopen("{$targetPath}/{$docData[6]}.csv", 'w');
-                        fputcsv($targetFh[$docData[6]], array(
-                            '姓名',
-                            '性別',
-                            '證書類別',
-                            '專科資格',
-                            '執登類別',
-                            '執業登記科別',
-                            '執業縣市',
-                        ));
+                    if (!empty($docData[6])) {
+                        $docData[7] = 'https://ma.mohw.gov.tw/masearch/SearchDOC-101-2.aspx?DOC_SEQ=' . $cols[1];
+                        if (!isset($targetFh[$docData[6]])) {
+                            $targetFh[$docData[6]] = fopen("{$targetPath}/{$docData[6]}.csv", 'w');
+                            fputcsv($targetFh[$docData[6]], array(
+                                '姓名',
+                                '性別',
+                                '證書類別',
+                                '專科資格',
+                                '執登類別',
+                                '執業登記科別',
+                                '執業縣市',
+                                '資料來源網址',
+                            ));
+                        }
+                        fputcsv($targetFh[$docData[6]], $docData);
                     }
-                    fputcsv($targetFh[$docData[6]], $docData);
                 }
             }
         }

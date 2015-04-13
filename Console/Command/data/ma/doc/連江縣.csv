@@ -1,12 +1,14 @@
-姓名,性別,證書類別,專科資格,執登類別,執業登記科別,執業縣市
-林卉穎,女,藥師　,無,藥師(主要執登類別)　,無,連江縣
-張慧馨,女,西醫師　,兒科　,西醫師(主要執登類別)　,兒科,連江縣
-張盈仁,男,西醫師　,外科　,西醫師(主要執登類別)　,外科,連江縣
-劉京鑫,男,醫事檢驗師　,無,醫事檢驗師(主要執登類別)　,無,連江縣
-程思欣,女,護理師　護士　,無,護理師(主要執登類別)　,無,連江縣
-陳明君,女,護理師　護士　,無,護理師(主要執登類別)　,無,連江縣
-陳靜怡,女,護理師　護士　,無,護理師(主要執登類別)　,無,連江縣
-林映岑,女,醫事放射師　,無,醫事放射師(主要執登類別)　,無,連江縣
-彭美真,女,護理師　護士　,無,護理師(主要執登類別)　,無,連江縣
-林鈺燕,女,護理師　護士　,無,護理師(主要執登類別)　,無,連江縣
-劉力仁,男,藥師　,無,藥師(主要執登類別)　,無,連江縣
+姓名,性別,證書類別,專科資格,執登類別,執業登記科別,執業縣市,資料來源網址
+林卉穎,女,藥師　,無,藥師(主要執登類別)　,無,連江縣,https://ma.mohw.gov.tw/masearch/SearchDOC-101-2.aspx?DOC_SEQ=227FA790B2C6D712
+張慧馨,女,西醫師　,兒科　,西醫師(主要執登類別)　,兒科,連江縣,https://ma.mohw.gov.tw/masearch/SearchDOC-101-2.aspx?DOC_SEQ=6920ADB13081670C
+張盈仁,男,西醫師　,外科　,西醫師(主要執登類別)　,外科,連江縣,https://ma.mohw.gov.tw/masearch/SearchDOC-101-2.aspx?DOC_SEQ=2F151D7D2DE599E0
+劉京鑫,男,醫事檢驗師　,無,醫事檢驗師(主要執登類別)　,無,連江縣,https://ma.mohw.gov.tw/masearch/SearchDOC-101-2.aspx?DOC_SEQ=C0B70CA8BE4B7361
+程思欣,女,護理師　護士　,無,護理師(主要執登類別)　,無,連江縣,https://ma.mohw.gov.tw/masearch/SearchDOC-101-2.aspx?DOC_SEQ=C9FD46094AD0A9AE
+陳明君,女,護理師　護士　,無,護理師(主要執登類別)　,無,連江縣,https://ma.mohw.gov.tw/masearch/SearchDOC-101-2.aspx?DOC_SEQ=3A30562805FE58BD
+陳靜怡,女,護理師　護士　,無,護理師(主要執登類別)　,無,連江縣,https://ma.mohw.gov.tw/masearch/SearchDOC-101-2.aspx?DOC_SEQ=2D3B00FC7BD79E67
+林映岑,女,醫事放射師　,無,醫事放射師(主要執登類別)　,無,連江縣,https://ma.mohw.gov.tw/masearch/SearchDOC-101-2.aspx?DOC_SEQ=B8873D836E98A665
+陳傳宗,男,藥師　,無,藥師(主要執登類別)　,無,連江縣,https://ma.mohw.gov.tw/masearch/SearchDOC-101-2.aspx?DOC_SEQ=C0D2C3E5ED2C3EC8
+陳嘉卉,女,西醫師　,婦產科　,西醫師(主要執登類別)　,婦產科,連江縣,https://ma.mohw.gov.tw/masearch/SearchDOC-101-2.aspx?DOC_SEQ=EF402A434F81D06A
+彭美真,女,護理師　護士　,無,護理師(主要執登類別)　,無,連江縣,https://ma.mohw.gov.tw/masearch/SearchDOC-101-2.aspx?DOC_SEQ=DAF961B78EF4F50F
+林鈺燕,女,護理師　護士　,無,護理師(主要執登類別)　,無,連江縣,https://ma.mohw.gov.tw/masearch/SearchDOC-101-2.aspx?DOC_SEQ=C3D9B9E4C1748B37
+劉力仁,男,藥師　,無,藥師(主要執登類別)　,無,連江縣,https://ma.mohw.gov.tw/masearch/SearchDOC-101-2.aspx?DOC_SEQ=B7C5BA296127985C
