@@ -27,7 +27,9 @@ class ArticlesController extends AppController {
             if ($op === 'delete') {
                 $taskFh = fopen($taskList, 'r');
                 while ($line = fgetcsv($taskFh, 2048, "\t")) {
-                    unlink($line[1]);
+                    if (!empty($line[1]) && file_exists($line[1])) {
+                        unlink($line[1]);
+                    }
                 }
                 unlink(TMP . 'articles/tasks/' . $taskFileName);
                 fclose($taskFh);
