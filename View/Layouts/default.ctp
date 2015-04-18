@@ -14,7 +14,7 @@
         if (!isset($ogImage)) {
             $ogImage = $imageBaseUrl . '/drug.png';
         } else {
-            $ogImage = $imageBaseUrl . '/' . $ogImage;
+            $ogImage = $this->Html->url('/') . $ogImage;
         }
         ?>
         <link rel="icon" type="image/png" href="<?php echo $imageBaseUrl; ?>/drug_32.png" sizes="32x32" />
