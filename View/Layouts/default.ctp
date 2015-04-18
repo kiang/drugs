@@ -12,9 +12,9 @@
         echo $this->Html->meta('description', $desc_for_layout);
         $imageBaseUrl = $this->Html->url('/img');
         if (!isset($ogImage)) {
-            $ogImage = $imageBaseUrl . '/drug.png';
+            $ogImage = $this->Html->url('/img/drug.png', true);
         } else {
-            $ogImage = $this->Html->url('/') . $ogImage;
+            $ogImage = $this->Html->url('/' . $ogImage, true);
         }
         ?>
         <link rel="icon" type="image/png" href="<?php echo $imageBaseUrl; ?>/drug_32.png" sizes="32x32" />
