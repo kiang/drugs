@@ -211,6 +211,9 @@ class DrugsController extends AppController {
             ));
         }
         if (!empty($this->data)) {
+            if (!empty($this->data['License']['image'])) {
+                $this->set('ogImage', $this->data['License']['image']);
+            }
             $this->Drug->License->counterIncrement($this->data['Drug']['license_id']);
             $categoryNames = array();
             foreach ($this->data['License']['Category'] AS $k => $category) {
