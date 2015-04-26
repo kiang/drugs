@@ -1,0 +1,30 @@
+{
+    "許可證字號": "動物藥製字第06276號",
+    "動物用藥品名稱": "益靈黴素-N",
+    "英文名稱": "YERAMYCIN-N",
+    "業者名稱": "寶島製藥股份有限公司",
+    "地址": "彰化縣員林鎮中山路一段一五五巷一號",
+    "製造廠名稱": "寶島製藥股份有限公司",
+    "劑型": "散劑",
+    "包裝": "100GM，1KG，5GM",
+    "效能(適應症)": "豬、仔豬、牛、羊：治療細菌性腸炎、細菌性下痢。雞、鴨（不含產蛋中之蛋禽）：治療細菌性腸炎、非特異性腸炎。",
+    "ingredients": [
+        [
+            "ACH KG CONTAINS：\r\n                    \r\n\t\r\n\t\t\r\n\t\t\t\r\n                                    DEXTROSE",
+            "ADD TO MAKE 1KG"
+        ],
+        [
+            "NEOMYCIN SULFATE",
+            "176GM(POTENCY)"
+        ],
+        [
+            "OXYTETRACYCLINE HCL",
+            "176GM(POTENCY)"
+        ]
+    ],
+    "成分": "E",
+    "核發日期": "中華民國72年04月01日",
+    "有效期間": "至109年04月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=06276"
+}

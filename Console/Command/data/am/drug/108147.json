@@ -1,0 +1,30 @@
+{
+    "許可證字號": "動物藥製字第08147號",
+    "動物用藥品名稱": "讚配尼長效注射液",
+    "英文名稱": "PAURAIN LA INJECTION",
+    "業者名稱": "中國化學製藥股份有限公司台中工廠",
+    "地址": "台中市西屯區工業區15路10號",
+    "製造廠名稱": "CHINA CHEMICAL & PHARMACERTICAL CO., LTD.",
+    "劑型": "滅菌懸浮液",
+    "包裝": "100ML，15ML，1L，250ML，500ML",
+    "效能(適應症)": "豬、牛、馬：治療細菌性肺炎、豬丹毒、敗血症、子宮炎、乳房炎、、母豬無乳症候群。",
+    "ingredients": [
+        [
+            "BENZATHINE PENICILLIN G",
+            "100,000IU"
+        ],
+        [
+            "DIHYDROSTREPTOMYCIN SULFATE",
+            "200MG(POT.)"
+        ],
+        [
+            "PROCAINE PENICILLIN G",
+            "100,000IU"
+        ]
+    ],
+    "成分": "EACH ML CONTAINS:",
+    "核發日期": "中華民國93年01月28日",
+    "有效期間": "至108年01月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=08147"
+}

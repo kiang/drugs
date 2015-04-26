@@ -1,0 +1,30 @@
+{
+    "許可證字號": "動物藥製字第06537號",
+    "動物用藥品名稱": "中興菌止黴素",
+    "英文名稱": "BACIDE INJECTION",
+    "業者名稱": "中興藥品工業股份有限公司",
+    "地址": "臺南市東區和平里東門路3段98巷11號",
+    "製造廠名稱": "中興藥品工業股份有限公司",
+    "劑型": "注射劑(乾粉注射劑)",
+    "包裝": "20ML\/VIAL",
+    "效能(適應症)": "豬:治療細菌性下痢、子宮炎、支氣管炎、肺炎。",
+    "ingredients": [
+        [
+            "AMPICILLIN SODIUM",
+            "500MG(POT.)"
+        ],
+        [
+            "COLISTIN METHANESULFONATE SODIUM",
+            "1500000IU(POT)"
+        ],
+        [
+            "DEXAMETHASONE-21-PHOSPHATE SODIUM",
+            "5MG(BASE)"
+        ]
+    ],
+    "成分": "EACH VIAL(20ML) CONTAINS:",
+    "核發日期": "中華民國72年12月01日",
+    "有效期間": "至107年12月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=06537"
+}

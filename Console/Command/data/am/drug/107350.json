@@ -1,0 +1,30 @@
+{
+    "許可證字號": "動物藥製字第07350號",
+    "動物用藥品名稱": "強泰氯寶",
+    "英文名稱": "TYCHLOPLONE-S",
+    "業者名稱": "宏昌製藥股份有限公司",
+    "地址": "台南縣佳里鎮六安里六安一一七之七號",
+    "製造廠名稱": "HUNG CHANG PHARMACEUTICAL CO., LTD.",
+    "劑型": "注射液",
+    "包裝": "100ML",
+    "效能(適應症)": "治療豬的嗜血桿菌(HP)、細菌性肺炎、腸炎，雞的慢性呼吸器病、細菌性腸炎、家禽霍亂。",
+    "ingredients": [
+        [
+            "CHLORAMPHENICOL",
+            "200 MG (POT.)"
+        ],
+        [
+            "PREDNISOLONE",
+            "5 MG"
+        ],
+        [
+            "TYLOSIN TARTRATE",
+            "50 MG (POT.)"
+        ]
+    ],
+    "成分": "EACH ML CONTAINS:",
+    "核發日期": "中華民國81年07月29日",
+    "有效期間": "(已失效)",
+    "外銷專用": "是",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=07350"
+}

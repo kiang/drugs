@@ -1,0 +1,38 @@
+{
+    "許可證字號": "動物藥製字第06992號",
+    "動物用藥品名稱": "可樂安注射液",
+    "英文名稱": "CHLORAM-S INJECTION",
+    "業者名稱": "應元化學製藥股份有限公司",
+    "地址": "台南巿新忠路二六號",
+    "製造廠名稱": "應元化學製藥股份有限公司",
+    "劑型": "注射劑(注射劑)",
+    "包裝": "20ML，5ML，2ML",
+    "效能(適應症)": "治療犬、貓對CHLORAMPHEICOL敏感性細菌引起之感染症。",
+    "ingredients": [
+        [
+            "CHLORAMPHENICOL",
+            "250 MG"
+        ],
+        [
+            "LIDOCAINE HCL",
+            "5 MG"
+        ],
+        [
+            "NICOTINAMIDE",
+            "4 MG"
+        ],
+        [
+            "RIBOFLAVIN",
+            "0.5 MG"
+        ],
+        [
+            "THIAMINE HCL",
+            "4 MG"
+        ]
+    ],
+    "成分": "EACH ML CONTAINS:",
+    "核發日期": "中華民國77年09月20日",
+    "有效期間": "(已失效)",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=06992"
+}

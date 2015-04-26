@@ -1,0 +1,38 @@
+{
+    "許可證字號": "動物藥製字第05406號",
+    "動物用藥品名稱": "滅能",
+    "英文名稱": "PROTOKILLER",
+    "業者名稱": "全信製藥有限公司",
+    "地址": "宜蘭市力行路140號",
+    "製造廠名稱": "全信製藥有限公司",
+    "劑型": "散劑",
+    "包裝": "1 KG，500 GM，100 GM",
+    "效能(適應症)": "雞（不含產蛋中之蛋雞）：治療急慢性球蟲病。",
+    "ingredients": [
+        [
+            "AMPROLIUM",
+            "20 G"
+        ],
+        [
+            "SULFADIMETHOXINE SODIUM",
+            "150 G"
+        ],
+        [
+            "SULFAQUINOXALINE SODIUM",
+            "100 G"
+        ],
+        [
+            "VITAMIN A",
+            "500,000 IU"
+        ],
+        [
+            "VITAMIN K3",
+            "1 G"
+        ]
+    ],
+    "成分": "EACH KG CONTAINS:",
+    "核發日期": "中華民國69年12月01日",
+    "有效期間": "至108年12月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=05406"
+}

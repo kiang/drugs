@@ -1,0 +1,50 @@
+{
+    "許可證字號": "動物藥入字第00155號",
+    "動物用藥品名稱": "三黴素乳劑",
+    "英文名稱": "FOAMING MYCIN",
+    "業者名稱": "理健貿易股份有限公司",
+    "地址": "NO. 2 CHOME 41-12 KOENJI MINAMI SUGINAMI-KU, TOKYO JAPAN",
+    "製造廠名稱": "RIKEN CHIKUSANKAYAKU CO., LTD.",
+    "劑型": "溶液劑",
+    "包裝": "A:30ML，B:30ML",
+    "效能(適應症)": "牛馬豬之子宮內膜炎、子宮頸管炎、子宮蓄膿炎、輸卵管炎、腔炎、產後停滯之內膜炎治療及預防。",
+    "ingredients": [
+        [
+            "DIHYDROSTREPTOMYCIN SULFATE",
+            "250MG"
+        ],
+        [
+            "NEOMYCIN SULFATE",
+            "150MG"
+        ],
+        [
+            "NITROFURAZONE",
+            "50MG"
+        ],
+        [
+            "PENICILLIN G PROCAINE",
+            "400,000IU"
+        ],
+        [
+            "PREDNISOLONE",
+            "30MG"
+        ],
+        [
+            "SULFADIMETHOXINE",
+            "300MG"
+        ],
+        [
+            "SULFAMERAZINE",
+            "300MG"
+        ],
+        [
+            "SULFATHIAZOLE",
+            "300 MG"
+        ]
+    ],
+    "成分": "EACH 30ML CONTAINS:",
+    "核發日期": "中華民國65年05月01日",
+    "有效期間": "至92年11月29日止\r\n                    (已失效)",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=2&k2=00155"
+}

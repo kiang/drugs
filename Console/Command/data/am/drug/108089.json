@@ -1,0 +1,34 @@
+{
+    "許可證字號": "動物藥製字第08089號",
+    "動物用藥品名稱": "新萬靈素軟膏",
+    "英文名稱": "Tetraneomycin Ointment \"Vet. Use\"",
+    "業者名稱": "中國化學製藥股份有限公司台南官田工廠",
+    "地址": "台南市官田區二鎮里工業西路46號",
+    "製造廠名稱": "中國化學製藥股份有限公司台南官田工廠",
+    "劑型": "軟膏劑",
+    "包裝": "1 SYR(8GM)",
+    "效能(適應症)": "乳牛：治療乳房炎，包括由大腸桿菌、葡萄球菌所引起之乳房炎。",
+    "ingredients": [
+        [
+            "BACITRACIN",
+            "2000I. U. (POT.)"
+        ],
+        [
+            "NEOMYCIN SULFATE",
+            "250MG (POT)"
+        ],
+        [
+            "PREDNISOLONE",
+            "10MG"
+        ],
+        [
+            "TETRACYCLINE HCL",
+            "200MG (POT.)"
+        ]
+    ],
+    "成分": "EACH SYR(8GM) CONTAINS:",
+    "核發日期": "中華民國92年06月17日",
+    "有效期間": "至107年06月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=08089"
+}

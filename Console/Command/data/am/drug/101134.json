@@ -1,0 +1,50 @@
+{
+    "許可證字號": "動物藥製字第01134號",
+    "動物用藥品名稱": "克毒寧－六０六",
+    "英文名稱": "",
+    "業者名稱": "華達化學製藥廠股份有限公司",
+    "地址": "台北縣土城市土城工業區中山路25號",
+    "製造廠名稱": "HUATA CHEMICAL & PHARMACEUTICAL CO., LTD.",
+    "劑型": "注射液",
+    "包裝": "10 ML，100 ML，20 ML，50 ML",
+    "效能(適應症)": "食物中毒、農藥中毒、濕疹、皮膚炎。",
+    "ingredients": [
+        [
+            "AMINOMETHYL SULFONIC ACID",
+            "10MG"
+        ],
+        [
+            "ATROPINE SULFATE",
+            "1MG"
+        ],
+        [
+            "CHLORPHENIRAMINE MALEATE",
+            "5G"
+        ],
+        [
+            "DL-METHIONINE",
+            "20MG"
+        ],
+        [
+            "DL-METHYLEPHEDRINE HCL",
+            "5MG"
+        ],
+        [
+            "GLYCYRRHIZINIC ACID",
+            "10MG"
+        ],
+        [
+            "VITAMIN B2",
+            "0.5MG"
+        ],
+        [
+            "VITAMIN B6",
+            "10MG"
+        ]
+    ],
+    "成分": "EACH ML CONTAINS:",
+    "核發日期": "中華民國65年06月15日",
+    "有效期間": "至91年07月01日止\r\n                    (已失效)",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=01134"
+}

@@ -1,0 +1,30 @@
+{
+    "許可證字號": "動物藥製字第06538號",
+    "動物用藥品名稱": "克炎靈",
+    "英文名稱": "T.D.C. INJECTION-VET.",
+    "業者名稱": "瑞立化學製藥股份有限公司",
+    "地址": "台北縣三峽鎮介壽路三段一七二巷二十二號",
+    "製造廠名稱": "瑞立化學製藥股份有限公司",
+    "劑型": "注射劑(注射劑)",
+    "包裝": "20ML，10ML，500ML，100ML，50ML",
+    "效能(適應症)": "豬肺炎、肺疫腸炎、細菌性下痢、雞CRD可利查。",
+    "ingredients": [
+        [
+            "CHLORAMPHENICOL",
+            "50MG(POTENCY)"
+        ],
+        [
+            "DEXAMETHASONE",
+            "0.5MG"
+        ],
+        [
+            "OXYTETRACYCLINE HCL",
+            "50MG(POTENCY)"
+        ]
+    ],
+    "成分": "EACH ML CONTAINS:",
+    "核發日期": "中華民國72年12月01日",
+    "有效期間": "(已失效)",
+    "外銷專用": "是",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=06538"
+}

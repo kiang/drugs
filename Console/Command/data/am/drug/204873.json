@@ -1,0 +1,58 @@
+{
+    "許可證字號": "動物藥入字第04873號",
+    "動物用藥品名稱": "可利牠",
+    "英文名稱": "COLI-TERRAVET",
+    "業者名稱": "臺灣維克法蘭斯股份有限公司",
+    "地址": "8-10 RUE DES AULNAIES, 95420 MAGNY-EN-VEXIN, FRANCE.",
+    "製造廠名稱": "VIRBAC",
+    "劑型": "散劑",
+    "包裝": "1KG，200GM",
+    "效能(適應症)": "雞、火雞（不含產蛋中之蛋雞）：治療慢性呼吸器病、傳染性滑膜炎、細菌性腸炎、火雞之藍冠病及黑頭病、火雞之傳染性鼻竇炎。牛、豬：治療細菌性腸炎。",
+    "ingredients": [
+        [
+            "COLISTIN",
+            "7,000,000IU"
+        ],
+        [
+            "NIACINAMIDE",
+            "1600MG"
+        ],
+        [
+            "OXYTETRACYCLINE HCL",
+            "10 G"
+        ],
+        [
+            "PANTOTHENIC ACID",
+            "600MG"
+        ],
+        [
+            "RIBOFLAVIN",
+            "320MG"
+        ],
+        [
+            "VITAMIN A",
+            "200,000IU"
+        ],
+        [
+            "VITAMIN B12",
+            "800MCG"
+        ],
+        [
+            "VITAMIN D3",
+            "40,000IU"
+        ],
+        [
+            "VITAMIN E",
+            "60IU"
+        ],
+        [
+            "VITAMIN K",
+            "80MG"
+        ]
+    ],
+    "成分": "EACH 200G CONTAINS:",
+    "核發日期": "中華民國75年04月11日",
+    "有效期間": "至108年04月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=2&k2=04873"
+}

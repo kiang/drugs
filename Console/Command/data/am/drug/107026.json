@@ -1,0 +1,30 @@
+{
+    "許可證字號": "動物藥製字第07026號",
+    "動物用藥品名稱": "治禽嗽靈",
+    "英文名稱": "KINSALIN",
+    "業者名稱": "信元製藥股份有限公司中科廠",
+    "地址": "臺中市西屯區科園二路3號(中部科學園區)",
+    "製造廠名稱": "信元製藥股份有限公司中科廠",
+    "劑型": "散劑",
+    "包裝": "5GM，1KG，10GM，100GM，500GM",
+    "效能(適應症)": "雞(不含產蛋中之蛋雞)：治療慢性呼吸器病、傳染性鼻炎、家禽霍亂、白痢。",
+    "ingredients": [
+        [
+            "DL-METHYLEPHEDRINE HCL",
+            "20MG"
+        ],
+        [
+            "ERYTHROMYCIN THIOCYANATE",
+            "45MG(POT)"
+        ],
+        [
+            "SULFAMONOMETHOXINE SODIUM",
+            "80MG"
+        ]
+    ],
+    "成分": "EACH GM CONTAINS:",
+    "核發日期": "中華民國78年02月01日",
+    "有效期間": "至109年02月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=07026"
+}

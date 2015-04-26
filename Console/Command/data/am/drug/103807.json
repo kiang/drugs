@@ -1,0 +1,34 @@
+{
+    "許可證字號": "動物藥製字第03807號",
+    "動物用藥品名稱": "”聯華”複方尅原蟲靈",
+    "英文名稱": "",
+    "業者名稱": "聯華製藥廠股份有限公司",
+    "地址": "高雄市路竹區竹東里中山路383號",
+    "製造廠名稱": "LIAN HWA PHARMACEUTICAL CO. LTD",
+    "劑型": "散劑",
+    "包裝": "50KG，1KG，20KG",
+    "效能(適應症)": "雞（不含產蛋中之蛋雞）：治療白冠病；豬：治療弓蟲病。",
+    "ingredients": [
+        [
+            "PYRIMETHAMINE",
+            "1000MG"
+        ],
+        [
+            "SULFAMETHOXYPYRIDAZINE",
+            "5000MG"
+        ],
+        [
+            "SULFAMONOMETHOXINE",
+            "5000MG"
+        ],
+        [
+            "VITAMIN K3",
+            "2000MG"
+        ]
+    ],
+    "成分": "EACH KG CONTAINS:",
+    "核發日期": "中華民國66年05月15日",
+    "有效期間": "至109年06月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=03807"
+}

@@ -1,0 +1,30 @@
+{
+    "許可證字號": "動物藥入字第04442號",
+    "動物用藥品名稱": "長效七二",
+    "英文名稱": "SHOTAPEN L. A.",
+    "業者名稱": "臺灣維克法蘭斯股份有限公司",
+    "地址": "1 ERE AVENUE, 2065 M L.I.D., 06516 CARROS, FRANCE",
+    "製造廠名稱": "VIRBAC",
+    "劑型": "注射劑(滅菌懸劑)",
+    "包裝": "100ML，50ML",
+    "效能(適應症)": "治療家畜肺炎、敗血症、乳房炎、子宮炎。",
+    "ingredients": [
+        [
+            "BENZATHINE PENICILLIN G",
+            "100,000 IU"
+        ],
+        [
+            "DIHYDROSTREPTOMYCIN SULFATE",
+            "200 MG"
+        ],
+        [
+            "PENICILLIN G PROCAINE",
+            "100,000IU"
+        ]
+    ],
+    "成分": "EACH ML CONTAINS:",
+    "核發日期": "中華民國72年09月01日",
+    "有效期間": "至107年09月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=2&k2=04442"
+}

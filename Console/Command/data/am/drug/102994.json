@@ -1,0 +1,38 @@
+{
+    "許可證字號": "動物藥製字第02994號",
+    "動物用藥品名稱": "咳靈",
+    "英文名稱": "COULLIN",
+    "業者名稱": "瑞立化學製藥股份有限公司",
+    "地址": "新北市三峽區介壽路三段172巷22號",
+    "製造廠名稱": "瑞立化學製藥股份有限公司",
+    "劑型": "散劑",
+    "包裝": "450GM，100GM，1KG，20GM，20KG",
+    "效能(適應症)": "支氣管炎、咽喉炎、感冒、急慢性呼吸器疾患起因之一般咳嗽、氣喘、過敏性疾患。",
+    "ingredients": [
+        [
+            "CAFFEINE",
+            "2,000 MG"
+        ],
+        [
+            "CHLORPHENIRAMINE MALEATE",
+            "500 MG"
+        ],
+        [
+            "DEXTROMETHORPHAN HBR",
+            "100 MG"
+        ],
+        [
+            "DL-METHYLEPHEDRINE HCL",
+            "1,000 MG"
+        ],
+        [
+            "GUAIACOL GLYCERYL ETHER",
+            "1,000 MG"
+        ]
+    ],
+    "成分": "EACH 100GM CONTAINS:",
+    "核發日期": "中華民國65年09月01日",
+    "有效期間": "至108年09月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=02994"
+}

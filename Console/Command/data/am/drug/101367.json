@@ -1,0 +1,38 @@
+{
+    "許可證字號": "動物藥製字第01367號",
+    "動物用藥品名稱": "混合維他針",
+    "英文名稱": "COMBINE VITAINJ",
+    "業者名稱": "新功藥品工業有限公司",
+    "地址": "台南市新營區同濟街87號",
+    "製造廠名稱": "HSIN KUNG PHARMACEUTICAL CO., LTD",
+    "劑型": "注射劑(注射劑)",
+    "包裝": "100ML，20ML，500ML，50ML",
+    "效能(適應症)": "營養補給、肝臟機能疾病、肝炎解毒、生長發育、增進食慾。牛、羊、豬、雞、火雞、鴨、鵝。",
+    "ingredients": [
+        [
+            "DEXTROSE",
+            "5000MG"
+        ],
+        [
+            "DL-METHIONINE",
+            "1000MG"
+        ],
+        [
+            "NICOTINAMIDE",
+            "1000MG"
+        ],
+        [
+            "VITAMIN B1",
+            "1000MG"
+        ],
+        [
+            "VITAMIN B2",
+            "60MG"
+        ]
+    ],
+    "成分": "EACH 100ML CONTAINS:",
+    "核發日期": "中華民國65年07月15日",
+    "有效期間": "至108年08月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=01367"
+}

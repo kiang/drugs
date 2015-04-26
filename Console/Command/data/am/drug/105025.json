@@ -1,0 +1,26 @@
+{
+    "許可證字號": "動物藥製字第05025號",
+    "動物用藥品名稱": "野力",
+    "英文名稱": "AD-MYCIN",
+    "業者名稱": "大豐化學製藥股份有限公司",
+    "地址": "台中市大甲區光明路二九八號",
+    "製造廠名稱": "TA FOONG CHEMICAL & PHARMACEUTICAL CO., LTD.",
+    "劑型": "注射劑(乾粉懸劑)",
+    "包裝": "2GM，5GM，1GM，12.5GM",
+    "效能(適應症)": "雞、火雞(不含蛋雞)、家畜:肺炎、子宮內膜炎、支氣管炎、腸炎、豬丹毒、關節炎、敗血症。",
+    "ingredients": [
+        [
+            "AMPICILLIN TRIHYDRATE",
+            "1GM(POT.)"
+        ],
+        [
+            "DEXAMETHASONE",
+            "5MG"
+        ]
+    ],
+    "成分": "EACH VIAL CONTAINS:",
+    "核發日期": "中華民國68年11月01日",
+    "有效期間": "至107年11月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=05025"
+}

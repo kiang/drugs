@@ -1,0 +1,54 @@
+{
+    "許可證字號": "動物藥製字第05644號",
+    "動物用藥品名稱": "天穗速必樂水溶散",
+    "英文名稱": "SPIRAMYCIN SOLUBLE MIXTURE",
+    "業者名稱": "天穗製藥有限公司",
+    "地址": "台南市仁德區一甲里中正路三段159號",
+    "製造廠名稱": "天穗製藥有限公司",
+    "劑型": "散劑",
+    "包裝": "100GM，1KG，500GM，10GM",
+    "效能(適應症)": "雞:慢性呼吸器病、傳染性鼻炎、沙門氏菌及大腸菌引起之感染症。",
+    "ingredients": [
+        [
+            "LACTOSE",
+            "ADD TO 100GM"
+        ],
+        [
+            "NICOTINAMIDE",
+            "1000MG"
+        ],
+        [
+            "SPIRAMYCIN",
+            "3000MG(POT.)"
+        ],
+        [
+            "STREPTOMYCIN SULFATE",
+            "3000MG(POT.)"
+        ],
+        [
+            "VITAMIN A",
+            "250000IU"
+        ],
+        [
+            "VITAMIN B2",
+            "1000MG"
+        ],
+        [
+            "VITAMIN B6",
+            "200MG"
+        ],
+        [
+            "VITAMIN D3",
+            "50000IU"
+        ],
+        [
+            "VITAMIN E",
+            "200MG"
+        ]
+    ],
+    "成分": "EACH 100GM CONTAINS:",
+    "核發日期": "中華民國70年08月01日",
+    "有效期間": "至107年08月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=05644"
+}

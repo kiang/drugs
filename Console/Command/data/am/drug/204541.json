@@ -1,0 +1,30 @@
+{
+    "許可證字號": "動物藥入字第04541號",
+    "動物用藥品名稱": "沙默克",
+    "英文名稱": "SALMOCOLI",
+    "業者名稱": "佳力德實業有限公司",
+    "地址": "3 RUE DE LORRAINE, 62510 ARQUES, FRANCE",
+    "製造廠名稱": "LABORATOIRES BIOVE",
+    "劑型": "散劑",
+    "包裝": "1000GM，200GM，500GM，100GM",
+    "效能(適應症)": "雞、火雞(不含產蛋中之蛋雞):治療球蟲症。家畜:治療肺炎、出血性腸炎。",
+    "ingredients": [
+        [
+            "COLISTIN",
+            "7.5MIU"
+        ],
+        [
+            "SULFAMETHOXYPYRIDAZINE",
+            "3GM"
+        ],
+        [
+            "TRIMETHOPRIM",
+            "0.6GM"
+        ]
+    ],
+    "成分": "EACH 100GM CONTAINS:",
+    "核發日期": "中華民國72年12月01日",
+    "有效期間": "至107年12月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=2&k2=04541"
+}

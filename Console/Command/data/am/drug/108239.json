@@ -1,0 +1,38 @@
+{
+    "許可證字號": "動物藥製字第08239號",
+    "動物用藥品名稱": "金無喘",
+    "英文名稱": "GOOBREA",
+    "業者名稱": "碩騰生技股份有限公司新竹廠",
+    "地址": "新竹縣新豐鄉中崙村中崙290之3號",
+    "製造廠名稱": "碩騰生技股份有限公司新竹廠",
+    "劑型": "治療用散劑",
+    "包裝": "1KG，5KG，10KG，25KG，20KG",
+    "效能(適應症)": "豬：袪痰、止咳，並紓解咳嗽、氣喘等呼吸困難症狀。",
+    "ingredients": [
+        [
+            "CAFFEINE",
+            "20MG"
+        ],
+        [
+            "CHLORPHENIRAMINE MALEATE",
+            "5MG"
+        ],
+        [
+            "DEXTROMETHORPHAN HBR",
+            "1MG"
+        ],
+        [
+            "DL-METHYLEPHEDRINE HCL",
+            "10MG"
+        ],
+        [
+            "GUAIFENESIN",
+            "10MG"
+        ]
+    ],
+    "成分": "EACH GM CONTAININS:",
+    "核發日期": "中華民國94年12月08日",
+    "有效期間": "至107年10月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=08239"
+}

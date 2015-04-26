@@ -1,0 +1,42 @@
+{
+    "許可證字號": "動物藥入字第04434號",
+    "動物用藥品名稱": "新紅黴素",
+    "英文名稱": "NEOCIN 30",
+    "業者名稱": "信毅貿易有限公司",
+    "地址": "WERKTRASSE 42, 34414 WARBURG, FEDERAL REPUBLIC OF GERMANY",
+    "製造廠名稱": "BREMER PHARMA GMBH",
+    "劑型": "治療用散劑",
+    "包裝": "100GM，500GM，1000GM",
+    "效能(適應症)": "治療與預防各種呼吸器官及消化器官之細菌感染症如CRD胃腸炎等",
+    "ingredients": [
+        [
+            "ERYTHROMYCIN THIOCYANATE",
+            "50GM"
+        ],
+        [
+            "NEOMYCIN SULFATE",
+            "250GM"
+        ],
+        [
+            "VITAMIN A",
+            "10000000IU"
+        ],
+        [
+            "VITAMIN C",
+            "10GM"
+        ],
+        [
+            "VITAMIN E",
+            "10GM"
+        ],
+        [
+            "VITAMIN K3",
+            "1GM"
+        ]
+    ],
+    "成分": "EACH KG CONTAINS:",
+    "核發日期": "中華民國72年08月01日",
+    "有效期間": "至90年08月01日止\r\n                    (已失效)",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=2&k2=04434"
+}

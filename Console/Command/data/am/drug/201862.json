@@ -1,0 +1,50 @@
+{
+    "許可證字號": "動物藥入字第01862號",
+    "動物用藥品名稱": "百毒克",
+    "英文名稱": "BIO-SOAK",
+    "業者名稱": "賴明治貿易股份有限公司",
+    "地址": "PASEO PRIM 34, APARTADO 226 REUS, SPAIN",
+    "製造廠名稱": "CENAVISA S.A.",
+    "劑型": "消毒劑(溶液劑)",
+    "包裝": "",
+    "效能(適應症)": "可作蛋雞舍、肉雞舍、牆璧、飼槽、浴池和豬、牛外科用藥",
+    "ingredients": [
+        [
+            "2,2-METHYLENEBIS(5-CHLORO-PHENOL)",
+            "0.1%"
+        ],
+        [
+            "CLOROPHENE",
+            "2%"
+        ],
+        [
+            "CRESOL",
+            "10%"
+        ],
+        [
+            "DODECYLBENZENE SOD. SULFATE",
+            "10%"
+        ],
+        [
+            "ETHYLENE-ETHIETHYLAMINE-OXIDE",
+            "0.8%"
+        ],
+        [
+            "ISOPROPANOL",
+            "5%"
+        ],
+        [
+            "TRIBUTYLTIN CHLORIDE",
+            "1%"
+        ],
+        [
+            "XYLENOL",
+            "23%"
+        ]
+    ],
+    "成分": "2,2-METHYLENEBIS(3,4,6 TRICHL OROPHENOL)",
+    "核發日期": "中華民國76年03月03日",
+    "有效期間": "至80年06月01日止\r\n                    (已失效)",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=2&k2=01862"
+}

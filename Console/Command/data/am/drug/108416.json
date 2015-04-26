@@ -1,0 +1,38 @@
+{
+    "許可證字號": "動物藥製字第08416號",
+    "動物用藥品名稱": "新功感冒寧",
+    "英文名稱": "BREATH-FREE H.K.P",
+    "業者名稱": "新功藥品工業有限公司",
+    "地址": "台南市新營區同濟街87號",
+    "製造廠名稱": "新功藥品工業有限公司",
+    "劑型": "散劑",
+    "包裝": "1KG，25KG，3GM，100GM，10KG",
+    "效能(適應症)": "治療因支氣管炎、咽喉炎、感冒、急慢性呼吸道症等疾病所引起之一般咳嗽、氣喘等症狀。",
+    "ingredients": [
+        [
+            "CAFFEINE",
+            "20MG"
+        ],
+        [
+            "CHLORPHENIRAMINE MALEATE",
+            "5MG"
+        ],
+        [
+            "DEXTROMETHORPHAN HBR",
+            "1MG"
+        ],
+        [
+            "DL-METHYLEPHEDRINE HCL",
+            "10MG"
+        ],
+        [
+            "GUAIACOL GLYCERYL ETHER",
+            "10MG"
+        ]
+    ],
+    "成分": "EACH GM CONTAINS:",
+    "核發日期": "中華民國97年03月18日",
+    "有效期間": "至108年03月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=08416"
+}

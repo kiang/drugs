@@ -1,0 +1,30 @@
+{
+    "許可證字號": "動物藥製字第07394號",
+    "動物用藥品名稱": "神力黴素懸濁液",
+    "英文名稱": "CENLIUMYCINE SUSPENSION",
+    "業者名稱": "瑞雄製藥有限公司",
+    "地址": "高雄縣湖內鄉中山路一段六一六號",
+    "製造廠名稱": "ZIVEI HSIUNG PHARMACEUTICAL CO., LTD.",
+    "劑型": "注射劑(滅菌懸劑)",
+    "包裝": "100ML",
+    "效能(適應症)": "治療牛、豬細菌性肺炎、支氣管炎、乳房炎、子宮內膜炎、產褥熱及化膿症、細菌性下痢等。",
+    "ingredients": [
+        [
+            "CHLORAMPHENICOL",
+            "100MG(POT.)"
+        ],
+        [
+            "DIHYDROSTREPTOMYCIN SULFATE",
+            "100MG(POT.)"
+        ],
+        [
+            "PREDNISOLONE",
+            "2MG"
+        ]
+    ],
+    "成分": "EACH ML CONTAINS:",
+    "核發日期": "中華民國82年01月15日",
+    "有效期間": "(已失效)",
+    "外銷專用": "是",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=07394"
+}

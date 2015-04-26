@@ -1,0 +1,30 @@
+{
+    "許可證字號": "動物藥入字第04998號",
+    "動物用藥品名稱": "鏈青黴素DHS",
+    "英文名稱": "STREPTOPENICILLIN FORTE",
+    "業者名稱": "佳力德實業有限公司",
+    "地址": "WERKSTRASSE 42, 34414 WARBURG, FEDERAL REPUBLIC OF GERMANY",
+    "製造廠名稱": "BREMER PHARMA GMBH",
+    "劑型": "注射劑(滅菌懸劑)",
+    "包裝": "100ML，50ML",
+    "效能(適應症)": "治療家畜由G+G-菌引起之肺炎，氣管炎，泌尿系統感染及傷口感染。",
+    "ingredients": [
+        [
+            "ACH ML CONTAINS：\r\n                    \r\n\t\r\n\t\t\r\n\t\t\t\r\n                                    DIHYDROSTREPTOMYCIN SULFATE",
+            "250 MG (POT)"
+        ],
+        [
+            "PROCAINE HCL",
+            "25 MG"
+        ],
+        [
+            "PROCAINE PENICILLIN G",
+            "250,000 IU"
+        ]
+    ],
+    "成分": "E",
+    "核發日期": "中華民國76年01月23日",
+    "有效期間": "至109年01月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=2&k2=04998"
+}

@@ -1,0 +1,30 @@
+{
+    "許可證字號": "動物藥製字第07580號",
+    "動物用藥品名稱": "瑞雄安克黴素",
+    "英文名稱": "ANCODSPMYCIN",
+    "業者名稱": "瑞雄製藥有限公司",
+    "地址": "高雄市湖內區田尾里中山路一段616號",
+    "製造廠名稱": "瑞雄製藥有限公司",
+    "劑型": "注射劑(乾粉注射劑)",
+    "包裝": "100ML(12.5GM\/37.5MIU\/125MG)，500ML(50GM\/150MIU\/500MG)，100ML(2.5GM\/7.5MIU\/25MG)，250ML(25GM\/75MIU\/250MG)",
+    "效能(適應症)": "豬：治療細菌性下痢、子宮炎、支氣管炎、細菌性肺炎。雞、火雞（不含蛋雞）：治療傳染性鼻炎。",
+    "ingredients": [
+        [
+            "(IN 100ML VIAL)\r\n                    \r\n\t\r\n\t\t\r\n\t\t\t\r\n                                    AMPICILLIN SODIUM",
+            "2.5GM(POTENCY)"
+        ],
+        [
+            "COLISTIN SOD. METHANESULFONATE",
+            "7.5MIU"
+        ],
+        [
+            "DEXAMETHASONE SOD. PHOSPHATE",
+            "25MG"
+        ]
+    ],
+    "成分": "EACH VIAL CONTAINS:",
+    "核發日期": "中華民國85年08月07日",
+    "有效期間": "至108年08月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=07580"
+}

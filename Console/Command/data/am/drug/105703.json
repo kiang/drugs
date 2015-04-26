@@ -1,0 +1,46 @@
+{
+    "許可證字號": "動物藥製字第05703號",
+    "動物用藥品名稱": "帝肥黴素水溶散",
+    "英文名稱": "SPITOGIN",
+    "業者名稱": "瑞雄製藥有限公司",
+    "地址": "高雄縣湖內鄉中山路一段六一六號",
+    "製造廠名稱": "瑞雄製藥有限公司",
+    "劑型": "散劑",
+    "包裝": "1KG，10KG，5KG，500GM，100GM",
+    "效能(適應症)": "雞：CRD傳染性可利查、葡萄球菌症、腸內菌感染。豬：細菌性下痢、肺炎、仔豬白痢。",
+    "ingredients": [
+        [
+            "ASPARTIC ACID",
+            "1000MG"
+        ],
+        [
+            "LACTOSE",
+            "ADD TO 100GM"
+        ],
+        [
+            "L-LYSINE HCL",
+            "1000MG"
+        ],
+        [
+            "SPIRAMYCIN ADIPATE",
+            "3000MG(POT)"
+        ],
+        [
+            "STREPTOMYCIN SULFATE",
+            "3000MG(POT)"
+        ],
+        [
+            "VITAMIN A",
+            "50000IU"
+        ],
+        [
+            "VITAMIN D3",
+            "10000IU"
+        ]
+    ],
+    "成分": "EACH 100GM CONTAINS:",
+    "核發日期": "中華民國70年08月01日",
+    "有效期間": "至107年08月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=05703"
+}

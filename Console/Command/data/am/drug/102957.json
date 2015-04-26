@@ -1,0 +1,30 @@
+{
+    "許可證字號": "動物藥製字第02957號",
+    "動物用藥品名稱": "力安素",
+    "英文名稱": "D.A.S. INJ",
+    "業者名稱": "大豐化學製藥股份有限公司",
+    "地址": "台中縣大甲鎮光明路二九八號",
+    "製造廠名稱": "TA FOONG CHEMICAL & PHARMACEUTICAL CO., LTD.",
+    "劑型": "注射液",
+    "包裝": "50ML，10ML，20ML，100ML",
+    "效能(適應症)": "治療豬：細菌性肺炎、腸炎、支氣管炎、化膿性感染症、乳房炎、丹毒、CRD、皮膚炎及其他過敏性疾患。",
+    "ingredients": [
+        [
+            "AMPICILLIN SODIUM",
+            "50MG (POT.)"
+        ],
+        [
+            "DEXAMETHASONE SOD. PHOSPHATE",
+            "0.5MG"
+        ],
+        [
+            "DIHYDROSTREPTOMYCIN SULFATE",
+            "50MG(POT.)"
+        ]
+    ],
+    "成分": "EACH ML CONTAINS:",
+    "核發日期": "中華民國65年10月01日",
+    "有效期間": "至108年10月01日止",
+    "外銷專用": "是",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=02957"
+}

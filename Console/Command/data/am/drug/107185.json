@@ -1,0 +1,50 @@
+{
+    "許可證字號": "動物藥製字第07185號",
+    "動物用藥品名稱": "宏昌萬神靈素",
+    "英文名稱": "MYCILLIN-S INJ. \"H.C.\"",
+    "業者名稱": "宏昌製藥股份有限公司",
+    "地址": "台南市佳里區六安里117之7號",
+    "製造廠名稱": "HUNG CHANG PHARMACEUTICAL CO., LTD.",
+    "劑型": "注射劑(乾粉注射劑)",
+    "包裝": "20ML\/VIAL，500ML\/VIAL，100ML\/VIAL",
+    "效能(適應症)": "家畜、犬：治療細菌性肺炎、肺疫、丹毒、流行性感冒、犬瘟熱、膀胱炎、產褥熱及其他細菌性感染症。",
+    "ingredients": [
+        [
+            "PENICILLIN G PROCAINE",
+            "400,000 IU"
+        ],
+        [
+            "PENICILLIN G PROCAINE",
+            "2,000,000 IU"
+        ],
+        [
+            "PENICILLIN G PROCAINE",
+            "4,000,000IU"
+        ],
+        [
+            "PENICILLIN G PROCAINE",
+            "20,000,000IU"
+        ],
+        [
+            "STREPTOMYCIN SULFATE",
+            "500MG(POT.)"
+        ],
+        [
+            "STREPTOMYCIN SULFATE",
+            "2500MG(POT.)"
+        ],
+        [
+            "STREPTOMYCIN SULFATE",
+            "5000MG(POT.)"
+        ],
+        [
+            "STREPTOMYCIN SULFATE",
+            "25GM(POT.)"
+        ]
+    ],
+    "成分": "EACH VIAL CONTAINS:",
+    "核發日期": "中華民國80年03月01日",
+    "有效期間": "至109年03月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=07185"
+}

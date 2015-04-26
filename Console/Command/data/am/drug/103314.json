@@ -1,0 +1,42 @@
+{
+    "許可證字號": "動物藥製字第03314號",
+    "動物用藥品名稱": "王禽黴素粉",
+    "英文名稱": "WANCHIN MYCIN POW.",
+    "業者名稱": "大豐化學製藥股份有限公司",
+    "地址": "台中縣大甲鎮光明路二九八號",
+    "製造廠名稱": "大豐化學製藥股份有限公司",
+    "劑型": "治療用散劑",
+    "包裝": "100GM，50GM，5GM，10GM，500GM",
+    "效能(適應症)": "腸炎、肺炎、支氣管炎、球蟲病、下痢、霍亂",
+    "ingredients": [
+        [
+            "CHLORAMPHENICOL",
+            "8000 MG"
+        ],
+        [
+            "OIL CINNAMON",
+            "0.5 GM"
+        ],
+        [
+            "SULFADIMIDINE",
+            "5 %"
+        ],
+        [
+            "SULFATHIAZOLE",
+            "5000 MG"
+        ],
+        [
+            "VITAMIN B1 HNO3",
+            "10 %"
+        ],
+        [
+            "VITAMIN B2",
+            "1 %"
+        ]
+    ],
+    "成分": "EACH 100GM CONTAINS:",
+    "核發日期": "中華民國65年10月01日",
+    "有效期間": "(已失效)",
+    "外銷專用": "是",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=03314"
+}

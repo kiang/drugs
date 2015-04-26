@@ -1,0 +1,42 @@
+{
+    "許可證字號": "動物藥入字第05523號",
+    "動物用藥品名稱": "胃樂錠",
+    "英文名稱": "MELASE FOR ANIMALS",
+    "業者名稱": "佐藤製藥股份有限公司",
+    "地址": "1468 HAZAMA-CHO, HACHIOHJI, TOKYO, JAPAN",
+    "製造廠名稱": "SATO PHARMACEUTICAL CO., LTD.",
+    "劑型": "錠劑",
+    "包裝": "30TAB，300TAB，200TAB，100TAB",
+    "效能(適應症)": "治療犬、貓消化器官疾患、消化器官衰弱、食慾不振的症狀改善、消化不良、腹痛、腹絞痛。",
+    "ingredients": [
+        [
+            "BIODIASTASE 1000",
+            "15 MG"
+        ],
+        [
+            "BIOTAMILASE P-1500",
+            "1.25 MG"
+        ],
+        [
+            "LIPASE",
+            "2MG"
+        ],
+        [
+            "NUX VOMICA EXTRACT",
+            "1.9 MG"
+        ],
+        [
+            "POWDERED PHELLODENDRON BARK",
+            "5 MG"
+        ],
+        [
+            "SCOPOLIA EXTRACT",
+            "2 MG"
+        ]
+    ],
+    "成分": "EACH TAB. CONTAINS:",
+    "核發日期": "中華民國82年07月27日",
+    "有效期間": "至107年08月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=2&k2=05523"
+}

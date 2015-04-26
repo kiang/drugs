@@ -1,0 +1,30 @@
+{
+    "許可證字號": "動物藥製字第06614號",
+    "動物用藥品名稱": "汎佳靈-針",
+    "英文名稱": "BROADMYCIN LATENT INJ",
+    "業者名稱": "華達化學製藥廠股份有限公司土城工廠",
+    "地址": "新北市土城區中山路25號",
+    "製造廠名稱": "華達化學製藥廠股份有限公司土城工廠",
+    "劑型": "注射劑(滅菌懸劑)",
+    "包裝": "100ML，10ML，20ML，50ML",
+    "效能(適應症)": "家畜犬貓肺炎、產褥熱、惡性水腫、豬丹毒、皮膚病、MMA尿道炎等細菌性炎症。",
+    "ingredients": [
+        [
+            "BENZATHINE PENICILLIN G",
+            "100000IU"
+        ],
+        [
+            "DIHYDROSTREPTOMYCIN SULFATE",
+            "250MG(POT.)"
+        ],
+        [
+            "PENICILLIN G PROCAINE",
+            "100000IU"
+        ]
+    ],
+    "成分": "EACH ML CONTAINS:",
+    "核發日期": "中華民國73年03月01日",
+    "有效期間": "至108年03月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=06614"
+}

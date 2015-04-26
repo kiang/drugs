@@ -1,0 +1,30 @@
+{
+    "許可證字號": "動物藥製字第06438號",
+    "動物用藥品名稱": "台樂寧-P",
+    "英文名稱": "TAIROLIN-P",
+    "業者名稱": "寶島製藥股份有限公司",
+    "地址": "彰化縣員林鎮中山路一段一五五巷一號",
+    "製造廠名稱": "寶島製藥股份有限公司",
+    "劑型": "注射液",
+    "包裝": "100CC，20CC，500ML，50CC",
+    "效能(適應症)": "治療家畜肺炎、支氣管炎、關節炎、細菌性腸炎、赤痢。",
+    "ingredients": [
+        [
+            "CHLORAMPHENICOL",
+            "200MG"
+        ],
+        [
+            "PREDNISOLONE ACETATE",
+            "5MG"
+        ],
+        [
+            "TYLOSIN TARTRATE",
+            "50MG(POTENCY)"
+        ]
+    ],
+    "成分": "EACH ML CONTAINS:",
+    "核發日期": "中華民國72年08月01日",
+    "有效期間": "(已失效)",
+    "外銷專用": "是",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=06438"
+}

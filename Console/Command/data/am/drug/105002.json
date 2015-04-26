@@ -1,0 +1,34 @@
+{
+    "許可證字號": "動物藥製字第05002號",
+    "動物用藥品名稱": "康得DS",
+    "英文名稱": "CONT-DS",
+    "業者名稱": "金山化學製藥股份有限公司",
+    "地址": "雲林縣虎尾鎮光明路七十三巷十一號",
+    "製造廠名稱": "CHIN SHAN CHEM. & PHARM. CO., LTD.",
+    "劑型": "注射液",
+    "包裝": "100 ML",
+    "效能(適應症)": "豬肺炎細菌性下痢白痢產褥熱乳房炎。雞CRD可利查白冠病球蟲。",
+    "ingredients": [
+        [
+            "DEXAMETHASONE",
+            "50MG"
+        ],
+        [
+            "DIAVERIDINE",
+            "2GM"
+        ],
+        [
+            "SULFAMETHOXYPYRIDAZINE",
+            "5GM"
+        ],
+        [
+            "SULFAMONOMETHOXINE",
+            "5GM"
+        ]
+    ],
+    "成分": "EACH 100ML CONTAINS:",
+    "核發日期": "中華民國68年10月01日",
+    "有效期間": "至100年10月01日止\r\n                    (已失效)",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=05002"
+}

@@ -1,0 +1,30 @@
+{
+    "許可證字號": "動物藥製字第06256號",
+    "動物用藥品名稱": "華達配尼黴素D懸濁針",
+    "英文名稱": "STREPCILLIN-D INJ",
+    "業者名稱": "華達化學製藥廠股份有限公司土城工廠",
+    "地址": "台北縣土城工業區中山路二五號",
+    "製造廠名稱": "HUATA CHEMICAL & PHARMACEUTICAL CO., LTD.",
+    "劑型": "滅菌懸浮液",
+    "包裝": "100ML，10ML，20ML，50ML",
+    "效能(適應症)": "豬肺炎、敗血症、丹毒、葡萄球菌感染症、產褥熱、子宮炎、乳房炎。",
+    "ingredients": [
+        [
+            "DEXAMETHASONE",
+            "1MG"
+        ],
+        [
+            "DIHYDROSTREPTOMYCIN SULFATE",
+            "250MG"
+        ],
+        [
+            "PENICILLIN G PROCAINE",
+            "200000IU"
+        ]
+    ],
+    "成分": "EACH ML CONTAINS:",
+    "核發日期": "中華民國72年03月01日",
+    "有效期間": "至109年03月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=06256"
+}

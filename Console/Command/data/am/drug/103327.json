@@ -1,0 +1,34 @@
+{
+    "許可證字號": "動物藥製字第03327號",
+    "動物用藥品名稱": "速消精注射液",
+    "英文名稱": "SULFAZIN INJ",
+    "業者名稱": "大豐化學製藥股份有限公司",
+    "地址": "台中縣大甲鎮光明路二九八號",
+    "製造廠名稱": "TA FOONG CHEMICAL & PHARMACEUTICAL CO., LTD.",
+    "劑型": "注射液",
+    "包裝": "100ML\/VIAL，50ML\/VIAL",
+    "效能(適應症)": "肺炎、腸炎、赤痢、仔豬白痢、丹毒、產褥熱、支氣管炎、乳房炎及其它細菌性化膿性疾病。",
+    "ingredients": [
+        [
+            "SULFAMETHAZINE",
+            "4GM"
+        ],
+        [
+            "SULFAMETHOXYPYRIDAZINE",
+            "2GM"
+        ],
+        [
+            "SULFATHIAZOLE",
+            "4GM"
+        ],
+        [
+            "SULPYRIN",
+            "1GM"
+        ]
+    ],
+    "成分": "EACH 100ML CONTAINS:",
+    "核發日期": "中華民國65年10月01日",
+    "有效期間": "至108年10月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=03327"
+}

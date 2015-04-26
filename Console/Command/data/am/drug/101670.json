@@ -1,0 +1,26 @@
+{
+    "許可證字號": "動物藥製字第01670號",
+    "動物用藥品名稱": "白力西林",
+    "英文名稱": "PANICILLIN INJECTION",
+    "業者名稱": "嘉信藥品股份有限公司",
+    "地址": "嘉義巿劉富街六十號",
+    "製造廠名稱": "CHAIA SHIN MEDICINES CO., LTD.",
+    "劑型": "注射劑(乾粉注射劑)",
+    "包裝": "1VIAL",
+    "效能(適應症)": "牛、馬、豬：治療革蘭氏陽、陰性菌所感染之各種炎症、丹毒、化膿症腦膜炎、肺炎、梭狀菌、鏈球菌、葡萄球菌等。",
+    "ingredients": [
+        [
+            "PENICILLIN G",
+            "300000IU"
+        ],
+        [
+            "PENICILLIN G PROCAINE",
+            "300000IU"
+        ]
+    ],
+    "成分": "EACH VIAL CONTAINS:",
+    "核發日期": "中華民國65年07月01日",
+    "有效期間": "至108年07月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=01670"
+}

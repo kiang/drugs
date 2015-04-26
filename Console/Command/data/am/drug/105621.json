@@ -1,0 +1,30 @@
+{
+    "許可證字號": "動物藥製字第05621號",
+    "動物用藥品名稱": "菌特靈針",
+    "英文名稱": "BACTRIN",
+    "業者名稱": "中興藥品工業股份有限公司",
+    "地址": "台南巿東門路三段九八巷一一號",
+    "製造廠名稱": "CHUNG SHIN CHEMICAL & PHAR CO., LTD.",
+    "劑型": "注射劑(注射劑)",
+    "包裝": "100 CC，20 CC，50 CC",
+    "效能(適應症)": "豬：治療病原性大腸桿菌症、弓蟲病、敗血症、氣管炎、肺炎、子宮炎等。",
+    "ingredients": [
+        [
+            "DEXAMETHASONE-21-PHOSPHATE SODIUM",
+            "0.5 MG"
+        ],
+        [
+            "SULFAMETHOXAZOLE SODIUM",
+            "200 MG"
+        ],
+        [
+            "TRIMETHOPRIM",
+            "40 MG"
+        ]
+    ],
+    "成分": "EACH ML CONTAINS:",
+    "核發日期": "中華民國70年07月01日",
+    "有效期間": "至107年07月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=05621"
+}

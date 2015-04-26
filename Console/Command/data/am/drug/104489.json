@@ -1,0 +1,34 @@
+{
+    "許可證字號": "動物藥製字第04489號",
+    "動物用藥品名稱": "高效黴素注",
+    "英文名稱": "CPT-B12 INJ",
+    "業者名稱": "聯華製藥廠股份有限公司",
+    "地址": "高雄縣路竹鄉竹東村中山路三八三號",
+    "製造廠名稱": "LIAN HWA PHARMACEUTICAL CO. LTD",
+    "劑型": "注射液",
+    "包裝": "10ML，100ML，50ML",
+    "效能(適應症)": "雞：可利查CRD豬赤痢白痢腸道感染急慢性肺炎關節炎子宮內膜炎。",
+    "ingredients": [
+        [
+            "CHLORAMPHENICOL",
+            "200MG"
+        ],
+        [
+            "PREDNISOLONE ACETATE",
+            "5MG"
+        ],
+        [
+            "TYLOSIN",
+            "50MG(POT.)"
+        ],
+        [
+            "VITAMIN B12",
+            "100MCG"
+        ]
+    ],
+    "成分": "EACH ML CONTAINS:",
+    "核發日期": "中華民國67年10月01日",
+    "有效期間": "(已失效)",
+    "外銷專用": "是",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=04489"
+}

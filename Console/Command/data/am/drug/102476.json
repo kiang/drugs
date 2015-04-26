@@ -1,0 +1,38 @@
+{
+    "許可證字號": "動物藥製字第02476號",
+    "動物用藥品名稱": "活性維速康-T注",
+    "英文名稱": "VISCON-T INJ.",
+    "業者名稱": "聯華製藥廠股份有限公司",
+    "地址": "高雄縣路竹鄉竹東村中山路三八三號",
+    "製造廠名稱": "LIAN HWA PHARMACEUTICAL CO. LTD",
+    "劑型": "注射液",
+    "包裝": "100ML，500ML",
+    "效能(適應症)": "畜禽緊迫症、肝機能障礙、營養障礙、食慾不振、中毒產後病中或病後之營養補給。",
+    "ingredients": [
+        [
+            "DEXTROSE",
+            "5000MG"
+        ],
+        [
+            "DL-METHIONINE",
+            "1000MG"
+        ],
+        [
+            "NICOTINAMIDE",
+            "1000MG"
+        ],
+        [
+            "OROTIC ACID",
+            "5000MCG"
+        ],
+        [
+            "VITAMIN B2 PHOSPHATE",
+            "25MG"
+        ]
+    ],
+    "成分": "EACH 100ML CONTAINS:",
+    "核發日期": "中華民國65年09月01日",
+    "有效期間": "至108年09月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=02476"
+}

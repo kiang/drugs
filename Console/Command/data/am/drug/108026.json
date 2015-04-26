@@ -1,0 +1,38 @@
+{
+    "許可證字號": "動物藥製字第08026號",
+    "動物用藥品名稱": "喘咳定",
+    "英文名稱": "Cough-Stop",
+    "業者名稱": "天穗製藥有限公司",
+    "地址": "台南市仁德區一甲里中正路三段159號",
+    "製造廠名稱": "TEN-SUI PHARMACEUTICAL CO., LTD.",
+    "劑型": "散劑",
+    "包裝": "100GM，1KG，25KG，500GM",
+    "效能(適應症)": "鎮咳、祛痰、解熱；治療因氣管炎、支氣管炎、急慢性呼吸道疾病所引起之咳嗽、鼻分泌物增加等症狀。",
+    "ingredients": [
+        [
+            "CAFFEINE",
+            "20MG"
+        ],
+        [
+            "CHLORPHENIRAMINE MALEATE",
+            "5MG"
+        ],
+        [
+            "DEXTROMETHORPHAN HBR",
+            "1MG"
+        ],
+        [
+            "DL-METHYLEPHEDRINE HCL",
+            "10MG"
+        ],
+        [
+            "GUAIACOL GLYCERYL ETHER",
+            "10MG"
+        ]
+    ],
+    "成分": "EACH GM CONTAINS:",
+    "核發日期": "中華民國91年09月26日",
+    "有效期間": "至108年09月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=08026"
+}

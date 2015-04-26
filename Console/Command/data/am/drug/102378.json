@@ -1,0 +1,54 @@
+{
+    "許可證字號": "動物藥製字第02378號",
+    "動物用藥品名稱": "保肝能B針",
+    "英文名稱": "POLIMIX B INJ.",
+    "業者名稱": "上來新科化股份有限公司",
+    "地址": "嘉義縣民雄工業區成功五街二號",
+    "製造廠名稱": "上來新科化股份有限公司",
+    "劑型": "注射劑(注射劑)",
+    "包裝": "250ML，500ML，1000ML，100ML，125ML",
+    "效能(適應症)": "營養補給、促進食慾、增進肝臟機能、解毒及維他命B缺乏諸症之治療。",
+    "ingredients": [
+        [
+            "DL-METHIONINE",
+            "25 MG"
+        ],
+        [
+            "GLUCOSE",
+            "50MG"
+        ],
+        [
+            "NICOTINAMIDE",
+            "10 MG"
+        ],
+        [
+            "PANTOTHENATE SODIUM",
+            "1 MG"
+        ],
+        [
+            "VITAMIN B1",
+            "12 MG"
+        ],
+        [
+            "VITAMIN B12",
+            "0.5MCG"
+        ],
+        [
+            "VITAMIN B2",
+            "500 MCG"
+        ],
+        [
+            "VITAMIN B6",
+            "500 MCG"
+        ],
+        [
+            "VITAMIN C",
+            "10 MG"
+        ]
+    ],
+    "成分": "EACH ML CONTAINS:",
+    "核發日期": "中華民國65年09月01日",
+    "有效期間": "至108年09月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=02378"
+}

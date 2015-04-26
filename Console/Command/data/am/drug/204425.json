@@ -1,0 +1,50 @@
+{
+    "許可證字號": "動物藥入字第04425號",
+    "動物用藥品名稱": "金維他",
+    "英文名稱": "INJECTAVIT",
+    "業者名稱": "台灣維克法蘭斯股份有限公司",
+    "地址": "1 ERE AVENUE, 2065 M L.I.D., 06516 CARROS, FRANCE",
+    "製造廠名稱": "VIRBAC",
+    "劑型": "注射劑(注射劑)",
+    "包裝": "100ML，10ML，30ML，50ML",
+    "效能(適應症)": "本注射劑被推薦使用於動物因傳染病、運輸、飲食改變或懷孕所引起的緊迫或用於傳染病或寄生蟲疾病以後的恢復期。",
+    "ingredients": [
+        [
+            "VITAMIN A",
+            "50,000 IU"
+        ],
+        [
+            "VITAMIN B1",
+            "2.5 MG"
+        ],
+        [
+            "VITAMIN B6",
+            "1.5 MG"
+        ],
+        [
+            "VITAMIN C",
+            "25 MG"
+        ],
+        [
+            "VITAMIN D3",
+            "10,000 IU"
+        ],
+        [
+            "VITAMIN E",
+            "10 IU"
+        ],
+        [
+            "VITAMIN K3",
+            "1.5 MG"
+        ],
+        [
+            "VITAMIN PP",
+            "17.50 MG"
+        ]
+    ],
+    "成分": "EACH ML CONTAINS:",
+    "核發日期": "中華民國72年08月01日",
+    "有效期間": "至104年08月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=2&k2=04425"
+}

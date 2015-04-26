@@ -1,0 +1,38 @@
+{
+    "許可證字號": "動物藥製字第07774號",
+    "動物用藥品名稱": "喘息寧",
+    "英文名稱": "",
+    "業者名稱": "公源藥品股份有限公司觀音廠",
+    "地址": "桃園縣觀音鄉觀音工業區經建四路十五號",
+    "製造廠名稱": "公源藥品股份有限公司觀音廠",
+    "劑型": "散劑",
+    "包裝": "100GM，10KG，1KG，25KG，500GM",
+    "效能(適應症)": "豬、雞：治療因支氣管炎、咽喉炎、感冒、急慢性呼吸道症等疾病所引起\r\n之一般咳嗽及氣喘症狀。",
+    "ingredients": [
+        [
+            "CAFFEINE",
+            "20MG"
+        ],
+        [
+            "CHLORPHENIRAMINE MALEATE",
+            "5MG"
+        ],
+        [
+            "DEXTROMETHORPHAN HBR",
+            "1MG"
+        ],
+        [
+            "DL-METHYLEPHEDRINE HCL",
+            "10MG"
+        ],
+        [
+            "GUAIACOL GLYCERYL ETHER",
+            "10MG"
+        ]
+    ],
+    "成分": "EACH GM CONTAINS:",
+    "核發日期": "中華民國89年05月29日",
+    "有效期間": "至108年06月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=07774"
+}

@@ -1,0 +1,38 @@
+{
+    "許可證字號": "動物藥製字第07240號",
+    "動物用藥品名稱": "三氯素",
+    "英文名稱": "SULFACHLORMYCN",
+    "業者名稱": "宏昌製藥股份有限公司",
+    "地址": "台南縣佳里鎮六安里六安一一七之七號",
+    "製造廠名稱": "HUNG CHANG PHARMACEUTICAL CO., LTD.",
+    "劑型": "治療用散劑",
+    "包裝": "1 KG，10 KG，20 KG，25 KG，50 KG",
+    "效能(適應症)": "治療豬、雞細菌性腸炎、肺炎、支氣管炎、白痢。",
+    "ingredients": [
+        [
+            "CHLORAMPHENICOL",
+            "100 MG (POT.)"
+        ],
+        [
+            "SULFADIMIDINE",
+            "50 MG"
+        ],
+        [
+            "SULFATHIAZOLE",
+            "50 MG"
+        ],
+        [
+            "VITAMIN B1",
+            "100 MG"
+        ],
+        [
+            "VITAMIN B2",
+            "10 MG"
+        ]
+    ],
+    "成分": "EACH GM CONTAINS:",
+    "核發日期": "中華民國80年07月09日",
+    "有效期間": "(已失效)",
+    "外銷專用": "是",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=07240"
+}

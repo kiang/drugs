@@ -1,0 +1,58 @@
+{
+    "許可證字號": "動物藥製字第07124號",
+    "動物用藥品名稱": "保利健滅菌懸浮液",
+    "英文名稱": "POLYGEN SUSPENSION",
+    "業者名稱": "天穗製藥有限公司",
+    "地址": "台南市仁德區一甲里中正路三段159號",
+    "製造廠名稱": "天穗製藥有限公司",
+    "劑型": "注射劑(滅菌懸劑)",
+    "包裝": "50 ML，20 ML，100 ML",
+    "效能(適應症)": "豬、牛、羊：治療出生獸或幼畜之腸胃道疾病（白痢、大腸菌下痢、沙門氏菌及二次性細菌感染）、呼吸道疾病（傳染性肺炎、萎縮性鼻炎）、生殖道及泌尿道之細菌性感染症。",
+    "ingredients": [
+        [
+            "SULFAMETHAZINE",
+            "50 MG"
+        ],
+        [
+            "SULFATHIAZOLE",
+            "50 MG"
+        ],
+        [
+            "TRIMETHOPRIM",
+            "20 MG"
+        ],
+        [
+            "VITAMIN A PALMITATE",
+            "20,000 IU"
+        ],
+        [
+            "VITAMIN B1 HCL",
+            "2.5 MG"
+        ],
+        [
+            "VITAMIN B12",
+            "0.02MG"
+        ],
+        [
+            "VITAMIN B2",
+            "2.0MG"
+        ],
+        [
+            "VITAMIN B6 HCL",
+            "2MG"
+        ],
+        [
+            "VITAMIN D3",
+            "10,000IU"
+        ],
+        [
+            "VITAMIN E ACETATE",
+            "5MG"
+        ]
+    ],
+    "成分": "EACH ML CONTAINS:",
+    "核發日期": "中華民國79年09月03日",
+    "有效期間": "至108年09月01日止",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=07124"
+}

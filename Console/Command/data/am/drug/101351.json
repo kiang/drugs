@@ -1,0 +1,30 @@
+{
+    "許可證字號": "動物藥製字第01351號",
+    "動物用藥品名稱": "白痢黴素",
+    "英文名稱": "BERINMYCETIN",
+    "業者名稱": "新功藥品工業有限公司",
+    "地址": "台南市新營區同濟街87號",
+    "製造廠名稱": "HSIN KUNG PHARMACEUTICAL CO., LTD",
+    "劑型": "注射劑(注射劑)",
+    "包裝": "100ML，50ML",
+    "效能(適應症)": "白痢、肺疫、丹毒、痢疾、腸炎、傷寒、副傷寒、流行性感冒、肺炎、尿路發炎等。",
+    "ingredients": [
+        [
+            "BERBERINE HCL",
+            "200MG"
+        ],
+        [
+            "CHLORAMPHENICOL",
+            "6000MG"
+        ],
+        [
+            "NICOTINAMIDE",
+            "100MG"
+        ]
+    ],
+    "成分": "EACH 100ML CONTAINS:",
+    "核發日期": "中華民國65年07月15日",
+    "有效期間": "(已失效)",
+    "外銷專用": "是",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=01351"
+}

@@ -1,0 +1,30 @@
+{
+    "許可證字號": "動物藥製字第08310號",
+    "動物用藥品名稱": "帝保長效針",
+    "英文名稱": "TICKPAO L.A.INJECTION",
+    "業者名稱": "永信藥品工業股份有限公司台中幼獅廠",
+    "地址": "台中市大甲區日南里工九路27號",
+    "製造廠名稱": "永信藥品工業股份有限公司台中幼獅廠",
+    "劑型": "注射劑(滅菌懸劑)",
+    "包裝": "100ML",
+    "效能(適應症)": "牛、馬、羊、豬:治療革蘭氏陽性、陰性細菌引起之感染症。",
+    "ingredients": [
+        [
+            "DIHYDROSTREPTOMYCIN SULFATE",
+            "250MG(POT.)"
+        ],
+        [
+            "PENICILLIN G BENZATHINE",
+            "100,000IU(POT.)"
+        ],
+        [
+            "PENICILLIN G PROCAINE",
+            "100,000IU(POT.)"
+        ]
+    ],
+    "成分": "EACH ML CONTAINS:",
+    "核發日期": "中華民國96年01月17日",
+    "有效期間": "至104年01月01日止\r\n                    (已失效)",
+    "外銷專用": "否",
+    "url": "http:\/\/amdrug.baphiq.gov.tw\/Animal\/MedLicContent.aspx?k1=1&k2=08310"
+}
