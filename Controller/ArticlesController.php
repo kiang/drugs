@@ -19,8 +19,10 @@ class ArticlesController extends AppController {
 
     public function admin_tasks($taskFileName = '', $op = '') {
         $tasks = $links = array();
-        foreach (glob(TMP . 'articles/tasks/*') AS $taskFile) {
-            $tasks[] = pathinfo($taskFile);
+        if (count(scandir(TMP . 'articles/tasks')) > 2) {
+            foreach (glob(TMP . 'articles/tasks/*') AS $taskFile) {
+                $tasks[] = pathinfo($taskFile);
+            }
         }
         $taskList = TMP . 'articles/tasks/' . $taskFileName;
         if (!empty($taskFileName) && file_exists($taskList)) {
