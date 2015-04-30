@@ -200,11 +200,6 @@ class DrugsController extends AppController {
                         'Category' => array(
                             'fields' => array('code', 'name', 'name_chinese'),
                         ),
-                        'Article' => array(
-                            'fields' => array('id', 'title', 'date_published', 'url'),
-                            'order' => array('date_published' => 'DESC'),
-                            'limit' => 10,
-                        ),
                     ),
                     'Vendor',
                 ),
@@ -219,6 +214,58 @@ class DrugsController extends AppController {
             foreach ($this->data['License']['Category'] AS $k => $category) {
                 $categoryNames[$category['CategoriesLicense']['category_id']] = $this->Drug->License->Category->getPath($category['CategoriesLicense']['category_id'], array('id', 'name'));
             }
+            $ingredients = $this->Drug->License->IngredientsLicense->find('all', array(
+                'conditions' => array('IngredientsLicense.license_id' => $this->data['Drug']['license_id']),
+                'fields' => array('ingredient_id', 'remark', 'name', 'dosage', 'dosage_text', 'unit'),
+                'order' => array(
+                    'IngredientsLicense.dosage' => 'DESC',
+                ),
+            ));
+            $ingredientKeys = Set::combine($ingredients, '{n}.IngredientsLicense.name', '{n}.IngredientsLicense.ingredient_id');
+            $drugs = $this->Drug->find('all', array(
+                'fields' => array(
+                    'id', 'manufacturer_description',
+                ),
+                'conditions' => array(
+                    'Drug.license_id' => $this->data['Drug']['license_id'],
+                    //'Drug.id !=' => $this->data['Drug']['id'],
+                ),
+                'contain' => array('Vendor' => array(
+                        'fields' => array('name', 'country'),
+                    )),
+            ));
+            $vendorIds = Set::extract('{n}.Vendor.id', $drugs);
+            $vendorIds[] = $this->data['Drug']['vendor_id'];
+            $vendorIds[] = $this->data['License']['vendor_id'];
+            $vendorIds = array_unique($vendorIds);
+            $articleIds = $this->Drug->License->ArticlesLink->find('list', array(
+                'fields' => array('article_id', 'article_id'),
+                'conditions' => array(
+                    'OR' => array(
+                        array(
+                            'model' => 'Ingredient',
+                            'foreign_id' => $ingredientKeys,
+                        ),
+                        array(
+                            'model' => 'License',
+                            'foreign_id' => $this->data['Drug']['license_id'],
+                        ),
+                        array(
+                            'model' => 'Vendor',
+                            'foreign_id' => $vendorIds,
+                        ),
+                    ),
+                ),
+            ));
+            $articles = $this->Drug->License->Article->find('all', array(
+                'conditions' => array(
+                    'Article.id' => $articleIds,
+                ),
+                'fields' => array('id', 'title', 'date_published', 'url'),
+                'order' => array('date_published' => 'DESC'),
+                'limit' => 10,
+            ));
+
             $this->set('title_for_layout', "{$this->data['License']['name']} {{$this->data['License']['name_english']}} @ ");
             $this->set('desc_for_layout', "{$this->data['License']['name']} {$this->data['License']['name_english']} / {$this->data['License']['disease']} / ");
             $this->set('prices', $this->Drug->License->Price->find('all', array(
@@ -236,28 +283,10 @@ class DrugsController extends AppController {
                             'Link.sort' => 'ASC',
                         ),
             )));
-            $ingredients = $this->Drug->License->IngredientsLicense->find('all', array(
-                'conditions' => array('IngredientsLicense.license_id' => $this->data['Drug']['license_id']),
-                'fields' => array('ingredient_id', 'remark', 'name', 'dosage', 'dosage_text', 'unit'),
-                'order' => array(
-                    'IngredientsLicense.dosage' => 'DESC',
-                ),
-            ));
-            $ingredientKeys = Set::combine($ingredients, '{n}.IngredientsLicense.name', '{n}.IngredientsLicense.ingredient_id');
             $this->set('ingredients', $ingredients);
             $this->set('ingredientKeys', $ingredientKeys);
-            $this->set('drugs', $this->Drug->find('all', array(
-                        'fields' => array(
-                            'id', 'manufacturer_description',
-                        ),
-                        'conditions' => array(
-                            'Drug.license_id' => $this->data['Drug']['license_id'],
-                            'Drug.id !=' => $this->data['Drug']['id'],
-                        ),
-                        'contain' => array('Vendor' => array(
-                                'fields' => array('name', 'country'),
-                            )),
-            )));
+            $this->set('articles', $articles);
+            $this->set('drugs', $drugs);
             $this->set('categoryNames', $categoryNames);
         } else {
             $this->Session->setFlash(__('Please do following links in the page', true));

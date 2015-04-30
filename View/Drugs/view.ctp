@@ -284,7 +284,7 @@
                 </div><!-- /.box -->
             </div>
         <?php } ?>
-        <?php if (!empty($this->data['License']['Article'])) { ?>
+        <?php if (!empty($articles)) { ?>
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-header">
@@ -293,8 +293,8 @@
                     <div class="box-body">
                         <ul>
                             <?php
-                            foreach ($this->data['License']['Article'] AS $article) {
-                                echo '<li>' . $this->Html->link("{$article['date_published']} {$article['title']}", '/articles/view/' . $article['id']) . '</li>';
+                            foreach ($articles AS $article) {
+                                echo '<li>' . $this->Html->link("{$article['Article']['date_published']} {$article['Article']['title']}", '/articles/view/' . $article['Article']['id']) . '</li>';
                             }
                             ?>
                         </ul>
