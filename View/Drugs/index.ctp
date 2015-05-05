@@ -1,6 +1,15 @@
+<?php
+echo $this->Html->script('c/drugs/index', array('inline' => false));
+?>
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1>藥物證書</h1>
+    <form id="form-find-drug">
+        <h1>藥物證書</h1>
+        <ol class="breadcrumb">
+            <li class="col-xs-8"><input type="text" id="drugKeyword" value="<?php echo isset($drugKeyword) ? $drugKeyword : ''; ?>" class="form-control" placeholder="搜尋..."/></li>
+            <li><a href="#" class="btn btn-default btn-find-drug">搜尋</a></li>
+        </ol>
+    </form>
 </section>
 
 <!-- Main content -->
