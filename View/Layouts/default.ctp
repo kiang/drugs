@@ -202,10 +202,6 @@
                         }
                         ?>
                     </ul>
-                    <ins class="adsbygoogle"
-                         style="display:inline-block;width:160px;height:600px"
-                         data-ad-client="ca-pub-5571465503362954"
-                         data-ad-slot="8707051624"></ins>
                 </section>
                 <!-- /.sidebar -->
             </aside>
@@ -213,9 +209,18 @@
             <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
                 <?php echo $this->Session->flash(); ?>
-                <?php
-                echo $content_for_layout;
-                ?>
+                <div class="col-xs-10">
+                    <?php
+                    echo $content_for_layout;
+                    ?>
+
+                </div>
+                <div class="col-xs-2">
+                    <ins class="adsbygoogle"
+                         style="display:inline-block;width:160px;height:600px"
+                         data-ad-client="ca-pub-5571465503362954"
+                         data-ad-slot="8707051624"></ins>
+                </div>
             </aside><!-- /.right-side -->
         </div><!-- ./wrapper -->
         <footer class="footer" style="margin-left: auto;margin-right: auto; margin-bottom: 15px;">
