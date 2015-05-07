@@ -5,6 +5,20 @@ App::uses('HttpSocket', 'Network/Http');
 class NhiShell extends AppShell {
 
     public $uses = array('License');
+    public $prefixCodes = array(
+        'A' => '01', //衛署藥製
+        'B' => '02', //衛署藥輸
+        'N' => '12', //內衛藥製
+        'P' => '13', //內衛藥輸
+        'J' => '09', //衛署菌疫製
+        'K' => '10', //衛署菌疫輸
+        'V' => '20', //衛署罕藥輸
+        'W' => '21', //衛署罕藥製
+        'R' => '15', //內衛菌疫製
+        'S' => '16', //內衛菌疫輸
+        'Y' => '22', //罕菌疫輸
+        'Z' => '23', //罕菌疫製
+    );
 
     public function main() {
         $this->codes();
@@ -19,14 +33,11 @@ class NhiShell extends AppShell {
         if (!file_exists($targetPath)) {
             mkdir($targetPath, 0777, true);
         }
-        $dbNhiCodes = $this->License->Price->find('list', array(
-            'fields' => array('nhi_id', 'license_id'),
-        ));
-        $result = array();
         $pageFile = $tmpPath . '/page_' . date('Ymd');
         if (!file_exists($pageFile)) {
             file_put_contents($pageFile, file_get_contents('http://www.nhi.gov.tw/webdata/webdata.aspx?menu=21&menu_id=713&webdata_id=873'));
         }
+        $result = array();
         $page = file_get_contents($pageFile);
         $pos = strpos($page, 'all.b5.zip');
         $pos = strpos($page, '>', $pos);
@@ -52,40 +63,61 @@ class NhiShell extends AppShell {
             foreach (glob("{$tmpPath}/{$pool}/*") AS $b5) {
                 $fh = fopen($b5, 'r');
                 $len = array();
+                fgets($fh, 2048);
                 while ($line = fgets($fh, 2048)) {
+                    if (substr($line, 17, 1) === 'X' || !isset($this->prefixCodes[substr($line, 17, 1)])) {
+                        continue;
+                    }
                     $item = array(
-                        substr($line, 0, 2),
-                        substr($line, 3, 10),
-                        substr($line, 14, 2),
-                        substr($line, 17, 10),
-                        substr($line, 28, 9),
-                        substr($line, 38, 7),
-                        substr($line, 46, 7),
-                        substr($line, 54, 120),
-                        substr($line, 175, 17),
-                        substr($line, 183, 11),
-                        substr($line, 195, 55),
-                        substr($line, 251, 12),
-                        substr($line, 264, 10),
-                        substr($line, 275, 12),
-                        substr($line, 290, 12),
-                        substr($line, 301, 42),
-                        substr($line, 344, 8),
+                        0 => substr($line, 0, 2), //新
+                        1 => substr($line, 3, 10), //口服錠註記
+                        2 => substr($line, 14, 2), //複
+                        3 => substr($line, 17, 10), //藥品代碼
+                        4 => substr($line, 28, 9), //參考價
+                        5 => substr($line, 38, 7), //有效期
+                        6 => substr($line, 46, 7),
+                        7 => substr($line, 54, 120), //英文名稱
+                        8 => substr($line, 175, 17), //規格量 規格單位
+                        9 => substr($line, 183, 11), //規格單位
+                        10 => substr($line, 195, 55), //成份名稱
+                        11 => substr($line, 251, 12), //成份含量
+                        12 => substr($line, 264, 10), //成份單位
+                        13 => substr($line, 275, 12), //劑型
+                        14 => substr($line, 290, 12), //理分類代碼
+                        15 => substr($line, 301, 42), //製造廠名稱
+                        16 => substr($line, 344, 8), //ATC CODE
                     );
+
                     foreach ($item AS $k => $v) {
                         $item[$k] = trim(mb_convert_encoding($v, 'utf-8', 'big5'));
                     }
-                    $nhiCode = $item[3];
-                    if (!isset($dbNhiCodes[$nhiCode]) && !isset($result[$nhiCode])) {
-                        $result[$nhiCode] = $item;
+                    $licenseCode = $this->prefixCodes[substr($item[3], 0, 1)] . '0' . substr($item[3], 2, 5);
+                    $suffix = substr($item[3], -3);
+
+                    if (!isset($result[$licenseCode])) {
+                        $result[$licenseCode] = array();
                     }
+                    if (!isset($result[$licenseCode][$suffix])) {
+                        $result[$licenseCode][$suffix] = array();
+                    }
+                    $result[$licenseCode][$suffix][$item[6]] = $item;
                 }
                 fclose($fh);
             }
+            foreach ($result AS $licenseCode => $suffixes) {
+                foreach ($suffixes AS $suffix => $items) {
+                    ksort($result[$licenseCode][$suffix]);
+                }
+                ksort($result[$licenseCode]);
+            }
             ksort($result);
-            $fh = fopen($targetPath . '/missing.csv', 'w');
-            foreach ($result AS $item) {
-                fputcsv($fh, $item);
+            $fh = fopen("{$targetPath}/licenses.csv", 'w');
+            foreach ($result AS $licenseCode => $suffixes) {
+                foreach ($suffixes AS $suffix => $items) {
+                    foreach($items AS $item) {
+                        fputcsv($fh, array_merge(array($licenseCode, $suffix), $item));
+                    }
+                }
             }
             fclose($fh);
         } else {

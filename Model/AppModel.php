@@ -26,7 +26,7 @@ class AppModel extends Model {
     public $recursive = -1;
 
     public function counterIncrement($id) {
-        if (Configure::read('debug') === 0) {
+        if (Configure::read('debug') === 0 && $_SERVER['HTTP_HOST'] !== 'localhost') {
             $cacheKey = "{$this->name}/Counter/{$id}";
             $cachedCounter = Cache::read($cacheKey);
             if (false === Cache::increment($cacheKey) || false === $cachedCounter) {
