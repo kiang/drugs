@@ -3,7 +3,7 @@
 class ImportShell extends AppShell {
 
     public $uses = array('License');
-    public $dataPath = '/home/kiang/public_html/data.fda.gov.tw-list';
+    public $dataPath = '/home/kiang/github/data.fda.gov.tw-list';
     public $mysqli = false;
     public $key2id = array();
     public $key2code = array();
@@ -72,34 +72,40 @@ class ImportShell extends AppShell {
     );
 
     public function main() {
-        //$this->updateCode();
-        $this->dumpDbKeys();
-        exit();
-        /*
-         * Execute before importing:
-         * TRUNCATE `drugs`;
-          TRUNCATE `ingredients`;
-          TRUNCATE `ingredients_licenses`;
-          TRUNCATE `licenses`;
-          TRUNCATE `links`;
-          TRUNCATE `prices`;
-          TRUNCATE `vendors`;
-          TRUNCATE `categories_licenses`;
-         * 
-         * and remember to execute mohw to import another part of drugs
-         * 
-         * and dump generated data using another one:
-         * 
-         * mysqldump -uroot -p kiang_drug drugs ingredients ingredients_licenses licenses prices categories_licenses vendors > db.sql
-         */
-        $this->emptyDrugs();
-        $this->importDrug();
-        $this->importPrice();
-        $this->importImage();
-        $this->importBox();
-        $this->importIngredients();
-        $this->importATC();
-        //$this->importPoints();
+        if (isset($this->args[0])) {
+            switch ($this->args[0]) {
+                case 'dump':
+                    //$this->updateCode();
+                    $this->dumpDbKeys();
+                    break;
+                default:
+                    /*
+                     * Execute before importing:
+                     * TRUNCATE `drugs`;
+                      TRUNCATE `ingredients`;
+                      TRUNCATE `ingredients_licenses`;
+                      TRUNCATE `licenses`;
+                      TRUNCATE `links`;
+                      TRUNCATE `prices`;
+                      TRUNCATE `vendors`;
+                      TRUNCATE `categories_licenses`;
+                     * 
+                     * and remember to execute mohw to import another part of drugs
+                     * 
+                     * and dump generated data using another one:
+                     * 
+                     * mysqldump -uroot -p kiang_drug drugs ingredients ingredients_licenses licenses prices categories_licenses vendors > db.sql
+                     */
+                    $this->emptyDrugs();
+                    $this->importDrug();
+                    $this->importPrice();
+                    $this->importImage();
+                    $this->importBox();
+                    $this->importIngredients();
+                    $this->importATC();
+                //$this->importPoints();
+            }
+        }
     }
 
     public function updateCode() {
