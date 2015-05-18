@@ -71,11 +71,17 @@ class MohwShell extends AppShell {
     );
 
     public function main() {
-        //$this->getLicenseHtml();
-        //$this->extractLicenseHtml();
-        $this->importDrug();
-        $this->importIngredients();
-        //$this->importNhiCodes();
+        if (isset($this->args[0])) {
+            switch ($this->args[0]) {
+                case 'update':
+                    $this->getLicenseHtml();
+                    $this->extractLicenseHtml();
+                    break;
+                default:
+                    $this->importDrug();
+                    $this->importIngredients();
+            }
+        }
     }
 
     public function importNhiCodes() {
