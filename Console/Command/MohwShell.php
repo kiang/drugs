@@ -278,6 +278,7 @@ class MohwShell extends AppShell {
         if (!empty($valueStack)) {
             $this->dbQuery('INSERT INTO `ingredients` VALUES ' . implode(',', $valueStack) . ';');
         }
+        $this->dbQuery('UPDATE ingredients SET count_licenses = ( SELECT count(*) FROM ingredients_licenses WHERE ingredient_id = ingredients.id ) WHERE count_licenses = 0');
     }
 
     public function importDrug() {
