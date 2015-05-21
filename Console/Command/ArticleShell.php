@@ -3,10 +3,10 @@
 class ArticleShell extends AppShell {
 
     public $uses = array('Article');
-    public $dataPath = '/home/kiang/public_html/data.fda.gov.tw-list';
+    public $dataPath = '/home/kiang/github/data.fda.gov.tw-list';
 
     public function main() {
-        $this->data31();
+        $this->data34();
     }
 
     public function data31() {
