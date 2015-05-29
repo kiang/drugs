@@ -132,7 +132,7 @@ class Account extends AppModel {
         }
         $count = 0;
         $html = file_get_contents($htmlFile);
-        if (false !== strpos($html, '醫令明細表')) {
+        if (false !== strpos($html, '門診資料')) {
             $lines = explode('</tr>', $html);
             /*
              * example:
