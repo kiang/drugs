@@ -72,6 +72,8 @@ class ImportShell extends AppShell {
     );
 
     public function main() {
+//        $this->importNhiPrice();
+//        exit();
         if (isset($this->args[0])) {
             switch ($this->args[0]) {
                 case 'dump':
@@ -749,6 +751,89 @@ class ImportShell extends AppShell {
         }
     }
 
+    public function importNhiPrice() {
+        $db = ConnectionManager::getDataSource('default');
+        $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
+        $this->dbQuery('SET NAMES utf8mb4;');
+        $fields = array('許可證字號', '健保代碼', '規格量', '規格單位', '起期', '終期', '參考價', '-');
+        $dbKeys = array();
+        if (file_exists(__DIR__ . '/data/keys/licenses.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/keys/licenses.csv', 'r');
+            while ($line = fgetcsv($dbKeysFh, 1024)) {
+                $dbKeys[$line[0]] = $line[1];
+            }
+            fclose($dbKeysFh);
+        }
+
+        $fh = fopen(__DIR__ . '/data/nhi/codes/licenses.csv', 'r');
+
+        /*
+         * Array
+          (
+          [0] => 01000015 //license code
+          [1] => 421 //suffix
+          [2] => //新
+          [3] => //口服錠註記
+          [4] => N //複
+          [5] => A000015421 //藥品代碼
+          [6] => 10.00 //參考價
+          [7] => 0840301 //有效期(begin)
+          [8] => 0900331 //有效期(end)
+          [9] => YEN KUANG EYE DROPS //英文名稱
+          [10] => 5.00 ML //規格量 規格單位
+          [11] => ML //規格單位
+          [12] => SULFAMETHOXAZOLE SODIUM //成份名稱
+          [13] => 20.000 //成份含量
+          [14] => MG/ML //成份單位
+          [15] => 點眼液劑 //劑型
+          [16] => 0408 //理分類代碼
+          [17] => 五福化學製藥廠有限公司 //製造廠名稱
+          [18] => S01AB91 //ATC CODE
+          )
+         */
+        $valueStack = array();
+        $sn = 1;
+        echo "price importing\n";
+        while ($line = fgetcsv($fh, 2048)) {
+            $licenseCode = 'fda' . $line[0];
+            $currentId = String::uuid();
+
+            if (!isset($dbKeys[$licenseCode])) {
+                $licenseId = '';
+            } else {
+                $licenseId = $dbKeys[$licenseCode];
+            }
+            $line[7] = $this->getTwDate($line[7]);
+            $line[8] = $this->getTwDate($line[8]);
+            $pos = strpos($line[10], ' ');
+            $dosage = substr($line[10], 0, $pos);
+            $unit = substr($line[10], $pos + 1);
+            $dbCols = array(
+                "('{$currentId}'", //id
+                "'{$licenseId}'", //license_id
+                "'{$line[5]}'", //nhi_id
+                "'{$dosage}'", //nhi_dosage
+                "'{$unit}'", //nhi_unit
+                "'{$line[7]}'", //date_begin
+                "'{$line[8]}'", //date_end
+                "'{$line[6]}'", //nhi_price
+            );
+            $valueStack[] = implode(',', $dbCols) . ')';
+            ++$sn;
+            if ($sn > 50) {
+                $sn = 1;
+                $this->dbQuery('INSERT INTO `prices` VALUES ' . implode(',', $valueStack) . ';');
+                $valueStack = array();
+            }
+        }
+        if (!empty($valueStack)) {
+            $sn = 1;
+            $this->dbQuery('INSERT INTO `prices` VALUES ' . implode(',', $valueStack) . ';');
+            $valueStack = array();
+        }
+        $this->dbQuery('UPDATE licenses SET nhi_id = ( SELECT GROUP_CONCAT( DISTINCT nhi_id SEPARATOR \',\' ) FROM prices WHERE license_id = licenses.id )');
+    }
+
     public function importPrice() {
         $db = ConnectionManager::getDataSource('default');
         $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
@@ -1137,7 +1222,7 @@ class ImportShell extends AppShell {
         $dateParts = array();
         $dateParts[0] = intval(substr($str, 0, 3)) + 1911;
         if ($dateParts[0] > date('Y')) {
-            $dateParts[0] = date('Y');
+            $dateParts[0] = date('Y') + 1;
         }
         $dateParts[1] = substr($str, 3, 2);
         $dateParts[2] = substr($str, 5, 2);
