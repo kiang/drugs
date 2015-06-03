@@ -18,10 +18,64 @@ class NhiShell extends AppShell {
         'S' => '16', //內衛菌疫輸
         'Y' => '22', //罕菌疫輸
         'Z' => '23', //罕菌疫製
+        'X' => '00', //經我國主管機關核准專案進口而未領有藥品許可證者
     );
 
     public function main() {
-        $this->codes();
+        $this->newCodes();
+    }
+
+    public function newCodes() {
+        $tmpPath = TMP . 'nhi/codes';
+        if (!file_exists($tmpPath)) {
+            mkdir($tmpPath, 0777, true);
+        }
+        $targetPath = __DIR__ . '/data/nhi/codes';
+        if (!file_exists($targetPath)) {
+            mkdir($targetPath, 0777, true);
+        }
+        $csvTmpFile = $tmpPath . '/all_' . date('Ymd');
+        if (!file_exists($csvTmpFile)) {
+            file_put_contents($csvTmpFile, file_get_contents('http://www.nhi.gov.tw/Resource/webdata/%E5%81%A5%E4%BF%9D%E7%94%A8%E8%97%A5%E5%93%81%E9%A0%85.csv'));
+            copy($csvTmpFile, $targetPath . '/all.csv');
+        }
+        $fh = fopen($csvTmpFile, 'r');
+        fgets($fh, 2048);
+        /*
+         * Array
+          (
+          [0] => 異動
+          [1] => 藥品代碼
+          [2] => 藥品英文名稱
+          [3] => 藥品中文名稱
+          [4] => 規格量
+          [5] => 規格單位
+          [6] => 單複方
+          [7] => 參考價
+          [8] => 有效起日
+          [9] => 有效迄日
+          [10] => 製造廠名稱
+          [11] => 劑型
+          [12] => 成份
+          )
+         */
+        $tree = array();
+        while ($line = fgetcsv($fh, 2048)) {
+            $firstChar = substr($line[1], 0, 1);
+            if (!isset($this->prefixCodes[$firstChar])) {
+                continue;
+            }
+            $licenseCode = $this->prefixCodes[$firstChar] . '0' . substr($line[1], 2, 5);
+            if (!isset($tree[$licenseCode])) {
+                $tree[$licenseCode] = array();
+            }
+            if (!isset($tree[$licenseCode][$line[1]])) {
+                $tree[$licenseCode][$line[1]] = array();
+            }
+            $tree[$licenseCode][$line[1]][] = $line;
+        }
+        fclose($fh);
+        print_r($tree);
     }
 
     public function codes() {
@@ -114,7 +168,7 @@ class NhiShell extends AppShell {
             $fh = fopen("{$targetPath}/licenses.csv", 'w');
             foreach ($result AS $licenseCode => $suffixes) {
                 foreach ($suffixes AS $suffix => $items) {
-                    foreach($items AS $item) {
+                    foreach ($items AS $item) {
                         fputcsv($fh, array_merge(array($licenseCode, $suffix), $item));
                     }
                 }
