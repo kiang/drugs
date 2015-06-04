@@ -3,7 +3,7 @@ $(function () {
     var d = new Date();
     var dateFrom = (d.getFullYear() - 1) + '-' + (d.getMonth() + 1) + '-' + d.getDay();
     var dateTo = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay();
-    $.getJSON('https://api.fda.gov/drug/event?api_key=J2OUrWyFQMIJxJ25cgrbxUF7CQDdn6WIq9eLa2Qs&search=' + q + '+AND+[' + dateFrom + '+TO+' + dateTo + ']&count=patient.reaction.reactionmeddrapt.exact', {}, function (data) {
+    $.getJSON('https://api.fda.gov/drug/event.json?api_key=J2OUrWyFQMIJxJ25cgrbxUF7CQDdn6WIq9eLa2Qs&search=' + q + '+AND+[' + dateFrom + '+TO+' + dateTo + ']&count=patient.reaction.reactionmeddrapt.exact', {}, function (data) {
         if (typeof data.error === 'undefined') {
             var listObj = $('ul#ingredientEventList');
             var boxObj = $('div#ingredientEventBox');
