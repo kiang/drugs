@@ -7,6 +7,7 @@ class PointShell extends AppShell {
 
     public function main() {
         $this->nhi();
+        $this->geocode();
     }
 
     public function geocode() {
