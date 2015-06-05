@@ -2,7 +2,7 @@
     "nhi_id": "5932130030",
     "url": "http:\/\/www.nhi.gov.tw\/Query\/Query3_Detail.aspx?HospID=5932130030",
     "type": "藥局",
-    "name": "復興建保藥局",
+    "name": "復興健保藥局",
     "category": "",
     "biz_type": "藥師自營",
     "service": "",
@@ -11,7 +11,7 @@
     "latitude": "25.001689",
     "longitude": "121.460809",
     "nhi_admin": "北區業務組",
-    "nhi_end": "",
+    "nhi_end": "2015\/04\/30",
     "morning": {
         "1": "",
         "2": "",
