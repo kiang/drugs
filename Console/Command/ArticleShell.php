@@ -6,7 +6,59 @@ class ArticleShell extends AppShell {
     public $dataPath = '/home/kiang/github/data.fda.gov.tw-list';
 
     public function main() {
-        $this->data34();
+        $this->fixLinks();
+    }
+
+    public function fixLinks() {
+        $articles = $this->Article->find('all', array(
+            'fields' => array('Article.id'),
+            'contain' => array('ArticlesLink'),
+        ));
+        foreach ($articles AS $article) {
+            $vendors = $licenses = array();
+            foreach ($article['ArticlesLink'] AS $link) {
+                switch ($link['model']) {
+                    case 'License':
+                        $licenses[$link['foreign_id']] = $link['foreign_id'];
+                        break;
+                    case 'Vendor':
+                        $vendors[$link['foreign_id']] = $link['foreign_id'];
+                        break;
+                }
+            }
+            if (!empty($licenses)) {
+                $licenseVendors = $this->Article->License->find('all', array(
+                    'conditions' => array('License.id' => $licenses),
+                    'fields' => array('License.vendor_id'),
+                    'contain' => array(
+                        'Drug' => array(
+                            'fields' => array('Drug.vendor_id'),
+                        ),
+                    ),
+                ));
+                $newVendors = array();
+                foreach ($licenseVendors AS $licenseVendor) {
+                    if (!isset($vendors[$licenseVendor['License']['vendor_id']])) {
+                        $newVendors[$licenseVendor['License']['vendor_id']] = $licenseVendor['License']['vendor_id'];
+                    }
+                    foreach ($licenseVendor['Drug'] AS $drug) {
+                        if (!isset($vendors[$drug['vendor_id']])) {
+                            $newVendors[$drug['vendor_id']] = $drug['vendor_id'];
+                        }
+                    }
+                }
+                if (!empty($newVendors)) {
+                    foreach ($newVendors AS $newVendor) {
+                        $this->Article->ArticlesLink->create();
+                        $this->Article->ArticlesLink->save(array('ArticlesLink' => array(
+                                'article_id' => $article['Article']['id'],
+                                'model' => 'Vendor',
+                                'foreign_id' => $newVendor,
+                        )));
+                    }
+                }
+            }
+        }
     }
 
     public function data31() {
