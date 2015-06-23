@@ -124,17 +124,34 @@ class ArticlesController extends AppController {
         if (!empty($this->request->data)) {
             $this->request->data['ArticlesLink'] = array();
             if (!empty($this->request->data['Drug'])) {
-                $licenses = $this->Article->License->Drug->find('list', array(
-                    'fields' => array('Drug.license_id', 'Drug.license_id'),
+                if (!isset($this->request->data['Vendor'])) {
+                    $this->request->data['Vendor'] = array();
+                }
+                $licenses = $this->Article->License->Drug->find('all', array(
+                    'fields' => array('Drug.license_id', 'Drug.vendor_id'),
                     'conditions' => array(
                         'Drug.id' => $this->request->data['Drug'],
                     ),
                 ));
-                foreach ($licenses AS $licenseId) {
+                foreach ($licenses AS $license) {
                     $this->request->data['ArticlesLink'][] = array(
                         'model' => 'License',
-                        'foreign_id' => $licenseId,
+                        'foreign_id' => $license['Drug']['license_id'],
                     );
+                    if (!isset($this->request->data['Vendor'][$license['Drug']['vendor_id']])) {
+                        $this->request->data['Vendor'][$license['Drug']['vendor_id']] = $license['Drug']['vendor_id'];
+                    }
+                }
+                $licenseVendors = $this->Article->License->find('list', array(
+                    'fields' => array('vendor_id', 'vendor_id'),
+                    'conditions' => array(
+                        'License.id' => Set::extract('{n}.Drug.license_id', $licenses),
+                    ),
+                ));
+                foreach($licenseVendors AS $licenseVendor) {
+                    if (!isset($this->request->data['Vendor'][$licenseVendor])) {
+                        $this->request->data['Vendor'][$licenseVendor] = $licenseVendor;
+                    }
                 }
                 unset($this->request->data['Drug']);
             }
