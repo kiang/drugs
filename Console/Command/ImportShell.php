@@ -100,7 +100,7 @@ class ImportShell extends AppShell {
                      */
                     $this->emptyDrugs();
                     $this->importDrug();
-                    $this->importPrice();
+                    $this->importNhiPrice();
                     $this->importImage();
                     $this->importBox();
                     $this->importIngredients();
