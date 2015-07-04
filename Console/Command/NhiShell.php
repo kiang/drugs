@@ -22,7 +22,7 @@ class NhiShell extends AppShell {
     );
 
     public function main() {
-        $this->hospitals();
+        $this->codes();
     }
 
     public function newCodes() {
@@ -93,7 +93,7 @@ class NhiShell extends AppShell {
         }
         $result = array();
         $page = file_get_contents($pageFile);
-        $pos = strpos($page, 'all.zip');
+        $pos = strpos($page, 'all.b5.zip');
         $pos = strpos($page, '>', $pos);
         $page = substr($page, 0, $pos);
         $pos = strrpos($page, '<font color="red">');
