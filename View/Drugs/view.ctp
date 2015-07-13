@@ -294,7 +294,16 @@
                         <ul>
                             <?php
                             foreach ($articles AS $article) {
-                                echo '<li>' . $this->Html->link("{$article['Article']['date_published']} {$article['Article']['title']}", '/articles/view/' . $article['Article']['id']) . '</li>';
+                                echo '<li>';
+                                switch($articleIds[$article['Article']['id']]) {
+                                    case 'Vendor':
+                                        echo '藥廠 >> ';
+                                        break;
+                                    case 'Ingredient':
+                                        echo '成份 >> ';
+                                        break;
+                                }
+                                echo $this->Html->link("{$article['Article']['date_published']} {$article['Article']['title']}", '/articles/view/' . $article['Article']['id']) . '</li>';
                             }
                             ?>
                         </ul>

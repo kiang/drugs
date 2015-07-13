@@ -241,7 +241,7 @@ class DrugsController extends AppController {
             $vendorIds[] = $this->data['License']['vendor_id'];
             $vendorIds = array_unique($vendorIds);
             $articleIds = $this->Drug->License->ArticlesLink->find('list', array(
-                'fields' => array('article_id', 'article_id'),
+                'fields' => array('article_id', 'model'),
                 'conditions' => array(
                     'OR' => array(
                         array(
@@ -261,7 +261,7 @@ class DrugsController extends AppController {
             ));
             $articles = $this->Drug->License->Article->find('all', array(
                 'conditions' => array(
-                    'Article.id' => $articleIds,
+                    'Article.id' => array_keys($articleIds),
                 ),
                 'fields' => array('id', 'title', 'date_published', 'url'),
                 'order' => array('date_published' => 'DESC'),
@@ -288,6 +288,7 @@ class DrugsController extends AppController {
             $this->set('ingredients', $ingredients);
             $this->set('ingredientKeys', $ingredientKeys);
             $this->set('articles', $articles);
+            $this->set('articleIds', $articleIds);
             $this->set('drugs', $drugs);
             $this->set('categoryNames', $categoryNames);
         } else {
