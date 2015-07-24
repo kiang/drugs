@@ -73,7 +73,7 @@
                     <dl class="dl-horizontal">                        <dt>許可證字號</dt>
                         <dd><?php
                             if ($this->data['License']['source'] === 'fda' && !empty($this->data['License']['code'])) {
-                                echo $this->Html->link($this->data['License']['license_id'], 'http://www.fda.gov.tw/MLMS/(S(zhayg3j2oyozxi45fx41gi55))/H0001D.aspx?Type=Lic&LicId=' . $this->data['License']['code'], array('target' => '_blank', 'class' => 'btn btn-default'));
+                                echo $this->Html->link($this->data['License']['license_id'], 'http://www.fda.gov.tw/MLMS/H0001D.aspx?Type=Lic&LicId=' . $this->data['License']['code'], array('target' => '_blank', 'class' => 'btn btn-default'));
                             } else {
                                 echo $this->data['License']['license_id'];
                             }
