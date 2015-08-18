@@ -73,13 +73,6 @@
                     <!-- /.search form -->
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
-                        <li>
-                            <a href="http://www.webackers.com/Proposal/Display/158" target="_blank">
-                                <i class="fa fa-photo"></i>
-                                <span>我們需要您！</span>
-                                <small class="badge pull-right bg-green">new</small>
-                            </a>
-                        </li>
                         <li class="treeview">
                             <a href="<?php echo $this->Html->url('/drugs/index'); ?>">
                                 <i class="fa fa-newspaper-o"></i> <span>藥物證書</span>
