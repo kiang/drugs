@@ -258,6 +258,9 @@ class DrugsController extends AppController {
                         ),
                     ),
                 ),
+                'order' => array(
+                    'FIELD(model, \'License\', \'Ingredient\', \'Vendor\')'
+                ),
             ));
             $articles = $this->Drug->License->Article->find('all', array(
                 'conditions' => array(
