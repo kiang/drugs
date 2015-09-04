@@ -2,7 +2,7 @@
     "nhi_id": "3801101112",
     "url": "http:\/\/www.nhi.gov.tw\/Query\/Query3_Detail.aspx?HospID=3801101112",
     "type": "診所",
-    "name": "道聖中醫診所",
+    "name": "天益中醫診所",
     "category": "中醫科",
     "biz_type": "中醫一般診所",
     "service": "門診診療",
@@ -36,7 +36,7 @@
         "3": "V",
         "4": "V",
         "5": "V",
-        "6": "V",
+        "6": "休診",
         "7": "休診"
     }
 }

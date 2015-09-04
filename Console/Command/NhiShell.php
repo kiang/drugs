@@ -22,7 +22,8 @@ class NhiShell extends AppShell {
     );
 
     public function main() {
-        $this->codes();
+        $this->hospitals();
+        //$this->codes();
     }
 
     public function newCodes() {
@@ -188,7 +189,7 @@ class NhiShell extends AppShell {
         if (!file_exists($targetPath)) {
             mkdir($targetPath, 0777, true);
         }
-        $listUrl = 'http://www.nhi.gov.tw/Query/query3_list.aspx?&PageNum=30355';
+        $listUrl = 'http://www.nhi.gov.tw/Query/query3_list.aspx?&PageNum=30473';
         $listFile = $tmpPath . '/list';
         if (!file_exists($listFile)) {
             file_put_contents($listFile, file_get_contents($listUrl));
