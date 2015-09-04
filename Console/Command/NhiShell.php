@@ -22,8 +22,8 @@ class NhiShell extends AppShell {
     );
 
     public function main() {
-        $this->hospitals();
-        //$this->codes();
+        //$this->hospitals();
+        $this->codes();
     }
 
     public function newCodes() {
