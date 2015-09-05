@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-TW">
+<!DOCTYPE html>
+<html>
     <head>
         <?php echo $this->Html->charset(); ?>
         <title><?php echo $title_for_layout; ?>藥要看</title><?php
@@ -37,12 +37,9 @@
         </script>
     </head>
     <body class="skin-blue">
-        <!-- header logo: style can be found in header.less -->
         <header class="header">
             <?php echo $this->Html->link('藥要看', '/', array('class' => 'logo')); ?>
-            <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">
-                <!-- Sidebar toggle button-->
                 <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
@@ -55,11 +52,8 @@
             </nav>
         </header>
         <div class="wrapper row-offcanvas row-offcanvas-left">
-            <!-- Left side column. contains the logo and sidebar -->
             <aside class="left-side sidebar-offcanvas">
-                <!-- sidebar: style can be found in sidebar.less -->
                 <section class="sidebar">
-                    <!-- search form -->
                     <form action="#" method="get" class="sidebar-form" id="keywordForm">
                         <div class="input-group">
                             <input type="text" id="keyword" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="搜尋藥物..."  style="width:198px;" />
@@ -71,7 +65,6 @@
                         </div>
                     </form>
                     <!-- /.search form -->
-                    <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu">
                         <li class="treeview">
                             <a href="<?php echo $this->Html->url('/drugs/index'); ?>">
@@ -199,7 +192,6 @@
                 <!-- /.sidebar -->
             </aside>
 
-            <!-- Right side column. Contains the navbar and content of the page -->
             <aside class="right-side">
                 <?php echo $this->Session->flash(); ?>
                 <div class="col-xs-10">
@@ -262,7 +254,7 @@
                     echo ' / ' . $this->Html->link('本頁 API', $apiRoute, array('target' => '_blank'));
                 }
                 ?>
-                <hr />
+                <hr>
                 <div id="fb-root"></div>
                 <script>(function (d, s, id) {
                         var js, fjs = d.getElementsByTagName(s)[0];
@@ -284,7 +276,7 @@
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <?php
         echo $this->Html->script('app');
@@ -292,36 +284,34 @@
         echo $this->element('sql_dump');
         ?>
         <script type="text/javascript">
-                    //<![CDATA[
-                    $(function () {
-                        $('a.btn-find').click(function () {
-                            var keyword = $('input#keyword').val();
-                            if (keyword !== '') {
-                                location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
-                            } else {
-                                alert('您尚未輸入關鍵字！');
-                            }
-                            return false;
-                        });
-                        $('a.btn-outward').click(function () {
-                            var keyword = $('input#keyword').val();
-                            if (keyword !== '') {
-                                location.href = '<?php echo $this->Html->url('/drugs/outward/'); ?>' + encodeURIComponent(keyword);
-                            } else {
-                                alert('您尚未輸入關鍵字！');
-                            }
-                            return false;
-                        });
-                        $('form#keywordForm').submit(function () {
-                            var keyword = $('input#keyword').val();
-                            if (keyword !== '') {
-                                location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
-                            } else {
-                                alert('您尚未輸入關鍵字！');
-                            }
-                        });
-                    });
-                    //]]>
+            $(function () {
+                $('.btn-find').on('click', function () {
+                    var keyword = $('#keyword').val();
+                    if (keyword !== '') {
+                        location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
+                    } else {
+                        alert('您尚未輸入關鍵字！');
+                    }
+                    return false;
+                });
+                $('.btn-outward').on('click', function () {
+                    var keyword = $('#keyword').val();
+                    if (keyword !== '') {
+                        location.href = '<?php echo $this->Html->url('/drugs/outward/'); ?>' + encodeURIComponent(keyword);
+                    } else {
+                        alert('您尚未輸入關鍵字！');
+                    }
+                    return false;
+                });
+                $('#keywordForm').on('submit', function () {
+                    var keyword = $('#keyword').val();
+                    if (keyword !== '') {
+                        location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
+                    } else {
+                        alert('您尚未輸入關鍵字！');
+                    }
+                });
+            });
         </script>
         <?php if (Configure::read('debug') === 0 && Configure::read('loginMember.group_id') !== '1') { ?>
             <script>
