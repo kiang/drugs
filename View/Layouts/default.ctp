@@ -2,7 +2,8 @@
 <html>
     <head>
         <?php echo $this->Html->charset(); ?>
-        <title><?php echo $title_for_layout; ?>藥要看</title><?php
+        <title><?php echo $title_for_layout; ?>藥要看</title>
+        <?php
         $trailDesc = '藥要看提供簡單的介面檢索國內有註冊登記的藥品資訊';
         if (!isset($desc_for_layout)) {
             $desc_for_layout = $trailDesc;
@@ -28,27 +29,25 @@
         echo $this->Html->css('AdminLTE');
         echo $this->Html->css('default');
         ?>
-        <style type="text/css">
-            .table>tbody>tr>td { vertical-align:middle; }
-            .dl-horizontal>dt {padding-top:6.5px}
+        <style>
+            .table > tbody > tr > td {
+                vertical-align: middle;
+            }
+            .dl-horizontal > dt {
+                padding-top: 6.5px
+            }
         </style>
-        <script>
-            var baseUrl = '<?php echo $this->Html->url('/'); ?>';
-        </script>
     </head>
     <body class="skin-blue">
         <header class="header">
             <?php echo $this->Html->link('藥要看', '/', array('class' => 'logo')); ?>
             <nav class="navbar navbar-static-top" role="navigation">
                 <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
-                    <span class="sr-only">Toggle navigation</span>
+                    <span class="sr-only"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </a>
-                <div class="navbar-right">
-                    &nbsp;
-                </div>
             </nav>
         </header>
         <div class="wrapper row-offcanvas row-offcanvas-left">
@@ -113,101 +112,102 @@
                         <?php
                         switch (Configure::read('loginMember.group_id')) {
                             case '0':
-                                ?><li>
-                                    <a href="<?php echo $this->Html->url('/members/login'); ?>">
-                                        <i class="fa fa-user"></i>
-                                        <span>會員登入</span>
-                                        <i class="fa pull-right"></i>
-                                    </a>
-                                </li><?php
-                                break;
-                            case '1':
-                                ?>
-                                <li>
-                                    <a href="<?php echo $this->Html->url('/accounts'); ?>">
-                                        <i class="fa fa-book"></i>
-                                        <span>健康存摺</span>
-                                        <i class="fa pull-right"></i>
-                                    </a>
-                                </li>
-                                <li class="treeview">
-                                    <a href="#">
-                                        <i class="fa fa-newspaper-o"></i> <span>文章管理</span>
-                                    </a>
-                                    <ul class="treeview-menu">
-                                        <li><a href="<?php echo $this->Html->url('/admin/articles/tasks'); ?>"><i class="fa fa-angle-double-right"></i> 暫存連結</a></li>
-                                        <li><a href="<?php echo $this->Html->url('/admin/articles/index'); ?>"><i class="fa fa-angle-double-right"></i> 列表</a></li>
-                                        <li><a href="<?php echo $this->Html->url('/admin/articles/add'); ?>"><i class="fa fa-angle-double-right"></i> 新增</a></li>
-                                    </ul>
-                                </li>
-                                <li class="treeview">
-                                    <a href="#">
-                                        <i class="fa fa-newspaper-o"></i> <span>醫事機構管理</span>
-                                    </a>
-                                    <ul class="treeview-menu">
-                                        <li><a href="<?php echo $this->Html->url('/admin/points/index'); ?>"><i class="fa fa-angle-double-right"></i> 列表</a></li>
-                                        <li><a href="<?php echo $this->Html->url('/admin/points/add'); ?>"><i class="fa fa-angle-double-right"></i> 新增</a></li>
-                                    </ul>
-                                </li>
-                                <li class="treeview">
-                                    <a href="#">
-                                        <i class="fa fa-newspaper-o"></i> <span>會員管理</span>
-                                    </a>
-                                    <ul class="treeview-menu">
-                                        <li><a href="<?php echo $this->Html->url('/admin/members/index'); ?>"><i class="fa fa-angle-double-right"></i> 會員</a></li>
-                                        <li><a href="<?php echo $this->Html->url('/admin/groups/index'); ?>"><i class="fa fa-angle-double-right"></i> 群組</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="<?php echo $this->Html->url('/members/logout'); ?>">
-                                        <i class="fa fa-sign-out"></i>
-                                        <span>會員登出</span>
-                                        <i class="fa pull-right"></i>
-                                    </a>
-                                </li>
-                                <?php
-                                break;
-                            case '2':
-                                ?>
-                                <li>
-                                    <a href="<?php echo $this->Html->url('/accounts'); ?>">
-                                        <i class="fa fa-book"></i>
-                                        <span>健康存摺</span>
-                                        <i class="fa pull-right"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="<?php echo $this->Html->url('/members/logout'); ?>">
-                                        <i class="fa fa-sign-out"></i>
-                                        <span>會員登出</span>
-                                        <i class="fa pull-right"></i>
-                                    </a>
-                                </li>
-                                <?php
-                                break;
-                        }
+                            ?><li>
+                            <a href="<?php echo $this->Html->url('/members/login'); ?>">
+                                <i class="fa fa-user"></i>
+                                <span>會員登入</span>
+                                <i class="fa pull-right"></i>
+                            </a>
+                        </li><?php
+                        break;
+                        case '1':
                         ?>
-                    </ul>
-                </section>
-                <!-- /.sidebar -->
-            </aside>
-
-            <aside class="right-side">
-                <?php echo $this->Session->flash(); ?>
-                <div class="col-xs-10">
-                    <?php
-                    echo $content_for_layout;
+                        <li>
+                            <a href="<?php echo $this->Html->url('/accounts'); ?>">
+                                <i class="fa fa-book"></i>
+                                <span>健康存摺</span>
+                                <i class="fa pull-right"></i>
+                            </a>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-newspaper-o"></i> <span>文章管理</span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="<?php echo $this->Html->url('/admin/articles/tasks'); ?>"><i class="fa fa-angle-double-right"></i> 暫存連結</a></li>
+                                <li><a href="<?php echo $this->Html->url('/admin/articles/index'); ?>"><i class="fa fa-angle-double-right"></i> 列表</a></li>
+                                <li><a href="<?php echo $this->Html->url('/admin/articles/add'); ?>"><i class="fa fa-angle-double-right"></i> 新增</a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-newspaper-o"></i> <span>醫事機構管理</span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="<?php echo $this->Html->url('/admin/points/index'); ?>"><i class="fa fa-angle-double-right"></i> 列表</a></li>
+                                <li><a href="<?php echo $this->Html->url('/admin/points/add'); ?>"><i class="fa fa-angle-double-right"></i> 新增</a></li>
+                            </ul>
+                        </li>
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-newspaper-o"></i> <span>會員管理</span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="<?php echo $this->Html->url('/admin/members/index'); ?>"><i class="fa fa-angle-double-right"></i> 會員</a></li>
+                                <li><a href="<?php echo $this->Html->url('/admin/groups/index'); ?>"><i class="fa fa-angle-double-right"></i> 群組</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="<?php echo $this->Html->url('/members/logout'); ?>">
+                                <i class="fa fa-sign-out"></i>
+                                <span>會員登出</span>
+                                <i class="fa pull-right"></i>
+                            </a>
+                        </li>
+                        <?php
+                        break;
+                        case '2':
+                        ?>
+                        <li>
+                            <a href="<?php echo $this->Html->url('/accounts'); ?>">
+                                <i class="fa fa-book"></i>
+                                <span>健康存摺</span>
+                                <i class="fa pull-right"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $this->Html->url('/members/logout'); ?>">
+                                <i class="fa fa-sign-out"></i>
+                                <span>會員登出</span>
+                                <i class="fa pull-right"></i>
+                            </a>
+                        </li>
+                        <?php
+                        break;
+                    }
                     ?>
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
 
-                </div>
-                <div class="col-xs-2">
-                    <ins class="adsbygoogle"
-                         style="display:inline-block;width:160px;height:600px"
-                         data-ad-client="ca-pub-5571465503362954"
-                         data-ad-slot="8707051624"></ins>
-                </div>
-            </aside><!-- /.right-side -->
-        </div><!-- ./wrapper -->
+        <aside class="right-side">
+            <?php echo $this->Session->flash(); ?>
+            <div class="col-xs-10">
+                <?php
+                echo $content_for_layout;
+                ?>
+
+            </div>
+            <div class="col-xs-2">
+                <ins class="adsbygoogle"
+                style="display:inline-block;width:160px;height:600px"
+                data-ad-client="ca-pub-5571465503362954"
+                data-ad-slot="8707051624"></ins>
+            </div>
+        </aside><!-- /.right-side -->
+    </div><!-- ./wrapper -->
+        </div>
         <footer class="footer" style="margin-left: auto;margin-right: auto; margin-bottom: 15px;">
             <div class="row" align="center">
                 <ins class="adsbygoogle"
@@ -228,7 +228,7 @@
                     case 'articles/view':
                         ?>
                         <div id="disqus_thread"></div>
-                        <script type="text/javascript">
+                        <script>
                             /* * * CONFIGURATION VARIABLES * * */
                             var disqus_shortname = 'drugs-tw';
                             var disqus_config = function () {
@@ -243,8 +243,9 @@
                                 dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
                                 (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
                             })();
-                        </script><?php
-                        break;
+                        </script>
+                <?php
+                    break;
                 }
                 ?>
                 <?php echo $this->Html->link('信雲國際股份有限公司', 'http://syi.tw/', array('target' => '_blank')); ?> 建置
@@ -283,7 +284,8 @@
         echo $this->Html->script('tag-it');
         echo $this->element('sql_dump');
         ?>
-        <script type="text/javascript">
+        <script>
+            var baseUrl = '<?php echo $this->Html->url('/'); ?>';
             $(function () {
                 $('.btn-find').on('click', function () {
                     var keyword = $('#keyword').val();

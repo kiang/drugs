@@ -12,10 +12,23 @@
                 </div>
                 <div class="box-body">
                     <?php
-                    echo $this->Form->create('Member', array('action' => 'login'));
+                    echo $this->Form->create('Member', array(
+                        'action' => 'login',
+                        'inputDefaults' => array(
+                            'class' => 'form-control',
+                            'div' => array(
+                                'class' => 'form-group'
+                                ),
+                            'label' => array(
+                                'class' => 'control-label'
+                                )
+                            )
+                        )
+                    );
                     echo $this->Form->input('username');
                     echo $this->Form->input('password');
-                    echo $this->Form->end('登入');
+                    echo $this->Form->submit('登入', array('class' => 'btn btn-primary btn-lg'));
+                    echo $this->Form->end();
                     ?>
                 </div>
                 <div class="box-footer clearfix">
