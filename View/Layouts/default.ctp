@@ -18,38 +18,171 @@
             $ogImage = $this->Html->url('/' . $ogImage, true);
         }
         ?>
-        <link rel="icon" type="image/png" href="<?php echo $imageBaseUrl; ?>/drug_32.png" sizes="32x32" />
-        <link rel="icon" type="image/png" href="<?php echo $imageBaseUrl; ?>/drug_16.png" sizes="16x16" />
-        <meta property="og:image" content="<?php echo $ogImage; ?>" />
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-        <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
-        <?php
-        // echo $this->Html->css('jquery-tagit');
-        echo $this->Html->css('AdminLTE');
-        echo $this->Html->css('default');
-        ?>
+        <link rel="icon" type="image/png" href="<?php echo $imageBaseUrl; ?>/drug_32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="<?php echo $imageBaseUrl; ?>/drug_16.png" sizes="16x16">
+        <meta property="og:image" content="<?php echo $ogImage; ?>">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/flat-ui-pro.min.css" rel="stylesheet">
+        <link href="css/font-awesome.min.css" rel="stylesheet">
+        <link href="css/flaticon.css" rel="stylesheet">
+        <link href="css/animate.css" rel="stylesheet">
+        <!--[if lt IE 9]>
+            <script src="js/html5shiv.js"></script>
+            <script src="js/respond.min.js"></script>
+        <![endif]-->
         <style>
-            .table > tbody > tr > td {
-                vertical-align: middle;
+            .search-box-content {
+                padding: 5px 10px;
             }
-            .dl-horizontal > dt {
-                padding-top: 6.5px
+
+            .search-box .form-control {
+                font-family: FontAwesome;
+            }
+
+            #btn-search-type.btn-danger {
+                border-color: #e74c3c !important;
+                color: #e74c3c !important;
+            }
+
+            #btn-search-type.btn-unfocus {
+                border-color: #bdc3c7 !important;
+                color: #bdc3c7 !important;
+            }
+
+            .search-box-content .input-group-btn .btn-search {
+                font-size: 22px;
+                border-radius: 6px;
+                height: 55px;
+                margin: 0 5px 0 0;
             }
         </style>
     </head>
-    <body class="skin-blue">
-        <header class="header">
-            <?php echo $this->Html->link('藥要看', '/', array('class' => 'logo')); ?>
-            <nav class="navbar navbar-static-top" role="navigation">
-                <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
-                    <span class="sr-only"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </a>
-            </nav>
-        </header>
+    <body>
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                    </button>
+                    <a class="navbar-brand" href="./">藥要看</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員登入 <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Action</a></li>
+                                <li><a href="#">Another action</a></li>
+                                <li><a href="#">Something else here</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#">Separated link</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <div class="row">
+                <p>&nbsp;</p>
+                <div class="search-box">
+                    <form class="input-group input-group-hg focus form-search" data-search="license">
+                        <input type="text" class="form-control" placeholder="&#xF002;&nbsp;藥物證書..." autofocus>
+                        <div class="input-group-btn">
+                            <button type="button" class="btn dropdown-toggle" id="btn-search-type" data-toggle="dropdown">
+                                藥物搜尋&nbsp;<b class="caret"></b>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" data-search="藥物">藥物搜尋</a></li>
+                                <li><a href="#" data-search="外觀">藥物外觀</a></li>
+                                <li><a href="#" data-search="成份">藥物成份</a></li>
+                                <li><a href="#" data-search="廠商">藥物廠商</a></li>
+                                <li><a href="#" data-search="機構">醫事機構</a></li>
+                            </ul>
+                            <button class="btn btn-default btn-search">搜尋<span>藥物</span></button>
+                        </div>
+                    </form>
+                </div>
+
+                <ul class="nav nav-tabs nav-append-content search-box" style="display: none">
+                    <li class="active">
+                        <a href="#nav-tab-license">
+                            <i class="flaticon-medical103"></i>&nbsp;藥物搜尋
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#nav-tab-outward">
+                            <i class="fa fa-photo"></i>&nbsp;藥物外觀
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#nav-tab-ingredient">
+                            <i class="fa fa-cogs"></i>&nbsp;藥物成份
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#nav-tab-vendor">
+                            <i class="fa fa-truck"></i>&nbsp;藥物廠商
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#nav-tab-point">
+                            <i class="fa fa-hospital-o"></i>&nbsp;醫事機構
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="tab-content search-box-content" style="display: none">
+                    <div class="tab-pane fade in active" id="nav-tab-license">
+                        <form class="input-group focus form-search" data-search="license">
+                            <input type="text" class="form-control" placeholder="&#xF002;&nbsp;藥物證書..." autofocus>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default btn-search">搜尋證書</button>
+                            </span>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade" id="nav-tab-outward">
+                        <form class="input-group focus form-search" data-search="outward">
+                            <input type="text" class="form-control" placeholder="&#xF002;&nbsp;藥物外觀...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default btn-search">搜尋外觀</button>
+                            </span>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade" id="nav-tab-ingredient">
+                        <form class="input-group focus form-search" data-search="ingredient">
+                            <input type="text" class="form-control" placeholder="&#xF002;&nbsp;藥物成份...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default btn-search">搜尋成份</button>
+                            </span>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade" id="nav-tab-vendor">
+                        <form class="input-group focus form-search" data-search="vendor">
+                            <input type="text" class="form-control" placeholder="&#xF002;&nbsp;藥物廠商...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default btn-search">搜尋廠商</button>
+                            </span>
+                        </form>
+                    </div>
+
+                    <div class="tab-pane fade" id="nav-tab-point">
+                        <form class="input-group focus form-search" data-search="point">
+                            <input type="text" class="form-control" placeholder="&#xF002;&nbsp;醫事機構...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default btn-search">搜尋機構</button>
+                            </span>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="wrapper row-offcanvas row-offcanvas-left">
             <aside class="left-side sidebar-offcanvas">
                 <section class="sidebar">
@@ -230,8 +363,8 @@
                         <div id="disqus_thread"></div>
                         <script>
                             /* * * CONFIGURATION VARIABLES * * */
-                            var disqus_shortname = 'drugs-tw';
-                            var disqus_config = function () {
+                            var disqus_shortname = 'drugs-tw',
+                                disqus_config = function () {
                                 this.language = "zh_TW";
                             };
 
@@ -276,17 +409,61 @@
         </footer>
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script src="js/flat-ui-pro.min.js"></script>
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <?php
-        echo $this->Html->script('app');
-        // echo $this->Html->script('tag-it');
-        echo $this->element('sql_dump');
+        // echo $this->Html->script('app');
         ?>
         <script>
             var baseUrl = '<?php echo $this->Html->url('/'); ?>';
             $(function () {
+
+                $('.search-box a').on('click', function (e) {
+                    e.preventDefault();
+                    $(this).tab('show');
+                });
+
+                $('.search-box a').on('shown.bs.tab', function (e) {
+                    var content_id = $(e.target).attr('href');
+                    $(content_id).find('input').focus();
+                });
+
+                $('.dropdown-menu').on('click', 'li a', function () {
+                    $('.btn:first-child').html($(this).text() + '&nbsp;<b class="caret"></b>');
+                    $('.btn:first-child').val($(this).text());
+                    $('.btn-search span').text($(this).data('search'));
+               });
+
+                $('.form-search .form-control').on('focus', function () {
+                    $('#btn-search-type').removeClass('btn-unfocus');
+                })
+
+                $('.form-search .form-control').on('blur', function () {
+                    $('#btn-search-type').addClass('btn-unfocus');
+                })
+
+                $('.form-search').on('submit', function (e) {
+                    e.preventDefault();
+                    var that = $(this),
+                        input = $(this).find('.form-control');
+
+                    that.removeClass('has-error');
+                    $('#btn-search-type').removeClass('btn-danger');
+
+                    if (input.val() !== '') {
+
+                    } else {
+                        that.addClass('has-error');
+                        $('.btn-search-type').addClass('btn-danger');
+                        input.addClass('animated shake').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                            that.removeClass('animated shake');
+                            input.one('keydown', function () {
+                                that.removeClass('has-error');
+                            });
+                        });
+                    }
+                });
+
                 $('.btn-find').on('click', function () {
                     var keyword = $('#keyword').val();
                     if (keyword !== '') {
@@ -296,6 +473,7 @@
                     }
                     return false;
                 });
+
                 $('.btn-outward').on('click', function () {
                     var keyword = $('#keyword').val();
                     if (keyword !== '') {
@@ -305,6 +483,7 @@
                     }
                     return false;
                 });
+
                 $('#keywordForm').on('submit', function () {
                     var keyword = $('#keyword').val();
                     if (keyword !== '') {
