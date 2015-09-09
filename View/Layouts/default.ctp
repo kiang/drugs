@@ -55,29 +55,74 @@
                 height: 55px;
                 margin: 0 5px 0 0;
             }
+
+            .form-search input::-webkit-input-placeholder:before {
+                content: '\f002\00a0';
+            }
+
+            .form-search input::-webkit-input-placeholder:after {
+                content: '...';
+            }
+
+            .form-search input::-moz-placeholder:before {
+                content: '\f002\00a0';
+            }
+
+            .form-search input::-moz-placeholder:after {
+                content: '...';
+            }
+
+            .form-search input:-ms-input-placeholder:before {
+                content: '\f002\00a0';
+            }
+
+            .form-search input:-ms-input-placeholder:after {
+                content: '...';
+            }
         </style>
     </head>
     <body>
-        <nav class="navbar navbar-default" role="navigation">
+        <nav class="navbar navbar-inverse" role="navigation" style="border-radius: 0px;">
             <div class="container">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                    </button>
-                    <a class="navbar-brand" href="./">藥要看</a>
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse"></button>
+                    <a class="navbar-brand" href="./">
+                        <span class="text-muted">藥要看</span>
+                    </a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="navbar-collapse">
+                    <ul class="nav navbar-nav nav-menu">
+                        <li class="active"><a href="./">藥物搜尋</a></li>
+                        <li><a href="<?php echo $this->Html->url('/articles'); ?>">醫事新知</a></li>
+                        </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員登入 <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <?php
+                            switch (Configure::read('loginMember.group_id')) {
+                                case '0':
+                            ?>
+                                會員登入 <b class="caret"></b>
+                            </a>
+                            <?php break; }?>
+                            <div class="dropdown-menu" style="width: 300px">
+                                <!-- <li><a href="#">Action</a></li>
                                 <li><a href="#">Another action</a></li>
                                 <li><a href="#">Something else here</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                            </ul>
+                                <li><a href="#">Separated link</a></li> -->
+                                <div class="col-sm-12">
+                                    <input type="text" placeholder="Uname or Email" onclick="return false;" class="form-control input-sm" id="inputError" />
+                                </div>
+                                <br/>
+                                <div class="col-sm-12">
+                                    <input type="password" placeholder="Password" class="form-control input-sm" name="password" id="Password1" />
+                                </div>
+                                <div class="col-sm-12">
+                                    <button type="submit" class="btn btn-success btn-sm">Sign in</button>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </div>
@@ -89,19 +134,21 @@
                 <p>&nbsp;</p>
                 <div class="search-box">
                     <form class="input-group input-group-hg focus form-search" data-search="license">
-                        <input type="text" class="form-control" placeholder="&#xF002;&nbsp;藥物證書..." autofocus>
+                        <input type="text" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="藥物名稱" autofocus>
                         <div class="input-group-btn">
                             <button type="button" class="btn dropdown-toggle" id="btn-search-type" data-toggle="dropdown">
                                 藥物搜尋&nbsp;<b class="caret"></b>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a href="#" data-search="藥物">藥物搜尋</a></li>
-                                <li><a href="#" data-search="外觀">藥物外觀</a></li>
-                                <li><a href="#" data-search="成份">藥物成份</a></li>
-                                <li><a href="#" data-search="廠商">藥物廠商</a></li>
-                                <li><a href="#" data-search="機構">醫事機構</a></li>
+                                <li><a href="#" data-placeholder="藥物名稱" data-type="drug">藥物搜尋</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" data-placeholder="許可證號" data-type="license">藥物證書</a></li>
+                                <li><a href="#" data-placeholder="外觀描述" data-type="outward">藥物外觀</a></li>
+                                <li><a href="#" data-placeholder="成份名稱" data-type="ingredient">藥物成份</a></li>
+                                <li><a href="#" data-placeholder="廠商名稱" data-type="vendor">藥物廠商</a></li>
+                                <li><a href="#" data-placeholder="機構名稱" data-type="point">醫事機構</a></li>
                             </ul>
-                            <button class="btn btn-default btn-search">搜尋<span>藥物</span></button>
+                            <button class="btn btn-default btn-search">搜尋</button>
                         </div>
                     </form>
                 </div>
@@ -181,166 +228,24 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="wrapper row-offcanvas row-offcanvas-left">
-            <aside class="left-side sidebar-offcanvas">
-                <section class="sidebar">
-                    <form action="#" method="get" class="sidebar-form" id="keywordForm">
-                        <div class="input-group">
-                            <input type="text" id="keyword" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="搜尋藥物..."  style="width:198px;" />
-                        </div>
-                        <div class="divider" style="height: 1px; background-color: #dbdbdb;"></div>
-                        <div class="btn-group-justified">
-                            <a href="#" class="btn btn-default btn-find">一般搜尋</a>
-                            <a href="#" class="btn btn-default btn-outward">外觀搜尋</a>
-                        </div>
-                    </form>
-                    <!-- /.search form -->
-                    <ul class="sidebar-menu">
-                        <li class="treeview">
-                            <a href="<?php echo $this->Html->url('/drugs/index'); ?>">
-                                <i class="fa fa-newspaper-o"></i> <span>藥物證書</span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="<?php echo $this->Html->url('/drugs/index/sort:License.submitted/direction:desc'); ?>"><i class="fa fa-angle-double-right"></i> 藥證更新</a></li>
-                                <li><a href="<?php echo $this->Html->url('/drugs/index/sort:License.license_date/direction:desc'); ?>"><i class="fa fa-angle-double-right"></i> 新藥發證</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="<?php echo $this->Html->url('/drugs/outward'); ?>">
-                                <i class="fa fa-photo"></i>
-                                <span>藥物外觀</span>
-                                <i class="fa pull-right"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?php echo $this->Html->url('/ingredients'); ?>">
-                                <i class="fa fa-cogs"></i>
-                                <span>藥物成份</span>
-                                <i class="fa pull-right"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?php echo $this->Html->url('/vendors'); ?>">
-                                <i class="fa fa-truck"></i>
-                                <span>藥物廠商</span>
-                                <i class="fa pull-right"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?php echo $this->Html->url('/points'); ?>">
-                                <i class="fa fa-hospital-o"></i>
-                                <span>醫事機構</span>
-                                <i class="fa pull-right"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?php echo $this->Html->url('/articles'); ?>">
-                                <i class="fa fa-book"></i>
-                                <span>醫事新知</span>
-                                <i class="fa pull-right"></i>
-                            </a>
-                        </li>
-                        <?php
-                        switch (Configure::read('loginMember.group_id')) {
-                            case '0':
-                            ?><li>
-                            <a href="<?php echo $this->Html->url('/members/login'); ?>">
-                                <i class="fa fa-user"></i>
-                                <span>會員登入</span>
-                                <i class="fa pull-right"></i>
-                            </a>
-                        </li><?php
-                        break;
-                        case '1':
-                        ?>
-                        <li>
-                            <a href="<?php echo $this->Html->url('/accounts'); ?>">
-                                <i class="fa fa-book"></i>
-                                <span>健康存摺</span>
-                                <i class="fa pull-right"></i>
-                            </a>
-                        </li>
-                        <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-newspaper-o"></i> <span>文章管理</span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="<?php echo $this->Html->url('/admin/articles/tasks'); ?>"><i class="fa fa-angle-double-right"></i> 暫存連結</a></li>
-                                <li><a href="<?php echo $this->Html->url('/admin/articles/index'); ?>"><i class="fa fa-angle-double-right"></i> 列表</a></li>
-                                <li><a href="<?php echo $this->Html->url('/admin/articles/add'); ?>"><i class="fa fa-angle-double-right"></i> 新增</a></li>
-                            </ul>
-                        </li>
-                        <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-newspaper-o"></i> <span>醫事機構管理</span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="<?php echo $this->Html->url('/admin/points/index'); ?>"><i class="fa fa-angle-double-right"></i> 列表</a></li>
-                                <li><a href="<?php echo $this->Html->url('/admin/points/add'); ?>"><i class="fa fa-angle-double-right"></i> 新增</a></li>
-                            </ul>
-                        </li>
-                        <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-newspaper-o"></i> <span>會員管理</span>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="<?php echo $this->Html->url('/admin/members/index'); ?>"><i class="fa fa-angle-double-right"></i> 會員</a></li>
-                                <li><a href="<?php echo $this->Html->url('/admin/groups/index'); ?>"><i class="fa fa-angle-double-right"></i> 群組</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="<?php echo $this->Html->url('/members/logout'); ?>">
-                                <i class="fa fa-sign-out"></i>
-                                <span>會員登出</span>
-                                <i class="fa pull-right"></i>
-                            </a>
-                        </li>
-                        <?php
-                        break;
-                        case '2':
-                        ?>
-                        <li>
-                            <a href="<?php echo $this->Html->url('/accounts'); ?>">
-                                <i class="fa fa-book"></i>
-                                <span>健康存摺</span>
-                                <i class="fa pull-right"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?php echo $this->Html->url('/members/logout'); ?>">
-                                <i class="fa fa-sign-out"></i>
-                                <span>會員登出</span>
-                                <i class="fa pull-right"></i>
-                            </a>
-                        </li>
-                        <?php
-                        break;
-                    }
+            <div class="row">
+                <?php echo $this->Session->flash(); ?>
+                <div class="col-md-12">
+                    <?php
+                    echo $content_for_layout;
                     ?>
-                </ul>
-            </section>
-            <!-- /.sidebar -->
-        </aside>
 
-        <aside class="right-side">
-            <?php echo $this->Session->flash(); ?>
-            <div class="col-xs-10">
-                <?php
-                echo $content_for_layout;
-                ?>
-
+                </div>
+                <div class="col-md-12">
+                    <ins class="adsbygoogle"
+                    style="display:inline-block;width:160px;height:600px"
+                    data-ad-client="ca-pub-5571465503362954"
+                    data-ad-slot="8707051624"></ins>
+                </div>
             </div>
-            <div class="col-xs-2">
-                <ins class="adsbygoogle"
-                style="display:inline-block;width:160px;height:600px"
-                data-ad-client="ca-pub-5571465503362954"
-                data-ad-slot="8707051624"></ins>
-            </div>
-        </aside><!-- /.right-side -->
-    </div><!-- ./wrapper -->
         </div>
+
         <footer class="footer" style="margin-left: auto;margin-right: auto; margin-bottom: 15px;">
             <div class="row" align="center">
                 <ins class="adsbygoogle"
@@ -411,27 +316,24 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="js/flat-ui-pro.min.js"></script>
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <?php
-        // echo $this->Html->script('app');
-        ?>
         <script>
-            var baseUrl = '<?php echo $this->Html->url('/'); ?>';
             $(function () {
+                var baseUrl = '<?php echo $this->Html->url('/'); ?>';
 
-                $('.search-box a').on('click', function (e) {
-                    e.preventDefault();
-                    $(this).tab('show');
-                });
+                // $('.search-box a').on('click', function (e) {
+                //     e.preventDefault();
+                //     $(this).tab('show');
+                // });
 
-                $('.search-box a').on('shown.bs.tab', function (e) {
-                    var content_id = $(e.target).attr('href');
-                    $(content_id).find('input').focus();
-                });
+                // $('.search-box a').on('shown.bs.tab', function (e) {
+                //     var content_id = $(e.target).attr('href');
+                //     $(content_id).find('input').focus();
+                // });
 
-                $('.dropdown-menu').on('click', 'li a', function () {
-                    $('.btn:first-child').html($(this).text() + '&nbsp;<b class="caret"></b>');
-                    $('.btn:first-child').val($(this).text());
-                    $('.btn-search span').text($(this).data('search'));
+                $('.form-search .dropdown-menu').on('click', 'li a', function () {
+                    $('#btn-search-type').html($(this).text() + '&nbsp;<b class="caret"></b>');
+                    $('.btn-search span').text($(this).data('placeholder'));
+                    $('.form-search .form-control').attr('placeholder', $(this).data('placeholder'));
                });
 
                 $('.form-search .form-control').on('focus', function () {
@@ -454,10 +356,10 @@
 
                     } else {
                         that.addClass('has-error');
-                        $('.btn-search-type').addClass('btn-danger');
-                        input.addClass('animated shake').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-                            that.removeClass('animated shake');
-                            input.one('keydown', function () {
+                        $('#btn-search-type').removeClass('btn-unfocus').addClass('btn-danger');
+                        $('.input-group-btn button:first, .form-search .form-control').addClass('animated shake').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                            $('.input-group-btn button:first, .form-search .form-control').removeClass('animated shake').one('keydown', function () {
+                                $('#btn-search-type').removeClass('btn-danger btn-unfocus');
                                 that.removeClass('has-error');
                             });
                         });
@@ -514,6 +416,5 @@
 
             </script>
         <?php } ?>
-        <?php echo $this->fetch('script'); ?>
     </body>
 </html>
