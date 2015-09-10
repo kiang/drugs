@@ -9,7 +9,7 @@
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-body">
-                    <div class="paging"><?php echo $this->element('paginator'); ?></div>
+                    <div class="paginator-warpper"><?php echo $this->element('paginator'); ?></div>
                     <?php foreach ($articles as $article): ?>
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs pull-right">
@@ -90,9 +90,13 @@
                             </div><!-- /.tab-content -->
                         </div>
                     <?php endforeach; ?>
-                    <div class="paging"><?php echo $this->element('paginator'); ?></div>
+                    <div class="paginator-warpper"><?php echo $this->element('paginator'); ?></div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<script>
+    $('.navbar-collapse ul:first li').removeClass('active').eq(1).addClass('active');
+</script>
