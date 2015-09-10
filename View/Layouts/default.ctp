@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <?php echo $this->Html->charset(); ?>
+
+        <?php
+            $baseUrl = $this->Html->url('/');
+            echo $this->Html->charset();
+        ?>
         <title><?php echo $title_for_layout; ?>藥要看</title>
         <?php
         $trailDesc = '藥要看提供簡單的介面檢索國內有註冊登記的藥品資訊';
@@ -21,11 +25,11 @@
         <link rel="icon" type="image/png" href="<?php echo $imageBaseUrl; ?>/drug_32.png" sizes="32x32">
         <link rel="icon" type="image/png" href="<?php echo $imageBaseUrl; ?>/drug_16.png" sizes="16x16">
         <meta property="og:image" content="<?php echo $ogImage; ?>">
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/flat-ui-pro.min.css" rel="stylesheet">
-        <link href="css/font-awesome.min.css" rel="stylesheet">
-        <link href="css/flaticon.css" rel="stylesheet">
-        <link href="css/animate.css" rel="stylesheet">
+        <link href="<?php echo $baseUrl; ?>/css/bootstrap.min.css" rel="stylesheet">
+        <link href="<?php echo $baseUrl; ?>/css/flat-ui-pro.min.css" rel="stylesheet">
+        <link href="<?php echo $baseUrl; ?>/css/font-awesome.min.css" rel="stylesheet">
+        <link href="<?php echo $baseUrl; ?>/css/flaticon.css" rel="stylesheet">
+        <link href="<?php echo $baseUrl; ?>/css/animate.css" rel="stylesheet">
         <!--[if lt IE 9]>
             <script src="js/html5shiv.js"></script>
             <script src="js/respond.min.js"></script>
@@ -79,10 +83,19 @@
             .form-search input:-ms-input-placeholder:after {
                 content: '...';
             }
+
+            .paginator-warpper {
+                text-align: center;
+            }
+
+            .img-flag {
+                max-width: 30px;
+            }
         </style>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     </head>
     <body>
-        <nav class="navbar navbar-inverse" role="navigation" style="border-radius: 0px;">
+        <nav class="navbar navbar-inverse" style="border-radius: 0px;">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse"></button>
@@ -95,7 +108,7 @@
                     <ul class="nav navbar-nav nav-menu">
                         <li class="active"><a href="./">藥物搜尋</a></li>
                         <li><a href="<?php echo $this->Html->url('/articles'); ?>">醫事新知</a></li>
-                        </ul>
+                    </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -107,13 +120,8 @@
                             </a>
                             <?php break; }?>
                             <div class="dropdown-menu" style="width: 300px">
-                                <!-- <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Separated link</a></li> -->
                                 <div class="col-sm-12">
-                                    <input type="text" placeholder="Uname or Email" onclick="return false;" class="form-control input-sm" id="inputError" />
+                                    <input type="text" placeholder="Uname or Email" class="form-control input-sm" id="inputError" />
                                 </div>
                                 <br/>
                                 <div class="col-sm-12">
@@ -136,7 +144,7 @@
                     <form class="input-group input-group-hg focus form-search" data-search="license">
                         <input type="text" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="藥物名稱" autofocus>
                         <div class="input-group-btn">
-                            <button type="button" class="btn dropdown-toggle" id="btn-search-type" data-toggle="dropdown">
+                            <button type="button" class="btn dropdown-toggle" id="btn-search-type" data-toggle="dropdown" data-type="drug">
                                 藥物搜尋&nbsp;<b class="caret"></b>
                             </button>
                             <ul class="dropdown-menu">
@@ -181,7 +189,7 @@
                     </li>
                 </ul>
 
-                <div class="tab-content search-box-content" style="display: none">
+                <!-- <div class="tab-content search-box-content">
                     <div class="tab-pane fade in active" id="nav-tab-license">
                         <form class="input-group focus form-search" data-search="license">
                             <input type="text" class="form-control" placeholder="&#xF002;&nbsp;藥物證書..." autofocus>
@@ -226,7 +234,7 @@
                             </span>
                         </form>
                     </div>
-                </div>
+                </div> -->
             </div>
 
             <div class="row">
@@ -247,7 +255,7 @@
         </div>
 
         <footer class="footer" style="margin-left: auto;margin-right: auto; margin-bottom: 15px;">
-            <div class="row" align="center">
+            <div class="row" style="text-align: center">
                 <ins class="adsbygoogle"
                      style="display:inline-block;width:336px;height:280px"
                      data-ad-client="ca-pub-5571465503362954"
@@ -313,8 +321,7 @@
             </div>
         </footer>
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-        <script src="js/flat-ui-pro.min.js"></script>
+        <script src="<?php echo $baseUrl; ?>/js/flat-ui-pro.min.js"></script>
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <script>
             $(function () {
@@ -330,10 +337,12 @@
                 //     $(content_id).find('input').focus();
                 // });
 
-                $('.form-search .dropdown-menu').on('click', 'li a', function () {
+                $('.form-search .dropdown-menu').on('click', 'li a', function (e) {
+                    e.preventDefault();
                     $('#btn-search-type').html($(this).text() + '&nbsp;<b class="caret"></b>');
                     $('.btn-search span').text($(this).data('placeholder'));
                     $('.form-search .form-control').attr('placeholder', $(this).data('placeholder'));
+                    $('.btn-search-type').attr('data-type', $(this).data('type'));
                });
 
                 $('.form-search .form-control').on('focus', function () {
