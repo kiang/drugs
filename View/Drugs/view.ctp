@@ -155,7 +155,7 @@
                         <dd><?php echo $this->data['Vendor']['address_office']; ?>&nbsp;
                         </dd>
                         <dt>製造廠國別</dt>
-                        <dd><?php echo $this->data['Vendor']['country']; ?>&nbsp;
+                        <dd><?php echo $this->Olc->showCountry($this->data['Vendor']['country']); ?>&nbsp;
                         </dd>
                         <dt>製程</dt>
                         <dd><?php echo $this->data['Drug']['manufacturer_description']; ?>&nbsp;

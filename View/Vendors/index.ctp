@@ -30,7 +30,7 @@ echo $this->Html->script('c/vendors/index', array('inline' => false));
                                         <?php echo $this->Html->link($item['Vendor']['name'], array('action' => 'view', $item['Vendor']['id'])); ?></td>
                                     <td><?php echo $item['Vendor']['tax_id']; ?></td>
                                     <td><?php echo $item['Vendor']['address']; ?></td>
-                                    <td><?php echo $item['Vendor']['country']; ?></td>
+                                    <td><?php echo $this->Olc->showCountry($item['Vendor']['country']); ?></td>
                                 </tr>
                             <?php }; // End of foreach ($items as $item) {  ?>
                         </tbody>
