@@ -230,7 +230,7 @@ class DrugsController extends AppController {
                 ),
                 'conditions' => array(
                     'Drug.license_id' => $this->data['Drug']['license_id'],
-                    //'Drug.id !=' => $this->data['Drug']['id'],
+                //'Drug.id !=' => $this->data['Drug']['id'],
                 ),
                 'contain' => array('Vendor' => array(
                         'fields' => array('name', 'country'),

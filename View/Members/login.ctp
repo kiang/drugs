@@ -18,12 +18,12 @@
                             'class' => 'form-control',
                             'div' => array(
                                 'class' => 'form-group'
-                                ),
+                            ),
                             'label' => array(
                                 'class' => 'control-label'
-                                )
                             )
                         )
+                            )
                     );
                     echo $this->Form->input('username');
                     echo $this->Form->input('password');

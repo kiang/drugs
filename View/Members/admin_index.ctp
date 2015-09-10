@@ -58,18 +58,18 @@
                                         <?php echo $member['Member']['modified']; ?>
                                     </td>
                                     <td class="actions">
-                                        <?php echo $this->Html->link(__('View', true), array('action' => 'view', $member['Member']['id']), array('class' => 'dialogControl')); ?>
-                                        <?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $member['Member']['id']), array('class' => 'dialogControl')); ?>
-                                        <?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $member['Member']['id']), null, __('Delete the item, sure?', true)); ?>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </table>
-                        <div class="paging"><?php echo $this->element('paginator'); ?></div>
-                        <div id="MembersAdminIndexPanel"></div>
-                        <?php
-                        $jsUri = $this->Html->url() . '/index';
-                        echo $this->Html->scriptBlock('
+                                        <?php echo $this->Html->link(__('View', true), array('action' => 'view', $member[ 'Member'][ 'id']), array('class' => 'dialogControl')); ?> 
+                                                <?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $member[ 'Member'][ 'id']), array('class' => 'dialogControl')); ?> 
+                                                <?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $member[ 'Member'][ 'id']), null, __('Delete the item, sure?', true)); ?>  
+                                                    </td>
+                                                </tr>
+                                <?php endforeach; ?>
+                            </table>
+                            <div class="paging"><?php echo $this->element ('paginator'); ?></div>
+                            <div id="MembersAdminIndexPanel"></div>
+                            <?php
+                            $jsUri = $this->Html->url () . '/index';
+                            echo $this->Html->scriptBlock ('
 $(function() {
     $(\'#MembersAdminIndexTable th a, #MembersAdminIndex div.paging a\').click(function() {
         $(\'#MembersAdminIndex\').parent().load(this.href);
@@ -86,7 +86,7 @@ $(function() {
     });
 });
 ');
-                        ?>
+                            ?>
                     </div>
 
                 </div>

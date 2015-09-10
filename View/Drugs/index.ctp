@@ -22,8 +22,8 @@ echo $this->Html->script('c/drugs/index', array('inline' => false));
             <?php
             $i = 0;
             $file = new File('../View/country.json');
-            $country_list = json_decode($file -> read(), true)[0];
-            $file -> close();
+            $country_list = json_decode($file->read(), true)[0];
+            $file->close();
             foreach ($items as $item) {
                 $name = $item['License']['name'];
                 if (!empty($item['License']['name_english'])) {
@@ -43,7 +43,7 @@ echo $this->Html->script('c/drugs/index', array('inline' => false));
                         $country = $item['Vendor']['country'];
                         if ($country !== '') {
                             if (array_key_exists($country, $country_list)) {
-                                echo '<img src="http://api.hostip.info/images/flags/'. strtolower($country_list[$country][1]) . '.gif" class="img-flag" alt="' . $country_list[$country][0] . '" title="' . $country_list[$country][0] . '">';
+                                echo '<img src="http://api.hostip.info/images/flags/' . strtolower($country_list[$country][1]) . '.gif" class="img-flag" alt="' . $country_list[$country][0] . '" title="' . $country_list[$country][0] . '">';
                             } else {
                                 echo $country;
                             }

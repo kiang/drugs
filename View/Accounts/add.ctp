@@ -4,11 +4,11 @@ echo $this->Html->script('c/accounts/add', array('inline' => false));
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1><?php
-    echo implode(' > ', array(
-        $this->Html->link('健康存摺', array('controller' => 'accounts', 'action' => 'index')),
-        '新增健康存摺',
-    ));
-    ?></h1>
+        echo implode(' > ', array(
+            $this->Html->link('健康存摺', array('controller' => 'accounts', 'action' => 'index')),
+            '新增健康存摺',
+        ));
+        ?></h1>
 </section>
 
 <!-- Main content -->

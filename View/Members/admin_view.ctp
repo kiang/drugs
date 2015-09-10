@@ -18,14 +18,14 @@
                             $class = ' class="altrow"';
                             ?>
                             <dt<?php
-                                if ($i % 2 == 0)
-                                    echo $class;
-                                ?>><?php __('Id'); ?></dt>
+                            if ($i % 2 == 0)
+                                echo $class;
+                            ?>><?php __('Id'); ?></dt>
                             <dd<?php
-                                    if ($i++ % 2 == 0)
-                                        echo $class;
-                                    ?>>
-                            <?php echo $member['Member']['id']; ?>
+                            if ($i++ % 2 == 0)
+                                echo $class;
+                            ?>>
+                                    <?php echo $member['Member']['id']; ?>
                                 &nbsp;
                             </dd>
                             <dt<?php
@@ -33,21 +33,21 @@
                                 echo $class;
                             ?>><?php __('Username'); ?></dt>
                             <dd<?php
-                                    if ($i++ % 2 == 0)
-                                        echo $class;
+                            if ($i++ % 2 == 0)
+                                echo $class;
                             ?>>
-                                <?php echo $member['Member']['username']; ?>
+                                    <?php echo $member['Member']['username']; ?>
                                 &nbsp;
                             </dd>
                             <dt<?php
-                                    if ($i % 2 == 0)
-                                        echo $class;
-                                    ?>><?php __('Password'); ?></dt>
+                            if ($i % 2 == 0)
+                                echo $class;
+                            ?>><?php __('Password'); ?></dt>
                             <dd<?php
                             if ($i++ % 2 == 0)
                                 echo $class;
                             ?>>
-                            <?php echo $member['Member']['password']; ?>
+                                    <?php echo $member['Member']['password']; ?>
                                 &nbsp;
                             </dd>
                             <dt<?php
@@ -66,21 +66,21 @@
                                 echo $class;
                             ?>><?php __('Created'); ?></dt>
                             <dd<?php
-                                if ($i++ % 2 == 0)
-                                    echo $class;
-                                ?>>
-<?php echo $member['Member']['created']; ?>
+                            if ($i++ % 2 == 0)
+                                echo $class;
+                            ?>>
+                                    <?php echo $member['Member']['created']; ?>
                                 &nbsp;
                             </dd>
                             <dt<?php
-if ($i % 2 == 0)
-    echo $class;
-?>><?php __('Modified'); ?></dt>
+                            if ($i % 2 == 0)
+                                echo $class;
+                            ?>><?php __('Modified'); ?></dt>
                             <dd<?php
-if ($i++ % 2 == 0)
-    echo $class;
-?>>
-<?php echo $member['Member']['modified']; ?>
+                            if ($i++ % 2 == 0)
+                                echo $class;
+                            ?>>
+                                    <?php echo $member['Member']['modified']; ?>
                                 &nbsp;
                             </dd>
                         </dl>

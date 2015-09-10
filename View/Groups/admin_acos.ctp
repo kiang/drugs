@@ -32,28 +32,28 @@ echo $this->Html->script('c/groups/admin_acos', array('inline' => false));
                                 <tr<?php echo $class; ?>>
                                     <td style="text-align:left;"><?php
                                         echo $aco['Aco']['alias'];
-                                        if (!empty($aco['Aco']['Aco'])) {
-                                            echo '<input type="checkbox" name="ctrl' . $aco['Aco']['alias'] . '" class="acoController simple">';
-                                            echo '<hr /><div id="sub' . $aco['Aco']['alias'] . '">';
-                                            foreach ($aco['Aco']['Aco'] AS $actionAco) {
-                                                echo '<div class="col-md-5"><input type="checkbox" name="' . $aco['Aco']['alias'] . '___' . $actionAco['alias'] . '"';
-                                                if ($actionAco['permitted'] == 1) {
-                                                    echo ' checked="checked"';
-                                                }
-                                                echo ' class="acoPermitted simple">';
-                                                echo $actionAco['alias'] . '</div>';
-                                            }
-                                            echo '</div>';
-                                        }
-                                        ?></td>
-                                </tr>
-                            <?php } // End of foreach ($acos as $aco) { ?>
+                                        if (!empty ($aco['Aco']['Aco'])) {
+                                        echo '<input type="checkbox" name="ctrl' . $aco['Aco'] ['alias'] . '" class="acoController simple">';
+                                        echo '<hr /><div id="sub' . $aco['Aco'] ['alias'] . '">';
+                                        foreach ($aco['Aco']['Aco'] AS $actionAco) {
+                                        echo '<div class="col-md-5"><input type="checkbox" name="' . $aco['Aco'] ['alias'] . '___' . $actionAco [ 'alias'] . '"';
+                                        if ($actionAco['permitted'] == 1) {
+                                        echo ' checked="checked"';
+                                    }
+                                    echo ' class="acoPermitted simple">';
+                                    echo $actionAco['alias'] . '</div>';
+                                }
+                                echo '</div>';
+                            }
+                            ?></td>
+                            </tr>
+                    <?php } // End of foreach ($acos as $aco) { ?>
                         </table>
-                        <?php
-                        echo $this->Form->create('Group', array('url' => array('action' => 'acos', $groupId)));
-                        echo '<ul id="permissionStack"></ul>';
-                        echo $this->Form->end(__('Update', true));
-                        ?>
+                <?php
+                echo $this->Form->create('Group', array( 'url' => array('action' => 'acos', $groupId)));
+                    echo '<ul id="permissionStack"></ul>';
+                    echo $this->Form->end(__('Update', true));
+                    ?>  
                     </div>
                 </div>
                 <div class="box-footer clearfix">

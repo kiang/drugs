@@ -3,8 +3,8 @@
     <head>
 
         <?php
-            $baseUrl = $this->Html->url('/');
-            echo $this->Html->charset();
+        $baseUrl = $this->Html->url('/');
+        echo $this->Html->charset();
         ?>
         <title><?php echo $title_for_layout; ?>藥要看</title>
         <?php
@@ -112,13 +112,15 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <?php
-                            switch (Configure::read('loginMember.group_id')) {
-                                case '0':
+                                <?php
+                                switch (Configure::read('loginMember.group_id')) {
+                                    case '0':
+                                        ?>
+                                        會員登入 <b class="caret"></b>
+                                    </a>
+                                    <?php break;
+                            }
                             ?>
-                                會員登入 <b class="caret"></b>
-                            </a>
-                            <?php break; }?>
                             <div class="dropdown-menu" style="width: 300px">
                                 <div class="col-sm-12">
                                     <input type="text" placeholder="Uname or Email" class="form-control input-sm" id="inputError" />
@@ -238,7 +240,7 @@
             </div>
 
             <div class="row">
-                <?php echo $this->Session->flash(); ?>
+                    <?php echo $this->Session->flash(); ?>
                 <div class="col-md-12">
                     <?php
                     echo $content_for_layout;
@@ -247,9 +249,9 @@
                 </div>
                 <div class="col-md-12">
                     <ins class="adsbygoogle"
-                    style="display:inline-block;width:160px;height:600px"
-                    data-ad-client="ca-pub-5571465503362954"
-                    data-ad-slot="8707051624"></ins>
+                         style="display:inline-block;width:160px;height:600px"
+                         data-ad-client="ca-pub-5571465503362954"
+                         data-ad-slot="8707051624"></ins>
                 </div>
             </div>
         </div>
@@ -277,9 +279,9 @@
                         <script>
                             /* * * CONFIGURATION VARIABLES * * */
                             var disqus_shortname = 'drugs-tw',
-                                disqus_config = function () {
-                                this.language = "zh_TW";
-                            };
+                                    disqus_config = function () {
+                                        this.language = "zh_TW";
+                                    };
 
                             /* * * DON'T EDIT BELOW THIS LINE * * */
                             (function () {
@@ -290,8 +292,8 @@
                                 (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
                             })();
                         </script>
-                <?php
-                    break;
+                        <?php
+                        break;
                 }
                 ?>
                 <?php echo $this->Html->link('信雲國際股份有限公司', 'http://syi.tw/', array('target' => '_blank')); ?> 建置
@@ -324,88 +326,88 @@
         <script src="<?php echo $baseUrl; ?>/js/flat-ui-pro.min.js"></script>
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <script>
-            $(function () {
-                var baseUrl = '<?php echo $this->Html->url('/'); ?>';
+                    $(function () {
+                        var baseUrl = '<?php echo $this->Html->url('/'); ?>';
 
-                // $('.search-box a').on('click', function (e) {
-                //     e.preventDefault();
-                //     $(this).tab('show');
-                // });
+                        // $('.search-box a').on('click', function (e) {
+                        //     e.preventDefault();
+                        //     $(this).tab('show');
+                        // });
 
-                // $('.search-box a').on('shown.bs.tab', function (e) {
-                //     var content_id = $(e.target).attr('href');
-                //     $(content_id).find('input').focus();
-                // });
+                        // $('.search-box a').on('shown.bs.tab', function (e) {
+                        //     var content_id = $(e.target).attr('href');
+                        //     $(content_id).find('input').focus();
+                        // });
 
-                $('.form-search .dropdown-menu').on('click', 'li a', function (e) {
-                    e.preventDefault();
-                    $('#btn-search-type').html($(this).text() + '&nbsp;<b class="caret"></b>');
-                    $('.btn-search span').text($(this).data('placeholder'));
-                    $('.form-search .form-control').attr('placeholder', $(this).data('placeholder'));
-                    $('.btn-search-type').attr('data-type', $(this).data('type'));
-               });
-
-                $('.form-search .form-control').on('focus', function () {
-                    $('#btn-search-type').removeClass('btn-unfocus');
-                })
-
-                $('.form-search .form-control').on('blur', function () {
-                    $('#btn-search-type').addClass('btn-unfocus');
-                })
-
-                $('.form-search').on('submit', function (e) {
-                    e.preventDefault();
-                    var that = $(this),
-                        input = $(this).find('.form-control');
-
-                    that.removeClass('has-error');
-                    $('#btn-search-type').removeClass('btn-danger');
-
-                    if (input.val() !== '') {
-
-                    } else {
-                        that.addClass('has-error');
-                        $('#btn-search-type').removeClass('btn-unfocus').addClass('btn-danger');
-                        $('.input-group-btn button:first, .form-search .form-control').addClass('animated shake').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-                            $('.input-group-btn button:first, .form-search .form-control').removeClass('animated shake').one('keydown', function () {
-                                $('#btn-search-type').removeClass('btn-danger btn-unfocus');
-                                that.removeClass('has-error');
-                            });
+                        $('.form-search .dropdown-menu').on('click', 'li a', function (e) {
+                            e.preventDefault();
+                            $('#btn-search-type').html($(this).text() + '&nbsp;<b class="caret"></b>');
+                            $('.btn-search span').text($(this).data('placeholder'));
+                            $('.form-search .form-control').attr('placeholder', $(this).data('placeholder'));
+                            $('.btn-search-type').attr('data-type', $(this).data('type'));
                         });
-                    }
-                });
 
-                $('.btn-find').on('click', function () {
-                    var keyword = $('#keyword').val();
-                    if (keyword !== '') {
-                        location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
-                    } else {
-                        alert('您尚未輸入關鍵字！');
-                    }
-                    return false;
-                });
+                        $('.form-search .form-control').on('focus', function () {
+                            $('#btn-search-type').removeClass('btn-unfocus');
+                        })
 
-                $('.btn-outward').on('click', function () {
-                    var keyword = $('#keyword').val();
-                    if (keyword !== '') {
-                        location.href = '<?php echo $this->Html->url('/drugs/outward/'); ?>' + encodeURIComponent(keyword);
-                    } else {
-                        alert('您尚未輸入關鍵字！');
-                    }
-                    return false;
-                });
+                        $('.form-search .form-control').on('blur', function () {
+                            $('#btn-search-type').addClass('btn-unfocus');
+                        })
 
-                $('#keywordForm').on('submit', function () {
-                    var keyword = $('#keyword').val();
-                    if (keyword !== '') {
-                        location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
-                    } else {
-                        alert('您尚未輸入關鍵字！');
-                    }
-                });
-            });
+                        $('.form-search').on('submit', function (e) {
+                            e.preventDefault();
+                            var that = $(this),
+                                    input = $(this).find('.form-control');
+
+                            that.removeClass('has-error');
+                            $('#btn-search-type').removeClass('btn-danger');
+
+                            if (input.val() !== '') {
+
+                            } else {
+                                that.addClass('has-error');
+                                $('#btn-search-type').removeClass('btn-unfocus').addClass('btn-danger');
+                                $('.input-group-btn button:first, .form-search .form-control').addClass('animated shake').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                                    $('.input-group-btn button:first, .form-search .form-control').removeClass('animated shake').one('keydown', function () {
+                                        $('#btn-search-type').removeClass('btn-danger btn-unfocus');
+                                        that.removeClass('has-error');
+                                    });
+                                });
+                            }
+                        });
+
+                        $('.btn-find').on('click', function () {
+                            var keyword = $('#keyword').val();
+                            if (keyword !== '') {
+                                location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
+                            } else {
+                                alert('您尚未輸入關鍵字！');
+                            }
+                            return false;
+                        });
+
+                        $('.btn-outward').on('click', function () {
+                            var keyword = $('#keyword').val();
+                            if (keyword !== '') {
+                                location.href = '<?php echo $this->Html->url('/drugs/outward/'); ?>' + encodeURIComponent(keyword);
+                            } else {
+                                alert('您尚未輸入關鍵字！');
+                            }
+                            return false;
+                        });
+
+                        $('#keywordForm').on('submit', function () {
+                            var keyword = $('#keyword').val();
+                            if (keyword !== '') {
+                                location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
+                            } else {
+                                alert('您尚未輸入關鍵字！');
+                            }
+                        });
+                    });
         </script>
-        <?php if (Configure::read('debug') === 0 && Configure::read('loginMember.group_id') !== '1') { ?>
+<?php if (Configure::read('debug') === 0 && Configure::read('loginMember.group_id') !== '1') { ?>
             <script>
                 (function (i, s, o, g, r, a, m) {
                     i['GoogleAnalyticsObject'] = r;
@@ -424,6 +426,6 @@
                 (adsbygoogle = window.adsbygoogle || []).push({});
 
             </script>
-        <?php } ?>
+<?php } ?>
     </body>
 </html>

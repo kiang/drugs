@@ -295,7 +295,7 @@
                             <?php
                             foreach ($articles AS $article) {
                                 echo '<li>';
-                                switch($articleIds[$article['Article']['id']]) {
+                                switch ($articleIds[$article['Article']['id']]) {
                                     case 'Vendor':
                                         echo '藥廠 >> ';
                                         break;

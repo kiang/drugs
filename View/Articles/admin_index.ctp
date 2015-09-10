@@ -25,10 +25,10 @@
                                 <tr>
                                     <td><?php echo h($article['Article']['title']); ?>&nbsp;</td>
                                     <td><?php
-                                    if(!empty($article['Article']['url'])) {
-                                        echo $this->Html->link($article['Article']['url'], $article['Article']['url'], array('target' => '_blank'));
-                                    }
-                                    ?>&nbsp;</td>
+                                        if (!empty($article['Article']['url'])) {
+                                            echo $this->Html->link($article['Article']['url'], $article['Article']['url'], array('target' => '_blank'));
+                                        }
+                                        ?>&nbsp;</td>
                                     <td><?php echo h($article['Article']['date_published']); ?>&nbsp;</td>
                                     <td><?php echo h($article['Article']['modified']); ?>&nbsp;</td>
                                     <td class="actions">
