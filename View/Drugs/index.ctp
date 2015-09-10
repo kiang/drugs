@@ -40,9 +40,13 @@ echo $this->Html->script('c/drugs/index', array('inline' => false));
                         echo $item['Vendor']['name'];
                         ?></td>
                     <td><?php
-                        if ($item['Vendor']['country'] !== '') {
-                            $country = $item['Vendor']['country'];
-                            echo '<img src="http://api.hostip.info/images/flags/'. strtolower($country_list[$country][1]) . '.gif" class="img-flag" alt="' . $country_list[$country][0] . '" title="' . $country_list[$country][0] . '">';
+                        $country = $item['Vendor']['country'];
+                        if ($country !== '') {
+                            if (array_key_exists($country, $country_list)) {
+                                echo '<img src="http://api.hostip.info/images/flags/'. strtolower($country_list[$country][1]) . '.gif" class="img-flag" alt="' . $country_list[$country][0] . '" title="' . $country_list[$country][0] . '">';
+                            } else {
+                                echo $country;
+                            }
                         } else {
                             echo '<span title="無紀錄" class="fui-question-circle text-muted"></span>';
                         }
