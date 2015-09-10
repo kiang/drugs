@@ -69,7 +69,7 @@ class VendorsController extends AppController {
         }
         $this->set('title_for_layout', $title . '藥品廠商一覽 @ ');
         $this->set('items', $this->paginate($this->Vendor, $scope));
-        $this->set('vendorKeyword', $name);
+        $this->set('keyword', $name);
     }
 
     public function view($id = null) {

@@ -143,7 +143,6 @@ class DrugsController extends AppController {
         $this->set('title_for_layout', $title . '藥品一覽 @ ');
         $this->set('items', $this->paginate($this->Drug, $scope));
         $this->set('keyword', $name);
-        $this->set('drugKeyword', $name);
     }
 
     function index($name = null) {
@@ -189,7 +188,6 @@ class DrugsController extends AppController {
         $this->set('title_for_layout', $title . '藥品一覽 @ ');
         $this->set('items', $this->paginate($this->Drug, $scope));
         $this->set('keyword', $name);
-        $this->set('drugKeyword', $name);
     }
 
     function view($id = null) {

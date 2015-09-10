@@ -79,7 +79,7 @@ class PointsController extends AppController {
         }
         $this->set('points', $this->paginate($this->Point, $scope));
         $this->set('title_for_layout', $title . '醫療院所一覽 @ ');
-        $this->set('pointKeyword', $name);
+        $this->set('keyword', $name);
     }
 
     /**

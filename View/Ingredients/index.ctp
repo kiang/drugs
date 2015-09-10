@@ -1,25 +1,16 @@
 <?php
 echo $this->Html->script('c/ingredients/index', array('inline' => false));
 ?>
-<!-- Content Header (Page header) -->
-<section class="content-header">
-    <form id="form-find-ingredient">
-        <h1>藥物成份</h1>
-        <ol class="breadcrumb">
-            <li class="col-xs-8"><input type="text" id="ingredientKeyword" value="<?php echo isset($ingredientKeyword) ? $ingredientKeyword : ''; ?>" class="form-control" placeholder="搜尋..."/></li>
-            <li><a href="#" class="btn btn-default btn-find-ingredient">搜尋</a></li>
-        </ol>
-    </form>
-</section>
+<h2>藥物成份</h2>
+<div class="paginator-wrapper">
+    <?php echo $this->element('paginator'); ?>
+</div>
 
 <!-- Main content -->
 <section class="content">
     <div id="IngredientsIndex" class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-header">
-                    <?php echo $this->element('paginator'); ?>
-                </div>
                 <div class="box-body table-responsive no-padding">
                     <table class="table table-hover" id="IngredientsIndexTable">
                         <thead>
@@ -44,11 +35,12 @@ echo $this->Html->script('c/ingredients/index', array('inline' => false));
                         </tbody>
                     </table>
                 </div>
-                <div class="box-footer clearfix">
-                    <?php echo $this->element('paginator'); ?>
-                </div>
             </div>
         </div>
         <div id="IngredientsIndexPanel"></div>
     </div>
 </section><!-- /.content -->
+
+<div class="clearfix paginator-wrapper">
+    <?php echo $this->element('paginator'); ?>
+</div>

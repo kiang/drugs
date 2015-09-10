@@ -1,16 +1,10 @@
 <?php
 echo $this->Html->script('c/points/index', array('inline' => false));
 ?>
-<!-- Content Header (Page header) -->
-<section class="content-header">
-    <form id="form-find-point">
-        <h1>醫事機構</h1>
-        <ol class="breadcrumb">
-            <li class="col-xs-8"><input type="text" id="pointKeyword" value="<?php echo isset($pointKeyword) ? $pointKeyword : ''; ?>" class="form-control" placeholder="搜尋..."/></li>
-            <li><a href="#" class="btn btn-default btn-find-point">搜尋</a></li>
-        </ol>
-    </form>
-</section>
+<h2>醫事機構</h2>
+<div class="paginator-wrapper">
+    <?php echo $this->element('paginator'); ?>
+</div>
 
 <!-- Main content -->
 <section class="content">
@@ -21,7 +15,6 @@ echo $this->Html->script('c/points/index', array('inline' => false));
                 </div>
                 <div class="box-body">
                     <div class="points index">
-                        <div class="paging"><?php echo $this->element('paginator'); ?></div>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -48,10 +41,12 @@ echo $this->Html->script('c/points/index', array('inline' => false));
                                 <?php endforeach; ?>
                             </tbody>
                         </table>
-                        <div class="paging"><?php echo $this->element('paginator'); ?></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<div class="clearfix paginator-wrapper">
+    <?php echo $this->element('paginator'); ?>
+</div>
