@@ -106,7 +106,7 @@
 
                 <div class="collapse navbar-collapse" id="navbar-collapse">
                     <ul class="nav navbar-nav nav-menu">
-                        <li class="active"><a href="./">藥物搜尋</a></li>
+                        <li class="active"><a href="<?php echo $this->Html->url('/'); ?>">藥物搜尋</a></li>
                         <li><a href="<?php echo $this->Html->url('/articles'); ?>">醫事新知</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
