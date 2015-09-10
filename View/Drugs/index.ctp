@@ -2,7 +2,7 @@
 echo $this->Html->script('c/drugs/index', array('inline' => false));
 ?>
 <h2>藥物證書</h2>
-<div style="text-align: center">
+<div class="paginator-warpper">
     <?php echo $this->element('paginator'); ?>
 </div>
 <div class="box-body table-responsive no-padding">
@@ -21,6 +21,9 @@ echo $this->Html->script('c/drugs/index', array('inline' => false));
         <tbody>
             <?php
             $i = 0;
+            $file = new File('../View/country.json');
+            $country_list = json_decode($file -> read(), true)[0];
+            $file -> close();
             foreach ($items as $item) {
                 $name = $item['License']['name'];
                 if (!empty($item['License']['name_english'])) {
@@ -37,7 +40,12 @@ echo $this->Html->script('c/drugs/index', array('inline' => false));
                         echo $item['Vendor']['name'];
                         ?></td>
                     <td><?php
-                        echo $item['Vendor']['country'];
+                        if ($item['Vendor']['country'] !== '') {
+                            $country = $item['Vendor']['country'];
+                            echo '<img src="http://api.hostip.info/images/flags/'. strtolower($country_list[$country][1]) . '.gif" class="img-flag" alt="' . $country_list[$country][0] . '" title="' . $country_list[$country][0] . '">';
+                        } else {
+                            echo '<span title="無紀錄" class="fui-question-circle text-muted"></span>';
+                        }
                         ?></td>
                     <td><?php
                         echo $item['License']['expired_date'];
@@ -53,7 +61,6 @@ echo $this->Html->script('c/drugs/index', array('inline' => false));
         </tbody>
     </table>
 </div>
-<div class="clearfix" style="text-align: center">
+<div class="clearfix paginator-warpper">
     <?php echo $this->element('paginator'); ?>
 </div>
-<div id="DrugsIndexPanel"></div>
