@@ -114,29 +114,49 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <?php
-                                switch (Configure::read('loginMember.group_id')) {
-                                    case '0':
+
+                            <?php
+                            switch (Configure::read('loginMember.group_id')) {
+                                case '0':
+                                    ?>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員登入 <b class="caret"></b></a>
+                                    <div class="dropdown-menu" style="width: 300px">
+                                        <?php echo $this->Form->create('Member', array('url' => '/members/login')); ?>
+                                        <?php
+                                        echo $this->Form->input('username', array(
+                                            'label' => false,
+                                            'div' => 'col-sm-12',
+                                            'class' => 'form-control input-sm',
+                                            'id' => 'inputError',
+                                            'placeholder' => 'Username',
+                                        ));
+                                        echo $this->Form->input('password', array(
+                                            'type' => 'password',
+                                            'label' => false,
+                                            'div' => 'col-sm-12',
+                                            'class' => 'form-control input-sm',
+                                            'id' => 'Password1',
+                                            'placeholder' => 'Password',
+                                        ));
                                         ?>
-                                        會員登入 <b class="caret"></b>
-                                    </a>
+                                        <div class="col-sm-12">
+                                            <button type="submit" class="btn btn-success btn-sm">Sign in</button>
+                                        </div>
+                                        <?php echo $this->Form->end(); ?>
+                                    </div>
                                     <?php
                                     break;
+                                default:
+                                    ?>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員功能 <b class="caret"></b></a>
+                                    <div class="dropdown-menu" style="width: 300px">
+                                        <?php
+                                        echo $this->Html->link('登出', '/members/logout', array('class' => 'btn btn-primary'));
+                                        ?>
+                                    </div>
+                                <?php
                             }
                             ?>
-                            <div class="dropdown-menu" style="width: 300px">
-                                <div class="col-sm-12">
-                                    <input type="text" placeholder="Uname or Email" class="form-control input-sm" id="inputError" />
-                                </div>
-                                <br/>
-                                <div class="col-sm-12">
-                                    <input type="password" placeholder="Password" class="form-control input-sm" name="password" id="Password1" />
-                                </div>
-                                <div class="col-sm-12">
-                                    <button type="submit" class="btn btn-success btn-sm">Sign in</button>
-                                </div>
-                            </div>
                         </li>
                     </ul>
                 </div>
