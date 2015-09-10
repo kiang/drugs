@@ -92,6 +92,9 @@
                 max-width: 30px;
             }
         </style>
+        <script>
+            var baseUrl = '<?php echo $baseUrl; ?>';
+        </script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     </head>
     <body>
@@ -118,7 +121,8 @@
                                         ?>
                                         會員登入 <b class="caret"></b>
                                     </a>
-                                    <?php break;
+                                    <?php
+                                    break;
                             }
                             ?>
                             <div class="dropdown-menu" style="width: 300px">
@@ -240,7 +244,7 @@
             </div>
 
             <div class="row">
-                    <?php echo $this->Session->flash(); ?>
+                <?php echo $this->Session->flash(); ?>
                 <div class="col-md-12">
                     <?php
                     echo $content_for_layout;
@@ -277,20 +281,20 @@
                         ?>
                         <div id="disqus_thread"></div>
                         <script>
-                            /* * * CONFIGURATION VARIABLES * * */
-                            var disqus_shortname = 'drugs-tw',
-                                    disqus_config = function () {
-                                        this.language = "zh_TW";
-                                    };
+                    /* * * CONFIGURATION VARIABLES * * */
+                    var disqus_shortname = 'drugs-tw',
+                            disqus_config = function () {
+                                this.language = "zh_TW";
+                            };
 
-                            /* * * DON'T EDIT BELOW THIS LINE * * */
-                            (function () {
-                                var dsq = document.createElement('script');
-                                dsq.type = 'text/javascript';
-                                dsq.async = true;
-                                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                            })();
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function () {
+                        var dsq = document.createElement('script');
+                        dsq.type = 'text/javascript';
+                        dsq.async = true;
+                        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
                         </script>
                         <?php
                         break;
@@ -325,107 +329,30 @@
 
         <script src="<?php echo $baseUrl; ?>/js/flat-ui-pro.min.js"></script>
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <script>
-                    $(function () {
-                        var baseUrl = '<?php echo $this->Html->url('/'); ?>';
+        <?php
+        echo $this->Html->script('c/layout', array('inline' => true));
+        echo $scripts_for_layout;
+        ?>
 
-                        // $('.search-box a').on('click', function (e) {
-                        //     e.preventDefault();
-                        //     $(this).tab('show');
-                        // });
-
-                        // $('.search-box a').on('shown.bs.tab', function (e) {
-                        //     var content_id = $(e.target).attr('href');
-                        //     $(content_id).find('input').focus();
-                        // });
-
-                        $('.form-search .dropdown-menu').on('click', 'li a', function (e) {
-                            e.preventDefault();
-                            $('#btn-search-type').html($(this).text() + '&nbsp;<b class="caret"></b>');
-                            $('.btn-search span').text($(this).data('placeholder'));
-                            $('.form-search .form-control').attr('placeholder', $(this).data('placeholder'));
-                            $('.btn-search-type').attr('data-type', $(this).data('type'));
-                        });
-
-                        $('.form-search .form-control').on('focus', function () {
-                            $('#btn-search-type').removeClass('btn-unfocus');
-                        })
-
-                        $('.form-search .form-control').on('blur', function () {
-                            $('#btn-search-type').addClass('btn-unfocus');
-                        })
-
-                        $('.form-search').on('submit', function (e) {
-                            e.preventDefault();
-                            var that = $(this),
-                                    input = $(this).find('.form-control');
-
-                            that.removeClass('has-error');
-                            $('#btn-search-type').removeClass('btn-danger');
-
-                            if (input.val() !== '') {
-
-                            } else {
-                                that.addClass('has-error');
-                                $('#btn-search-type').removeClass('btn-unfocus').addClass('btn-danger');
-                                $('.input-group-btn button:first, .form-search .form-control').addClass('animated shake').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-                                    $('.input-group-btn button:first, .form-search .form-control').removeClass('animated shake').one('keydown', function () {
-                                        $('#btn-search-type').removeClass('btn-danger btn-unfocus');
-                                        that.removeClass('has-error');
-                                    });
-                                });
-                            }
-                        });
-
-                        $('.btn-find').on('click', function () {
-                            var keyword = $('#keyword').val();
-                            if (keyword !== '') {
-                                location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
-                            } else {
-                                alert('您尚未輸入關鍵字！');
-                            }
-                            return false;
-                        });
-
-                        $('.btn-outward').on('click', function () {
-                            var keyword = $('#keyword').val();
-                            if (keyword !== '') {
-                                location.href = '<?php echo $this->Html->url('/drugs/outward/'); ?>' + encodeURIComponent(keyword);
-                            } else {
-                                alert('您尚未輸入關鍵字！');
-                            }
-                            return false;
-                        });
-
-                        $('#keywordForm').on('submit', function () {
-                            var keyword = $('#keyword').val();
-                            if (keyword !== '') {
-                                location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
-                            } else {
-                                alert('您尚未輸入關鍵字！');
-                            }
-                        });
-                    });
-        </script>
-<?php if (Configure::read('debug') === 0 && Configure::read('loginMember.group_id') !== '1') { ?>
+        <?php if (Configure::read('debug') === 0 && Configure::read('loginMember.group_id') !== '1') { ?>
             <script>
-                (function (i, s, o, g, r, a, m) {
-                    i['GoogleAnalyticsObject'] = r;
-                    i[r] = i[r] || function () {
-                        (i[r].q = i[r].q || []).push(arguments)
-                    }, i[r].l = 1 * new Date();
-                    a = s.createElement(o),
-                            m = s.getElementsByTagName(o)[0];
-                    a.async = 1;
-                    a.src = g;
-                    m.parentNode.insertBefore(a, m)
-                })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+                        (function (i, s, o, g, r, a, m) {
+                            i['GoogleAnalyticsObject'] = r;
+                            i[r] = i[r] || function () {
+                                (i[r].q = i[r].q || []).push(arguments)
+                            }, i[r].l = 1 * new Date();
+                            a = s.createElement(o),
+                                    m = s.getElementsByTagName(o)[0];
+                            a.async = 1;
+                            a.src = g;
+                            m.parentNode.insertBefore(a, m)
+                        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-                ga('create', 'UA-40055059-4', 'auto');
-                ga('send', 'pageview');
-                (adsbygoogle = window.adsbygoogle || []).push({});
+                        ga('create', 'UA-40055059-4', 'auto');
+                        ga('send', 'pageview');
+                        (adsbygoogle = window.adsbygoogle || []).push({});
 
             </script>
-<?php } ?>
+        <?php } ?>
     </body>
 </html>
