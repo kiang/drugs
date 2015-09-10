@@ -84,7 +84,7 @@
                 content: '...';
             }
 
-            .paginator-warpper {
+            .paginator-wrapper {
                 text-align: center;
             }
 

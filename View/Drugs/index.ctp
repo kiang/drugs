@@ -2,7 +2,7 @@
 echo $this->Html->script('c/drugs/index', array('inline' => false));
 ?>
 <h2>藥物證書</h2>
-<div class="paginator-warpper">
+<div class="paginator-wrapper">
     <?php echo $this->element('paginator'); ?>
 </div>
 <div class="box-body table-responsive no-padding">
@@ -61,6 +61,6 @@ echo $this->Html->script('c/drugs/index', array('inline' => false));
         </tbody>
     </table>
 </div>
-<div class="clearfix paginator-warpper">
+<div class="clearfix paginator-wrapper">
     <?php echo $this->element('paginator'); ?>
 </div>
