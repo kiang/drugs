@@ -16,7 +16,7 @@ $(function () {
         $('#btn-search-type').html($(this).text() + '&nbsp;<b class="caret"></b>');
         $('.btn-search span').text($(this).data('placeholder'));
         $('.form-search .form-control').attr('placeholder', $(this).data('placeholder'));
-        $('.btn-search-type').attr('data-type', $(this).data('type'));
+        $('#btn-search-type').data('type', $(this).data('type'));
     });
 
     $('.form-search .form-control').on('focus', function () {
@@ -30,13 +30,31 @@ $(function () {
     $('.form-search').on('submit', function (e) {
         e.preventDefault();
         var that = $(this),
-                input = $(this).find('.form-control');
+                input = $(this).find('.form-control'),
+                inputVal = input.val();
 
         that.removeClass('has-error');
         $('#btn-search-type').removeClass('btn-danger');
 
-        if (input.val() !== '') {
-
+        if (inputVal !== '') {
+            switch($('#btn-search-type').data('type')) {
+                case 'drug':
+                case 'license':
+                    location.href = baseUrl + '/drugs/index/' + encodeURIComponent(inputVal);
+                    break;
+                case 'outward':
+                    location.href = baseUrl + '/drugs/outward/' + encodeURIComponent(inputVal);
+                    break;
+                case 'ingredient':
+                    location.href = baseUrl + '/ingredients/index/' + encodeURIComponent(inputVal);
+                    break;
+                case 'vendor':
+                    location.href = baseUrl + '/vendors/index/' + encodeURIComponent(inputVal);
+                    break;
+                case 'point':
+                    location.href = baseUrl + '/points/index/' + encodeURIComponent(inputVal);
+                    break;
+            }
         } else {
             that.addClass('has-error');
             $('#btn-search-type').removeClass('btn-unfocus').addClass('btn-danger');

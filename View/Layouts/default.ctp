@@ -102,7 +102,7 @@
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse"></button>
-                    <a class="navbar-brand" href="./">
+                    <a class="navbar-brand" href="<?php echo $this->Html->url('/'); ?>">
                         <span class="text-muted">藥要看</span>
                     </a>
                 </div>
@@ -145,22 +145,71 @@
 
         <div class="container">
             <div class="row">
+                <?php
+                $buttons = array(
+                    'license' => array(
+                        'placeholder' => '許可證號',
+                        'title' => '藥物證書',
+                    ),
+                    'outward' => array(
+                        'placeholder' => '外觀描述',
+                        'title' => '藥物外觀',
+                    ),
+                    'ingredient' => array(
+                        'placeholder' => '成份名稱',
+                        'title' => '藥物成份',
+                    ),
+                    'vendor' => array(
+                        'placeholder' => '廠商名稱',
+                        'title' => '藥物廠商',
+                    ),
+                    'point' => array(
+                        'placeholder' => '機構名稱',
+                        'title' => '醫事機構',
+                    ),
+                );
+                switch ("{$this->request->params['controller']}/{$this->request->params['action']}") {
+                    case 'vendors/index':
+                    case 'vendors/view':
+                        $button = $buttons['vendor'];
+                        unset($buttons['vendor']);
+                        break;
+                    case 'drugs/outward':
+                        $button = $buttons['outward'];
+                        unset($buttons['outward']);
+                        break;
+                    case 'ingredients/index':
+                    case 'ingredients/view':
+                        $button = $buttons['ingredient'];
+                        unset($buttons['ingredient']);
+                        break;
+                    case 'points/index':
+                    case 'points/view':
+                        $button = $buttons['point'];
+                        unset($buttons['point']);
+                        break;
+                    default:
+                        $button = $buttons['license'];
+                        unset($buttons['license']);
+                }
+                ?>
                 <p>&nbsp;</p>
                 <div class="search-box">
                     <form class="input-group input-group-hg focus form-search" data-search="license">
-                        <input type="text" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="藥物名稱" autofocus>
+                        <input type="text" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="<?php echo $button['placeholder']; ?>" autofocus>
                         <div class="input-group-btn">
                             <button type="button" class="btn dropdown-toggle" id="btn-search-type" data-toggle="dropdown" data-type="drug">
-                                藥物搜尋&nbsp;<b class="caret"></b>
+                                <?php echo $button['title']; ?>&nbsp;<b class="caret"></b>
                             </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#" data-placeholder="藥物名稱" data-type="drug">藥物搜尋</a></li>
+                            <ul class="dropdown-menu"><?php
+                                echo '<li><a href="#" data-placeholder="' . $button['placeholder'] . '" data-type="' . $key . '">' . $button['title'] . '</a></li>';
+                                ?>
                                 <li class="divider"></li>
-                                <li><a href="#" data-placeholder="許可證號" data-type="license">藥物證書</a></li>
-                                <li><a href="#" data-placeholder="外觀描述" data-type="outward">藥物外觀</a></li>
-                                <li><a href="#" data-placeholder="成份名稱" data-type="ingredient">藥物成份</a></li>
-                                <li><a href="#" data-placeholder="廠商名稱" data-type="vendor">藥物廠商</a></li>
-                                <li><a href="#" data-placeholder="機構名稱" data-type="point">醫事機構</a></li>
+                                <?php
+                                foreach ($buttons AS $key => $button) {
+                                    echo '<li><a href="#" data-placeholder="' . $button['placeholder'] . '" data-type="' . $key . '">' . $button['title'] . '</a></li>';
+                                }
+                                ?>
                             </ul>
                             <button class="btn btn-default btn-search">搜尋</button>
                         </div>
