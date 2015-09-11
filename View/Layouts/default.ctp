@@ -25,11 +25,11 @@
         <link rel="icon" type="image/png" href="<?php echo $imageBaseUrl; ?>/drug_32.png" sizes="32x32">
         <link rel="icon" type="image/png" href="<?php echo $imageBaseUrl; ?>/drug_16.png" sizes="16x16">
         <meta property="og:image" content="<?php echo $ogImage; ?>">
-        <link href="<?php echo $baseUrl; ?>/css/bootstrap.min.css" rel="stylesheet">
-        <link href="<?php echo $baseUrl; ?>/css/flat-ui-pro.min.css" rel="stylesheet">
-        <link href="<?php echo $baseUrl; ?>/css/font-awesome.min.css" rel="stylesheet">
-        <link href="<?php echo $baseUrl; ?>/css/flaticon.css" rel="stylesheet">
-        <link href="<?php echo $baseUrl; ?>/css/animate.css" rel="stylesheet">
+        <link href="<?php echo $baseUrl; ?>css/bootstrap.min.css" rel="stylesheet">
+        <link href="<?php echo $baseUrl; ?>css/flat-ui-pro.min.css" rel="stylesheet">
+        <link href="<?php echo $baseUrl; ?>css/font-awesome.min.css" rel="stylesheet">
+        <link href="<?php echo $baseUrl; ?>css/flaticon.css" rel="stylesheet">
+        <link href="<?php echo $baseUrl; ?>css/animate.css" rel="stylesheet">
         <!--[if lt IE 9]>
             <script src="js/html5shiv.js"></script>
             <script src="js/respond.min.js"></script>
@@ -95,7 +95,6 @@
         <script>
             var baseUrl = '<?php echo $baseUrl; ?>';
         </script>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     </head>
     <body>
         <nav class="navbar navbar-inverse" style="border-radius: 0px;">
@@ -109,8 +108,8 @@
 
                 <div class="collapse navbar-collapse" id="navbar-collapse">
                     <ul class="nav navbar-nav nav-menu">
-                        <li class="active"><a href="<?php echo $this->Html->url('/'); ?>">藥物搜尋</a></li>
-                        <li><a href="<?php echo $this->Html->url('/articles'); ?>">醫事新知</a></li>
+                        <li<?php if (strrpos($this->here, 'articles') === false) {echo ' class="active"';} ?>><a href="<?php echo $this->Html->url('/'); ?>">藥物搜尋</a></li>
+                        <li<?php if (strrpos($this->here, 'articles') !== false) {echo ' class="active"';} ?>><a href="<?php echo $this->Html->url('/articles'); ?>">醫事新知</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
@@ -126,34 +125,47 @@
                                         echo $this->Form->input('username', array(
                                             'label' => false,
                                             'div' => 'col-sm-12',
-                                            'class' => 'form-control input-sm',
-                                            'id' => 'inputError',
-                                            'placeholder' => 'Username',
+                                            'class' => 'form-control',
+                                            'placeholder' => '帳戶名稱',
+                                            'style' => 'margin: 5px 0',
                                         ));
                                         echo $this->Form->input('password', array(
                                             'type' => 'password',
                                             'label' => false,
                                             'div' => 'col-sm-12',
-                                            'class' => 'form-control input-sm',
-                                            'id' => 'Password1',
-                                            'placeholder' => 'Password',
+                                            'class' => 'form-control',
+                                            'placeholder' => '密碼',
+                                            'style' => 'margin: 5px 0',
                                         ));
                                         ?>
-                                        <div class="col-sm-12">
-                                            <button type="submit" class="btn btn-success btn-sm">Sign in</button>
+                                        <div class="col-sm-12" style="margin: 5px 0">
+                                            <button type="submit" class="btn btn-success btn-block">登入</button>
                                         </div>
                                         <?php echo $this->Form->end(); ?>
                                     </div>
-                                    <?php
+                                <?php
                                     break;
+                                case '1': 
+                                    $items = array(
+                                        '<a href="' . $baseUrl . 'members/logout">文章管理</a>',
+                                        '<a href="' . $baseUrl . 'members/logout">醫事機構管理</a>',
+                                        '<a href="' . $baseUrl . 'members/logout">會員管理</a>',
+                                        '<a href="' . $baseUrl . 'members/logout">登出</a>',
+                                        );
+                                ?>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員功能 <b class="caret"></b></a>
+                                    <?php
+                                    echo $this->Html->nestedList($items, array('class' => 'dropdown-menu', 'style' => 'width: 300px'));
+                                    ?>
+                                <?php break;
                                 default:
                                     ?>
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員功能 <b class="caret"></b></a>
-                                    <div class="dropdown-menu" style="width: 300px">
+                                    <ul class="dropdown-menu" style="width: 300px">
                                         <?php
-                                        echo $this->Html->link('登出', '/members/logout', array('class' => 'btn btn-primary'));
+                                        echo $this->Html->tag('li', '<a href="' . $baseUrl . 'members/logout">登出</a>');
                                         ?>
-                                    </div>
+                                    </ul>
                                 <?php
                             }
                             ?>
@@ -322,84 +334,102 @@
                     <?php
                     echo $content_for_layout;
                     ?>
-
                 </div>
                 <div class="col-md-12">
                     <ins class="adsbygoogle"
                          style="display:inline-block;width:160px;height:600px"
                          data-ad-client="ca-pub-5571465503362954"
-                         data-ad-slot="8707051624"></ins>
+                         data-ad-slot="8707051624">
+                    </ins>
                 </div>
             </div>
-        </div>
 
-        <footer class="footer" style="margin-left: auto;margin-right: auto; margin-bottom: 15px;">
-            <div class="row" style="text-align: center">
-                <ins class="adsbygoogle"
-                     style="display:inline-block;width:336px;height:280px"
-                     data-ad-client="ca-pub-5571465503362954"
-                     data-ad-slot="3985487224"></ins>
-                <ins class="adsbygoogle"
-                     style="display:inline-block;width:336px;height:280px"
-                     data-ad-client="ca-pub-5571465503362954"
-                     data-ad-slot="3985487224"></ins>
-                <hr />
-                <?php
-                switch ("{$this->request->params['controller']}/{$this->request->params['action']}") {
-                    case 'drugs/view':
-                    case 'ingredients/view':
-                    case 'vendors/view':
-                    case 'points/view':
-                    case 'articles/view':
+            <div class="row">
+                <div class="col-md-12">
+                    <ins class="adsbygoogle"
+                        style="display:inline-block;width:336px;height:280px"
+                        data-ad-client="ca-pub-5571465503362954"
+                        data-ad-slot="3985487224">
+                    </ins>
+                    <ins class="adsbygoogle"
+                        style="display:inline-block;width:336px;height:280px"
+                        data-ad-client="ca-pub-5571465503362954"
+                        data-ad-slot="3985487224">
+                    </ins>
+                    <?php
+                    switch ("{$this->request->params['controller']}/{$this->request->params['action']}") {
+                        case 'drugs/view':
+                        case 'ingredients/view':
+                        case 'vendors/view':
+                        case 'points/view':
+                        case 'articles/view':
                         ?>
                         <div id="disqus_thread"></div>
                         <script>
-                    /* * * CONFIGURATION VARIABLES * * */
-                    var disqus_shortname = 'drugs-tw',
+                            /* * * CONFIGURATION VARIABLES * * */
+                            var disqus_shortname = 'drugs-tw',
                             disqus_config = function () {
                                 this.language = "zh_TW";
                             };
 
-                    /* * * DON'T EDIT BELOW THIS LINE * * */
-                    (function () {
-                        var dsq = document.createElement('script');
-                        dsq.type = 'text/javascript';
-                        dsq.async = true;
-                        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                    })();
+                            /* * * DON'T EDIT BELOW THIS LINE * * */
+                            (function () {
+                                var dsq = document.createElement('script');
+                                dsq.type = 'text/javascript';
+                                dsq.async = true;
+                                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                            })();
                         </script>
                         <?php
                         break;
-                }
-                ?>
-                <?php echo $this->Html->link('信雲國際股份有限公司', 'http://syi.tw/', array('target' => '_blank')); ?> 建置
-                / <?php echo $this->Html->link('關於本站', '/pages/about'); ?>
-                <?php
-                if (isset($apiRoute)) {
-                    echo ' / ' . $this->Html->link('本頁 API', $apiRoute, array('target' => '_blank'));
-                }
-                ?>
-                <hr>
-                <div id="fb-root"></div>
-                <script>(function (d, s, id) {
-                        var js, fjs = d.getElementsByTagName(s)[0];
-                        if (d.getElementById(id))
-                            return;
-                        js = d.createElement(s);
-                        js.id = id;
-                        js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&appId=1393405437614114&version=v2.3";
-                        fjs.parentNode.insertBefore(js, fjs);
-                    }(document, 'script', 'facebook-jssdk'));</script>
-                <div class="col-md-6">
-                    <div class="fb-page" data-href="https://www.facebook.com/drugs.olc.tw" data-width="500" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"></div>
-                </div>
-                <div class="col-md-6">
-                    <div class="fb-page" data-href="https://www.facebook.com/g0v.tw" data-width="500" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"></div>
-                </div>
+                    }
+                    ?>
+                </div><!-- /.col-md-12 -->
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+        <p>&nbsp;</p>
+        <footer class="footer container" style="margin-left: auto;margin-right: auto; margin-bottom: 15px;">
+            <hr>
+            <div id="fb-root"></div>
+            <script>(function (d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id))
+                        return;
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&appId=1393405437614114&version=v2.3";
+                    fjs.parentNode.insertBefore(js, fjs);
+                }(document, 'script', 'facebook-jssdk'));</script>
+            <div class="col-md-6">
+                <div class="fb-page" data-href="https://www.facebook.com/drugs.olc.tw" data-width="500" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"></div>
+            </div>
+            <div class="col-md-6">
+                <div class="fb-page" data-href="https://www.facebook.com/g0v.tw" data-width="500" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"></div>
             </div>
         </footer>
-
+        <p>&nbsp;</p>
+        <div class="bottom-menu bottom-menu-inverse">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2 col-sm-2">
+                        <a href="<?php echo $this->Html->url('/'); ?>" class="bottom-menu-brand">藥要看</a>
+                    </div>
+                    <div class="col-md-10 col-sm-10">
+                        <ul class="bottom-menu-list">
+                            <li><?php echo $this->Html->link('信雲國際股份有限公司', 'http://syi.tw/', array('target' => '_blank')); ?> <small class="fa fa-external-link" style="vertical-align: super"></small> 建置 </li>
+                            <li><?php echo $this->Html->link('關於本站', '/pages/about'); ?></li>
+                            <?php
+                            if (isset($apiRoute)) {
+                                echo '<li>' . $this->Html->link('本頁 API', $apiRoute, array('target' => '_blank')) . ' <small class="fa fa-external-link" style="vertical-align: super"></small></li>';
+                            }
+                            ?>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="<?php echo $baseUrl; ?>/js/flat-ui-pro.min.js"></script>
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <?php
@@ -409,22 +439,21 @@
 
         <?php if (Configure::read('debug') === 0 && Configure::read('loginMember.group_id') !== '1') { ?>
             <script>
-                        (function (i, s, o, g, r, a, m) {
-                            i['GoogleAnalyticsObject'] = r;
-                            i[r] = i[r] || function () {
-                                (i[r].q = i[r].q || []).push(arguments)
-                            }, i[r].l = 1 * new Date();
-                            a = s.createElement(o),
-                                    m = s.getElementsByTagName(o)[0];
-                            a.async = 1;
-                            a.src = g;
-                            m.parentNode.insertBefore(a, m)
-                        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+                (function (i, s, o, g, r, a, m) {
+                    i['GoogleAnalyticsObject'] = r;
+                    i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date();
+                    a = s.createElement(o),
+                            m = s.getElementsByTagName(o)[0];
+                    a.async = 1;
+                    a.src = g;
+                    m.parentNode.insertBefore(a, m)
+                })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-                        ga('create', 'UA-40055059-4', 'auto');
-                        ga('send', 'pageview');
-                        (adsbygoogle = window.adsbygoogle || []).push({});
-
+                ga('create', 'UA-40055059-4', 'auto');
+                ga('send', 'pageview');
+                (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
         <?php } ?>
     </body>
