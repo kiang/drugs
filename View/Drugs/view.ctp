@@ -1,12 +1,12 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <h1><?php
+    <h2><?php
         $name = $this->data['License']['name'];
         if (!empty($this->data['License']['name_english'])) {
             $name .= "({$this->data['License']['name_english']})";
         }
         echo $name;
-        ?></h1>
+        ?></h2>
     <ol class="breadcrumb">
         <li><?php echo $this->Html->link('藥物證書', '/drugs/index'); ?></li>
         <li class="active"><?php echo $this->data['License']['name']; ?></li>
@@ -70,7 +70,8 @@
         <div class="col-md-6">
             <div class="box">
                 <div class="box-body">
-                    <dl class="dl-horizontal">                        <dt>許可證字號</dt>
+                    <dl class="dl-horizontal">
+                        <dt>許可證字號</dt>
                         <dd><?php
                             if ($this->data['License']['source'] === 'fda' && !empty($this->data['License']['code'])) {
                                 echo $this->Html->link($this->data['License']['license_id'], 'http://www.fda.gov.tw/MLMS/H0001D.aspx?Type=Lic&LicId=' . $this->data['License']['code'], array('target' => '_blank', 'class' => 'btn btn-default'));
@@ -159,26 +160,27 @@
                         </dd>
                         <dt>製程</dt>
                         <dd><?php echo $this->data['Drug']['manufacturer_description']; ?>&nbsp;
-                            <?php
-                            if (!empty($drugs)) {
-                                echo '<dt>其他製造商</dt>';
-                                echo '<dd><ul>';
-                                foreach ($drugs AS $drug) {
-                                    echo '<li>';
-                                    $drugName = '';
-                                    if (!empty($drug['Drug']['manufacturer_description'])) {
-                                        $drugName .= "[{$drug['Drug']['manufacturer_description']}]";
-                                    }
-                                    $drugName .= $drug['Vendor']['name'];
-                                    if (!empty($drug['Vendor']['country'])) {
-                                        $drugName .= " ({$drug['Vendor']['country']})";
-                                    }
-                                    echo $this->Html->link($drugName, '/drugs/view/' . $drug['Drug']['id']);
-                                    echo '</li>';
+                        </dd>
+                        <?php
+                        if (!empty($drugs)) {
+                            echo '<dt>其他製造商</dt>';
+                            echo '<dd><ul>';
+                            foreach ($drugs AS $drug) {
+                                echo '<li>';
+                                $drugName = '';
+                                if (!empty($drug['Drug']['manufacturer_description'])) {
+                                    $drugName .= "[{$drug['Drug']['manufacturer_description']}]";
                                 }
-                                echo '</ul></dd>';
+                                $drugName .= $drug['Vendor']['name'];
+                                echo $this->Html->link($drugName, '/drugs/view/' . $drug['Drug']['id']);
+                                if (!empty($drug['Vendor']['country'])) {
+                                    echo " {$this->Olc->showCountry($drug['Vendor']['country'])}";
+                                }
+                                echo '</li>';
                             }
-                            ?>                        </dd>
+                            echo '</ul></dd>';
+                        }
+                        ?>
                         <dt>異動日期</dt>
                         <dd><?php echo $this->data['License']['submitted']; ?>&nbsp;
                         </dd>
@@ -309,7 +311,7 @@
                         </ul>
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
-            <?php } ?>
-        </div>
+            </div>
+        <?php } ?>
     </div>
 </section><!-- /.content -->
