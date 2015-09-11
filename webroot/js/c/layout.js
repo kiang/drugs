@@ -1,6 +1,5 @@
 $(function () {
 
-
     // $('.search-box a').on('click', function (e) {
     //     e.preventDefault();
     //     $(this).tab('show');
@@ -10,6 +9,11 @@ $(function () {
     //     var content_id = $(e.target).attr('href');
     //     $(content_id).find('input').focus();
     // });
+    if (document.location.pathname.indexOf('articles') > -1 ) {
+        $('.navbar-collapse ul:first li').removeClass('active').eq(1).addClass('active');
+    } else {
+        $('.navbar-collapse ul:first li').removeClass('active').eq(0).addClass('active');
+    }
 
     $('.form-search .dropdown-menu').on('click', 'li a', function (e) {
         e.preventDefault();

@@ -96,7 +96,3 @@
         </div>
     </div>
 </section>
-
-<script>
-    $('.navbar-collapse ul:first li').removeClass('active').eq(1).addClass('active');
-</script>
