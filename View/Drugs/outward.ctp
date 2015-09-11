@@ -1,23 +1,14 @@
 <?php
 echo $this->Html->script('c/drugs/outward', array('inline' => false));
 ?>
-<!-- Content Header (Page header) -->
-<section class="content-header">
-    <form id="form-find-outward">
-        <h1>藥物外觀</h1>
-        <ol class="breadcrumb">
-            <li class="col-xs-8"><input type="text" id="drugKeyword" value="<?php echo isset($drugKeyword) ? $drugKeyword : ''; ?>" class="form-control" placeholder="搜尋..."/></li>
-            <li><a href="#" class="btn btn-default btn-find-drug">搜尋</a></li>
-        </ol>
-    </form>
-</section>
+<h2>藥物外觀</h2>
+<div class="paginator-wrapper">
+    <?php echo $this->element('paginator'); ?>
+</div>
 <section class="content">
     <div id="DrugsIndex" class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-header">
-                    <?php echo $this->element('paginator'); ?>
-                </div>
                 <div class="box-body table-responsive no-padding">
                     <table class="table table-hover" id="DrugsIndexTable">
                         <thead>
@@ -73,11 +64,12 @@ echo $this->Html->script('c/drugs/outward', array('inline' => false));
                         </tbody>
                     </table>
                 </div>
-                <div class="box-footer clearfix">
-                    <?php echo $this->element('paginator'); ?>
-                </div>
             </div>
         </div>
         <div id="DrugsIndexPanel"></div>
     </div>
 </section><!-- /.content -->
+
+<div class="clearfix paginator-wrapper">
+    <?php echo $this->element('paginator'); ?>
+</div>

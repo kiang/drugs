@@ -1,16 +1,16 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1><?php
-    echo implode(' > ', array(
-        $this->Html->link('健康存摺', array('controller' => 'accounts', 'action' => 'index')),
-        h($account['Account']['name']) . ' 的就醫記錄',
-        implode(' | ', array(
-            $this->Html->link('新增就醫記錄', array('controller' => 'orders', 'action' => 'add', $account['Account']['id']), array('class' => 'btn btn-primary')),
-            $this->Html->link('匯入健保局健康存摺', array('action' => 'import', $account['Account']['id']), array('class' => 'btn btn-primary')),
-            $this->Html->link('用藥統計', array('action' => 'drugs', $account['Account']['id']), array('class' => 'btn btn-default')),
-        ))
-    ));
-    ?></h1>
+        echo implode(' > ', array(
+            $this->Html->link('健康存摺', array('controller' => 'accounts', 'action' => 'index')),
+            h($account['Account']['name']) . ' 的就醫記錄',
+            implode(' | ', array(
+                $this->Html->link('新增就醫記錄', array('controller' => 'orders', 'action' => 'add', $account['Account']['id']), array('class' => 'btn btn-primary')),
+                $this->Html->link('匯入健保局健康存摺', array('action' => 'import', $account['Account']['id']), array('class' => 'btn btn-primary')),
+                $this->Html->link('用藥統計', array('action' => 'drugs', $account['Account']['id']), array('class' => 'btn btn-default')),
+            ))
+        ));
+        ?></h1>
 </section>
 
 <!-- Main content -->
@@ -55,29 +55,29 @@
                                     <tr>
                                         <td>
                                             <?php
-                                            if (false !== strpos($order['Order']['point_id'], '-')) {
-                                                echo $this->Html->link($order['Order']['point'], array('controller' => 'points', 'action' => 'view', $order['Order']['point_id']), array('target' => '_blank'));
-                                            } else {
-                                                echo $order['Order']['point'];
-                                            }
-                                            ?>
-                                        </td>
-                                        <td><?php echo h($order['Order']['order_date']); ?>&nbsp;</td>
-                                        <td><?php echo h($order['Order']['note_date']); ?>&nbsp;</td>
-                                        <td><?php echo h($order['Order']['nhi_sn']); ?>&nbsp;</td>
-                                        <td><?php echo h($order['Order']['disease']); ?>&nbsp;</td>
-                                        <td><?php echo h($order['Order']['process']); ?>&nbsp;</td>
-                                        <td><?php echo h($order['Order']['modified']); ?>&nbsp;</td>
-                                        <td class="actions">
-                                            <?php echo $this->Html->link('檢視', array('controller' => 'orders', 'action' => 'view', $order['Order']['id']), array('class' => 'btn btn-default')); ?>
-                                            <?php echo $this->Html->link('編輯', array('controller' => 'orders', 'action' => 'edit', $order['Order']['id']), array('class' => 'btn btn-default')); ?>
-                                            <?php echo $this->Form->postLink('刪除', array('controller' => 'orders', 'action' => 'delete', $order['Order']['id']), array('class' => 'btn btn-default'), '確定要刪除？'); ?>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                        <div class="paging"><?php echo $this->element('paginator'); ?></div>
+                                            if (false !== strpos ( $order['Order']['point_id'], '-')) {
+                                            echo $this->Html->link($order['Order']['point'], array( 'controller' => 'points', 'action' => 'view', $order[ 'Order']['point_id']), array( 'target' => '_blank'));
+                                                    } else {
+                                                    echo $order['Order']['point'];
+                                        }
+                                        ?>
+                                    </td>
+                                    <td><?php echo h($order['Order']['order_date']); ?>&nbsp;</td>
+                                    <td><?php echo h($order['Order']['note_date']); ?>&nbsp;</td>
+                                    <td><?php echo h($order['Order']['nhi_sn']); ?>&nbsp;</td>
+                                    <td><?php echo h($order['Order']['disease']); ?>&nbsp;</td>
+                                    <td><?php echo h($order['Order']['process']); ?>&nbsp;</td>
+                                            <td><?php echo h($order['Order']['modified']); ?>&nbsp;</td>
+                                            <td class="actions">
+                                        <?php echo $this->Html->link('檢視', array('controller' => 'orders', 'action'  => 'view', $order['Order']['id']), array('class' => 'btn btn-default'));  ?>
+                                                <?php echo $this->Html->link('編輯', array('controller' => 'orders', 'action'  => 'edit', $order['Order']['id']), array('class' => 'btn btn-default'));  ?>
+                                                <?php echo $this->Form->postLink('刪除', array('controller' => 'orders', 'action'  => 'delete', $order['Order'][ 'id']), array('class' => 'btn btn-default'),  '確定要刪除？'); ?>
+                                            </td>
+                                        </tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                                <div class="paging"><?php echo $this->element('paginator'); ?> </div>
                     </div>
                 </div>
             </div>

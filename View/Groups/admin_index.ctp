@@ -50,19 +50,19 @@
                                         <?php echo $group['Group']['name']; ?>
                                     </td>
                                     <td class="actions">
-                                        <?php echo $this->Html->link(__('Edit', true), array('action' => 'edit', $group['Group']['id']), array('class' => 'dialogControl')); ?>
-                                        <?php echo $this->Html->link(__('Delete', true), array('action' => 'delete', $group['Group']['id']), null, __('Delete the item, sure?', true)); ?>
-                                        <?php echo $this->Html->link(__('Sub group', true), array('action' => 'index', $group['Group']['id'])); ?>
+                                        <?php echo $this->Html->link(__('Edit', true), array('action'  =>   'edit', $group['Group']['id']), array('class' =>  'dialogControl')); ?>
+                                                <?php echo $this->Html->link(__('Delete', true), array('action'  =>   'delete', $group['Group']['id']), null, __(  'Delete the item, sure?', true)); ?> 
+                                        <?php echo $this->Html->link(__('Sub group', true), array('action'  =>   'index', $group['Group']['id'])); ?>
                                         <?php
                                         if ($group['Group']['id'] != 1) {
-                                            echo $this->Html->link(__('Permission', true), array('controller' => 'group_permissions', 'action' => 'group', $group['Group']['id']));
-                                        }
-                                        ?>
-                                    </td>
-                                </tr>
+                                        echo $this->Html->link(__('Permission', true), array( 'controller' =>   'group_permissions', 'action' => 'group', $group[ 'Group']['id'])); 
+                                    }
+                                    ?>
+                                </td>
+                            </tr>
                             <?php endforeach; ?>
                         </table>
-                        <div class="paging"><?php echo $this->element('paginator'); ?></div>
+                        <div class="paging"><?php echo $this->element ('paginator'); ?></div>
                         <div id="GroupsAdminIndexPanel"></div>
                     </div>
 

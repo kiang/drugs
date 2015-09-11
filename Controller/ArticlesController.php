@@ -148,7 +148,7 @@ class ArticlesController extends AppController {
                         'License.id' => Set::extract('{n}.Drug.license_id', $licenses),
                     ),
                 ));
-                foreach($licenseVendors AS $licenseVendor) {
+                foreach ($licenseVendors AS $licenseVendor) {
                     if (!isset($this->request->data['Vendor'][$licenseVendor])) {
                         $this->request->data['Vendor'][$licenseVendor] = $licenseVendor;
                     }

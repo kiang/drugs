@@ -3,8 +3,8 @@
     <head>
 
         <?php
-            $baseUrl = $this->Html->url('/');
-            echo $this->Html->charset();
+        $baseUrl = $this->Html->url('/');
+        echo $this->Html->charset();
         ?>
         <title><?php echo $title_for_layout; ?>藥要看</title>
         <?php
@@ -92,6 +92,9 @@
                 max-width: 30px;
             }
         </style>
+        <script>
+            var baseUrl = '<?php echo $baseUrl; ?>';
+        </script>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     </head>
     <body>
@@ -111,26 +114,49 @@
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
                             <?php
                             switch (Configure::read('loginMember.group_id')) {
                                 case '0':
+                                    ?>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員登入 <b class="caret"></b></a>
+                                    <div class="dropdown-menu" style="width: 300px">
+                                        <?php echo $this->Form->create('Member', array('url' => '/members/login')); ?>
+                                        <?php
+                                        echo $this->Form->input('username', array(
+                                            'label' => false,
+                                            'div' => 'col-sm-12',
+                                            'class' => 'form-control input-sm',
+                                            'id' => 'inputError',
+                                            'placeholder' => 'Username',
+                                        ));
+                                        echo $this->Form->input('password', array(
+                                            'type' => 'password',
+                                            'label' => false,
+                                            'div' => 'col-sm-12',
+                                            'class' => 'form-control input-sm',
+                                            'id' => 'Password1',
+                                            'placeholder' => 'Password',
+                                        ));
+                                        ?>
+                                        <div class="col-sm-12">
+                                            <button type="submit" class="btn btn-success btn-sm">Sign in</button>
+                                        </div>
+                                        <?php echo $this->Form->end(); ?>
+                                    </div>
+                                    <?php
+                                    break;
+                                default:
+                                    ?>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員功能 <b class="caret"></b></a>
+                                    <div class="dropdown-menu" style="width: 300px">
+                                        <?php
+                                        echo $this->Html->link('登出', '/members/logout', array('class' => 'btn btn-primary'));
+                                        ?>
+                                    </div>
+                                <?php
+                            }
                             ?>
-                                會員登入 <b class="caret"></b>
-                            </a>
-                            <?php break; }?>
-                            <div class="dropdown-menu" style="width: 300px">
-                                <div class="col-sm-12">
-                                    <input type="text" placeholder="Uname or Email" class="form-control input-sm" id="inputError" />
-                                </div>
-                                <br/>
-                                <div class="col-sm-12">
-                                    <input type="password" placeholder="Password" class="form-control input-sm" name="password" id="Password1" />
-                                </div>
-                                <div class="col-sm-12">
-                                    <button type="submit" class="btn btn-success btn-sm">Sign in</button>
-                                </div>
-                            </div>
                         </li>
                     </ul>
                 </div>
@@ -139,22 +165,71 @@
 
         <div class="container">
             <div class="row">
+                <?php
+                $buttons = array(
+                    'license' => array(
+                        'placeholder' => '許可證號',
+                        'title' => '藥物證書',
+                    ),
+                    'outward' => array(
+                        'placeholder' => '外觀描述',
+                        'title' => '藥物外觀',
+                    ),
+                    'ingredient' => array(
+                        'placeholder' => '成份名稱',
+                        'title' => '藥物成份',
+                    ),
+                    'vendor' => array(
+                        'placeholder' => '廠商名稱',
+                        'title' => '藥物廠商',
+                    ),
+                    'point' => array(
+                        'placeholder' => '機構名稱',
+                        'title' => '醫事機構',
+                    ),
+                );
+                switch ("{$this->request->params['controller']}/{$this->request->params['action']}") {
+                    case 'vendors/index':
+                    case 'vendors/view':
+                        $button = $buttons['vendor'];
+                        unset($buttons['vendor']);
+                        break;
+                    case 'drugs/outward':
+                        $button = $buttons['outward'];
+                        unset($buttons['outward']);
+                        break;
+                    case 'ingredients/index':
+                    case 'ingredients/view':
+                        $button = $buttons['ingredient'];
+                        unset($buttons['ingredient']);
+                        break;
+                    case 'points/index':
+                    case 'points/view':
+                        $button = $buttons['point'];
+                        unset($buttons['point']);
+                        break;
+                    default:
+                        $button = $buttons['license'];
+                        unset($buttons['license']);
+                }
+                ?>
                 <p>&nbsp;</p>
                 <div class="search-box">
                     <form class="input-group input-group-hg focus form-search" data-search="license">
-                        <input type="text" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="藥物名稱" autofocus>
+                        <input type="text" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="<?php echo $button['placeholder']; ?>" autofocus>
                         <div class="input-group-btn">
                             <button type="button" class="btn dropdown-toggle" id="btn-search-type" data-toggle="dropdown" data-type="drug">
-                                藥物搜尋&nbsp;<b class="caret"></b>
+                                <?php echo $button['title']; ?>&nbsp;<b class="caret"></b>
                             </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="#" data-placeholder="藥物名稱" data-type="drug">藥物搜尋</a></li>
+                            <ul class="dropdown-menu"><?php
+                                echo '<li><a href="#" data-placeholder="' . $button['placeholder'] . '" data-type="' . $key . '">' . $button['title'] . '</a></li>';
+                                ?>
                                 <li class="divider"></li>
-                                <li><a href="#" data-placeholder="許可證號" data-type="license">藥物證書</a></li>
-                                <li><a href="#" data-placeholder="外觀描述" data-type="outward">藥物外觀</a></li>
-                                <li><a href="#" data-placeholder="成份名稱" data-type="ingredient">藥物成份</a></li>
-                                <li><a href="#" data-placeholder="廠商名稱" data-type="vendor">藥物廠商</a></li>
-                                <li><a href="#" data-placeholder="機構名稱" data-type="point">醫事機構</a></li>
+                                <?php
+                                foreach ($buttons AS $key => $button) {
+                                    echo '<li><a href="#" data-placeholder="' . $button['placeholder'] . '" data-type="' . $key . '">' . $button['title'] . '</a></li>';
+                                }
+                                ?>
                             </ul>
                             <button class="btn btn-default btn-search">搜尋</button>
                         </div>
@@ -247,9 +322,9 @@
                 </div>
                 <div class="col-md-12">
                     <ins class="adsbygoogle"
-                    style="display:inline-block;width:160px;height:600px"
-                    data-ad-client="ca-pub-5571465503362954"
-                    data-ad-slot="8707051624"></ins>
+                         style="display:inline-block;width:160px;height:600px"
+                         data-ad-client="ca-pub-5571465503362954"
+                         data-ad-slot="8707051624"></ins>
                 </div>
             </div>
         </div>
@@ -275,23 +350,23 @@
                         ?>
                         <div id="disqus_thread"></div>
                         <script>
-                            /* * * CONFIGURATION VARIABLES * * */
-                            var disqus_shortname = 'drugs-tw',
-                                disqus_config = function () {
+                    /* * * CONFIGURATION VARIABLES * * */
+                    var disqus_shortname = 'drugs-tw',
+                            disqus_config = function () {
                                 this.language = "zh_TW";
                             };
 
-                            /* * * DON'T EDIT BELOW THIS LINE * * */
-                            (function () {
-                                var dsq = document.createElement('script');
-                                dsq.type = 'text/javascript';
-                                dsq.async = true;
-                                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                            })();
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function () {
+                        var dsq = document.createElement('script');
+                        dsq.type = 'text/javascript';
+                        dsq.async = true;
+                        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
                         </script>
-                <?php
-                    break;
+                        <?php
+                        break;
                 }
                 ?>
                 <?php echo $this->Html->link('信雲國際股份有限公司', 'http://syi.tw/', array('target' => '_blank')); ?> 建置
@@ -323,105 +398,28 @@
 
         <script src="<?php echo $baseUrl; ?>/js/flat-ui-pro.min.js"></script>
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-        <script>
-            $(function () {
-                var baseUrl = '<?php echo $this->Html->url('/'); ?>';
+        <?php
+        echo $this->Html->script('c/layout', array('inline' => true));
+        echo $scripts_for_layout;
+        ?>
 
-                // $('.search-box a').on('click', function (e) {
-                //     e.preventDefault();
-                //     $(this).tab('show');
-                // });
-
-                // $('.search-box a').on('shown.bs.tab', function (e) {
-                //     var content_id = $(e.target).attr('href');
-                //     $(content_id).find('input').focus();
-                // });
-
-                $('.form-search .dropdown-menu').on('click', 'li a', function (e) {
-                    e.preventDefault();
-                    $('#btn-search-type').html($(this).text() + '&nbsp;<b class="caret"></b>');
-                    $('.btn-search span').text($(this).data('placeholder'));
-                    $('.form-search .form-control').attr('placeholder', $(this).data('placeholder'));
-                    $('.btn-search-type').attr('data-type', $(this).data('type'));
-               });
-
-                $('.form-search .form-control').on('focus', function () {
-                    $('#btn-search-type').removeClass('btn-unfocus');
-                })
-
-                $('.form-search .form-control').on('blur', function () {
-                    $('#btn-search-type').addClass('btn-unfocus');
-                })
-
-                $('.form-search').on('submit', function (e) {
-                    e.preventDefault();
-                    var that = $(this),
-                        input = $(this).find('.form-control');
-
-                    that.removeClass('has-error');
-                    $('#btn-search-type').removeClass('btn-danger');
-
-                    if (input.val() !== '') {
-
-                    } else {
-                        that.addClass('has-error');
-                        $('#btn-search-type').removeClass('btn-unfocus').addClass('btn-danger');
-                        $('.input-group-btn button:first, .form-search .form-control').addClass('animated shake').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-                            $('.input-group-btn button:first, .form-search .form-control').removeClass('animated shake').one('keydown', function () {
-                                $('#btn-search-type').removeClass('btn-danger btn-unfocus');
-                                that.removeClass('has-error');
-                            });
-                        });
-                    }
-                });
-
-                $('.btn-find').on('click', function () {
-                    var keyword = $('#keyword').val();
-                    if (keyword !== '') {
-                        location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
-                    } else {
-                        alert('您尚未輸入關鍵字！');
-                    }
-                    return false;
-                });
-
-                $('.btn-outward').on('click', function () {
-                    var keyword = $('#keyword').val();
-                    if (keyword !== '') {
-                        location.href = '<?php echo $this->Html->url('/drugs/outward/'); ?>' + encodeURIComponent(keyword);
-                    } else {
-                        alert('您尚未輸入關鍵字！');
-                    }
-                    return false;
-                });
-
-                $('#keywordForm').on('submit', function () {
-                    var keyword = $('#keyword').val();
-                    if (keyword !== '') {
-                        location.href = '<?php echo $this->Html->url('/drugs/index/'); ?>' + encodeURIComponent(keyword);
-                    } else {
-                        alert('您尚未輸入關鍵字！');
-                    }
-                });
-            });
-        </script>
         <?php if (Configure::read('debug') === 0 && Configure::read('loginMember.group_id') !== '1') { ?>
             <script>
-                (function (i, s, o, g, r, a, m) {
-                    i['GoogleAnalyticsObject'] = r;
-                    i[r] = i[r] || function () {
-                        (i[r].q = i[r].q || []).push(arguments)
-                    }, i[r].l = 1 * new Date();
-                    a = s.createElement(o),
-                            m = s.getElementsByTagName(o)[0];
-                    a.async = 1;
-                    a.src = g;
-                    m.parentNode.insertBefore(a, m)
-                })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+                        (function (i, s, o, g, r, a, m) {
+                            i['GoogleAnalyticsObject'] = r;
+                            i[r] = i[r] || function () {
+                                (i[r].q = i[r].q || []).push(arguments)
+                            }, i[r].l = 1 * new Date();
+                            a = s.createElement(o),
+                                    m = s.getElementsByTagName(o)[0];
+                            a.async = 1;
+                            a.src = g;
+                            m.parentNode.insertBefore(a, m)
+                        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-                ga('create', 'UA-40055059-4', 'auto');
-                ga('send', 'pageview');
-                (adsbygoogle = window.adsbygoogle || []).push({});
+                        ga('create', 'UA-40055059-4', 'auto');
+                        ga('send', 'pageview');
+                        (adsbygoogle = window.adsbygoogle || []).push({});
 
             </script>
         <?php } ?>

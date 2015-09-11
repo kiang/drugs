@@ -4,7 +4,7 @@ App::uses('Controller', 'Controller');
 
 class AppController extends Controller {
 
-    public $helpers = array('Html', 'Form', 'Js', 'Session');
+    public $helpers = array('Html', 'Form', 'Js', 'Session', 'Olc');
     public $components = array('Acl', 'Auth', 'RequestHandler', 'Session');
 
     public function beforeFilter() {
@@ -30,7 +30,7 @@ class AppController extends Controller {
                 'group_id' => 0,
                 'username' => '',
             );
-        } elseif($this->loginMember['group_id'] == '1') {
+        } elseif ($this->loginMember['group_id'] == '1') {
             Configure::write('debug', 2);
         }
         Configure::write('loginMember', $this->loginMember);

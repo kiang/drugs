@@ -4,12 +4,12 @@ echo $this->Html->script('c/orders/edit', array('inline' => false));
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1><?php
-    echo implode(' > ', array(
-        $this->Html->link('健康存摺', array('controller' => 'accounts', 'action' => 'index')),
-        $this->Html->link($this->request->data['Account']['name'] . ' 的就醫記錄', array('controller' => 'accounts', 'action' => 'view', $this->request->data['Account']['id'])),
-        '編輯就醫記錄',
-    ));
-    ?></h1>
+        echo implode(' > ', array(
+            $this->Html->link('健康存摺', array('controller' => 'accounts', 'action' => 'index')),
+            $this->Html->link($this->request->data['Account']['name'] . ' 的就醫記錄', array('controller' => 'accounts', 'action' => 'view', $this->request->data['Account']['id'])),
+            '編輯就醫記錄',
+        ));
+        ?></h1>
 </section>
 
 <!-- Main content -->

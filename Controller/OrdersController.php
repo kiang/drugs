@@ -147,7 +147,7 @@ class OrdersController extends AppController {
         } else {
             $this->Session->setFlash(__('The order could not be deleted. Please, try again.'));
         }
-        return $this->redirect(array('controller' => 'accounts','action' => 'view', $accountId));
+        return $this->redirect(array('controller' => 'accounts', 'action' => 'view', $accountId));
     }
 
 }

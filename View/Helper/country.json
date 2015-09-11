@@ -1,688 +1,686 @@
-[
-  {
-     "ALBANIA":[
+{
+    "ALBANIA": [
         "阿爾巴尼亞",
         "AL"
-     ],
-     "DEM REP OF CONGO":[
+    ],
+    "DEM REP OF CONGO": [
         "剛果",
         "CD"
-     ],
-     "ALGERIA":[
+    ],
+    "ALGERIA": [
         "阿爾及利亞",
         "DZ"
-     ],
-     "DENMARK":[
+    ],
+    "DENMARK": [
         "丹麥",
         "DK"
-     ],
-     "ANGOLA":[
+    ],
+    "ANGOLA": [
         "安哥拉",
         "AO"
-     ],
-     "DOMINICAN REPUBLIC":[
+    ],
+    "DOMINICAN REPUBLIC": [
         "多明尼加",
         "DO"
-     ],
-     "ANGUILLA":[
+    ],
+    "ANGUILLA": [
         "安圭拉",
         "AI"
-     ],
-     "DOMINICA":[
+    ],
+    "DOMINICA": [
         "多米尼克",
         "DM"
-     ],
-     "ARGENTINA":[
+    ],
+    "ARGENTINA": [
         "阿根廷",
         "AR"
-     ],
-     "ECUADOR":[
+    ],
+    "ECUADOR": [
         "厄瓜多爾",
         "EC"
-     ],
-     "ARMENIA":[
+    ],
+    "ARMENIA": [
         "亞美尼亞",
         "AM"
-     ],
-     "EGYPT":[
+    ],
+    "EGYPT": [
         "埃及",
         "EG"
-     ],
-     "ARUBA":[
+    ],
+    "ARUBA": [
         "阿路巴",
         "AW"
-     ],
-     "EL SALVADOR":[
+    ],
+    "EL SALVADOR": [
         "薩爾瓦多",
         "SV"
-     ],
-     "AUSTRALIA":[
+    ],
+    "AUSTRALIA": [
         "澳大利亞",
         "AU"
-     ],
-     "ERITREA":[
+    ],
+    "ERITREA": [
         "厄利垂亞",
         "ER"
-     ],
-     "AUSTRIA":[
+    ],
+    "AUSTRIA": [
         "奧地利",
         "AT"
-     ],
-     "ESTONIA":[
+    ],
+    "ESTONIA": [
         "愛沙尼亞",
         "EE"
-     ],
-     "AZERBAIJAN":[
+    ],
+    "AZERBAIJAN": [
         "亞塞拜然",
         "AZ"
-     ],
-     "ETHIOPIA":[
+    ],
+    "ETHIOPIA": [
         "衣索匹亞",
         "ET"
-     ],
-     "BAHAMAS":[
+    ],
+    "BAHAMAS": [
         "巴哈馬",
         "BS"
-     ],
-     "FIJI":[
+    ],
+    "FIJI": [
         "斐濟",
         "FJ"
-     ],
-     "BAHRAIN":[
+    ],
+    "BAHRAIN": [
         "巴林",
         "BH"
-     ],
-     "FINLAND":[
+    ],
+    "FINLAND": [
         "芬蘭",
         "FI"
-     ],
-     "BANGLADESH":[
+    ],
+    "BANGLADESH": [
         "孟加拉",
         "BD"
-     ],
-     "FRENCH POLYNESIA":[
+    ],
+    "FRENCH POLYNESIA": [
         "法屬玻里尼西亞",
         "PF"
-     ],
-     "FRANCE":[
+    ],
+    "FRANCE": [
         "法國",
         "FR"
-     ],
-     "BARBADOS":[
+    ],
+    "BARBADOS": [
         "巴貝多",
         "BB"
-     ],
-     "GABON":[
+    ],
+    "GABON": [
         "加彭",
         "GA"
-     ],
-     "BELARUS":[
+    ],
+    "BELARUS": [
         "白俄羅斯",
         "BY"
-     ],
-     "GEORGIA":[
+    ],
+    "GEORGIA": [
         "喬治亞",
         "GE"
-     ],
-     "BELGIUM":[
+    ],
+    "BELGIUM": [
         "比利時",
         "BE"
-     ],
-     "GERMANY":[
+    ],
+    "GERMANY": [
         "德國",
         "DE"
-     ],
-     "BELIZE":[
+    ],
+    "BELIZE": [
         "貝里斯",
         "BZ"
-     ],
-     "GHANA":[
+    ],
+    "GHANA": [
         "迦納",
         "GH"
-     ],
-     "BENIN":[
+    ],
+    "BENIN": [
         "貝南",
         "BJ"
-     ],
-     "GIBRALTAR":[
+    ],
+    "GIBRALTAR": [
         "直布羅陀",
         "GI"
-     ],
-     "BERMUDA":[
+    ],
+    "BERMUDA": [
         "百慕達",
         "BM"
-     ],
-     "UNITED KINGDOM":[
+    ],
+    "UNITED KINGDOM": [
         "英國",
         "UK"
-     ],
-     "BHUTAN":[
+    ],
+    "BHUTAN": [
         "不丹",
         "BT"
-     ],
-     "GREECE":[
+    ],
+    "GREECE": [
         "希臘",
         "GR"
-     ],
-     "BOLIVIA":[
+    ],
+    "BOLIVIA": [
         "玻利維亞",
         "BO"
-     ],
-     "GRENADA":[
+    ],
+    "GRENADA": [
         "格瑞那達",
         "GD"
-     ],
-     "BOSNIA AND HERZEGOVINA":[
+    ],
+    "BOSNIA AND HERZEGOVINA": [
         "波希尼亞及赫塞哥維那",
         "BA"
-     ],
-     "GUATEMALA":[
+    ],
+    "GUATEMALA": [
         "瓜地馬拉",
         "GT"
-     ],
-     "BOTSWANA":[
+    ],
+    "BOTSWANA": [
         "波札那",
         "BW"
-     ],
-     "GUINEA":[
+    ],
+    "GUINEA": [
         "幾內亞",
         "GN"
-     ],
-     "BRAZIL":[
+    ],
+    "BRAZIL": [
         "巴西",
         "BR"
-     ],
-     "GUYANA":[
+    ],
+    "GUYANA": [
         "蓋亞那",
         "GY"
-     ],
-     "BRUNEI DARUSSALAM":[
+    ],
+    "BRUNEI DARUSSALAM": [
         "汶萊",
         "BN"
-     ],
-     "HAITI":[
+    ],
+    "HAITI": [
         "海地",
         "HA"
-     ],
-     "BULGARIA":[
+    ],
+    "BULGARIA": [
         "保加利亞",
         "BG"
-     ],
-     "HONDURAS":[
+    ],
+    "HONDURAS": [
         "宏都拉斯",
         "HN"
-     ],
-     "BURKINA FASO":[
+    ],
+    "BURKINA FASO": [
         "有吉納法索",
         "BF"
-     ],
-     "HONG KONG":[
+    ],
+    "HONG KONG": [
         "香港",
         "HK"
-     ],
-     "BURUNDI":[
+    ],
+    "BURUNDI": [
         "蒲隆地",
         "BI"
-     ],
-     "HUNGARY":[
+    ],
+    "HUNGARY": [
         "匈牙利",
         "HU"
-     ],
-     "CAMBODIA":[
+    ],
+    "CAMBODIA": [
         "柬埔寨",
         "KH"
-     ],
-     "ICELAND":[
+    ],
+    "ICELAND": [
         "冰島",
         "IS"
-     ],
-     "CAMEROON":[
+    ],
+    "CAMEROON": [
         "喀麥隆",
         "CM"
-     ],
-     "INDIA":[
+    ],
+    "INDIA": [
         "印度",
         "IN"
-     ],
-     "CANADA":[
+    ],
+    "CANADA": [
         "加拿大",
         "CA"
-     ],
-     "INDONESIA":[
+    ],
+    "INDONESIA": [
         "印尼",
         "ID"
-     ],
-     "CAPE VERDE":[
+    ],
+    "CAPE VERDE": [
         "維德角島",
         "CV"
-     ],
-     "IRAN":[
+    ],
+    "IRAN": [
         "依朗",
         "IR"
-     ],
-     "CAYMAN ISLANDS":[
+    ],
+    "CAYMAN ISLANDS": [
         "開曼群島",
         "KY"
-     ],
-     "IRAQ":[
+    ],
+    "IRAQ": [
         "伊拉克",
         "IQ"
-     ],
-     "CENTRAL AFRICAN REPUBLIC":[
+    ],
+    "CENTRAL AFRICAN REPUBLIC": [
         "中非共和國",
         "CF"
-     ],
-     "IRELAND":[
+    ],
+    "IRELAND": [
         "愛爾蘭",
         "IE"
-     ],
-     "CHAD":[
+    ],
+    "CHAD": [
         "查德",
         "TD"
-     ],
-     "ISRAEL":[
+    ],
+    "ISRAEL": [
         "以色列",
         "IL"
-     ],
-     "CHILE":[
+    ],
+    "CHILE": [
         "智利",
         "CL"
-     ],
-     "ITALY":[
+    ],
+    "ITALY": [
         "義大利",
         "IT"
-     ],
-     "CHINA":[
+    ],
+    "CHINA": [
         "中國",
         "CN"
-     ],
-     "JAMAICA":[
+    ],
+    "JAMAICA": [
         "牙買加",
         "JM"
-     ],
-     "COLOMBIA":[
+    ],
+    "COLOMBIA": [
         "哥倫比亞",
         "CO"
-     ],
-     "JAPAN":[
+    ],
+    "JAPAN": [
         "日本",
         "JP"
-     ],
-     "CONGO":[
+    ],
+    "CONGO": [
         "剛果",
         "CG"
-     ],
-     "JORDAN":[
+    ],
+    "JORDAN": [
         "約旦",
         "JO"
-     ],
-     "COOK ISLANDS":[
+    ],
+    "COOK ISLANDS": [
         "科克群島",
         "CK"
-     ],
-     "KENYA":[
+    ],
+    "KENYA": [
         "肯亞",
         "KE"
-     ],
-     "COSTA RICA":[
+    ],
+    "COSTA RICA": [
         "哥斯大黎加",
         "CR"
-     ],
-     "KOREA":[
+    ],
+    "KOREA": [
         "韓國",
         "KR"
-     ],
-     "COTE D'IVOIRE":[
+    ],
+    "COTE D'IVOIRE": [
         "象牙海岸",
         "CI"
-     ],
-     "KUWAIT":[
+    ],
+    "KUWAIT": [
         "科威特",
         "KW"
-     ],
-     "CROATIA":[
+    ],
+    "CROATIA": [
         "克羅埃西亞",
         "HR"
-     ],
-     "LAOS":[
+    ],
+    "LAOS": [
         "寮國",
         "LA"
-     ],
-     "CYPRUS":[
+    ],
+    "CYPRUS": [
         "塞浦路斯",
         "CY"
-     ],
-     "LATVIA":[
+    ],
+    "LATVIA": [
         "拉脫維亞",
         "LV"
-     ],
-     "CZECH (REP)":[
+    ],
+    "CZECH (REP)": [
         "捷克",
         "CZ"
-     ],
-     "LESOTHO":[
+    ],
+    "LESOTHO": [
         "賴索托",
         "LS"
-     ],
-     "LUXEMBOURG":[
+    ],
+    "LUXEMBOURG": [
         "盧森堡",
         "LU"
-     ],
-     "SAINT LUCIA":[
+    ],
+    "SAINT LUCIA": [
         "聖露西亞",
         "LC"
-     ],
-     "MACAO":[
+    ],
+    "MACAO": [
         "澳門",
         "MO"
-     ],
-     "SAINT VINCENT AND THE GRENADINES":[
+    ],
+    "SAINT VINCENT AND THE GRENADINES": [
         "聖文森及格瑞那丁",
         "VC"
-     ],
-     "MACEDONIA":[
+    ],
+    "MACEDONIA": [
         "馬其頓",
         "MK"
-     ],
-     "SAO TOME AND PRINCIPE":[
+    ],
+    "SAO TOME AND PRINCIPE": [
         "聖多美及普林西比",
         "ST"
-     ],
-     "MADAGASCAR":[
+    ],
+    "MADAGASCAR": [
         "馬達加斯加",
         "MG"
-     ],
-     "SAUDI ARABIA":[
+    ],
+    "SAUDI ARABIA": [
         "沙烏地阿拉伯",
         "SA"
-     ],
-     "MALAWI":[
+    ],
+    "MALAWI": [
         "馬拉威",
         "MW"
-     ],
-     "SENEGAL":[
+    ],
+    "SENEGAL": [
         "塞內加爾",
         "SN"
-     ],
-     "MALAYSIA":[
+    ],
+    "MALAYSIA": [
         "馬來西亞",
         "MY"
-     ],
-     "SEYCHELLES":[
+    ],
+    "SEYCHELLES": [
         "塞席爾",
         "SC"
-     ],
-     "MALDIVES":[
+    ],
+    "MALDIVES": [
         "馬爾地夫",
         "MV"
-     ],
-     "SIERRA LEONE":[
+    ],
+    "SIERRA LEONE": [
         "獅子山",
         "SL"
-     ],
-     "MALI":[
+    ],
+    "MALI": [
         "馬利",
         "ML"
-     ],
-     "SINGAPORE":[
+    ],
+    "SINGAPORE": [
         "新加坡",
         "SG"
-     ],
-     "MALTA":[
+    ],
+    "MALTA": [
         "馬爾他",
         "MT"
-     ],
-     "SLOVAKIA":[
+    ],
+    "SLOVAKIA": [
         "斯洛伐克",
         "SK"
-     ],
-     "MAURITIUS":[
+    ],
+    "MAURITIUS": [
         "模里西斯",
         "MU"
-     ],
-     "SLOVENIA":[
+    ],
+    "SLOVENIA": [
         "斯洛維尼亞",
         "SI"
-     ],
-     "MAURITANIA":[
+    ],
+    "MAURITANIA": [
         "茅利塔尼亞",
         "MR"
-     ],
-     "SOLOMON ISLANDS":[
+    ],
+    "SOLOMON ISLANDS": [
         "索羅門群島",
         "SB"
-     ],
-     "MEXICO":[
+    ],
+    "MEXICO": [
         "墨西哥",
         "MX"
-     ],
-     "SOMALIA":[
+    ],
+    "SOMALIA": [
         "索馬利亞",
         "SO"
-     ],
-     "MOLDOVA":[
+    ],
+    "MOLDOVA": [
         "摩爾多瓦",
         "MD"
-     ],
-     "SOUTH AFRICA":[
+    ],
+    "SOUTH AFRICA": [
         "南非",
         "ZA"
-     ],
-     "MONGOLIA":[
+    ],
+    "MONGOLIA": [
         "蒙古",
         "MN"
-     ],
-     "SPAIN":[
+    ],
+    "SPAIN": [
         "西班牙",
         "ES"
-     ],
-     "MOROCCO":[
+    ],
+    "MOROCCO": [
         "摩洛哥",
         "MA"
-     ],
-     "SRI LANKA":[
+    ],
+    "SRI LANKA": [
         "斯里蘭卡",
         "LK"
-     ],
-     "MYANMAR":[
+    ],
+    "MYANMAR": [
         "緬甸",
         "MM"
-     ],
-     "SUDAN":[
+    ],
+    "SUDAN": [
         "蘇丹",
         "SD"
-     ],
-     "NAMIBIA":[
+    ],
+    "NAMIBIA": [
         "納米比亞",
         "NA"
-     ],
-     "SURINAME":[
+    ],
+    "SURINAME": [
         "蘇利南",
         "SR"
-     ],
-     "NAURU":[
+    ],
+    "NAURU": [
         "諾魯",
         "NR"
-     ],
-     "SWAZILAND":[
+    ],
+    "SWAZILAND": [
         "史瓦濟蘭",
         "SZ"
-     ],
-     "NEPAL":[
+    ],
+    "NEPAL": [
         "尼泊爾",
         "NP"
-     ],
-     "SWEDEN":[
+    ],
+    "SWEDEN": [
         "瑞典",
         "SE"
-     ],
-     "NETHERLANDS":[
+    ],
+    "NETHERLANDS": [
         "荷蘭",
         "NL"
-     ],
-     "SWITZERLAND":[
+    ],
+    "SWITZERLAND": [
         "瑞士",
         "CH"
-     ],
-     "NEW CALEDONIA":[
+    ],
+    "NEW CALEDONIA": [
         "新喀里多尼亞",
         "NC"
-     ],
-     "SYRIA":[
+    ],
+    "SYRIA": [
         "敘利亞",
         "SY"
-     ],
-     "NEW ZEALAND":[
+    ],
+    "NEW ZEALAND": [
         "紐西蘭",
         "NZ"
-     ],
-     "TAIWAN":[
+    ],
+    "TAIWAN": [
         "台灣",
         "TW"
-     ],
-     "TANZANIA":[
+    ],
+    "TANZANIA": [
         "坦尚尼亞",
         "TZ"
-     ],
-     "NIGER":[
+    ],
+    "NIGER": [
         "尼日",
         "NE"
-     ],
-     "THAILAND":[
+    ],
+    "THAILAND": [
         "泰國",
         "TH"
-     ],
-     "NIGERIA":[
+    ],
+    "NIGERIA": [
         "奈及利亞",
         "NG"
-     ],
-     "TOGO":[
+    ],
+    "TOGO": [
         "多哥",
         "TG"
-     ],
-     "NORWAY":[
+    ],
+    "NORWAY": [
         "挪威",
         "NO"
-     ],
-     "TRINIDAD AND TOBAGO":[
+    ],
+    "TRINIDAD AND TOBAGO": [
         "千里達及托貝哥",
         "TT"
-     ],
-     "OMAN":[
+    ],
+    "OMAN": [
         "阿曼",
         "OM"
-     ],
-     "TUNISIA":[
+    ],
+    "TUNISIA": [
         "突尼西亞",
         "TN"
-     ],
-     "PUERTO RICO":[
+    ],
+    "PUERTO RICO": [
         "波多黎各",
         "PR"
-     ],
-     "PAKISTAN":[
+    ],
+    "PAKISTAN": [
         "巴基斯坦",
         "PK"
-     ],
-     "TURKEY":[
+    ],
+    "TURKEY": [
         "土耳其",
         "TR"
-     ],
-     "PANAMA":[
+    ],
+    "PANAMA": [
         "巴拿馬",
         "PA"
-     ],
-     "UGANDA":[
+    ],
+    "UGANDA": [
         "烏干達",
         "UG"
-     ],
-     "PAPUA NEW GUINEA":[
+    ],
+    "PAPUA NEW GUINEA": [
         "巴布亞紐幾內亞",
         "PG"
-     ],
-     "UKRAINE":[
+    ],
+    "UKRAINE": [
         "烏克蘭",
         "UA"
-     ],
-     "PARAGUAY":[
+    ],
+    "PARAGUAY": [
         "巴拉圭",
         "PY"
-     ],
-     "UNITED ARAB EMIRATES":[
+    ],
+    "UNITED ARAB EMIRATES": [
         "阿拉伯聯合大公國",
         "AE"
-     ],
-     "PERU":[
+    ],
+    "PERU": [
         "秘魯",
         "PE"
-     ],
-     "UNITED STATES":[
+    ],
+    "UNITED STATES": [
         "美國",
         "US"
-     ],
-     "PHILIPPINES":[
+    ],
+    "PHILIPPINES": [
         "菲律賓",
         "PH"
-     ],
-     "URUGUAY":[
+    ],
+    "URUGUAY": [
         "烏拉圭",
         "UY"
-     ],
-     "POLAND":[
+    ],
+    "POLAND": [
         "波蘭",
         "PL"
-     ],
-     "VENEZUELA":[
+    ],
+    "VENEZUELA": [
         "委內瑞拉",
         "VE"
-     ],
-     "PORTUGAL":[
+    ],
+    "PORTUGAL": [
         "葡萄牙",
         "PT"
-     ],
-     "VIET NAM":[
+    ],
+    "VIET NAM": [
         "越南",
         "VN"
-     ],
-     "QATAR":[
+    ],
+    "QATAR": [
         "卡達",
         "QA"
-     ],
-     "WESTERN SAMOA":[
+    ],
+    "WESTERN SAMOA": [
         "西薩摩亞",
         "WS"
-     ],
-     "ROMANIA":[
+    ],
+    "ROMANIA": [
         "羅馬尼亞",
         "RO"
-     ],
-     "YEMEN":[
+    ],
+    "YEMEN": [
         "葉門",
         "YE"
-     ],
-     "RUSSIAN FEDERATION":[
+    ],
+    "RUSSIAN FEDERATION": [
         "俄羅斯",
         "RU"
-     ],
-     "YUGOSLAVIA":[
+    ],
+    "YUGOSLAVIA": [
         "南斯拉夫",
         "YU"
-     ],
-     "RWANDA":[
+    ],
+    "RWANDA": [
         "盧安達",
         "RW"
-     ],
-     "ZAMBIA":[
+    ],
+    "ZAMBIA": [
         "尚比亞",
         "ZM"
-     ],
-     "SAINT CHRISTOPHER (ST. KITTS) AND NEVIS":[
+    ],
+    "SAINT CHRISTOPHER (ST. KITTS) AND NEVIS": [
         "聖克里斯多福及尼維斯",
         "KN"
-     ],
-     "ZIMBABWE":[
+    ],
+    "ZIMBABWE": [
         "辛巴威",
         "ZW"
-     ]
-  }
-]
+    ]
+}

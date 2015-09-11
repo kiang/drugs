@@ -42,7 +42,6 @@
                         'class' => 'form-control',
                         'placeholder' => '',
                     ));
-                    
                     ?>
                     <div class="form-group">
                         <label for="relatedDrug">相關藥物</label>

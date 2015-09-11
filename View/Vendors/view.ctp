@@ -14,7 +14,7 @@
                 <div class="box-header"></div>
                 <div class="box-body">
                     <ul id="vendorEventList">
-                        <li class="col-xs-3">國家： <?php echo $vendor['Vendor']['country']; ?></li>
+                        <li class="col-xs-3">國家： <?php echo $this->Olc->showCountry($vendor['Vendor']['country']); ?></li>
                         <li class="col-xs-3">統一編號：<?php echo $vendor['Vendor']['tax_id']; ?> </li>
                         <li class="col-xs-3">地址：<?php echo $vendor['Vendor']['address']; ?></li>
                         <li class="col-xs-3">辦公室：<?php echo $vendor['Vendor']['address_office']; ?></li>

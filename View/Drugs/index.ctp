@@ -20,10 +20,6 @@ echo $this->Html->script('c/drugs/index', array('inline' => false));
         </thead>
         <tbody>
             <?php
-            $i = 0;
-            $file = new File('../View/country.json');
-            $country_list = json_decode($file -> read(), true)[0];
-            $file -> close();
             foreach ($items as $item) {
                 $name = $item['License']['name'];
                 if (!empty($item['License']['name_english'])) {
@@ -40,16 +36,7 @@ echo $this->Html->script('c/drugs/index', array('inline' => false));
                         echo $item['Vendor']['name'];
                         ?></td>
                     <td><?php
-                        $country = $item['Vendor']['country'];
-                        if ($country !== '') {
-                            if (array_key_exists($country, $country_list)) {
-                                echo '<img src="http://api.hostip.info/images/flags/'. strtolower($country_list[$country][1]) . '.gif" class="img-flag" alt="' . $country_list[$country][0] . '" title="' . $country_list[$country][0] . '">';
-                            } else {
-                                echo $country;
-                            }
-                        } else {
-                            echo '<span title="無紀錄" class="fui-question-circle text-muted"></span>';
-                        }
+                        echo $this->Olc->showCountry($item['Vendor']['country']);
                         ?></td>
                     <td><?php
                         echo $item['License']['expired_date'];

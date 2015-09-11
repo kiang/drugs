@@ -20,7 +20,7 @@ class Point extends AppModel {
             'className' => 'Article',
         ),
     );
-    
+
     public function find($conditions = null, $fields = array(), $order = null, $recursive = null) {
         $findMethods = array_merge($this->findMethods, array('near' => true));
         $findType = (is_string($conditions) && $conditions != 'count' && array_key_exists($conditions, $findMethods) ? $conditions : null);
