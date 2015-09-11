@@ -99,7 +99,7 @@
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse"></button>
-                    <a class="navbar-brand" href="./">
+                    <a class="navbar-brand" href="<?php echo $this->Html->url('/'); ?>">
                         <span class="text-muted">藥要看</span>
                     </a>
                 </div>
