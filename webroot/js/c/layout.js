@@ -30,8 +30,8 @@ $(function () {
     $('.form-search').on('submit', function (e) {
         e.preventDefault();
         var that = $(this),
-                input = $(this).find('.form-control'),
-                inputVal = input.val();
+            input = $(this).find('.form-control'),
+            inputVal = input.val();
 
         that.removeClass('has-error');
         $('#btn-search-type').removeClass('btn-danger');

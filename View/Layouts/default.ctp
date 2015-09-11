@@ -167,6 +167,10 @@
             <div class="row">
                 <?php
                 $buttons = array(
+                    'drug' => array(
+                        'placeholder' => '藥物名稱',
+                        'title' => '藥物搜尋',
+                    ),
                     'license' => array(
                         'placeholder' => '許可證號',
                         'title' => '藥物證書',
@@ -221,13 +225,13 @@
                             <button type="button" class="btn dropdown-toggle" id="btn-search-type" data-toggle="dropdown" data-type="drug">
                                 <?php echo $button['title']; ?>&nbsp;<b class="caret"></b>
                             </button>
-                            <ul class="dropdown-menu"><?php
-                                echo '<li><a href="#" data-placeholder="' . $button['placeholder'] . '" data-type="' . $key . '">' . $button['title'] . '</a></li>';
-                                ?>
-                                <li class="divider"></li>
+                            <ul class="dropdown-menu">
                                 <?php
-                                foreach ($buttons AS $key => $button) {
+                                foreach ($buttons as $key => $button) {
                                     echo '<li><a href="#" data-placeholder="' . $button['placeholder'] . '" data-type="' . $key . '">' . $button['title'] . '</a></li>';
+                                    if ($key === 'drug') {
+                                        echo '<li class="divider"></li>';
+                                    }
                                 }
                                 ?>
                             </ul>
