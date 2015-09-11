@@ -31,8 +31,8 @@
         <link href="<?php echo $baseUrl; ?>css/flaticon.css" rel="stylesheet">
         <link href="<?php echo $baseUrl; ?>css/animate.css" rel="stylesheet">
         <!--[if lt IE 9]>
-            <script src="js/html5shiv.js"></script>
-            <script src="js/respond.min.js"></script>
+            <script src="<?php echo $baseUrl; ?>js/html5shiv.js"></script>
+            <script src="<?php echo $baseUrl; ?>js/respond.min.js"></script>
         <![endif]-->
         <style>
             .search-box-content {
@@ -90,6 +90,12 @@
 
             .img-flag {
                 max-width: 30px;
+            }
+
+            a[target="_blank"]:hover::after {
+                font-family: FontAwesome;
+                content: '\00a0\f08e';
+                font-size: .9em;
             }
         </style>
         <script>
@@ -417,11 +423,11 @@
                     </div>
                     <div class="col-md-10 col-sm-10">
                         <ul class="bottom-menu-list">
-                            <li><?php echo $this->Html->link('信雲國際股份有限公司', 'http://syi.tw/', array('target' => '_blank')); ?> <small class="fa fa-external-link" style="vertical-align: super"></small> 建置 </li>
+                            <li><?php echo $this->Html->link('信雲國際股份有限公司', 'http://syi.tw/', array('target' => '_blank')); ?> 建置 </li>
                             <li><?php echo $this->Html->link('關於本站', '/pages/about'); ?></li>
                             <?php
                             if (isset($apiRoute)) {
-                                echo '<li>' . $this->Html->link('本頁 API', $apiRoute, array('target' => '_blank')) . ' <small class="fa fa-external-link" style="vertical-align: super"></small></li>';
+                                echo '<li>' . $this->Html->link('本頁 API', $apiRoute, array('target' => '_blank')) . '</li>';
                             }
                             ?>
                         </ul>

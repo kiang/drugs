@@ -12,13 +12,13 @@
     <dd>
         <ul>
             <li>
-                <a href="http://www.fda.gov.tw/MLMS/" target="_blank">藥物許可證查詢作業</a> <small class="fa fa-external-link" style="vertical-align: super; font-size: 14px"></small>
+                <a href="http://www.fda.gov.tw/MLMS/" target="_blank">藥物許可證查詢作業</a>
             </li>
             <li>
-                <a href="https://github.com/kiang/drugs" target="_blank">網站原始碼</a> <small class="fa fa-external-link" style="vertical-align: super; font-size: 14px"></small>
+                <a href="https://github.com/kiang/drugs" target="_blank">網站原始碼</a>
             </li>
             <li>
-                <a href="https://github.com/kiang/data.fda.gov.tw-list" target="_blank">網站資料</a> <small class="fa fa-external-link" style="vertical-align: super; font-size: 14px"></small>
+                <a href="https://github.com/kiang/data.fda.gov.tw-list" target="_blank">網站資料</a>
             </li>
         </ul>
     </dd>
