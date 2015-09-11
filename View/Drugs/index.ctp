@@ -14,8 +14,8 @@ echo $this->Html->script('c/drugs/index', array('inline' => false));
                 <th>製造商</th>
                 <th>國別</th>
                 <th><?php echo $this->Paginator->sort('License.expired_date', '有效日期', array('url' => $url)); ?></th>
-                <th><?php echo $this->Paginator->sort('License.license_date', '發證日期', array('url' => $url)); ?></th>
-                <th><?php echo $this->Paginator->sort('License.submitted', '更新日期', array('url' => $url)); ?></th>
+                <!-- <th><?php echo $this->Paginator->sort('License.license_date', '發證日期', array('url' => $url)); ?></th>
+                <th><?php echo $this->Paginator->sort('License.submitted', '更新日期', array('url' => $url)); ?></th> -->
             </tr>
         </thead>
         <tbody>
@@ -41,12 +41,12 @@ echo $this->Html->script('c/drugs/index', array('inline' => false));
                     <td><?php
                         echo $item['License']['expired_date'];
                         ?></td>
-                    <td><?php
+                    <!-- <td><?php
                         echo $item['License']['license_date'];
                         ?></td>
                     <td><?php
                         echo $item['License']['submitted'];
-                        ?></td>
+                        ?></td> -->
                 </tr>
             <?php }; // End of foreach ($items as $item) {  ?>
         </tbody>

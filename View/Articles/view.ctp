@@ -32,8 +32,8 @@
                 </div>
             </div>
             <?php
-            if (!empty($article['Drug'])) {
-                ?><div class="box">
+            if (!empty($article['Drug'])) { ?>
+                <div class="box">
                     <div class="box-header"><h3 class="box-title">藥物證書</h3></div>
                     <div class="box-body"><?php
                         foreach ($article['Drug'] AS $drug) {
