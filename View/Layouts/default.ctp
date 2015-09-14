@@ -222,6 +222,7 @@
                     </li>
                 </ul>
             </div>
+            <p>&nbsp;</p>
 
             <div class="row">
                 <?php echo $this->Session->flash(); ?>

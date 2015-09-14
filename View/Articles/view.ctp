@@ -1,9 +1,6 @@
-<!-- Content Header (Page header) -->
-<section class="content-header">
-    <h1><?php echo h($article['Article']['title']); ?></h1>
-</section>
 
-<!-- Main content -->
+<h3><?php echo h($article['Article']['title']); ?></h3>
+
 <section class="content">
     <div class="row">
         <div class="col-xs-12">

@@ -24,7 +24,7 @@
                                     <?php
                                     if (!empty($article['Article']['url'])) {
                                         echo '<p>';
-                                        echo $this->Html->link('<i class="fa fa-external-link"></i> ' . $article['Article']['url'], $article['Article']['url'], array('target' => '_blank', 'style' => 'padding: 0px;', 'escape' => false));
+                                        echo $this->Html->link($article['Article']['url'], $article['Article']['url'], array('target' => '_blank', 'class' => 'article-list-link', 'escape' => false));
                                         echo '</p>';
                                     }
                                     echo nl2br($article['Article']['body']);

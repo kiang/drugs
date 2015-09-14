@@ -6,7 +6,7 @@ echo $this->Html->script('c/drugs/index', array('inline' => false));
     <?php echo $this->element('paginator'); ?>
 </div>
 <div class="box-body table-responsive no-padding">
-    <table class="table table-hover" id="DrugsIndexTable">
+    <table class="table table-hover">
         <thead>
             <tr>
                 <th>品名</th>
