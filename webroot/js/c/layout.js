@@ -16,6 +16,7 @@ $(function () {
         $('.btn-search span').text($(this).data('placeholder'));
         $('.form-search .form-control').attr('placeholder', $(this).data('placeholder'));
         $('#btn-search-type').data('type', $(this).data('type'));
+
     });
 
     $('.form-search .form-control').on('focus', function () {
@@ -29,7 +30,7 @@ $(function () {
     $('.form-search').on('submit', function (e) {
         e.preventDefault();
         var that = $(this),
-            input = $(this).find('.form-control'),
+            input = that.find('.form-control'),
             inputVal = input.val();
 
         that.removeClass('has-error');
@@ -39,19 +40,19 @@ $(function () {
             switch($('#btn-search-type').data('type')) {
                 case 'drug':
                 case 'license':
-                    location.href = baseUrl + '/drugs/index/' + encodeURIComponent(inputVal);
+                    location.href = baseUrl + 'drugs/index/' + encodeURIComponent(inputVal);
                     break;
                 case 'outward':
-                    location.href = baseUrl + '/drugs/outward/' + encodeURIComponent(inputVal);
+                    location.href = baseUrl + 'drugs/outward/' + encodeURIComponent(inputVal);
                     break;
                 case 'ingredient':
-                    location.href = baseUrl + '/ingredients/index/' + encodeURIComponent(inputVal);
+                    location.href = baseUrl + 'ingredients/index/' + encodeURIComponent(inputVal);
                     break;
                 case 'vendor':
-                    location.href = baseUrl + '/vendors/index/' + encodeURIComponent(inputVal);
+                    location.href = baseUrl + 'vendors/index/' + encodeURIComponent(inputVal);
                     break;
                 case 'point':
-                    location.href = baseUrl + '/points/index/' + encodeURIComponent(inputVal);
+                    location.href = baseUrl + 'points/index/' + encodeURIComponent(inputVal);
                     break;
             }
         } else {
@@ -66,32 +67,4 @@ $(function () {
         }
     });
 
-    $('.btn-find').on('click', function () {
-        var keyword = $('#keyword').val();
-        if (keyword !== '') {
-            location.href = baseUrl + '/drugs/index/' + encodeURIComponent(keyword);
-        } else {
-            alert('您尚未輸入關鍵字！');
-        }
-        return false;
-    });
-
-    $('.btn-outward').on('click', function () {
-        var keyword = $('#keyword').val();
-        if (keyword !== '') {
-            location.href = baseUrl + '/drugs/outward/' + encodeURIComponent(keyword);
-        } else {
-            alert('您尚未輸入關鍵字！');
-        }
-        return false;
-    });
-
-    $('#keywordForm').on('submit', function () {
-        var keyword = $('#keyword').val();
-        if (keyword !== '') {
-            location.href = baseUrl + 'drugs/index/' + encodeURIComponent(keyword);
-        } else {
-            alert('您尚未輸入關鍵字！');
-        }
-    });
 });
