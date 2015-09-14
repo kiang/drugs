@@ -62,7 +62,7 @@
                                 case '0':
                                     ?>
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員登入 <b class="caret"></b></a>
-                                    <div class="dropdown-menu" style="width: 300px">
+                                    <div class="dropdown-menu">
                                         <?php echo $this->Form->create('Member', array('url' => '/members/login')); ?>
                                         <?php
                                         echo $this->Form->input('username', array(
@@ -70,7 +70,6 @@
                                             'div' => 'col-sm-12',
                                             'class' => 'form-control',
                                             'placeholder' => '帳戶名稱',
-                                            'style' => 'margin: 5px 0',
                                         ));
                                         echo $this->Form->input('password', array(
                                             'type' => 'password',
@@ -78,10 +77,9 @@
                                             'div' => 'col-sm-12',
                                             'class' => 'form-control',
                                             'placeholder' => '密碼',
-                                            'style' => 'margin: 5px 0',
                                         ));
                                         ?>
-                                        <div class="col-sm-12" style="margin: 5px 0">
+                                        <div class="col-sm-12">
                                             <button type="submit" class="btn btn-success btn-block">登入</button>
                                         </div>
                                         <?php echo $this->Form->end(); ?>
@@ -98,13 +96,13 @@
                                 ?>
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員功能 <b class="caret"></b></a>
                                     <?php
-                                    echo $this->Html->nestedList($items, array('class' => 'dropdown-menu', 'style' => 'width: 300px'));
+                                    echo $this->Html->nestedList($items, array('class' => 'dropdown-menu'));
                                     ?>
                                 <?php break;
                                 default:
                                     ?>
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員功能 <b class="caret"></b></a>
-                                    <ul class="dropdown-menu" style="width: 300px">
+                                    <ul class="dropdown-menu">
                                         <?php
                                         echo $this->Html->tag('li', '<a href="' . $baseUrl . 'members/logout">登出</a>');
                                         ?>
@@ -193,6 +191,24 @@
                             <button class="btn btn-default btn-search">搜尋</button>
                         </div>
                     </form>
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="150px" height="150px" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd" viewBox="0 0 2540 2540" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <defs>
+                                <style type="text/css">
+                                .str0 {stroke:black;stroke-width:25px}
+                                .fil0 {fill:none}
+                                </style>
+                            </defs>
+                            <g id="layer_x0020_1">
+                                <metadata id="CorelCorpID_0Corel-Layer"/>
+                                <g id="_231019306080">
+                                    <path class="fil0 str0" d="M2244 1196l0 217 0 0c0,418 -445,758 -994,758 -550,0 -995,-340 -995,-758l0 0 0 -164c15,408 454,735 994,735 549,0 995,-339 995,-758 0,-10 -1,-20 -1,-30l1 0zm-1989 8l0 -2 0 0 0 2z"/>
+                                    <ellipse class="fil0 str0" cx="1249" cy="1226" rx="995" ry="758"/>
+                                    <path class="fil0 str0" d="M255 1223l0 -26c0,-14 11,-26 25,-26l1937 0c15,0 26,12 26,26l0 26c0,15 -11,27 -26,27l-1937 0c-14,0 -25,-12 -25,-27z"/>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
                 </div>
 
                 <ul class="nav nav-tabs nav-append-content search-box" style="display: none">
@@ -285,25 +301,27 @@
             </div><!-- /.row -->
         </div><!-- /.container -->
         <p>&nbsp;</p>
-        <footer class="footer container" style="margin-left: auto;margin-right: auto; margin-bottom: 15px;">
-            <hr>
-            <div id="fb-root"></div>
-            <script>(function (d, s, id) {
-                    var js, fjs = d.getElementsByTagName(s)[0];
-                    if (d.getElementById(id))
-                        return;
-                    js = d.createElement(s);
-                    js.id = id;
-                    js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&appId=1393405437614114&version=v2.3";
-                    fjs.parentNode.insertBefore(js, fjs);
-                }(document, 'script', 'facebook-jssdk'));</script>
-            <div class="col-md-6">
-                <div class="fb-page" data-href="https://www.facebook.com/drugs.olc.tw" data-width="500" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"></div>
+        <div class="container">
+            <div class="row">
+                <hr>
+                <div id="fb-root"></div>
+                <script>(function (d, s, id) {
+                        var js, fjs = d.getElementsByTagName(s)[0];
+                        if (d.getElementById(id))
+                            return;
+                        js = d.createElement(s);
+                        js.id = id;
+                        js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&appId=1393405437614114&version=v2.3";
+                        fjs.parentNode.insertBefore(js, fjs);
+                    }(document, 'script', 'facebook-jssdk'));</script>
+                <div class="col-md-6 col-sm-12">
+                    <div class="fb-page" data-href="https://www.facebook.com/drugs.olc.tw" data-width="500" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"></div>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <div class="fb-page" data-href="https://www.facebook.com/g0v.tw" data-width="500" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"></div>
+                </div>
             </div>
-            <div class="col-md-6">
-                <div class="fb-page" data-href="https://www.facebook.com/g0v.tw" data-width="500" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"></div>
-            </div>
-        </footer>
+        </div>
         <p>&nbsp;</p>
         <div class="bottom-menu bottom-menu-inverse">
             <div class="container">
