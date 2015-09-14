@@ -68,3 +68,33 @@ a[target="_blank"]:hover::after {
 .navbar-nav .dropdown-menu {
     width: 300px;
 }
+
+.drug-preview svg {
+    width: 60px;
+    height: 60px;
+}
+
+.drug-preview svg .str0 {
+    stroke: #7f8c8d;
+    stroke-width: 25px;
+}
+.drug-preview svg .fil0 {
+    fill: #e74c3c;
+}
+
+.media-body hr {
+    margin: 5px 0;
+}
+
+.article-list-link {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 90%;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.outwrad-thumbnail {
+    width: 120px;
+    max-width: 120px;
+}
