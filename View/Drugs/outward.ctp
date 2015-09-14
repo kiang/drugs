@@ -13,14 +13,11 @@ echo $this->Html->script('c/drugs/outward', array('inline' => false));
                     <table class="table table-hover" id="DrugsIndexTable">
                         <thead>
                             <tr>
-                                <th>圖片</th>
+                                <th></th>
                                 <th>品名</th>
                                 <th>許可證字號</th>
                                 <th>形狀</th>
                                 <th>顏色</th>
-                                <th>刻痕</th>
-                                <th>標註一</th>
-                                <th>標註二</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,15 +46,6 @@ echo $this->Html->script('c/drugs/outward', array('inline' => false));
                                         ?></td>
                                     <td><?php
                                         echo $item['License']['color'];
-                                        ?></td>
-                                    <td><?php
-                                        echo $item['License']['abrasion'];
-                                        ?></td>
-                                    <td><?php
-                                        echo $item['License']['note_1'];
-                                        ?></td>
-                                    <td><?php
-                                        echo $item['License']['note_2'];
                                         ?></td>
                                 </tr>
                             <?php }; // End of foreach ($items as $item) {  ?>
