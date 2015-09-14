@@ -151,33 +151,33 @@
                     case 'vendors/index':
                     case 'vendors/view':
                         $button = $buttons['vendor'];
-                        unset($buttons['vendor']);
+                        $button['type'] = 'vendor';
                         break;
                     case 'drugs/outward':
                         $button = $buttons['outward'];
-                        unset($buttons['outward']);
+                        $button['type'] = 'outward';
                         break;
                     case 'ingredients/index':
                     case 'ingredients/view':
                         $button = $buttons['ingredient'];
-                        unset($buttons['ingredient']);
+                        $button['type'] = 'ingredient';
                         break;
                     case 'points/index':
                     case 'points/view':
                         $button = $buttons['point'];
-                        unset($buttons['point']);
+                        $button['type'] = 'point';
                         break;
                     default:
                         $button = $buttons['license'];
-                        unset($buttons['license']);
+                        $button['type'] = 'license';
                 }
                 ?>
                 <p>&nbsp;</p>
-                <div class="search-box">
+                <div class="search-box col-md-12">
                     <form class="input-group input-group-hg focus form-search" data-search="license">
                         <input type="text" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="<?php echo $button['placeholder']; ?>" autofocus>
                         <div class="input-group-btn">
-                            <button type="button" class="btn dropdown-toggle" id="btn-search-type" data-toggle="dropdown" data-type="drug">
+                            <button type="button" class="btn dropdown-toggle" id="btn-search-type" data-toggle="dropdown" data-type="<?php echo $button['type']; ?>">
                                 <?php echo $button['title']; ?>&nbsp;<b class="caret"></b>
                             </button>
                             <ul class="dropdown-menu">
@@ -222,53 +222,6 @@
                         </a>
                     </li>
                 </ul>
-
-                <!-- <div class="tab-content search-box-content">
-                    <div class="tab-pane fade in active" id="nav-tab-license">
-                        <form class="input-group focus form-search" data-search="license">
-                            <input type="text" class="form-control" placeholder="&#xF002;&nbsp;藥物證書..." autofocus>
-                            <span class="input-group-btn">
-                                <button class="btn btn-default btn-search">搜尋證書</button>
-                            </span>
-                        </form>
-                    </div>
-
-                    <div class="tab-pane fade" id="nav-tab-outward">
-                        <form class="input-group focus form-search" data-search="outward">
-                            <input type="text" class="form-control" placeholder="&#xF002;&nbsp;藥物外觀...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default btn-search">搜尋外觀</button>
-                            </span>
-                        </form>
-                    </div>
-
-                    <div class="tab-pane fade" id="nav-tab-ingredient">
-                        <form class="input-group focus form-search" data-search="ingredient">
-                            <input type="text" class="form-control" placeholder="&#xF002;&nbsp;藥物成份...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default btn-search">搜尋成份</button>
-                            </span>
-                        </form>
-                    </div>
-
-                    <div class="tab-pane fade" id="nav-tab-vendor">
-                        <form class="input-group focus form-search" data-search="vendor">
-                            <input type="text" class="form-control" placeholder="&#xF002;&nbsp;藥物廠商...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default btn-search">搜尋廠商</button>
-                            </span>
-                        </form>
-                    </div>
-
-                    <div class="tab-pane fade" id="nav-tab-point">
-                        <form class="input-group focus form-search" data-search="point">
-                            <input type="text" class="form-control" placeholder="&#xF002;&nbsp;醫事機構...">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default btn-search">搜尋機構</button>
-                            </span>
-                        </form>
-                    </div>
-                </div> -->
             </div>
 
             <div class="row">
