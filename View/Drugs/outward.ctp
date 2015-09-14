@@ -5,59 +5,45 @@ echo $this->Html->script('c/drugs/outward', array('inline' => false));
 <div class="paginator-wrapper">
     <?php echo $this->element('paginator'); ?>
 </div>
-<section class="content">
-    <div id="DrugsIndex" class="row">
-        <div class="col-xs-12">
-            <div class="box">
-                <div class="box-body table-responsive no-padding">
-                    <table class="table table-hover" id="DrugsIndexTable">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>品名</th>
-                                <th>許可證字號</th>
-                                <th>形狀</th>
-                                <th>顏色</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $i = 0;
-                            foreach ($items as $item) {
-                                $name = $item['License']['name'];
-                                if (!empty($item['License']['name_english'])) {
-                                    $name .= "({$item['License']['name_english']})";
-                                }
-                                ?>
-                                <tr>
-                                    <td>
-                                        <?php if (!empty($item['License']['image'])) { ?>
-                                            <img src="<?php echo $this->Html->url('/') . $item['License']['image']; ?>" class="img-thumbnail" style="width: 120px;" />
-                                            <div class="clearfix"></div>
-                                        <?php } ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $this->Html->link($name, array('action' => 'view', $item['Drug']['id'])); ?></td>
-                                    <td><?php
-                                        echo $item['License']['license_id'];
-                                        ?></td>
-                                    <td><?php
-                                        echo $item['License']['shape'];
-                                        ?></td>
-                                    <td><?php
-                                        echo $item['License']['color'];
-                                        ?></td>
-                                </tr>
-                            <?php }; // End of foreach ($items as $item) {  ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <div id="DrugsIndexPanel"></div>
-    </div>
-</section><!-- /.content -->
 
-<div class="clearfix paginator-wrapper">
+<div class="row">
+    <div class="col-md-12 col-xs-12">
+        <ul class="media-list">
+            <p>&nbsp;</p>
+            <?php
+            $i = 0;
+            foreach ($items as $item) {
+                $name = $item['License']['name'];
+                if (!empty($item['License']['name_english'])) {
+                    $name .= " <small class=\"text-info\">{$item['License']['name_english']}</small>";
+                }
+            ?>
+            <li class="media">
+                <div class="media-left media-middle">
+                    <a href="<?php echo $this->Html->url('/') . 'drugs/view/' . $item['Drug']['id']; ?>">
+                        <?php if (!empty($item['License']['image'])) { ?>
+                            <img src="<?php echo $this->Html->url('/') . $item['License']['image']; ?>" class="img-thumbnail outwrad-thumbnail" />
+                        <?php } ?>
+                    </a>
+                </div>
+                <div class="media-body">
+                    <a href="<?php echo $this->Html->url('/') . 'drugs/view/' . $item['Drug']['id']; ?>">
+                        <h6 class="media-heading"><?php echo $name; ?></h6>
+                    </a>
+                    <hr>
+                    <p>
+                        <br>
+                        <strong>許可證字號</strong> <?php echo $item['License']['license_id']; ?><br>
+                        <strong>適應症</strong> <?php echo $item['License']['disease']; ?>
+                    </p>
+                </div>
+            </li>
+            <?php }; // End of foreach ($items as $item) {  ?>
+            <div class="clearfix"></div>
+        </ul>
+    </div>
+</div>
+
+<div class="paginator-wrapper">
     <?php echo $this->element('paginator'); ?>
 </div>
