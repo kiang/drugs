@@ -74,10 +74,11 @@ $(function () {
                     break;
             }
         } else {
+            var form_control = $('.input-group-btn button:first, .form-search .form-control');
             that.addClass('has-error');
             $('#btn-search-type').removeClass('btn-unfocus').addClass('btn-danger');
-            $('.input-group-btn button:first, .form-search .form-control').addClass('animated shake').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
-                $('.input-group-btn button:first, .form-search .form-control').removeClass('animated shake').one('keydown', function () {
+            form_control.addClass('animated shake').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                form_control.removeClass('animated shake').one('keydown', function () {
                     $('#btn-search-type').removeClass('btn-danger btn-unfocus');
                     that.removeClass('has-error');
                 });
@@ -88,7 +89,9 @@ $(function () {
     $('.article-share-link').on('click', function (e) {
         e.preventDefault();
         var target = $(this).data('pane');
-        $(target).show();
+        $(target).show().addClass('animated bounceInRight').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+            $(target).removeClass('animated bounceInRight');
+        });
     });
 
     $('.article-permalink a').on('mouseenter', function () {
