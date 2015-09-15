@@ -61,7 +61,7 @@
                 ?>
                     <div class="col-md-4">
                         <i class="fui-tag text-muted"></i>
-                        <p><?php echo $this->Html->link($itemLabel, '/points/view/' . $itemId, array('target' => '_blank')); ?></p>
+                        <?php echo $this->Html->link($itemLabel, '/points/view/' . $itemId, array('target' => '_blank')); ?>
                     </div>
                 <?php
                     }
