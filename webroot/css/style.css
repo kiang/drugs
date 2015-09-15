@@ -92,6 +92,7 @@ a[target="_blank"]:hover::after {
     width: 90%;
     overflow: hidden;
     display: inline-block;
+    vertical-align: top;
 }
 
 .outwrad-thumbnail {
