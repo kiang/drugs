@@ -1,3 +1,21 @@
+jQuery.fn.selectText = function() {
+    var doc = document,
+        element = this[0],
+        range, selection;
+
+    if (doc.body.createTextRange) {
+        range = document.body.createTextRange();
+        range.moveToElementText(element);
+        range.select();
+    } else if (window.getSelection) {
+        selection = window.getSelection();        
+        range = document.createRange();
+        range.selectNodeContents(element);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+};
+
 $(function () {
 
     // $('.search-box a').on('click', function (e) {
@@ -21,11 +39,11 @@ $(function () {
 
     $('.form-search .form-control').on('focus', function () {
         $('#btn-search-type').removeClass('btn-unfocus');
-    })
+    });
 
     $('.form-search .form-control').on('blur', function () {
         $('#btn-search-type').addClass('btn-unfocus');
-    })
+    });
 
     $('.form-search').on('submit', function (e) {
         e.preventDefault();
@@ -67,4 +85,13 @@ $(function () {
         }
     });
 
+    $('.article-share-link').on('click', function (e) {
+        e.preventDefault();
+        var target = $(this).data('pane');
+        $(target).show();
+    });
+
+    $('.article-permalink a').on('mouseenter', function () {
+        $(this).selectText();
+    });
 });

@@ -5,10 +5,19 @@
         <p>&nbsp;</p>
         <?php foreach ($articles as $article): ?>
         <ul class="nav nav-tabs nav-append-content">
-            <li class="active"><a href="#<?php echo $article['Article']['id']; ?>-content" data-toggle="tab">醫事新知</a></li>
-            <li><a href="#<?php echo $article['Article']['id']; ?>-tag" data-toggle="tab">相關標籤</a></li>
+            <li class="pull-right"><a href="#" class="article-share-link" data-pane="#<?php echo $article['Article']['id']; ?>-link"><span class="fui-link"></span>&nbsp;分享</a></li>
+            <li class="pull-right"><a href="#<?php echo $article['Article']['id']; ?>-tag" data-toggle="tab">相關標籤</a></li>
+            <li class="pull-right active"><a href="#<?php echo $article['Article']['id']; ?>-content" data-toggle="tab">醫事新知</a></li>
         </ul>
         <div class="tab-content">
+            <div class="alert alert-info article-permalink" id="<?php echo $article['Article']['id']; ?>-link" style="display: none">
+                本文分享連結&nbsp;<br class="hidden-md hidden-lg">
+                <?php echo $this->Html->link(
+                        $this->html->url('/articles/view/' . $article['Article']['id'], true),
+                        '/articles/view/' . $article['Article']['id']
+                    );
+                ?>
+            </div>
             <div class="tab-pane active" id="<?php echo $article['Article']['id']; ?>-content">
                 <?php
                 echo $this->Html->tag('h5', "{$article['Article']['title']}") . '<hr>';

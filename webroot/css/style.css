@@ -99,3 +99,7 @@ a[target="_blank"]:hover::after {
     width: 120px;
     max-width: 120px;
 }
+
+.article-share-link {
+    word-break: break-all;
+}
