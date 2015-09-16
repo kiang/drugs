@@ -15,7 +15,7 @@ echo $this->Html->script('c/drugs/outward', array('inline' => false));
             foreach ($items as $item) {
                 $name = $item['License']['name'];
                 if (!empty($item['License']['name_english'])) {
-                    $name .= " <small class=\"text-info\">{$item['License']['name_english']}</small>";
+                    $name .= " <br class=\"hidden-md hidden-lg\"><small class=\"text-info\">{$item['License']['name_english']}</small>";
                 }
             ?>
             <li class="media">
@@ -32,8 +32,8 @@ echo $this->Html->script('c/drugs/outward', array('inline' => false));
                     </a>
                     <hr>
                     <p>
-                        <br>
-                        <strong>許可證字號</strong> <?php echo $item['License']['license_id']; ?><br>
+                        <br class="hidden-xs hidden-sm">
+                        <div class="hidden-xs"><strong>許可證字號</strong> <?php echo $item['License']['license_id']; ?><br></div>
                         <strong>適應症</strong> <?php echo $item['License']['disease']; ?>
                     </p>
                 </div>
