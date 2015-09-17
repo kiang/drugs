@@ -100,7 +100,7 @@ a[target="_blank"]:hover::after {
     max-width: 120px;
 }
 
-.article-share-link {
+.article-permalink a {
     word-break: break-all;
 }
 
