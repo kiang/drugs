@@ -25,6 +25,7 @@
         <link rel="icon" type="image/png" href="<?php echo $imageBaseUrl; ?>/drug_32.png" sizes="32x32">
         <link rel="icon" type="image/png" href="<?php echo $imageBaseUrl; ?>/drug_16.png" sizes="16x16">
         <meta property="og:image" content="<?php echo $ogImage; ?>">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="<?php echo $baseUrl; ?>css/bootstrap.min.css" rel="stylesheet">
         <link href="<?php echo $baseUrl; ?>css/flat-ui-pro.min.css" rel="stylesheet">
         <link href="<?php echo $baseUrl; ?>css/font-awesome.min.css" rel="stylesheet">
