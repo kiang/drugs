@@ -95,9 +95,17 @@ a[target="_blank"]:hover::after {
     vertical-align: top;
 }
 
-.outwrad-thumbnail {
+.drug-list-thumbnail {
     width: 120px;
     max-width: 120px;
+    height: 120px;
+    max-height: 120px;
+}
+
+.drug-list-thumbnail > p {
+    margin-top: 40px;
+    text-align: center;
+    color: #3c556d;
 }
 
 .article-permalink a {
@@ -106,4 +114,8 @@ a[target="_blank"]:hover::after {
 
 .search-helper-text .alert {
     text-align: center;
+}
+
+.text-english-name {
+    color: #7f8c8d;
 }

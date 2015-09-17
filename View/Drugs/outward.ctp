@@ -7,7 +7,7 @@ echo $this->Html->script('c/drugs/outward', array('inline' => false));
 </div>
 
 <div class="row">
-    <div class="col-md-12 col-xs-12">
+    <div class="col-md-12 col-sm-12 col-xs-12">
         <ul class="media-list">
             <p>&nbsp;</p>
             <?php
@@ -15,14 +15,18 @@ echo $this->Html->script('c/drugs/outward', array('inline' => false));
             foreach ($items as $item) {
                 $name = $item['License']['name'];
                 if (!empty($item['License']['name_english'])) {
-                    $name .= " <br class=\"hidden-md hidden-lg\"><small class=\"text-info\">{$item['License']['name_english']}</small>";
+                    $name .= " <br class=\"hidden-md hidden-lg\"><small class=\"text-english-name hidden-xs\">{$item['License']['name_english']}</small>";
                 }
             ?>
             <li class="media">
                 <div class="media-left media-middle">
                     <a href="<?php echo $this->Html->url('/') . 'drugs/view/' . $item['Drug']['id']; ?>">
                         <?php if (!empty($item['License']['image'])) { ?>
-                            <img src="<?php echo $this->Html->url('/') . $item['License']['image']; ?>" class="img-thumbnail outwrad-thumbnail" />
+                            <img src="<?php echo $this->Html->url('/') . $item['License']['image']; ?>" class="img-thumbnail drug-list-thumbnail" />
+                        <?php } else {?>
+                            <div class="img-thumbnail drug-list-thumbnail">
+                                <p>沒有影像</p>
+                            </div>
                         <?php } ?>
                     </a>
                 </div>
@@ -32,7 +36,6 @@ echo $this->Html->script('c/drugs/outward', array('inline' => false));
                     </a>
                     <hr>
                     <p>
-                        <br class="hidden-xs hidden-sm">
                         <div class="hidden-xs"><strong>許可證字號</strong> <?php echo $item['License']['license_id']; ?><br></div>
                         <strong>適應症</strong> <?php echo $item['License']['disease']; ?>
                     </p>
