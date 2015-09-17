@@ -240,7 +240,7 @@
         <?php if (!empty($ingredients)) { ?>
             <div class="col-md-12">
                 <h4>成份表</h4>
-                <table class="table table-bordered">
+                <table class="table table-bordered table-condensed table-striped">
                     <thead>
                         <tr>
                             <th>處方標示</th>
@@ -252,8 +252,18 @@
                     <tbody><?php
                         foreach ($ingredients AS $ingredient) {
                             ?><tr>
-                            <td><?php echo $ingredient['IngredientsLicense']['remark']; ?></td>
-                            <td><?php echo $this->Html->link($ingredient['IngredientsLicense']['name'], '/ingredients/view/' . $ingredient['IngredientsLicense']['ingredient_id'], array('class' => 'btn btn-info btn-sm')); ?></td>
+                            <td><?php echo !empty($ingredient['IngredientsLicense']['remark']) ? $ingredient['IngredientsLicense']['remark'] : '<span class="text-muted">無紀錄</span>'; ?></td>
+                            <td><?php echo $this->Html->link(
+                                    $this->Html->tag('label', $ingredient['IngredientsLicense']['name'], array(
+                                            'class' => 'label label-info',
+                                            'style' => 'cursor: pointer'
+                                        )
+                                    ),
+                                    '/ingredients/view/' . $ingredient['IngredientsLicense']['ingredient_id'],
+                                    array('escape' => false)
+                                );
+                                ?>
+                            </td>
                             <td><?php echo !empty($ingredient['IngredientsLicense']['dosage_text']) ? $ingredient['IngredientsLicense']['dosage_text'] : $ingredient['IngredientsLicense']['dosage']; ?></td>
                             <td><?php echo $ingredient['IngredientsLicense']['unit']; ?></td>
                         </tr><?php
@@ -292,6 +302,7 @@
         <?php if (!empty($prices)) { ?>
             <div class="col-md-12">
                 <h4>健保價格記錄</h4>
+                <canvas style="width: 100%" id="drug-price-chart"></canvas>
                 <ul>
                     <?php
                     $currentNhiId = false;
@@ -333,3 +344,8 @@
         <?php } ?>
     </div>
 </section><!-- /.content -->
+
+<script>
+    var ctx = document.getElementById('drug-price-chart').getContext('2d'),
+        price_chart = new Chart(ctx).PolarArea(data);
+</script>

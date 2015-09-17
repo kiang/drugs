@@ -238,7 +238,7 @@
                 </div>
                 <div class="alert alert-info" data-type="outward" style="display: none">
                     <img src="<?php echo $baseUrl; ?>img/pills.svg" alt="藥單" class="col-md-2" style="max-width: 100px;">
-                    <h6 class="col-md-10 col-sm-12 col-xs-12">輸入顏色、形狀或是藥物表面刻字<br>多個關鍵字請以空格隔開，如：<span class="text-info">紅 圓柱 5mg</span>。</h6>
+                    <h6 class="col-md-10 col-sm-12 col-xs-12">輸入顏色、形狀或是藥物表面刻字<br>多個關鍵字請以空格隔開，如：<span class="text-info">紅 圓柱 92</span>。</h6>
                     <div class="clearfix"></div>
                 </div>
             </div>
@@ -250,17 +250,17 @@
                     echo $content_for_layout;
                     ?>
                 </div>
-                <div class="col-md-12">
+                <!-- <div class="col-md-12">
                     <ins class="adsbygoogle"
                          style="display:inline-block;width:160px;height:600px"
                          data-ad-client="ca-pub-5571465503362954"
                          data-ad-slot="8707051624">
                     </ins>
-                </div>
+                </div> -->
             </div>
 
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12" style="text-align: center">
                     <ins class="adsbygoogle"
                         style="display:inline-block;width:336px;height:280px"
                         data-ad-client="ca-pub-5571465503362954"
@@ -348,6 +348,7 @@
         </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="<?php echo $baseUrl; ?>js/flat-ui-pro.min.js"></script>
+        <script src="<?php echo $baseUrl; ?>js/Chart.min.js"></script>
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <?php
         echo $this->Html->script('c/layout', array('inline' => true));
