@@ -5,53 +5,62 @@ echo $this->Html->script('c/drugs/index', array('inline' => false));
 <div class="paginator-wrapper">
     <?php echo $this->element('paginator'); ?>
 </div>
-<div class="box-body table-responsive no-padding">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>品名</th>
-                <th>許可證字號</th>
-                <th>製造商</th>
-                <th>國別</th>
-                <th><?php echo $this->Paginator->sort('License.expired_date', '有效日期', array('url' => $url)); ?></th>
-                <!-- <th><?php echo $this->Paginator->sort('License.license_date', '發證日期', array('url' => $url)); ?></th>
-                <th><?php echo $this->Paginator->sort('License.submitted', '更新日期', array('url' => $url)); ?></th> -->
-            </tr>
-        </thead>
-        <tbody>
+
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <ul class="media-list">
+            <p>&nbsp;</p>
             <?php
+            $i = 0;
             foreach ($items as $item) {
                 $name = $item['License']['name'];
                 if (!empty($item['License']['name_english'])) {
-                    $name .= "({$item['License']['name_english']})";
+                    $name .= " <br class=\"hidden-md hidden-lg\"><small class=\"text-english-name hidden-xs\">{$item['License']['name_english']}</small>";
                 }
-                ?>
-                <tr>
-                    <td>
-                        <?php echo $this->Html->link($name, array('action' => 'view', $item['Drug']['id'])); ?></td>
-                    <td><?php
-                        echo $item['License']['license_id'];
-                        ?></td>
-                    <td><?php
-                        echo $item['Vendor']['name'];
-                        ?></td>
-                    <td><?php
-                        echo $this->Olc->showCountry($item['Vendor']['country']);
-                        ?></td>
-                    <td><?php
-                        echo $item['License']['expired_date'];
-                        ?></td>
-                    <!-- <td><?php
-                        echo $item['License']['license_date'];
-                        ?></td>
-                    <td><?php
-                        echo $item['License']['submitted'];
-                        ?></td> -->
-                </tr>
+            ?>
+            <li class="media">
+                <div class="media-left media-middle">
+                    <a href="<?php echo $this->Html->url('/') . 'drugs/view/' . $item['Drug']['id']; ?>">
+                        <?php if (!empty($item['License']['image'])) { ?>
+                            <img src="<?php echo $this->Html->url('/') . $item['License']['image']; ?>" class="img-thumbnail drug-list-thumbnail" />
+                        <?php } else {?>
+                            <div class="img-thumbnail drug-list-thumbnail">
+                                <p>沒有影像</p>
+                            </div>
+                        <?php } ?>
+                    </a>
+                </div>
+                <div class="media-body">
+                    <a href="<?php echo $this->Html->url('/') . 'drugs/view/' . $item['Drug']['id']; ?>">
+                        <h6 class="media-heading"><?php echo $name; ?></h6>
+                    </a>
+                    <hr>
+                    <p>
+                        <div class="hidden-xs"><strong>許可證字號</strong> <?php echo $item['License']['license_id']; ?><br></div>
+                        <strong>製造商</strong> <?php echo $item['Vendor']['name'] . '&nbsp;' . $this->Olc->showCountry($item['Vendor']['country']); ?>
+                        <br>
+                        <?php
+                            $now_date = new DateTime();
+                            $expired_date = new DateTime($item['License']['expired_date']);
+                            $date_between = intval($expired_date->diff($now_date)->y);
+                        ?>
+                        <strong>許可證有效日期</strong>&nbsp;
+                        <?php
+                            if ($date_between >= 3) {
+                                echo $item['License']['expired_date'];
+                            } else {
+                                echo $this->Html->tag('span', $item['License']['expired_date'], array('class' => 'text-warning'));
+                            }
+                        ?>
+                    </p>
+                </div>
+            </li>
             <?php }; // End of foreach ($items as $item) {  ?>
-        </tbody>
-    </table>
+            <div class="clearfix"></div>
+        </ul>
+    </div>
 </div>
-<div class="clearfix paginator-wrapper">
+
+<div class="paginator-wrapper">
     <?php echo $this->element('paginator'); ?>
 </div>

@@ -17,7 +17,7 @@ class OlcHelper extends AppHelper {
                 return $countryText;
             }
         } else {
-            return '<span title="無紀錄" class="fui-question-circle text-muted"></span>';
+            return '<span title="無國家紀錄" class="fui-question-circle text-muted"></span>';
         }
     }
 
