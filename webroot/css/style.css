@@ -69,7 +69,7 @@ a[target="_blank"]:hover::after {
     width: 300px;
 }
 
-.drug-preview svg {
+/*.drug-preview svg {
     width: 60px;
     height: 60px;
 }
@@ -80,7 +80,7 @@ a[target="_blank"]:hover::after {
 }
 .drug-preview svg .fil0 {
     fill: #e74c3c;
-}
+}*/
 
 .media-body hr {
     margin: 5px 0;
@@ -102,4 +102,8 @@ a[target="_blank"]:hover::after {
 
 .article-share-link {
     word-break: break-all;
+}
+
+.search-helper-text .alert {
+    text-align: center;
 }

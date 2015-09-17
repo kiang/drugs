@@ -34,7 +34,20 @@ $(function () {
         $('.btn-search span').text($(this).data('placeholder'));
         $('.form-search .form-control').attr('placeholder', $(this).data('placeholder'));
         $('#btn-search-type').data('type', $(this).data('type'));
-
+        switch ($(this).data('type')) {
+        case 'drug':
+        case 'license':
+            $('.search-helper-text .alert').hide();
+            $('.search-helper-text .alert[data-type="drug"]').show();
+            break;
+        case 'outward':
+            $('.search-helper-text .alert').hide();
+            $('.search-helper-text .alert[data-type="outward"]').show();
+            break;
+        default:
+            $('.search-helper-text .alert').hide();
+            break;
+        }
     });
 
     $('.form-search .form-control').on('focus', function () {

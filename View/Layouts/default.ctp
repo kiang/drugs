@@ -35,6 +35,10 @@
             <script src="<?php echo $baseUrl; ?>js/html5shiv.js"></script>
             <script src="<?php echo $baseUrl; ?>js/respond.min.js"></script>
         <![endif]-->
+        
+        <!--[if lte IE 8]>
+            <script src="<?php echo $baseUrl; ?>js/excanvas.js"></script>
+        <![endif]-->
         <script>
             var baseUrl = '<?php echo $baseUrl; ?>';
         </script>
@@ -125,7 +129,7 @@
                         'title' => '藥物搜尋',
                     ),
                     'license' => array(
-                        'placeholder' => '許可證號',
+                        'placeholder' => '許可證字號',
                         'title' => '藥物證書',
                     ),
                     'outward' => array(
@@ -166,8 +170,9 @@
                         $button['type'] = 'point';
                         break;
                     default:
-                        $button = $buttons['license'];
-                        $button['type'] = 'license';
+                        $button = $buttons['drug'];
+                        $button['type'] = 'drug';
+                        break;
                 }
                 ?>
                 <p>&nbsp;</p>
@@ -191,7 +196,6 @@
                             <button class="btn btn-default btn-search">搜尋</button>
                         </div>
                     </form>
-                    <div class="drug-preview"></div>
                 </div>
 
                 <ul class="nav nav-tabs nav-append-content search-box" style="display: none">
@@ -222,7 +226,21 @@
                     </li>
                 </ul>
             </div>
-            <p>&nbsp;</p>
+            <div class="drug-preview"></div>
+            <div class="search-helper-text">
+                <div class="alert alert-info" data-type="drug" <?php echo isset($keyword) ? 'style="display: none"' : ''; ?>>
+                    <img src="<?php echo $baseUrl; ?>img/clipboard.svg" alt="藥單" class="col-md-2" style="max-width: 100px;">
+                    <h6 class="col-md-10 col-sm-12 col-xs-12">
+                        若您有藥單或知道藥物名稱，請以藥物名稱搜尋<br>或可改用<span class="text-info">藥物外觀</span>搜尋。
+                    </h6>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="alert alert-info" data-type="outward" style="display: none">
+                    <img src="<?php echo $baseUrl; ?>img/pills.svg" alt="藥單" class="col-md-2" style="max-width: 100px;">
+                    <h6 class="col-md-10 col-sm-12 col-xs-12">輸入顏色、形狀或是藥物表面刻字<br>多個關鍵字請以空格隔開，如：<span class="text-info">紅 圓柱 5mg</span>。</h6>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
 
             <div class="row">
                 <?php echo $this->Session->flash(); ?>
