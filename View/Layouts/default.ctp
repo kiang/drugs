@@ -93,9 +93,11 @@
                                     break;
                                 case '1': 
                                     $items = array(
-                                        '<a href="' . $baseUrl . 'members/logout">文章管理</a>',
-                                        '<a href="' . $baseUrl . 'members/logout">醫事機構管理</a>',
-                                        '<a href="' . $baseUrl . 'members/logout">會員管理</a>',
+                                        '<a href="' . $baseUrl . 'admin/articles/add">新增文章</a>',
+                                        '<a href="' . $baseUrl . 'admin/points">新增醫事機構</a>',
+                                        '<a href="' . $baseUrl . 'admin/articles/">文章管理</a>',
+                                        '<a href="' . $baseUrl . 'admin/points">醫事機構管理</a>',
+                                        '<a href="' . $baseUrl . 'admin/members">會員管理</a>',
                                         '<a href="' . $baseUrl . 'members/logout">登出</a>',
                                         );
                                 ?>
@@ -349,6 +351,8 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="<?php echo $baseUrl; ?>js/flat-ui-pro.min.js"></script>
         <script src="<?php echo $baseUrl; ?>js/Chart.min.js"></script>
+        <script src="<?php echo $baseUrl; ?>js/jquery-ui.js"></script>
+        <script src="<?php echo $baseUrl; ?>js/tag-it.js"></script>
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <?php
         echo $this->Html->script('c/layout', array('inline' => true));
