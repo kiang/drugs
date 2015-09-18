@@ -234,7 +234,7 @@
                 <div class="alert alert-info" data-type="drug" <?php echo isset($keyword) ? 'style="display: none"' : ''; ?>>
                     <img src="<?php echo $baseUrl; ?>img/clipboard.svg" alt="藥單" class="col-md-2" style="max-width: 100px;">
                     <h6 class="col-md-10 col-sm-12 col-xs-12">
-                        若您有藥單或知道藥物名稱，請以藥物名稱搜尋<br>或可改用<span class="text-info">藥物外觀</span>搜尋。
+                        若您有藥單或知道藥物名稱，請以藥物名稱搜尋<br>或可改用<span>藥物外觀</span>搜尋。
                     </h6>
                     <div class="clearfix"></div>
                 </div>
