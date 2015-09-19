@@ -93,9 +93,11 @@
                                     break;
                                 case '1': 
                                     $items = array(
-                                        '<a href="' . $baseUrl . 'members/logout">文章管理</a>',
-                                        '<a href="' . $baseUrl . 'members/logout">醫事機構管理</a>',
-                                        '<a href="' . $baseUrl . 'members/logout">會員管理</a>',
+                                        '<a href="' . $baseUrl . 'admin/articles/add">新增文章</a>',
+                                        '<a href="' . $baseUrl . 'admin/points">新增醫事機構</a>',
+                                        '<a href="' . $baseUrl . 'admin/articles/">文章管理</a>',
+                                        '<a href="' . $baseUrl . 'admin/points">醫事機構管理</a>',
+                                        '<a href="' . $baseUrl . 'admin/members">會員管理</a>',
                                         '<a href="' . $baseUrl . 'members/logout">登出</a>',
                                         );
                                 ?>
@@ -232,7 +234,7 @@
                 <div class="alert alert-info" data-type="drug" <?php echo isset($keyword) ? 'style="display: none"' : ''; ?>>
                     <img src="<?php echo $baseUrl; ?>img/clipboard.svg" alt="藥單" class="col-md-2" style="max-width: 100px;">
                     <h6 class="col-md-10 col-sm-12 col-xs-12">
-                        若您有藥單或知道藥物名稱，請以藥物名稱搜尋<br>或可改用<span class="text-info">藥物外觀</span>搜尋。
+                        若您有藥單或知道藥物名稱，請以藥物名稱搜尋<br>或可改用<span>藥物外觀</span>搜尋。
                     </h6>
                     <div class="clearfix"></div>
                 </div>
@@ -348,6 +350,8 @@
         </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="<?php echo $baseUrl; ?>js/flat-ui-pro.min.js"></script>
+        <script src="<?php echo $baseUrl; ?>js/jquery-ui.js"></script>
+        <script src="<?php echo $baseUrl; ?>js/tag-it.js"></script>
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <?php
         echo $this->Html->script('c/layout', array('inline' => true));
