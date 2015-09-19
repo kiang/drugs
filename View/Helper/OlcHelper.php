@@ -21,4 +21,19 @@ class OlcHelper extends AppHelper {
         }
     }
 
+    public function parsePrice($data) {
+        $result = array();
+        foreach($data AS $price) {
+            if(!isset($result[$price['Price']['nhi_id']])) {
+                $result[$price['Price']['nhi_id']] = array(
+                    0 => array(),
+                    1 => array(),
+                );
+            }
+            $result[$price['Price']['nhi_id']][0][] = $price['Price']['date_begin'];
+            $result[$price['Price']['nhi_id']][1][] = $price['Price']['nhi_price'];
+        }
+        return $result;
+    }
+
 }
