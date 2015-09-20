@@ -76,27 +76,48 @@ class TfdaShell extends AppShell {
     }
 
     public function import() {
+        $this->getTasks();
+    }
 
-        $licenseId = $vendorKeys = array();
-        if (file_exists(__DIR__ . '/data/keys/licenses.csv')) {
-            $dbKeysFh = fopen(__DIR__ . '/data/keys/licenses.csv', 'r');
-            while ($line = fgetcsv($dbKeysFh, 1024)) {
-                $licenseId[$line[0]] = $line[1];
-            }
-            fclose($dbKeysFh);
+    public function getTasks() {
+        $dataPath = __DIR__ . '/data/tfda';
+        if (!file_exists($dataPath)) {
+            mkdir($dataPath, 0777, true);
         }
-        if (file_exists(__DIR__ . '/data/keys/vendors.csv')) {
-            $dbKeysFh = fopen(__DIR__ . '/data/keys/vendors.csv', 'r');
-            while ($line = fgetcsv($dbKeysFh, 1024)) {
-                $vendorKeys[$line[0]] = $line[1];
-            }
-            fclose($dbKeysFh);
-        }
+        $licenseId = $this->License->find('list', array(
+            'conditions' => array('License.source' => 'fda'),
+            'fields' => array('License.code', 'License.code'),
+        ));
 
+        $fh = fopen($dataPath . '/tasks.csv', 'w');
         foreach (glob($this->dataPath . '/licenses/*/*.json') AS $jsonFile) {
-            echo $jsonFile;
-            $json = json_decode(file_get_contents($jsonFile), true);
-            print_r($json);
+            $pathInfo = pathinfo($jsonFile);
+            if (!isset($licenseId[$pathInfo['filename']])) {
+                fputcsv($fh, array($pathInfo['filename'], substr($jsonFile, strrpos($jsonFile, '/', -20) + 1)));
+            }
+        }
+        fclose($fh);
+    }
+
+    public function getTwDate($str) {
+        $str = trim($str);
+        if (empty($str) || strlen($str) !== 7) {
+            return '';
+        }
+        $dateParts = array();
+        $dateParts[0] = intval(substr($str, 0, 3)) + 1911;
+        if ($dateParts[0] > date('Y')) {
+            $dateParts[0] = date('Y') + 1;
+        }
+        $dateParts[1] = substr($str, 3, 2);
+        $dateParts[2] = substr($str, 5, 2);
+        return implode('-', $dateParts);
+    }
+
+    public function dbQuery($sql) {
+        if (!$this->mysqli->query($sql)) {
+            printf("Error: %s\n", $this->mysqli->error);
+            echo $sql;
             exit();
         }
     }
