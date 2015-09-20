@@ -72,24 +72,211 @@ class TfdaShell extends AppShell {
     );
 
     public function main() {
+        $this->poolPath = __DIR__ . '/data/tfda';
         $this->import();
     }
 
     public function import() {
-        $this->getTasks();
+        //$this->getTasks();
+        $db = ConnectionManager::getDataSource('default');
+        $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
+        $this->dbQuery('SET NAMES utf8mb4;');
+
+        $vendorKeys = $vendorStack = $licenseData = $valueStack = array();
+        if (file_exists(__DIR__ . '/data/keys/vendors.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/keys/vendors.csv', 'r');
+            while ($line = fgetcsv($dbKeysFh, 1024)) {
+                $vendorKeys[$line[0]] = $line[1];
+            }
+            fclose($dbKeysFh);
+        }
+        $dbVendorKeys = $this->License->Vendor->find('list', array(
+            'fields' => array('id', 'id')
+        ));
+        $escapesKeys = array('註銷理由', '中文品名', '英文品名', '適應症', '主成分略述');
+        $sn = 0;
+
+        $fh = fopen($this->poolPath . '/tasks.csv', 'r');
+        while ($task = fgetcsv($fh, 2048)) {
+            $json = json_decode(file_get_contents($this->dataPath . '/' . $task[1]), true);
+            if (empty($json['許可證字號'])) {
+                continue;
+            }
+            if (!isset($json['管制藥品分類級別']) && isset($json['醫療器材級數'])) {
+                $json['管制藥品分類級別'] = $json['醫療器材級數'];
+            }
+            if (!isset($json['藥品類別']) && isset($json['醫器主類別一'])) {
+                $json['藥品類別'] = $json['醫器主類別一'];
+            }
+            if (!isset($json['藥品類別']) && isset($json['化粧品類別'])) {
+                $json['藥品類別'] = $json['化粧品類別'];
+            }
+            if (!isset($json['適應症']) && isset($json['醫器規格'])) {
+                $json['適應症'] = $json['醫器規格'];
+            }
+            if (!isset($json['適應症']) && isset($json['用途'])) {
+                $json['適應症'] = $json['用途'];
+            }
+            if (!isset($json['註銷狀態']) && isset($json['廢止狀態'])) {
+                $json['註銷狀態'] = $json['廢止狀態'];
+            }
+            if (!isset($json['註銷日期']) && isset($json['廢止日期'])) {
+                $json['註銷日期'] = $json['廢止日期'];
+            }
+            if (!isset($json['註銷理由']) && isset($json['廢止理由'])) {
+                $json['註銷理由'] = $json['廢止理由'];
+            }
+            $id = String::uuid();
+
+            $json['申請商名稱'] = $this->getCleanString($json['申請商名稱']);
+            $json['主製造廠']['製造廠名稱'] = $this->getCleanString($json['主製造廠']['製造廠名稱']);
+
+            $vendorKey1 = $json['申請商名稱'];
+            $vendorKey2 = $json['主製造廠']['製造廠名稱'];
+            if (!isset($vendorKeys[$vendorKey1])) {
+                $vendorKeys[$vendorKey1] = String::uuid();
+            }
+            if (!isset($vendorKeys[$vendorKey2])) {
+                $vendorKeys[$vendorKey2] = String::uuid();
+            }
+
+            if (!isset($dbVendorKeys[$vendorKeys[$vendorKey1]])) {
+                if (!isset($vendorStack[$vendorKey1])) {
+                    $vendorStack[$vendorKey1] = array(
+                        'id' => $vendorKeys[$vendorKey1],
+                        'tax_id' => '',
+                        'name' => $json['申請商名稱'],
+                        'address' => $json['申請商地址'],
+                        'address_office' => '',
+                        'country' => 'TAIWAN',
+                        'count_daily' => 0,
+                        'count_all' => 0,
+                    );
+                }
+            }
+
+            if (!isset($dbVendorKeys[$vendorKeys[$vendorKey2]]) && !isset($vendorStack[$vendorKey2])) {
+                $vendorStack[$vendorKey2] = array(
+                    'id' => $vendorKeys[$vendorKey2],
+                    'tax_id' => '',
+                    'name' => $json['主製造廠']['製造廠名稱'],
+                    'address' => $json['主製造廠']['製造廠廠址'],
+                    'address_office' => $json['主製造廠']['製造廠公司地址'],
+                    'country' => $json['主製造廠']['製造廠國別'],
+                    'count_daily' => 0,
+                    'count_all' => 0,
+                );
+            }
+
+            $drugId = String::uuid();
+            $dbCols = array(
+                "('{$drugId}'", //id
+                "'{$id}'", //license_id
+                "'{$vendorKeys[$vendorKey2]}'", //vendor_id
+                "'{$json['主製造廠']['製程']}'", //manufacturer_description
+            );
+            $json['註銷日期'] = $this->getTwDate($json['註銷日期']);
+            $json['有效日期'] = $this->getTwDate($json['有效日期']);
+            $json['發證日期'] = $this->getTwDate($json['發證日期']);
+            foreach ($escapesKeys AS $escapesKey) {
+                $json[$escapesKey] = $this->mysqli->real_escape_string($json[$escapesKey]);
+            }
+            $licenseData[$id] = array(
+                "('{$id}'", //id
+                "'{$json['許可證字號']}'", //license_id
+                "'{$json['code']}'", //code
+                "'fda'", //source
+                "NULL", //nhi_id
+                "NULL", //shape
+                "NULL", //s_type
+                "NULL", //color
+                "NULL", //odor
+                "NULL", //abrasion
+                "NULL", //size
+                "NULL", //note_1
+                "NULL", //note_2
+                "NULL", //image
+                "'{$json['註銷狀態']}'", //cancel_status
+                "'{$json['註銷日期']}'", //cancel_date
+                "'{$json['註銷理由']}'", //cancel_reason
+                "'{$json['有效日期']}'", //expired_date
+                "'{$json['發證日期']}'", //license_date
+                "'{$json['許可證種類']}'", //license_type
+                "'{$json['舊證字號']}'", //old_id
+                "'{$json['通關簽審文件編號']}'", //document_id
+                "'{$json['中文品名']}'", //name
+                "'{$json['英文品名']}'", //name_english
+                "'{$json['適應症']}'", //disease
+                "'{$json['劑型']}'", //formulation
+                "'{$json['包裝']}'", //package
+                "'{$json['藥品類別']}'", //type
+                "'{$json['管制藥品分類級別']}'", //class
+                "'{$json['主成分略述']}'", //ingredient
+                "'{$vendorKeys[$vendorKey1]}'", //vendor_id
+                "''", //submitted
+                "''", //usage
+                "''", //package_note
+                "''", //barcode
+                "0", //count_daily
+                "0)", //count_all
+            );
+            $valueStack[] = implode(',', $dbCols) . ')';
+            ++$sn;
+
+            if ($sn > 50) {
+                $sn = 1;
+                $this->dbQuery('INSERT INTO `drugs` VALUES ' . implode(',', $valueStack) . ';');
+                $valueStack = array();
+            }
+        }
+        if (!empty($valueStack)) {
+            $this->dbQuery('INSERT INTO `drugs` VALUES ' . implode(',', $valueStack) . ';');
+        }
+        $sn = 1;
+        $valueStack = array();
+        echo "licenses importing\n";
+        foreach ($licenseData AS $dbCols) {
+            $valueStack[] = implode(',', $dbCols);
+            ++$sn;
+            if ($sn > 50) {
+                $sn = 1;
+                $this->dbQuery('INSERT INTO `licenses` VALUES ' . implode(',', $valueStack) . ';');
+                $valueStack = array();
+            }
+        }
+        if (!empty($valueStack)) {
+            $this->dbQuery('INSERT INTO `licenses` VALUES ' . implode(',', $valueStack) . ';');
+        }
+        $sn = 1;
+        $valueStack = array();
+        echo "vendors importing\n";
+        foreach ($vendorStack AS $vendor) {
+            foreach ($vendor AS $k => $v) {
+                $vendor[$k] = $this->mysqli->real_escape_string($v);
+            }
+            $valueStack[] = "('" . implode("', '", $vendor) . "')";
+            ++$sn;
+            if ($sn > 50) {
+                $sn = 1;
+                $this->dbQuery('INSERT INTO `vendors` VALUES ' . implode(',', $valueStack) . ';');
+                $valueStack = array();
+            }
+        }
+        if (!empty($valueStack)) {
+            $this->dbQuery('INSERT INTO `vendors` VALUES ' . implode(',', $valueStack) . ';');
+        }
     }
 
     public function getTasks() {
-        $dataPath = __DIR__ . '/data/tfda';
-        if (!file_exists($dataPath)) {
-            mkdir($dataPath, 0777, true);
+        if (!file_exists($this->poolPath)) {
+            mkdir($this->poolPath, 0777, true);
         }
         $licenseId = $this->License->find('list', array(
             'conditions' => array('License.source' => 'fda'),
             'fields' => array('License.code', 'License.code'),
         ));
 
-        $fh = fopen($dataPath . '/tasks.csv', 'w');
+        $fh = fopen($this->poolPath . '/tasks.csv', 'w');
         foreach (glob($this->dataPath . '/licenses/*/*.json') AS $jsonFile) {
             $pathInfo = pathinfo($jsonFile);
             if (!isset($licenseId[$pathInfo['filename']])) {
@@ -120,6 +307,14 @@ class TfdaShell extends AppShell {
             echo $sql;
             exit();
         }
+    }
+
+    public function getCleanString($input) {
+        preg_match('/ +/', $input, $matches, PREG_OFFSET_CAPTURE);
+        if (!empty($matches[0][1])) {
+            $input = substr($input, $matches[0][1] + strlen($matches[0][0]));
+        }
+        return trim($input);
     }
 
 }
