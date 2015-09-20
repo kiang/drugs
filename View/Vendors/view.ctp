@@ -27,8 +27,14 @@
             <?php
                 if (!empty($vendor['Vendor']['address'])) {
                     echo $this->Olc->showCountry($vendor['Vendor']['country']) . '&nbsp;';
+                    echo '<br class="hidden-md hidden-lg">';
                     echo $vendor['Vendor']['address'] . '&nbsp;';
-                    echo $this->Html->tag('div', '', array('id' => 'vendor-address', 'style' => 'margin: 0 auto; width: 85%; height: 20em;'));
+                    echo $this->Html->link(
+                            $this->Html->tag('span', '', array('class' => 'fui-location map-toggle-btn')),
+                            '#',
+                            array('escape' => false, 'style' => 'color: #f35048; cursor: pointer', 'title' => '開啟地圖')
+                        );
+                    echo $this->Html->tag('div', '', array('class' => 'vendor-address-wrapper'));
                 } else {
                     echo $this->Html->tag('span', '無紀錄', array('class' => 'text-muted'));
                 }
@@ -115,33 +121,6 @@
 ?>
     <script src="//maps.googleapis.com/maps/api/js?sensor=false&extension=.js&output=embed"></script>
     <script>
-        (function() {
-            var geocoder = new google.maps.Geocoder(),
-                address = "<?php echo $vendor['Vendor']['address']; ?>",
-                mapOptions = {
-                    zoom: 14
-                };
-            map = new google.maps.Map(document.getElementById('vendor-address'), mapOptions);
-
-            if (geocoder) {
-                geocoder.geocode({'address': address}, function(results, status) {
-                    if (status === google.maps.GeocoderStatus.OK) {
-                        if (status !== google.maps.GeocoderStatus.ZERO_RESULTS) {
-                            map.setCenter(results[0].geometry.location);
-
-                            var infowindow = new google.maps.InfoWindow({
-                                content: address,
-                                map: map,
-                                position: results[0].geometry.location,
-                            });
-
-                        } else {
-                            var addressDiv = document.getElementById('vendor-address');
-                            addressDiv.parentNode.removeChild(addressDiv);
-                        }
-                    }
-                });
-            }
-        })();
+        var verdor_address = "<?php echo $vendor['Vendor']['address']; ?>";
     </script>
 <?php } ?>
