@@ -18,16 +18,6 @@ jQuery.fn.selectText = function() {
 
 $(function () {
 
-    // $('.search-box a').on('click', function (e) {
-    //     e.preventDefault();
-    //     $(this).tab('show');
-    // });
-
-    // $('.search-box a').on('shown.bs.tab', function (e) {
-    //     var content_id = $(e.target).attr('href');
-    //     $(content_id).find('input').focus();
-    // });
-
     $('.form-search .dropdown-menu').on('click', 'li a', function (e) {
         e.preventDefault();
         $('#btn-search-type').html($(this).text() + '&nbsp;<b class="caret"></b>');
