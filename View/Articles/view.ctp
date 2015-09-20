@@ -22,7 +22,7 @@
             </p>
         <?php } ?>
         <p>&nbsp;</p>
-        <div class="alert alert-success">
+        <div class="alert alert-success article-permalink">
             本文分享連結&nbsp;
             <br class="hidden-md hidden-lg">
             <?php echo $this->Html->link(
