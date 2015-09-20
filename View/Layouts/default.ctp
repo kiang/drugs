@@ -56,8 +56,8 @@
 
                 <div class="collapse navbar-collapse" id="navbar-collapse">
                     <ul class="nav navbar-nav nav-menu">
-                        <li<?php if (strrpos($this->here, 'articles') === false) {echo ' class="active"';} ?>><a href="<?php echo $this->Html->url('/'); ?>">藥物搜尋</a></li>
-                        <li<?php if (strrpos($this->here, 'articles') !== false) {echo ' class="active"';} ?>><a href="<?php echo $this->Html->url('/articles'); ?>">醫事新知</a></li>
+                        <li<?php if (strrpos($this->here, 'articles') === false) {echo ' class="active"';} ?>><a href="<?php echo $this->Html->url('/'); ?>" tabindex="4">藥物搜尋</a></li>
+                        <li<?php if (strrpos($this->here, 'articles') !== false) {echo ' class="active"';} ?>><a href="<?php echo $this->Html->url('/articles'); ?>" tabindex="5">醫事新知</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
@@ -66,7 +66,7 @@
                             switch (Configure::read('loginMember.group_id')) {
                                 case '0':
                                     ?>
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員登入 <b class="caret"></b></a>
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" tabindex="6">會員登入 <b class="caret"></b></a>
                                     <div class="dropdown-menu">
                                         <?php echo $this->Form->create('Member', array('url' => '/members/login')); ?>
                                         <?php
@@ -75,6 +75,7 @@
                                             'div' => 'col-sm-12',
                                             'class' => 'form-control',
                                             'placeholder' => '帳戶名稱',
+                                            'tabindex' => '6',
                                         ));
                                         echo $this->Form->input('password', array(
                                             'type' => 'password',
@@ -82,10 +83,11 @@
                                             'div' => 'col-sm-12',
                                             'class' => 'form-control',
                                             'placeholder' => '密碼',
+                                            'tabindex' => '7',
                                         ));
                                         ?>
                                         <div class="col-sm-12">
-                                            <button type="submit" class="btn btn-success btn-block">登入</button>
+                                            <button type="submit" class="btn btn-success btn-block" tabindex="8">登入</button>
                                         </div>
                                         <?php echo $this->Form->end(); ?>
                                     </div>
@@ -93,12 +95,12 @@
                                     break;
                                 case '1': 
                                     $items = array(
-                                        '<a href="' . $baseUrl . 'admin/articles/add">新增文章</a>',
-                                        '<a href="' . $baseUrl . 'admin/points">新增醫事機構</a>',
-                                        '<a href="' . $baseUrl . 'admin/articles/">文章管理</a>',
-                                        '<a href="' . $baseUrl . 'admin/points">醫事機構管理</a>',
-                                        '<a href="' . $baseUrl . 'admin/members">會員管理</a>',
-                                        '<a href="' . $baseUrl . 'members/logout">登出</a>',
+                                        '<a href="' . $baseUrl . 'admin/articles/add" tabindex="6">新增文章</a>',
+                                        '<a href="' . $baseUrl . 'admin/points" tabindex="7">新增醫事機構</a>',
+                                        '<a href="' . $baseUrl . 'admin/articles" tabindex="8">文章管理</a>',
+                                        '<a href="' . $baseUrl . 'admin/points" tabindex="9">醫事機構管理</a>',
+                                        '<a href="' . $baseUrl . 'admin/members" tabindex="10">會員管理</a>',
+                                        '<a href="' . $baseUrl . 'members/logout" tabindex="11">登出</a>',
                                         );
                                 ?>
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員功能 <b class="caret"></b></a>
@@ -181,9 +183,9 @@
                 <p>&nbsp;</p>
                 <div class="search-box col-md-12">
                     <form class="input-group input-group-hg focus form-search" data-search="license">
-                        <input type="text" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="<?php echo $button['placeholder']; ?>" autofocus>
+                        <input type="text" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="<?php echo $button['placeholder']; ?>" autofocus tabindex="1">
                         <div class="input-group-btn">
-                            <button type="button" class="btn dropdown-toggle" id="btn-search-type" data-toggle="dropdown" data-type="<?php echo $button['type']; ?>">
+                            <button type="button" class="btn dropdown-toggle" id="btn-search-type" tabindex="2" data-toggle="dropdown" data-type="<?php echo $button['type']; ?>">
                                 <?php echo $button['title']; ?>&nbsp;<b class="caret"></b>
                             </button>
                             <ul class="dropdown-menu">
@@ -196,7 +198,7 @@
                                 }
                                 ?>
                             </ul>
-                            <button class="btn btn-default btn-search">搜尋</button>
+                            <button class="btn btn-default btn-search" tabindex="3">搜尋</button>
                         </div>
                     </form>
                 </div>
