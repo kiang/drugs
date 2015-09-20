@@ -119,3 +119,8 @@ a[target="_blank"]:hover::after {
 .text-english-name {
     color: #7f8c8d;
 }
+
+.chart-wrapper {
+    width: 85%;
+    margin: 15px auto;
+}
