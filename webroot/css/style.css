@@ -86,7 +86,7 @@ a[target="_blank"]:hover::after {
     margin: 5px 0;
 }
 
-.article-list-link {
+.article-link {
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 90%;
