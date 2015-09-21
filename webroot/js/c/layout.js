@@ -126,7 +126,7 @@ $(function () {
 
                     } else {
                         $('.vendor-address').remove();
-                        $('.vendor-address-wrapper').append('<div class="alert alert-danger animated flash"><button type="button" class="close fui-cross" data-dismiss="alert"></button>無法顯示地圖 :(</div>');
+                        $('.vendor-address-wrapper').append('<div class="alert alert-danger animated flash"><button type="button" class="close fui-cross" data-dismiss="alert"></button><strong><span class="fui-cross text-danger"></span>&nbsp;噢，無法顯示地圖</strong></div>');
                     }
                 }
             });
