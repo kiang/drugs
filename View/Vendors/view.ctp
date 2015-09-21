@@ -28,12 +28,22 @@
                 if (!empty($vendor['Vendor']['address'])) {
                     echo $this->Olc->showCountry($vendor['Vendor']['country']) . '&nbsp;';
                     echo '<br class="hidden-md hidden-lg">';
-                    echo $vendor['Vendor']['address'] . '&nbsp;';
-                    echo $this->Html->link(
-                            $this->Html->tag('span', '', array('class' => 'fui-location map-toggle-btn')),
-                            '#',
-                            array('escape' => false, 'style' => 'color: #f35048; cursor: pointer', 'title' => '開啟地圖')
-                        );
+                    echo $this->Html->tag(
+                        'span',
+                        $vendor['Vendor']['address'] . '&nbsp;' .
+                        $this->Html->tag(
+                            'i',
+                            '',
+                            array(
+                                'class' => 'fui-location',
+                                'style' => 'color: #f35048;',
+                            )
+                        ),
+                        array(
+                            'class' => 'map-toggle-btn',
+                            'style' => 'cursor: pointer;',
+                        )
+                    );
                     echo $this->Html->tag('div', '', array('class' => 'vendor-address-wrapper'));
                 } else {
                     echo $this->Html->tag('span', '無紀錄', array('class' => 'text-muted'));
