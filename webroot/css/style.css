@@ -69,19 +69,6 @@ a[target="_blank"]:hover::after {
     width: 300px;
 }
 
-/*.drug-preview svg {
-    width: 60px;
-    height: 60px;
-}
-
-.drug-preview svg .str0 {
-    stroke: #7f8c8d;
-    stroke-width: 25px;
-}
-.drug-preview svg .fil0 {
-    fill: #e74c3c;
-}*/
-
 .media-body hr {
     margin: 5px 0;
 }
@@ -95,17 +82,32 @@ a[target="_blank"]:hover::after {
     vertical-align: top;
 }
 
-.drug-list-thumbnail {
-    width: 120px;
-    max-width: 120px;
-    height: 120px;
-    max-height: 120px;
+@media (min-width: 768px) {
+    .drug-list-thumbnail {
+        width: 120px;
+        max-width: 120px;
+        height: 120px;
+        max-height: 120px;
+    }
+
+    .drug-list-thumbnail > p {
+        margin-top: 40px;
+        text-align: center;
+    }
 }
 
-.drug-list-thumbnail > p {
-    margin-top: 40px;
-    text-align: center;
-    color: #3c556d;
+@media (max-width: 767px) {
+    .drug-list-thumbnail {
+        width: 80px;
+        max-width: 80px;
+        height: 80px;
+        max-height: 80px;
+    }
+
+    .drug-list-thumbnail > p {
+        margin-top: 20px;
+        text-align: center;
+    }
 }
 
 .article-permalink a {
