@@ -18,21 +18,20 @@ jQuery.fn.selectText = function() {
 
 $(function () {
 
-    $('.form-search .dropdown-menu').on('click', 'li a', function (e) {
+    $('.search-box .dropdown-menu').on('click', 'li a', function (e) {
         e.preventDefault();
-        $('#btn-search-type').html($(this).text() + '&nbsp;<b class="caret"></b>');
+        $('.btn-search-type').html($(this).text() + '&nbsp;<b class="caret"></b>');
         $('.btn-search span').text($(this).data('placeholder'));
         $('.form-search .form-control').attr('placeholder', $(this).data('placeholder'));
-        $('#btn-search-type').data('type', $(this).data('type'));
+        $('.btn-search-type').data('type', $(this).data('type'));
         switch ($(this).data('type')) {
         case 'drug':
-        case 'license':
             $('.search-helper-text .alert').hide();
-            $('.search-helper-text .alert[data-type="drug"]').show();
+            $('.search-helper-text .alert[data-type="drug"]').show().addClass('animated flipInX');
             break;
         case 'outward':
             $('.search-helper-text .alert').hide();
-            $('.search-helper-text .alert[data-type="outward"]').show();
+            $('.search-helper-text .alert[data-type="outward"]').show().addClass('animated flipInX');
             break;
         default:
             $('.search-helper-text .alert').hide();
@@ -41,11 +40,12 @@ $(function () {
     });
 
     $('.form-search .form-control').on('focus', function () {
-        $('#btn-search-type').removeClass('btn-unfocus');
+        $('.btn-search-type.desktop').removeClass('btn-unfocus');
+        $('.search-helper-text').show().addClass('animated flipInX');
     });
 
     $('.form-search .form-control').on('blur', function () {
-        $('#btn-search-type').addClass('btn-unfocus');
+        $('.btn-search-type.desktop').addClass('btn-unfocus');
     });
 
     $('.form-search').on('submit', function (e) {
@@ -55,10 +55,10 @@ $(function () {
             inputVal = input.val();
 
         that.removeClass('has-error');
-        $('#btn-search-type').removeClass('btn-danger');
+        $('.btn-search-type.desktop').removeClass('btn-danger');
 
         if (inputVal !== '') {
-            switch($('#btn-search-type').data('type')) {
+            switch($('.btn-search-type').data('type')) {
                 case 'drug':
                 case 'license':
                     location.href = baseUrl + 'drugs/index/' + encodeURIComponent(inputVal);
@@ -79,10 +79,10 @@ $(function () {
         } else {
             var form_control = $('.input-group-btn button:first, .form-search .form-control');
             that.addClass('has-error');
-            $('#btn-search-type').removeClass('btn-unfocus').addClass('btn-danger');
+            $('.btn-search-type.desktop').removeClass('btn-unfocus').addClass('btn-danger');
             form_control.addClass('animated shake').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
                 form_control.removeClass('animated shake').one('keydown', function () {
-                    $('#btn-search-type').removeClass('btn-danger btn-unfocus');
+                    $('.btn-search-type.desktop').removeClass('btn-danger btn-unfocus');
                     that.removeClass('has-error');
                 });
             });

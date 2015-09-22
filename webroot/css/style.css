@@ -6,12 +6,12 @@
     font-family: FontAwesome;
 }
 
-#btn-search-type.btn-danger {
+.btn-search-type.btn-danger {
     border-color: #e74c3c !important;
     color: #e74c3c !important;
 }
 
-#btn-search-type.btn-unfocus {
+.btn-search-type.btn-unfocus {
     border-color: #bdc3c7 !important;
     color: #bdc3c7 !important;
 }
@@ -105,7 +105,7 @@ a[target="_blank"]:hover::after {
     }
 
     .drug-list-thumbnail > p {
-        margin-top: 20px;
+        margin: 5px 10px;
         text-align: center;
     }
 }

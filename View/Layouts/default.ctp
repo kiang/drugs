@@ -132,63 +132,80 @@
                     'drug' => array(
                         'placeholder' => '藥物名稱',
                         'title' => '藥物搜尋',
+                        'type' => 'drug',
                     ),
                     'license' => array(
                         'placeholder' => '許可證字號',
                         'title' => '藥物證書',
+                        'type' => 'license',
                     ),
                     'outward' => array(
                         'placeholder' => '外觀描述',
                         'title' => '藥物外觀',
+                        'type' => 'outward',
                     ),
                     'ingredient' => array(
                         'placeholder' => '成份名稱',
                         'title' => '藥物成份',
+                        'type' => 'ingredient',
                     ),
                     'vendor' => array(
                         'placeholder' => '廠商名稱',
                         'title' => '藥物廠商',
+                        'vendor' => 'vendor',
                     ),
                     'point' => array(
                         'placeholder' => '機構名稱',
                         'title' => '醫事機構',
+                        'type' => 'point',
                     ),
                 );
                 switch ("{$this->request->params['controller']}/{$this->request->params['action']}") {
                     case 'vendors/index':
                     case 'vendors/view':
-                        $button = $buttons['vendor'];
-                        $button['type'] = 'vendor';
+                        $active_button = $buttons['vendor'];
                         break;
                     case 'drugs/outward':
-                        $button = $buttons['outward'];
-                        $button['type'] = 'outward';
+                        $active_button = $buttons['outward'];
                         break;
                     case 'ingredients/index':
                     case 'ingredients/view':
-                        $button = $buttons['ingredient'];
-                        $button['type'] = 'ingredient';
+                        $active_button = $buttons['ingredient'];
                         break;
                     case 'points/index':
                     case 'points/view':
-                        $button = $buttons['point'];
-                        $button['type'] = 'point';
+                        $active_button = $buttons['point'];
                         break;
                     default:
-                        $button = $buttons['drug'];
-                        $button['type'] = 'drug';
+                        $active_button = $buttons['drug'];
                         break;
                 }
                 ?>
-                <p>&nbsp;</p>
+                <p class="hidden-sm hidden-xs">&nbsp;</p>
                 <div class="search-box col-md-12">
+
+                     <div class="search-helper-text">
+                        <div class="alert alert-info" data-type="drug" style="display: none">
+                            <img src="<?php echo $baseUrl; ?>img/clipboard.svg" alt="藥單" class="col-md-2 hidden-sm hidden-xs" style="max-width: 100px;">
+                            <h6 class="col-md-10 col-sm-12 col-xs-12">
+                                若您有藥單或知道藥物名稱，請以藥物名稱搜尋<span class="hidden-sm hidden-xs"><br>或可改用藥物外觀搜尋。</span>
+                            </h6>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="alert alert-info" data-type="outward" style="display: none">
+                            <img src="<?php echo $baseUrl; ?>img/pills.svg" alt="藥單" class="col-md-2 hidden-sm hidden-xs" style="max-width: 100px;">
+                            <h6 class="col-md-10 col-sm-12 col-xs-12">輸入顏色、形狀或是藥物表面刻字<br><span class="hidden-sm hidden-xs">多個關鍵字請以空格隔開，</span>如：<span class="text-info">紅 圓柱 92</span>。</h6>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div><!-- /.search-helper-text -->
+
                     <form class="input-group input-group-hg focus form-search" data-search="license">
-                        <input type="text" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="<?php echo $button['placeholder']; ?>" autofocus tabindex="1">
+                        <input type="text" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="<?php echo $active_button['placeholder']; ?>" tabindex="1">
                         <div class="input-group-btn">
-                            <button type="button" class="btn dropdown-toggle" id="btn-search-type" tabindex="2" data-toggle="dropdown" data-type="<?php echo $button['type']; ?>">
-                                <?php echo $button['title']; ?>&nbsp;<b class="caret"></b>
+                            <button type="button" class="btn hidden-sm hidden-xs btn-unfocus dropdown-toggle btn-search-type desktop" tabindex="2" data-toggle="dropdown" data-type="<?php echo $active_button['type']; ?>">
+                                <?php echo $active_button['title']; ?>&nbsp;<b class="caret"></b>
                             </button>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" role="menu">
                                 <?php
                                 foreach ($buttons as $key => $button) {
                                     echo '<li><a href="#" data-placeholder="' . $button['placeholder'] . '" data-type="' . $key . '">' . $button['title'] . '</a></li>';
@@ -198,10 +215,31 @@
                                 }
                                 ?>
                             </ul>
-                            <button class="btn btn-default btn-search" tabindex="3">搜尋</button>
+                            <button type="submit" class="btn btn-default btn-search" tabindex="3">搜尋</button>
                         </div>
                     </form>
-                </div>
+                    
+                    <div class="row">
+                        <div class="hidden-lg hidden-md col-sm-12 col-xs-12">
+                            <div class="btn-group btn-block" style="margin-top: .3em;">
+                                <button class="btn btn-primary btn-block dropdown-toggle btn-search-type mobile" type="button" data-toggle="dropdown" data-type="<?php echo $active_button['type']; ?>">
+                                    <?php echo $active_button['title']; ?>&nbsp;<b class="caret"></b>
+                                </button>
+                                <ul class="dropdown-menu btn-block" role="menu">
+                                    <?php
+                                    foreach ($buttons as $key => $button) {
+                                        echo '<li><a href="#" data-placeholder="' . $button['placeholder'] . '" data-type="' . $key . '">' . $button['title'] . '</a></li>';
+                                        if ($key === 'drug') {
+                                            echo '<li class="divider"></li>';
+                                        }
+                                    }
+                                    ?>
+                                </ul>
+                            </div>
+                        </div>
+                    </div><!-- /.row -->
+
+                </div><!-- /.search-box -->
 
                 <ul class="nav nav-tabs nav-append-content search-box" style="display: none">
                     <li class="active">
@@ -232,20 +270,6 @@
                 </ul>
             </div>
             <div class="drug-preview"></div>
-            <div class="search-helper-text">
-                <div class="alert alert-info" data-type="drug" <?php echo isset($keyword) ? 'style="display: none"' : ''; ?>>
-                    <img src="<?php echo $baseUrl; ?>img/clipboard.svg" alt="藥單" class="col-md-2" style="max-width: 100px;">
-                    <h6 class="col-md-10 col-sm-12 col-xs-12">
-                        若您有藥單或知道藥物名稱，請以藥物名稱搜尋<br>或可改用<span>藥物外觀</span>搜尋。
-                    </h6>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="alert alert-info" data-type="outward" style="display: none">
-                    <img src="<?php echo $baseUrl; ?>img/pills.svg" alt="藥單" class="col-md-2" style="max-width: 100px;">
-                    <h6 class="col-md-10 col-sm-12 col-xs-12">輸入顏色、形狀或是藥物表面刻字<br>多個關鍵字請以空格隔開，如：<span class="text-info">紅 圓柱 92</span>。</h6>
-                    <div class="clearfix"></div>
-                </div>
-            </div>
 
             <div class="row">
                 <?php echo $this->Session->flash(); ?>
