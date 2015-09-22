@@ -256,9 +256,11 @@
                 </div>
             </div>
 
+            <p>&nbsp;</p>
+
             <div class="row">
-                <div class="col-md-12" style="text-align: center">
-                    <ins class="adsbygoogle col-md-12"
+                <div class="col-md-12">
+                    <ins class="adsbygoogle"
                          style="display:block"
                          data-ad-client="ca-pub-5571465503362954"
                          data-ad-slot="8716486027"
@@ -294,9 +296,9 @@
                     ?>
                 </div><!-- /.col-md-12 -->
             </div><!-- /.row -->
-        </div><!-- /.container -->
-        <p>&nbsp;</p>
-        <div class="container">
+
+            <p>&nbsp;</p>
+
             <div class="row">
                 <hr>
                 <div id="fb-root"></div>
@@ -315,8 +317,8 @@
                 <div class="col-md-6 col-sm-12">
                     <div class="fb-page" data-href="https://www.facebook.com/g0v.tw" data-width="500" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"></div>
                 </div>
-            </div>
-        </div>
+            </div><!-- /.row -->
+        </div><!-- /.container -->
         <p>&nbsp;</p>
         <div class="bottom-menu bottom-menu-inverse">
             <div class="container">
