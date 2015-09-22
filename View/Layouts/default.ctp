@@ -254,27 +254,15 @@
                     echo $content_for_layout;
                     ?>
                 </div>
-                <!-- <div class="col-md-12">
-                    <ins class="adsbygoogle"
-                         style="display:inline-block;width:160px;height:600px"
-                         data-ad-client="ca-pub-5571465503362954"
-                         data-ad-slot="8707051624">
-                    </ins>
-                </div> -->
             </div>
 
             <div class="row">
                 <div class="col-md-12" style="text-align: center">
-                    <ins class="adsbygoogle"
-                        style="display:inline-block;width:336px;height:280px"
-                        data-ad-client="ca-pub-5571465503362954"
-                        data-ad-slot="3985487224">
-                    </ins>
-                    <ins class="adsbygoogle"
-                        style="display:inline-block;width:336px;height:280px"
-                        data-ad-client="ca-pub-5571465503362954"
-                        data-ad-slot="3985487224">
-                    </ins>
+                    <ins class="adsbygoogle col-md-12"
+                         style="display:block"
+                         data-ad-client="ca-pub-5571465503362954"
+                         data-ad-slot="8716486027"
+                         data-ad-format="auto"></ins>
                     <?php
                     switch ("{$this->request->params['controller']}/{$this->request->params['action']}") {
                         case 'drugs/view':
