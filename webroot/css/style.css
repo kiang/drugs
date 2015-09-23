@@ -55,10 +55,20 @@
     max-width: 30px;
 }
 
-a[target="_blank"]:hover::after {
-    font-family: FontAwesome;
-    content: '\00a0\f08e';
-    font-size: .9em;
+@media (min-width: 768px) {
+    a[target="_blank"]:hover::after {
+        font-family: FontAwesome;
+        content: '\00a0\f08e';
+        font-size: .9em;
+    }
+}
+
+@media (max-width: 767px) {
+    a[target="_blank"]::after {
+        font-family: FontAwesome;
+        content: '\00a0\f08e';
+        font-size: .9em;
+    }
 }
 
 .navbar-nav form button, .navbar-nav form input {
@@ -146,4 +156,12 @@ a[target="_blank"]:hover::after {
     width: 100%;
     overflow: hidden;
     display: inline-block;
+}
+
+@media (max-width: 767px) {
+    dt {
+        background-color: #f1f1f1;
+        font-size: 20px;
+        margin: .8em auto;
+    }
 }
