@@ -51,33 +51,45 @@ class PointsController extends AppController {
      * @return void
      */
     public function index($name = '') {
-        $scope = array();
-        if (!empty($name)) {
-            $name = Sanitize::clean($name);
-            $keywords = explode(' ', $name);
-            $keywordCount = 0;
-            foreach ($keywords AS $keyword) {
-                if (++$keywordCount < 5) {
-                    $scope[]['OR'] = array(
-                        'Point.name LIKE' => "%{$keyword}%",
-                        'Point.category LIKE' => "%{$keyword}%",
-                        'Point.city LIKE' => "%{$keyword}%",
-                        'Point.town LIKE' => "%{$keyword}%",
-                        'Point.phone LIKE' => "%{$keyword}%",
-                        'Point.nhi_id' => $keyword,
-                    );
+        $cPage = isset($this->request->params['named']['page']) ? $this->request->params['named']['page'] : '1';
+        $cacheKey = "PointsIndex{$name}{$cPage}";
+        $result = Cache::read($cacheKey, 'long');
+        if (!$result) {
+            $result = $scope = array();
+            if (!empty($name)) {
+                $name = Sanitize::clean($name);
+                $keywords = explode(' ', $name);
+                $keywordCount = 0;
+                foreach ($keywords AS $keyword) {
+                    if (++$keywordCount < 5) {
+                        $scope[]['OR'] = array(
+                            'Point.name LIKE' => "%{$keyword}%",
+                            'Point.category LIKE' => "%{$keyword}%",
+                            'Point.city LIKE' => "%{$keyword}%",
+                            'Point.town LIKE' => "%{$keyword}%",
+                            'Point.phone LIKE' => "%{$keyword}%",
+                            'Point.nhi_id' => $keyword,
+                        );
+                    }
                 }
             }
+            $this->paginate['Point'] = array(
+                'limit' => 20,
+            );
+
+            $result['items'] = $this->paginate($this->Point, $scope);
+            $result['paging'] = $this->request->params['paging'];
+            Cache::write($cacheKey, $result, 'long');
+        } else {
+            $this->request->params['paging'] = $result['paging'];
         }
-        $this->paginate['Point'] = array(
-            'limit' => 20,
-        );
+
         $this->set('url', array($name));
         $title = '';
         if (!empty($name)) {
             $title = "{$name} 相關";
         }
-        $this->set('points', $this->paginate($this->Point, $scope));
+        $this->set('points', $result['items']);
         $this->set('title_for_layout', $title . '醫療院所一覽 @ ');
         $this->set('keyword', $name);
     }

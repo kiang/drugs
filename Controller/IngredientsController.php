@@ -38,34 +38,46 @@ class IngredientsController extends AppController {
     }
 
     public function index($name = null) {
-        $scope = array();
-        if (!empty($name)) {
-            $name = Sanitize::clean($name);
-            $keywords = explode(' ', $name);
-            $keywordCount = 0;
-            foreach ($keywords AS $keyword) {
-                if (++$keywordCount < 5) {
-                    $scope[]['OR'] = array(
-                        'Ingredient.name LIKE' => "%{$keyword}%",
-                    );
+        $cPage = isset($this->request->params['named']['page']) ? $this->request->params['named']['page'] : '1';
+        $cacheKey = "IngredientsIndex{$name}{$cPage}";
+        $result = Cache::read($cacheKey, 'long');
+        if (!$result) {
+            $result = $scope = array();
+            if (!empty($name)) {
+                $name = Sanitize::clean($name);
+                $keywords = explode(' ', $name);
+                $keywordCount = 0;
+                foreach ($keywords AS $keyword) {
+                    if (++$keywordCount < 5) {
+                        $scope[]['OR'] = array(
+                            'Ingredient.name LIKE' => "%{$keyword}%",
+                        );
+                    }
                 }
             }
+            $this->paginate['Ingredient'] = array(
+                'limit' => 20,
+                'order' => array(
+                    'Ingredient.count_daily' => 'DESC',
+                    'Ingredient.count_all' => 'DESC',
+                    'Ingredient.count_licenses' => 'DESC',
+                ),
+            );
+
+            $result['items'] = $this->paginate($this->Ingredient, $scope);
+            $result['paging'] = $this->request->params['paging'];
+            Cache::write($cacheKey, $result, 'long');
+        } else {
+            $this->request->params['paging'] = $result['paging'];
         }
-        $this->paginate['Ingredient'] = array(
-            'limit' => 20,
-            'order' => array(
-                'Ingredient.count_daily' => 'DESC',
-                'Ingredient.count_all' => 'DESC',
-                'Ingredient.count_licenses' => 'DESC',
-            ),
-        );
+
         $this->set('url', array($name));
         $title = '';
         if (!empty($name)) {
             $title = "{$name} 相關";
         }
         $this->set('title_for_layout', $title . '藥品成份一覽 @ ');
-        $this->set('items', $this->paginate($this->Ingredient, $scope));
+        $this->set('items', $result['items']);
         $this->set('keyword', $name);
     }
 
