@@ -147,46 +147,53 @@ class DrugsController extends AppController {
 
     function index($name = null) {
         $scope = array();
-        if (!empty($name)) {
-            $name = Sanitize::clean($name);
-            $keywords = explode(' ', $name);
-            $keywordCount = 0;
-            foreach ($keywords AS $keyword) {
-                if (++$keywordCount < 5) {
-                    $scope[]['OR'] = array(
-                        'License.license_id LIKE' => "%{$keyword}%",
-                        'Vendor.name LIKE' => "%{$keyword}%",
-                        'License.name LIKE' => "%{$keyword}%",
-                        'License.name_english LIKE' => "%{$keyword}%",
-                        'License.ingredient LIKE' => "%{$keyword}%",
-                        'License.nhi_id LIKE' => "%{$keyword}%",
-                        'License.disease LIKE' => "%{$keyword}%",
-                    );
+        $cacheKey = "DrugsIndex{$name}";
+        $result = Cache::read($cacheKey, 'long');
+        if (!$result) {
+            if (!empty($name)) {
+                $name = Sanitize::clean($name);
+                $keywords = explode(' ', $name);
+                $keywordCount = 0;
+                foreach ($keywords AS $keyword) {
+                    if (++$keywordCount < 5) {
+                        $scope[]['OR'] = array(
+                            'License.license_id LIKE' => "%{$keyword}%",
+                            'Vendor.name LIKE' => "%{$keyword}%",
+                            'License.name LIKE' => "%{$keyword}%",
+                            'License.name_english LIKE' => "%{$keyword}%",
+                            'License.ingredient LIKE' => "%{$keyword}%",
+                            'License.nhi_id LIKE' => "%{$keyword}%",
+                            'License.disease LIKE' => "%{$keyword}%",
+                        );
+                    }
                 }
             }
-        }
-        $this->paginate['Drug'] = array(
-            'limit' => 20,
-            'contain' => array(
-                'License',
-                'Vendor' => array(
-                    'fields' => array('name', 'country'),
+            $this->paginate['Drug'] = array(
+                'limit' => 20,
+                'contain' => array(
+                    'License',
+                    'Vendor' => array(
+                        'fields' => array('name', 'country'),
+                    ),
                 ),
-            ),
-            'order' => array(
-                'License.count_daily' => 'DESC',
-                'License.count_all' => 'DESC',
-                'License.submitted' => 'DESC',
-            ),
-            'group' => array('Drug.license_id'),
-        );
+                'order' => array(
+                    'License.count_daily' => 'DESC',
+                    'License.count_all' => 'DESC',
+                    'License.submitted' => 'DESC',
+                ),
+                'group' => array('Drug.license_id'),
+            );
+            $result = $this->paginate($this->Drug, $scope);
+            Cache::write($cacheKey, $result, 'long');
+        }
+
         $this->set('url', array($name));
         $title = '';
         if (!empty($name)) {
             $title = "{$name} 相關";
         }
         $this->set('title_for_layout', $title . '藥品一覽 @ ');
-        $this->set('items', $this->paginate($this->Drug, $scope));
+        $this->set('items', $result);
         $this->set('keyword', $name);
     }
 
