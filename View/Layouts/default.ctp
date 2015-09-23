@@ -297,6 +297,8 @@
                         case 'points/view':
                         case 'articles/view':
                         ?>
+                        <button class="btn btn-block btn-info btn-to-top"><span class="fui-triangle-up"></span>&nbsp;回到頁面頂端</button>
+                        <p>&nbsp;</p>
                         <div id="disqus_thread"></div>
                         <script>
                             /* * * CONFIGURATION VARIABLES * * */
@@ -321,7 +323,7 @@
                 </div><!-- /.col-md-12 -->
             </div><!-- /.row -->
 
-            <p>&nbsp;</p>
+            <p class="hidden-xs">&nbsp;</p>
 
             <div class="row">
                 <hr>
