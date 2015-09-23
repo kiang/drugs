@@ -146,10 +146,11 @@ class DrugsController extends AppController {
     }
 
     function index($name = null) {
-        $scope = array();
-        $cacheKey = "DrugsIndex{$name}";
+        $cPage = isset($this->request->params['named']['page']) ? $this->request->params['named']['page'] : '1';
+        $cacheKey = "DrugsIndex{$name}{$cPage}";
         $result = Cache::read($cacheKey, 'long');
         if (!$result) {
+            $result = $scope = array();
             if (!empty($name)) {
                 $name = Sanitize::clean($name);
                 $keywords = explode(' ', $name);
@@ -183,8 +184,11 @@ class DrugsController extends AppController {
                 ),
                 'group' => array('Drug.license_id'),
             );
-            $result = $this->paginate($this->Drug, $scope);
+            $result['items'] = $this->paginate($this->Drug, $scope);
+            $result['paging'] = $this->request->params['paging'];
             Cache::write($cacheKey, $result, 'long');
+        } else {
+            $this->request->params['paging'] = $result['paging'];
         }
 
         $this->set('url', array($name));
@@ -193,7 +197,7 @@ class DrugsController extends AppController {
             $title = "{$name} 相關";
         }
         $this->set('title_for_layout', $title . '藥品一覽 @ ');
-        $this->set('items', $result);
+        $this->set('items', $result['items']);
         $this->set('keyword', $name);
     }
 
