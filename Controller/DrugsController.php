@@ -103,45 +103,57 @@ class DrugsController extends AppController {
     }
 
     public function outward($name = null) {
-        $scope = array();
-        if (!empty($name)) {
-            $name = Sanitize::clean($name);
-            $name = str_replace('色', '', $name);
-            $keywords = explode(' ', $name);
-            $keywordCount = 0;
-            foreach ($keywords AS $keyword) {
-                if (++$keywordCount < 5) {
-                    $scope[]['OR'] = array(
-                        'License.shape LIKE' => "%{$keyword}%",
-                        'License.color LIKE' => "%{$keyword}%",
-                        'License.odor LIKE' => "%{$keyword}%",
-                        'License.abrasion LIKE' => "%{$keyword}%",
-                        'License.note_1 LIKE' => "%{$keyword}%",
-                        'License.note_2 LIKE' => "%{$keyword}%",
-                    );
+        $cPage = isset($this->request->params['named']['page']) ? $this->request->params['named']['page'] : '1';
+        $cacheKey = "DrugsOutward{$name}{$cPage}";
+        $result = Cache::read($cacheKey, 'long');
+        if (!$result) {
+            $result = $scope = array();
+            if (!empty($name)) {
+                $name = Sanitize::clean($name);
+                $name = str_replace('色', '', $name);
+                $keywords = explode(' ', $name);
+                $keywordCount = 0;
+                foreach ($keywords AS $keyword) {
+                    if (++$keywordCount < 5) {
+                        $scope[]['OR'] = array(
+                            'License.shape LIKE' => "%{$keyword}%",
+                            'License.color LIKE' => "%{$keyword}%",
+                            'License.odor LIKE' => "%{$keyword}%",
+                            'License.abrasion LIKE' => "%{$keyword}%",
+                            'License.note_1 LIKE' => "%{$keyword}%",
+                            'License.note_2 LIKE' => "%{$keyword}%",
+                        );
+                    }
                 }
+            } else {
+                $scope[] = 'License.image != \'\'';
+                $scope[] = 'License.image IS NOT NULL';
             }
+            $this->paginate['Drug'] = array(
+                'limit' => 20,
+                'contain' => array('License'),
+                'order' => array(
+                    'License.count_daily' => 'DESC',
+                    'License.count_all' => 'DESC',
+                    'License.submitted' => 'DESC',
+                ),
+                'group' => array('Drug.license_id'),
+            );
+
+            $result['items'] = $this->paginate($this->Drug, $scope);
+            $result['paging'] = $this->request->params['paging'];
+            Cache::write($cacheKey, $result, 'long');
         } else {
-            $scope[] = 'License.image != \'\'';
-            $scope[] = 'License.image IS NOT NULL';
+            $this->request->params['paging'] = $result['paging'];
         }
-        $this->paginate['Drug'] = array(
-            'limit' => 20,
-            'contain' => array('License'),
-            'order' => array(
-                'License.count_daily' => 'DESC',
-                'License.count_all' => 'DESC',
-                'License.submitted' => 'DESC',
-            ),
-            'group' => array('Drug.license_id'),
-        );
+
         $this->set('url', array($name));
         $title = '';
         if (!empty($name)) {
             $title = "{$name} 相關";
         }
         $this->set('title_for_layout', $title . '藥品一覽 @ ');
-        $this->set('items', $this->paginate($this->Drug, $scope));
+        $this->set('items', $result['items']);
         $this->set('keyword', $name);
     }
 
