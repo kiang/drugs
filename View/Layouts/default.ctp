@@ -152,7 +152,7 @@
                     'vendor' => array(
                         'placeholder' => '廠商名稱',
                         'title' => '藥物廠商',
-                        'vendor' => 'vendor',
+                        'type' => 'vendor',
                     ),
                     'point' => array(
                         'placeholder' => '機構名稱',
