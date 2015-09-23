@@ -152,7 +152,12 @@
                     } ?>&nbsp;
                 </dd>
                 <dt>註銷日期</dt>
-                <dd><?php echo ($this->data['License']['cancel_date'] === '0000-00-00') ? '<span class="text-muted">無紀錄</span>' : $this->data['License']['cancel_date']; ?>&nbsp;
+                <dd><?php if (!empty($this->data['License']['cancel_date'])) {
+                            echo ($this->data['License']['cancel_date'] === '0000-00-00') ? '<span class="text-muted">無紀錄</span>' : $this->data['License']['cancel_date'];
+                        } else {
+                            echo '<span class="text-muted">無紀錄</span>';
+                        }
+                    ?>&nbsp;
                 </dd>
                 <dt>註銷理由</dt>
                 <dd><?php 
@@ -236,21 +241,25 @@
                 </dd>
                 <dt>主成分略述</dt>
                 <dd><?php
-                    $majorIngredients = explode(';;', $this->data['License']['ingredient']);
-                    foreach ($majorIngredients AS $ingredient) {
-                        if (isset($ingredientKeys[$ingredient])) {
-                            echo $this->Html->link(
-                                $this->Html->tag('label', $ingredient, array('class' => 'label label-default', 'style' => 'cursor: pointer')),
-                                '/ingredients/view/' . $ingredientKeys[$ingredient],
-                                array('escape' => false)
-                                ) . '<br>';
-                        } else {
-                            echo $this->Html->link(
-                                $this->Html->tag('label', $ingredient, array('class' => 'label label-default', 'style' => 'cursor: pointer')),
-                                '/drugs/index/' . $ingredient,
-                                array('escape' => false)
-                                ) . '<br>';
+                    if (!empty($this->data['License']['ingredient'])) {
+                        $majorIngredients = explode(';;', $this->data['License']['ingredient']);
+                        foreach ($majorIngredients AS $ingredient) {
+                            if (isset($ingredientKeys[$ingredient])) {
+                                echo $this->Html->link(
+                                    $this->Html->tag('label', $ingredient, array('class' => 'label label-default', 'style' => 'cursor: pointer')),
+                                    '/ingredients/view/' . $ingredientKeys[$ingredient],
+                                    array('escape' => false)
+                                    ) . '<br>';
+                            } else {
+                                echo $this->Html->link(
+                                    $this->Html->tag('label', $ingredient, array('class' => 'label label-default', 'style' => 'cursor: pointer')),
+                                    '/drugs/index/' . $ingredient,
+                                    array('escape' => false)
+                                    ) . '<br>';
+                            }
                         }
+                    } else {
+                        echo '<span class="text-muted">無紀錄</span>';
                     }
                     ?>
                 </dd>
@@ -293,6 +302,8 @@
                             'http://gcis.nat.g0v.tw/id/' . $this->data['License']['Vendor']['tax_id'],
                             array('target' => '_blank', 'escape' => false)
                         );
+                    } else {
+                        echo '<span class="text-muted">無紀錄</span>';
                     }
                     ?>&nbsp;
                 </dd>
