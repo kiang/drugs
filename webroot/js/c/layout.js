@@ -89,6 +89,8 @@ $(function () {
         }
     });
 
+    $('.zoom').zoom();
+
     $('.article-share-link').on('click', function (e) {
         e.preventDefault();
         var target = $(this).data('pane');

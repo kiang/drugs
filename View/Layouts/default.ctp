@@ -368,6 +368,7 @@
         <script src="<?php echo $baseUrl; ?>js/flat-ui-pro.min.js"></script>
         <script src="<?php echo $baseUrl; ?>js/jquery-ui.js"></script>
         <script src="<?php echo $baseUrl; ?>js/tag-it.js"></script>
+        <script src="<?php echo $baseUrl; ?>js/jquery.zoom.min.js"></script>
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <?php
         echo $this->Html->script('c/layout', array('inline' => true));

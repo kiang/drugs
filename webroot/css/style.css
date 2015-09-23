@@ -126,3 +126,24 @@ a[target="_blank"]:hover::after {
     width: 85%;
     margin: 15px auto;
 }
+
+.zoom:after {
+    content: '\e630';
+    font-family: 'Flat-UI-Pro-Icons';
+    width: 32px;
+    position: absolute;
+    bottom: 5px;
+    right: 12px;
+}
+
+.zoom img::selection {
+    background-color: transparent;
+}
+
+.drug-label a {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+    display: inline-block;
+}
