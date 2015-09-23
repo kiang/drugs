@@ -288,7 +288,9 @@
                          style="display:block"
                          data-ad-client="ca-pub-5571465503362954"
                          data-ad-slot="8716486027"
-                         data-ad-format="auto"></ins>
+                         data-ad-format="auto">
+                    </ins>
+                    <button class="btn btn-block btn-info btn-to-top"><span class="fui-triangle-up"></span>&nbsp;回到頁面頂端</button>
                     <?php
                     switch ("{$this->request->params['controller']}/{$this->request->params['action']}") {
                         case 'drugs/view':
@@ -297,7 +299,6 @@
                         case 'points/view':
                         case 'articles/view':
                         ?>
-                        <button class="btn btn-block btn-info btn-to-top"><span class="fui-triangle-up"></span>&nbsp;回到頁面頂端</button>
                         <p>&nbsp;</p>
                         <div id="disqus_thread"></div>
                         <script>
