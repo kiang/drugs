@@ -200,7 +200,7 @@
                     </div><!-- /.search-helper-text -->
 
                     <form class="input-group input-group-hg focus form-search" data-search="license">
-                        <input type="text" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="<?php echo $active_button['placeholder']; ?>" tabindex="1">
+                        <input type="text" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="<?php echo $active_button['placeholder']; ?>" tabindex="1" data-type="<?php echo $active_button['type']; ?>">
                         <div class="input-group-btn">
                             <button type="button" class="btn hidden-sm hidden-xs btn-unfocus dropdown-toggle btn-search-type desktop" tabindex="2" data-toggle="dropdown" data-type="<?php echo $active_button['type']; ?>">
                                 <?php echo $active_button['title']; ?>&nbsp;<b class="caret"></b>

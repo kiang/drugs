@@ -41,7 +41,8 @@ $(function () {
 
     $('.form-search .form-control').on('focus', function () {
         $('.btn-search-type.desktop').removeClass('btn-unfocus');
-        $('.search-helper-text').show().addClass('animated flipInX');
+        var type = $(this).data('type');
+        $('.search-helper-text .alert[data-type="' + type + '"]').show().addClass('animated flipInX');
     });
 
     $('.form-search .form-control').on('blur', function () {
