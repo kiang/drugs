@@ -11,7 +11,6 @@ echo $this->Html->script('c/drugs/index', array('inline' => false));
         <ul class="media-list">
             <p class="hidden-sm hidden-xs">&nbsp;</p>
             <?php
-            $i = 0;
             foreach ($items as $item) {
                 $name = $item['License']['name'];
                 if (!empty($item['License']['name_english'])) {
