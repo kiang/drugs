@@ -164,4 +164,21 @@
         font-size: 20px;
         margin: .8em auto;
     }
+
+    dd {
+        width: 100%;
+        word-break: break-all;
+    }
+}
+
+@media (max-width: 480px) {
+    .pagination-plain > li.next {
+        float: initial;
+        padding-left: 0px;
+    }
+
+    .pagination-plain > li.previous {
+        display: initial;
+        padding-right: 0px;
+    }
 }
