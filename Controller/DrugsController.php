@@ -37,65 +37,82 @@ class DrugsController extends AppController {
     public function category($categoryId = 0) {
         $categoryId = intval($categoryId);
         if ($categoryId > 0) {
-            $category = $this->Drug->License->Category->find('first', array(
-                'conditions' => array('Category.id' => $categoryId),
-            ));
-        }
-        if (!empty($category)) {
-            $this->Drug->License->Category->counterIncrement($categoryId);
+            $cPage = isset($this->request->params['named']['page']) ? $this->request->params['named']['page'] : '1';
+            $cacheKey = "DrugsCategory{$name}{$cPage}";
+            $result = Cache::read($cacheKey, 'long');
+            if (!$result) {
+                $result = $scope = array();
+                $result['category'] = $this->Drug->License->Category->find('first', array(
+                    'conditions' => array('Category.id' => $categoryId),
+                ));
+                if (!empty($result['category'])) {
+                    $scope = array(
+                        'Category.lft >=' => $result['category']['Category']['lft'],
+                        'Category.rght <=' => $result['category']['Category']['rght'],
+                    );
 
-            $scope = array(
-                'Category.lft >=' => $category['Category']['lft'],
-                'Category.rght <=' => $category['Category']['rght'],
-            );
-            $this->paginate['License'] = array(
-                'limit' => 20,
-                'order' => array(
-                    'License.count_daily' => 'DESC',
-                    'License.count_all' => 'DESC',
-                    'License.submitted' => 'DESC',
-                ),
-                'joins' => array(
-                    array(
-                        'table' => 'categories_licenses',
-                        'alias' => 'CategoriesLicense',
-                        'type' => 'INNER',
-                        'conditions' => array(
-                            'License.id = CategoriesLicense.license_id',
+                    $this->paginate['License'] = array(
+                        'limit' => 20,
+                        'order' => array(
+                            'License.count_daily' => 'DESC',
+                            'License.count_all' => 'DESC',
+                            'License.submitted' => 'DESC',
                         ),
-                    ),
-                    array(
-                        'table' => 'categories',
-                        'alias' => 'Category',
-                        'type' => 'INNER',
-                        'conditions' => array(
-                            'Category.id = CategoriesLicense.category_id',
+                        'joins' => array(
+                            array(
+                                'table' => 'categories_licenses',
+                                'alias' => 'CategoriesLicense',
+                                'type' => 'INNER',
+                                'conditions' => array(
+                                    'License.id = CategoriesLicense.license_id',
+                                ),
+                            ),
+                            array(
+                                'table' => 'categories',
+                                'alias' => 'Category',
+                                'type' => 'INNER',
+                                'conditions' => array(
+                                    'Category.id = CategoriesLicense.category_id',
+                                ),
+                            ),
                         ),
-                    ),
-                ),
-            );
-            $items = $this->paginate($this->Drug->License, $scope);
-            $drugIds = $this->Drug->find('list', array(
-                'fields' => array('license_id', 'id'),
-                'conditions' => array(
-                    'license_id' => Set::extract('{n}.License.id', $items),
-                ),
-            ));
-            foreach ($items AS $k => $v) {
-                $items[$k]['Drug'] = array(
-                    'id' => $drugIds[$v['License']['id']],
-                );
-            }
-            $parents = $this->Drug->License->Category->getPath($categoryId, array('id', 'name'));
-            $this->set('url', array($categoryId));
-            $this->set('category', $category);
-            $this->set('parents', $parents);
-            $this->set('children', $this->Drug->License->Category->find('all', array(
+                    );
+
+                    $result['items'] = $this->paginate($this->Drug->License, $scope);
+                    $result['paging'] = $this->request->params['paging'];
+
+                    $drugIds = $this->Drug->find('list', array(
+                        'fields' => array('license_id', 'id'),
+                        'conditions' => array(
+                            'license_id' => Set::extract('{n}.License.id', $result['items']),
+                        ),
+                    ));
+                    foreach ($result['items'] AS $k => $v) {
+                        $result['items'][$k]['Drug'] = array(
+                            'id' => $drugIds[$v['License']['id']],
+                        );
+                    }
+                    $result['parents'] = $this->Drug->License->Category->getPath($categoryId, array('id', 'name'));
+                    $result['children'] = $this->Drug->License->Category->find('all', array(
                         'fields' => array('id', 'name'),
                         'conditions' => array('Category.parent_id' => $categoryId),
-            )));
-            $this->set('items', $items);
-            $this->set('title_for_layout', implode(' > ', Set::extract('{n}.Category.name', $parents)) . ' 藥品一覽 @ ');
+                    ));
+                }
+
+                Cache::write($cacheKey, $result, 'long');
+            } else {
+                $this->request->params['paging'] = $result['paging'];
+            }
+        }
+        if (!empty($result['category'])) {
+            $this->Drug->License->Category->counterIncrement($categoryId);
+
+            $this->set('url', array($categoryId));
+            $this->set('category', $result['category']);
+            $this->set('parents', $result['parents']);
+            $this->set('children', $result['children']);
+            $this->set('items', $result['items']);
+            $this->set('title_for_layout', implode(' > ', Set::extract('{n}.Category.name', $result['parents'])) . ' 藥品一覽 @ ');
         } else {
             $this->Session->setFlash('請依據網頁指示操作');
             $this->redirect(array('action' => 'index'));
