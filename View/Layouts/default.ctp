@@ -280,7 +280,7 @@
                 </div>
             </div>
 
-            <p>&nbsp;</p>
+            <p class="hidden-xs">&nbsp;</p>
 
             <div class="row">
                 <div class="col-md-12">
@@ -291,6 +291,7 @@
                          data-ad-format="auto">
                     </ins>
                     <button class="btn btn-block btn-info btn-to-top"><span class="fui-triangle-up"></span>&nbsp;回到頁面頂端</button>
+                    <p>&nbsp;</p>
                     <?php
                     switch ("{$this->request->params['controller']}/{$this->request->params['action']}") {
                         case 'drugs/view':
@@ -299,7 +300,6 @@
                         case 'points/view':
                         case 'articles/view':
                         ?>
-                        <p>&nbsp;</p>
                         <div id="disqus_thread"></div>
                         <script>
                             /* * * CONFIGURATION VARIABLES * * */
