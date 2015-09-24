@@ -180,3 +180,20 @@
         display: initial;
     }
 }
+
+.order-btn-wrapper {
+    text-align: center;
+    margin: .5em 0;
+}
+
+@media (min-width: 768px) {
+    .order-btn-wrapper > ul {
+        display: inline-block;
+    }
+}
+
+@media (max-width: 767px) {
+    .order-btn-wrapper > ul {
+        display: initial;
+    }
+}
