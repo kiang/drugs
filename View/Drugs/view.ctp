@@ -244,6 +244,7 @@
                     if (!empty($this->data['License']['ingredient'])) {
                         $majorIngredients = explode(';;', $this->data['License']['ingredient']);
                         foreach ($majorIngredients AS $ingredient) {
+                            echo '<div class="drug-label">';
                             if (isset($ingredientKeys[$ingredient])) {
                                 echo $this->Html->link(
                                     $this->Html->tag('label', $ingredient, array('class' => 'label label-default', 'style' => 'cursor: pointer')),
@@ -257,6 +258,7 @@
                                     array('escape' => false)
                                     ) . '<br>';
                             }
+                            echo '</div>';
                         }
                     } else {
                         echo '<span class="text-muted">無紀錄</span>';
@@ -311,6 +313,7 @@
                 <dd>
                     <div class="drug-label">
                         <?php
+                        echo '<div class="drug-label">';
                         echo $this->Html->link(
                             $this->Html->tag('label', $this->data['Vendor']['name'], array(
                                 'class' => 'label label-default',
@@ -319,6 +322,7 @@
                             '/vendors/view/' . $this->data['Vendor']['id'],
                             array('escape' => false)
                             );
+                        echo '</div>';
                         ?>
                     </div>
                 </dd>
@@ -409,16 +413,17 @@
                     }
                     ?>&nbsp;
                 </dd>
-                <dt>相關連結 </dt>
-                <dd><?php
-                    foreach ($links AS $link) {
-                        echo $this->Html->link($link['Link']['title'], $link['Link']['url'], array(
-                            'class' => 'btn btn-info btn-sm',
-                            'target' => '_blank')
-                        ) . ' ';
-                    }
-                    ?>&nbsp;
-                </dd>
+                <?php if (!empty($links)) { ?>
+                    <dt>相關連結 </dt>
+                    <dd><?php
+                        foreach ($links AS $link) {
+                            echo $this->Html->link($link['Link']['title'], $link['Link']['url'], array(
+                                'class' => 'btn btn-info btn-sm',
+                                'target' => '_blank')
+                            ) . '&nbsp;';
+                        } ?>
+                    </dd>
+                <?php } ?>
             </dl>
         </div>
         <?php if (!empty($ingredients)) { ?>
