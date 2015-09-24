@@ -37,6 +37,7 @@ $(function () {
             $('.search-helper-text .alert').hide();
             break;
         }
+        $('html, body').animate({ scrollTop: '0px'});
     });
 
     $('.form-search .form-control').on('focus', function () {
@@ -111,12 +112,12 @@ $(function () {
 
     $(document).on('click', '.map-toggle-btn', function (e) {
         e.preventDefault();
-        $('.vendor-address-wrapper').html('<div id="vendor-address" style="margin: 0 auto; width: 85%; height: 20em;">');
+        $('.vendor-address-wrapper').html('<div class="vendor-address" style="margin: 0 auto; width: 85%; height: 20em;">');
         var geocoder = new google.maps.Geocoder(),
             mapOptions = {
                 zoom: 14
             },
-            map = new google.maps.Map(document.getElementById('vendor-address'), mapOptions);
+            map = new google.maps.Map(document.getElementsByClassName('vendor-address')[0], mapOptions);
 
         if (geocoder) {
             geocoder.geocode({'address': verdor_address}, function(results, status) {
@@ -136,9 +137,11 @@ $(function () {
                         $('.vendor-address').remove();
                         $('.vendor-address-wrapper').append('<div class="alert alert-danger animated flash"><button type="button" class="close fui-cross" data-dismiss="alert"></button><strong><span class="fui-cross text-danger"></span>&nbsp;噢，無法顯示地圖</strong></div>');
                     }
+                } else {
+                    $('.vendor-address').remove();
+                    $('.vendor-address-wrapper').append('<div class="alert alert-danger animated flash"><button type="button" class="close fui-cross" data-dismiss="alert"></button><strong><span class="fui-cross text-danger"></span>&nbsp;噢，無法顯示地圖</strong></div>');
                 }
             });
         }
-        $('.map-toggle-btn').remove();
     });
 });
