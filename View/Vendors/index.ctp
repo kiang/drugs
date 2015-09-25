@@ -44,7 +44,6 @@
                 </div>
             </li>
             <?php }; // End of foreach ($items as $item) {  ?>
-            <div class="clearfix"></div>
         </ul>
     </div>
 </div>
