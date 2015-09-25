@@ -197,3 +197,11 @@
         display: initial;
     }
 }
+
+.fui-location {
+    color: #f35048;
+}
+
+.map-toggle-btn {
+    cursor: pointer;
+}
