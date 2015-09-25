@@ -35,17 +35,26 @@
         <?php
         if (!empty($article['Drug'])) { ?>
             <div>
-                <h4>藥物證書</h4><?php
+                <h4>藥物證書</h4>
+                <?php
+                    $licenseCount = 0;
                     foreach ($article['Drug'] AS $drug) {
-                        ?><div class="col-md-4 col-xs-12">
+                        ++$licenseCount;
+                ?>
+                        <div class="col-md-4 col-xs-12">
                             <span class="fui-tag text-muted"></span>
                             <?php echo $this->Html->link($drug['License']['name'], '/drugs/view/' . $drug['Drug']['id']); ?>
                             <br>
                             <?php echo $drug['License']['disease']; ?>
-                        </div><?php
+                        </div>
+                <?php
+                        if ($licenseCount >= 3) {
+                            echo '<div class="clearfix"></div>';
+                            $licenseCount = 0;
+                        }
                     }
-                    ?>
-                    <div class="clearfix"></div>
+                ?>
+                <div class="clearfix"></div>
             </div><?php
         }
         if (!empty($article['Ingredient'])) {
