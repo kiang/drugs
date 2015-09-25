@@ -24,19 +24,8 @@ $(function () {
         $('.btn-search span').text($(this).data('placeholder'));
         $('.form-search .form-control').attr('placeholder', $(this).data('placeholder'));
         $('.btn-search-type').data('type', $(this).data('type'));
-        switch ($(this).data('type')) {
-        case 'drug':
-            $('.search-helper-text .alert').hide();
-            $('.search-helper-text .alert[data-type="drug"]').show().addClass('animated flipInX');
-            break;
-        case 'outward':
-            $('.search-helper-text .alert').hide();
-            $('.search-helper-text .alert[data-type="outward"]').show().addClass('animated flipInX');
-            break;
-        default:
-            $('.search-helper-text .alert').hide();
-            break;
-        }
+        $('.search-helper-text .alert').hide();
+        $('.search-helper-text .alert[data-type="' + $(this).data('type') + '"]').show().addClass('animated flipInX');
         $('html, body').animate({ scrollTop: '0px'});
     });
 

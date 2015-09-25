@@ -197,6 +197,10 @@
                             <h6 class="col-md-10 col-sm-12 col-xs-12">輸入顏色、形狀或是藥物表面刻字<br><span class="hidden-sm hidden-xs">多個關鍵字請以空格隔開，</span>如：<span class="text-info">紅 圓柱 92</span>。</h6>
                             <div class="clearfix"></div>
                         </div>
+                        <div class="alert alert-info" data-type="point" style="display: none">
+                            <h6 class="col-md-12 col-sm-12 col-xs-12">輸入縣市、類別或是科別<br><span class="hidden-sm hidden-xs">多個關鍵字請以空格隔開，</span>如：<span class="text-info">台南 骨科 診所</span>。</h6>
+                            <div class="clearfix"></div>
+                        </div>
                     </div><!-- /.search-helper-text -->
 
                     <form class="input-group input-group-hg focus form-search" data-search="license">
