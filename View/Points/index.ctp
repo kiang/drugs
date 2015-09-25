@@ -1,52 +1,52 @@
-<?php
-echo $this->Html->script('c/points/index', array('inline' => false));
-?>
 <h2>醫事機構</h2>
 <div class="paginator-wrapper">
     <?php echo $this->element('paginator'); ?>
 </div>
 
-<!-- Main content -->
-<section class="content">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="box">
-                <div class="box-header">
+<div class="row">
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <ul class="media-list">
+            <p class="hidden-sm hidden-xs">&nbsp;</p>
+            <?php
+            foreach ($points as $point) {
+            ?>
+            <li class="media">
+                <a href="<?php echo $this->Html->url('view/') . $point['Point']['id']; ?>" class="hidden-md hidden-lg">
+                    <h6 class="media-heading">
+                        <?php echo $point['Point']['name']; ?>
+                    </h6>
+                </a>
+                <div class="media-body">
+                    <a href="<?php echo $this->Html->url('view/') . $point['Point']['id']; ?>" class="hidden-sm hidden-xs">
+                        <h6 class="media-heading"><?php echo $point['Point']['name']; ?></h6>
+                    </a>
+                    <hr>
+                    <p>
+                        <strong>類別</strong>
+                        <?php
+                            if (!empty($point['Point']['type'])) {
+                                echo $point['Point']['type'];
+                            } else {
+                                echo '<span class="text-muted">無紀錄</span>';
+                            }
+                        ?>
+                        <br>
+                        <strong>科別</strong>&nbsp;<?php echo h($point['Point']['category']); ?> <br>
+                        <strong>地址</strong>&nbsp;<?php echo h($point['Point']['city']) . h($point['Point']['town']) . h($point['Point']['address']); ?><br>
+                        <strong>電話</strong>&nbsp;
+                        <?php
+                            echo $this->Html->tag('span', $point['Point']['phone'], array('class' => 'hidden-sm hidden-xs'));
+                            echo $this->Html->link('<i class="fa fa-phone"></i>&nbsp;' . $point['Point']['phone'], 'tel:' . $point['Point']['phone'], array('class' => 'hidden-md hidden-lg', 'escape' => false));
+                        ?>
+                        <br>
+                    </p>
                 </div>
-                <div class="box-body">
-                    <div class="points index">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>名稱</th>
-                                    <th><?php echo $this->Paginator->sort('type', '類別'); ?></th>
-                                    <th>科別</th>
-                                    <th>縣市</th>
-                                    <th>鄉鎮市區</th>
-                                    <th>住址</th>
-                                    <th>電話</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach ($points as $point): ?>
-                                    <tr>
-                                        <td><?php echo $this->Html->link($point['Point']['name'], array('action' => 'view', $point['Point']['id'])); ?>&nbsp;</td>
-                                        <td><?php echo h($point['Point']['type']); ?>&nbsp;</td>
-                                        <td><?php echo h($point['Point']['category']); ?>&nbsp;</td>
-                                        <td><?php echo h($point['Point']['city']); ?>&nbsp;</td>
-                                        <td><?php echo h($point['Point']['town']); ?>&nbsp;</td>
-                                        <td><?php echo h($point['Point']['address']); ?>&nbsp;</td>
-                                        <td><?php echo h($point['Point']['phone']); ?>&nbsp;</td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
+            </li>
+            <?php }; // End of foreach ($items as $item) {  ?>
+        </ul>
     </div>
-</section>
+</div>
+
 <div class="clearfix paginator-wrapper">
     <?php echo $this->element('paginator'); ?>
 </div>
