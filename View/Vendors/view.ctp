@@ -264,4 +264,7 @@
     <script>
         var verdor_address = "<?php echo $vendor['Vendor']['address']; ?>";
     </script>
-<?php } ?>
+<?php 
+        echo $this->Html->script('c/vendors/view', array('inline' => false));
+    } 
+?>
