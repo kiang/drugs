@@ -36,12 +36,10 @@
                             '',
                             array(
                                 'class' => 'fui-location',
-                                'style' => 'color: #f35048;',
                             )
                         ),
                         array(
                             'class' => 'map-toggle-btn',
-                            'style' => 'cursor: pointer;',
                         )
                     );
                     echo $this->Html->tag('div', '', array('class' => 'vendor-address-wrapper'));
@@ -67,15 +65,126 @@
         <h5>廠商生產藥品</h5>
         <div class="order-btn-wrapper">
             <ul class="nav nav-pills">
-                <li>
-                    <?php echo $this->Paginator->sort('License.expired_date', '依有效日期排列', array('url' => $url)); ?>
-                </li>
-                <li>
-                    <?php echo $this->Paginator->sort('License.license_date', '依發證日期排列', array('url' => $url)); ?>
-                </li>
-                <li>
-                    <?php echo $this->Paginator->sort('License.submitted', '依更新日期排列', array('url' => $url)); ?>
-                </li>
+                <?php
+                    if (!array_key_exists('sort', $this->params['paging']['License']['options'])) {
+                        echo $this->Html->tag(
+                            'li',
+                            $this->Paginator->sort('License.expired_date', '依有效日期排列', array('url' => $url))
+                        );
+
+                        echo $this->Html->tag(
+                            'li',
+                            $this->Paginator->sort('License.license_date', '依發證日期排列', array('url' => $url))
+                        );
+
+                        echo $this->Html->tag(
+                            'li',
+                            $this->Paginator->sort('License.submitted', '依更新日期排列', array('url' => $url))
+                        );
+                    } else {
+                        switch ($this->params['paging']['License']['options']['sort']) {
+                        case 'License.expired_date':
+                            $button_text = '';
+                            switch ($this->params['paging']['License']['options']['direction']) {
+                                case 'asc':
+                                    $button_text = '依有效日期排列<span class="fui-triangle-up"></span>';
+                                    break;
+                                
+                                case 'desc':
+                                    $button_text = '依有效日期排列<span class="fui-triangle-down"></span>';
+                                    break;
+
+                                default:
+                                    $button_text = '依有效日期排列';
+                                    break;
+                            }
+                            echo $this->Html->tag(
+                                'li',
+                                $this->Paginator->sort('License.expired_date', $button_text, array('url' => $url, 'escape' => false)),
+                                array('class' => 'active')
+                            );
+
+                            echo $this->Html->tag(
+                                'li',
+                                $this->Paginator->sort('License.license_date', '依發證日期排列', array('url' => $url))
+                            );
+
+                            echo $this->Html->tag(
+                                'li',
+                                $this->Paginator->sort('License.submitted', '依更新日期排列', array('url' => $url))
+                            );
+                            break;
+
+                        case 'License.license_date':
+                            $button_text = '';
+                            switch ($this->params['paging']['License']['options']['direction']) {
+                                case 'asc':
+                                    $button_text = '依發證日期排列<span class="fui-triangle-up"></span>';
+                                    break;
+                                
+                                case 'desc':
+                                    $button_text = '依發證日期排列<span class="fui-triangle-down"></span>';
+                                    break;
+
+                                default:
+                                    $button_text = '依發證日期排列';
+                                    break;
+                            }
+                            echo $this->Html->tag(
+                                'li',
+                                $this->Paginator->sort('License.expired_date', '依有效日期排列' , array('url' => $url))
+                            );
+
+                            echo $this->Html->tag(
+                                'li',
+                                $this->Paginator->sort('License.license_date', $button_text, array('url' => $url, 'escape' => false)),
+                                array('class' => 'active')
+                            );
+
+                            echo $this->Html->tag(
+                                'li',
+                                $this->Paginator->sort('License.submitted', '依更新日期排列', array('url' => $url))
+                            );
+                            break;
+
+                        case 'License.submitted':
+                            $button_text = '';
+                            switch ($this->params['paging']['License']['options']['direction']) {
+                                case 'asc':
+                                    $button_text = '依更新日期排列<span class="fui-triangle-up"></span>';
+                                    break;
+                                
+                                case 'desc':
+                                    $button_text = '依更新日期排列<span class="fui-triangle-down"></span>';
+                                    break;
+
+                                default:
+                                    $button_text = '依更新日期排列';
+                                    break;
+                            }
+                            echo $this->Html->tag(
+                                'li',
+                                $this->Paginator->sort('License.expired_date', '依有效日期排列' , array('url' => $url))
+                            );
+
+                            echo $this->Html->tag(
+                                'li',
+                                $this->Paginator->sort('License.license_date', '依發證日期排列', array('url' => $url))
+                            );
+
+                            echo $this->Html->tag(
+                                'li',
+                                $this->Paginator->sort('License.submitted', $button_text, array('url' => $url, 'escape' => false)),
+                                array('class' => 'active')
+                            );
+                            break;
+
+                        default:
+                            break;
+                        }
+                    }
+
+                ?>
             </ul>
         </div>
         <div class="paginator-wrapper">
