@@ -69,7 +69,7 @@ if (false === $pos) {
                     </a>
                     <hr>
                     <p>
-                        <div class="hidden-xs"><strong>許可證字號</strong> <?php echo $item['License']['license_id']; ?><br></div>
+                        <strong>許可證字號</strong> <?php echo $item['License']['license_id']; ?><br>
                         <?php
                             $now_date = new DateTime();
                             $expired_date = new DateTime($item['License']['expired_date']);
