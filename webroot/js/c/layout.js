@@ -26,6 +26,7 @@ $(function () {
         $('.btn-search-type, .form-search .form-control').data('type', $(this).data('type'));
         $('.search-helper-text .alert').hide();
         $('.search-helper-text .alert[data-type="' + $(this).data('type') + '"]').show().addClass('animated flipInX');
+        $('.form-search .form-control').trigger('focus');
         $('html, body').animate({ scrollTop: '0px'});
     });
 

@@ -1,6 +1,3 @@
-<?php
-echo $this->Html->script('c/drugs/index', array('inline' => false));
-?>
 <h2>藥物證書</h2>
 <div class="paginator-wrapper">
     <?php echo $this->element('paginator'); ?>
