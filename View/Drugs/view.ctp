@@ -537,5 +537,5 @@
     var prices = <?php echo $price_array = json_encode($this->Olc->parsePrice($prices)); ?>;
 </script>
 <?php
-echo $this->Html->script(array('Chart.min.js', 'c/drugs/view'), array('inline' => false));
+echo $this->Html->script(array('jquery.zoom.min.js', 'Chart.min.js', 'c/drugs/view'), array('inline' => false));
 ?>

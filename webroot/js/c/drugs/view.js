@@ -1,3 +1,5 @@
+$('.zoom').zoom();
+
 (function () {
         var i = 0;
 

@@ -84,9 +84,7 @@ $(function () {
     $('.btn-to-top').on('click', function (e) {
         e.preventDefault();
         $('html, body').animate({ scrollTop: '0px'}, 700);
-    })
-
-    $('.zoom').zoom();
+    });
 
     $('.article-share-link').on('click', function (e) {
         e.preventDefault();
