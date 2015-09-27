@@ -26,9 +26,9 @@ $(function () {
                     '</div>';
             });
             $('#ingredient-event-list').html(itemList);
-            footerString += '最後更新於 ' + data.meta.last_updated;
+            footerString += '<small>最後更新於 ' + data.meta.last_updated;
             footerString += '<br>免責聲明：' + data.meta.disclaimer;
-            footerString += '<br><a href="' + data.meta.license + '" target="_blank">使用許可</a>';
+            footerString += '<br><a href="' + data.meta.license + '" target="_blank">使用許可</a></small>';
             $('#ingredient-event-wrapper .content-footer').append(footerString);
             $('#ingredient-event-statistic').html('(' + dateFrom + ' ~ ' + dateTo + '，總計：' + countTotal + ')');
             $('#ingredient-event-wrapper').show().addClass('animated zoomInDown');
