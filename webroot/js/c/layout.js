@@ -23,7 +23,7 @@ $(function () {
         $('.btn-search-type').html($(this).text() + '&nbsp;<b class="caret"></b>');
         $('.btn-search span').text($(this).data('placeholder'));
         $('.form-search .form-control').attr('placeholder', $(this).data('placeholder'));
-        $('.btn-search-type').data('type', $(this).data('type'));
+        $('.btn-search-type, .form-search .form-control').data('type', $(this).data('type'));
         $('.search-helper-text .alert').hide();
         $('.search-helper-text .alert[data-type="' + $(this).data('type') + '"]').show().addClass('animated flipInX');
         $('html, body').animate({ scrollTop: '0px'});
