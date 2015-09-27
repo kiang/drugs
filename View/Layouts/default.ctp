@@ -312,6 +312,7 @@
                          data-ad-slot="8716486027"
                          data-ad-format="auto">
                     </ins>
+                    <p>&nbsp;</p>
                     <button class="btn btn-block btn-info btn-to-top"><span class="fui-triangle-up"></span>&nbsp;回到頁面頂端</button>
                     <p>&nbsp;</p>
                     <?php
