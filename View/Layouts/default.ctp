@@ -205,15 +205,18 @@
                             <div class="clearfix"></div>
                         </div>
                         <div class="alert alert-info" data-type="ingredient" style="display: none">
-                            <h6 class="col-md-12 col-sm-12 col-xs-12">輸入藥物成份名稱<br>如：<span class="text-info">PYRIDOXAL 5-PHOSPHATE</span>。</h6>
+                            <img src="<?php echo $baseUrl; ?>img/flask.svg" alt="成份" class="col-md-2 hidden-sm hidden-xs" style="max-width: 100px;">
+                            <h6 class="col-md-10 col-sm-12 col-xs-12">輸入藥物成份名稱<br>如：<span class="text-info">PYRIDOXAL 5-PHOSPHATE</span>。</h6>
                             <div class="clearfix"></div>
                         </div>
                         <div class="alert alert-info" data-type="vendor" style="display: none">
-                            <h6 class="col-md-12 col-sm-12 col-xs-12">輸入藥物廠商名稱<br>如：<span class="text-info">臺灣武田藥品工業股份有限公司</span>。</h6>
+                            <img src="<?php echo $baseUrl; ?>img/shirt.svg" alt="廠商" class="col-md-2 hidden-sm hidden-xs" style="max-width: 100px;">
+                            <h6 class="col-md-10 col-sm-12 col-xs-12">輸入藥物廠商名稱<br>如：<span class="text-info">臺灣武田藥品工業股份有限公司</span>。</h6>
                             <div class="clearfix"></div>
                         </div>
                         <div class="alert alert-info" data-type="point" style="display: none">
-                            <h6 class="col-md-12 col-sm-12 col-xs-12">輸入縣市、類別或是科別<br><span class="hidden-sm hidden-xs">多個關鍵字請以空格隔開，</span>如：<span class="text-info">台南 骨科 診所</span>。</h6>
+                            <img src="<?php echo $baseUrl; ?>img/compas.svg" alt="地圖" class="col-md-2 hidden-sm hidden-xs" style="max-width: 100px;">
+                            <h6 class="col-md-10 col-sm-12 col-xs-12">輸入縣市、類別或是科別<br><span class="hidden-sm hidden-xs">多個關鍵字請以空格隔開，</span>如：<span class="text-info">台南 骨科 診所</span>。</h6>
                             <div class="clearfix"></div>
                         </div>
                     </div><!-- /.search-helper-text -->
