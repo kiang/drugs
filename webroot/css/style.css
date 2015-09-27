@@ -237,3 +237,8 @@
     bottom: 25%;
     left: 30%;
 }
+
+.badge {
+    font-size: 16px;
+    background-color: #3498db;
+}
