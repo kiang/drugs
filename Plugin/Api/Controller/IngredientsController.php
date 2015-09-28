@@ -11,29 +11,43 @@ class IngredientsController extends ApiAppController {
     public $helpers = array();
 
     public function index($name = null) {
-        $scope = array();
-        if (!empty($name)) {
-            $name = Sanitize::clean($name);
-            $keywords = explode(' ', $name);
-            $keywordCount = 0;
-            foreach ($keywords AS $keyword) {
-                if (++$keywordCount < 5) {
-                    $scope[]['OR'] = array(
-                        'Ingredient.name LIKE' => "%{$keyword}%",
-                    );
+        $cPage = isset($this->request->params['named']['page']) ? $this->request->params['named']['page'] : '1';
+        $cacheKey = "IngredientsIndex{$name}{$cPage}";
+        $result = Cache::read($cacheKey, 'long');
+        if (!$result) {
+            $result = $scope = array();
+            if (!empty($name)) {
+                $name = Sanitize::clean($name);
+                $keywords = explode(' ', $name);
+                $keywordCount = 0;
+                foreach ($keywords AS $keyword) {
+                    if (++$keywordCount < 5) {
+                        $scope[]['OR'] = array(
+                            'Ingredient.name LIKE' => "%{$keyword}%",
+                        );
+                    }
                 }
             }
+            $this->paginate['Ingredient'] = array(
+                'limit' => 20,
+                'order' => array(
+                    'Ingredient.count_daily' => 'DESC',
+                    'Ingredient.count_all' => 'DESC',
+                    'Ingredient.count_licenses' => 'DESC',
+                ),
+            );
+
+            $result['items'] = $this->paginate($this->Ingredient, $scope);
+            $result['paging'] = $this->request->params['paging'];
+            Cache::write($cacheKey, $result, 'long');
+        } else {
+            $this->request->params['paging'] = $result['paging'];
         }
-        $this->paginate['Ingredient'] = array(
-            'limit' => 20,
-            'order' => array('Ingredient.count_licenses' => 'DESC'),
-        );
-        $items = $this->paginate($this->Ingredient, $scope);
         $this->jsonData = array(
             'meta' => array(
                 'paging' => $this->request->params['paging'],
             ),
-            'data' => $items,
+            'data' => $result['items'],
         );
     }
 

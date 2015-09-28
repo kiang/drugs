@@ -11,32 +11,46 @@ class VendorsController extends ApiAppController {
     public $helpers = array();
 
     public function index($name = null) {
-        $scope = array();
-        if (!empty($name)) {
-            $name = Sanitize::clean($name);
-            $keywords = explode(' ', $name);
-            $keywordCount = 0;
-            foreach ($keywords AS $keyword) {
-                if (++$keywordCount < 5) {
-                    $scope[]['OR'] = array(
-                        'Vendor.name LIKE' => "%{$keyword}%",
-                        'Vendor.address LIKE' => "%{$keyword}%",
-                        'Vendor.address_office LIKE' => "%{$keyword}%",
-                        'Vendor.country LIKE' => "%{$keyword}%",
-                        'Vendor.tax_id' => "{$keyword}",
-                    );
+        $cPage = isset($this->request->params['named']['page']) ? $this->request->params['named']['page'] : '1';
+        $cacheKey = "VendorsIndex{$name}{$cPage}";
+        $result = Cache::read($cacheKey, 'long');
+        if (!$result) {
+            $result = $scope = array();
+            if (!empty($name)) {
+                $name = Sanitize::clean($name);
+                $keywords = explode(' ', $name);
+                $keywordCount = 0;
+                foreach ($keywords AS $keyword) {
+                    if (++$keywordCount < 5) {
+                        $scope[]['OR'] = array(
+                            'Vendor.name LIKE' => "%{$keyword}%",
+                            'Vendor.address LIKE' => "%{$keyword}%",
+                            'Vendor.address_office LIKE' => "%{$keyword}%",
+                            'Vendor.country LIKE' => "%{$keyword}%",
+                            'Vendor.tax_id' => "{$keyword}",
+                        );
+                    }
                 }
             }
+            $this->paginate['Vendor'] = array(
+                'limit' => 20,
+                'order' => array(
+                    'Vendor.count_daily' => 'DESC',
+                    'Vendor.count_all' => 'DESC',
+                ),
+            );
+
+            $result['items'] = $this->paginate($this->Vendor, $scope);
+            $result['paging'] = $this->request->params['paging'];
+            Cache::write($cacheKey, $result, 'long');
+        } else {
+            $this->request->params['paging'] = $result['paging'];
         }
-        $this->paginate['Vendor'] = array(
-            'limit' => 20,
-        );
-        $items = $this->paginate($this->Vendor, $scope);
         $this->jsonData = array(
             'meta' => array(
                 'paging' => $this->request->params['paging'],
             ),
-            'data' => $items,
+            'data' => $result['items'],
         );
     }
 
