@@ -65,9 +65,6 @@ class DrugsController extends ApiAppController {
                         $result['items'][$k]['Drug'] = array(
                             'id' => $drugIds[$v['License']['id']],
                         );
-                        if (!empty($v['License']['image'])) {
-                            $result['items'][$k]['License']['image'] = Router::url('/' . $v['License']['image'], true);
-                        }
                     }
                     $result['parents'] = $this->Drug->License->Category->getPath($categoryId, array('id', 'name'));
                     $result['children'] = $this->Drug->License->Category->find('all', array(
@@ -82,6 +79,11 @@ class DrugsController extends ApiAppController {
             }
         }
         if (!empty($category)) {
+            foreach ($result['items'] AS $k => $v) {
+                if (!empty($v['License']['image'])) {
+                    $result['items'][$k]['License']['image'] = Router::url('/' . $v['License']['image'], true);
+                }
+            }
             $this->jsonData = array(
                 'meta' => array(
                     'paging' => $this->request->params['paging'],
@@ -95,7 +97,7 @@ class DrugsController extends ApiAppController {
 
     public function outward($term = null) {
         $cPage = isset($this->request->params['named']['page']) ? $this->request->params['named']['page'] : '1';
-        $cacheKey = "ApiDrugsOutward{$name}{$cPage}";
+        $cacheKey = "DrugsOutward{$name}{$cPage}";
         $result = Cache::read($cacheKey, 'long');
         if (!$result) {
             $result = $scope = array();
@@ -132,17 +134,17 @@ class DrugsController extends ApiAppController {
             );
 
             $result['items'] = $this->paginate($this->Drug, $scope);
-            foreach ($result['items'] AS $k => $v) {
-                if (!empty($v['License']['image'])) {
-                    $result['items'][$k]['License']['image'] = Router::url('/' . $v['License']['image'], true);
-                }
-            }
             $result['paging'] = $this->request->params['paging'];
             Cache::write($cacheKey, $result, 'long');
         } else {
             $this->request->params['paging'] = $result['paging'];
         }
 
+        foreach ($result['items'] AS $k => $v) {
+            if (!empty($v['License']['image'])) {
+                $result['items'][$k]['License']['image'] = Router::url('/' . $v['License']['image'], true);
+            }
+        }
         $this->jsonData = array(
             'meta' => array(
                 'paging' => $this->request->params['paging'],
@@ -191,18 +193,16 @@ class DrugsController extends ApiAppController {
                 'group' => array('Drug.license_id'),
             );
             $result['items'] = $this->paginate($this->Drug, $scope);
-            foreach ($result['items'] AS $k => $v) {
-                if (!empty($v['License']['image'])) {
-                    $result['items'][$k]['License']['image'] = Router::url('/' . $v['License']['image'], true);
-                }
-            }
             $result['paging'] = $this->request->params['paging'];
             Cache::write($cacheKey, $result, 'long');
         } else {
             $this->request->params['paging'] = $result['paging'];
         }
-
-
+        foreach ($result['items'] AS $k => $v) {
+            if (!empty($v['License']['image'])) {
+                $result['items'][$k]['License']['image'] = Router::url('/' . $v['License']['image'], true);
+            }
+        }
         $this->jsonData = array(
             'meta' => array(
                 'paging' => $this->request->params['paging'],
@@ -213,7 +213,7 @@ class DrugsController extends ApiAppController {
 
     public function view($id = '') {
         if (!empty($id)) {
-            $cacheKey = "ApiDrugsView{$id}";
+            $cacheKey = "DrugsView{$id}";
             $result = Cache::read($cacheKey, 'long');
             if (!$result) {
                 $result = array();
@@ -306,11 +306,11 @@ class DrugsController extends ApiAppController {
                         'Link.sort' => 'ASC',
                     ),
                 ));
-                if (!empty($result['data']['License']['image'])) {
-                    $result['data']['License']['image'] = Router::url('/' . $this->jsonData['License']['image'], true);
-                }
 
                 Cache::write($cacheKey, $result, 'long');
+            }
+            if (!empty($result['data']['License']['image'])) {
+                $result['data']['License']['image'] = Router::url('/' . $this->jsonData['License']['image'], true);
             }
 
             $this->jsonData = array(
