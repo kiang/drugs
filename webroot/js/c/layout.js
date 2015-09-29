@@ -27,7 +27,7 @@ $(function () {
         $('.search-helper-text .alert').hide();
         $('.search-helper-text .alert[data-type="' + $(this).data('type') + '"]').show().addClass('animated flipInX');
         $('.form-search .form-control').trigger('focus');
-        $('html, body').animate({ scrollTop: '0px'});
+        $('html, body').animate({ scrollTop: '55px'});
     });
 
     $('.form-search .form-control').on('focus', function () {
