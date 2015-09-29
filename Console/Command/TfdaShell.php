@@ -81,8 +81,24 @@ class TfdaShell extends AppShell {
         $db = ConnectionManager::getDataSource('default');
         $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
         $this->dbQuery('SET NAMES utf8mb4;');
+        $stack = $licenseId = $vendorKeys = $vendorStack = $licenseData = $valueStack = array();
 
-        $vendorKeys = $vendorStack = $licenseData = $valueStack = array();
+        if (file_exists(__DIR__ . '/data/keys/drugs.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/keys/drugs.csv', 'r');
+            while ($line = fgetcsv($dbKeysFh, 1024)) {
+                $stack[$line[0]] = $line[1];
+            }
+            fclose($dbKeysFh);
+        }
+        if (file_exists(__DIR__ . '/data/keys/licenses.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/keys/licenses.csv', 'r');
+            while ($line = fgetcsv($dbKeysFh, 1024)) {
+                $licenseId[$line[0]] = $line[1];
+            }
+            fclose($dbKeysFh);
+        }
+
+
         if (file_exists(__DIR__ . '/data/keys/vendors.csv')) {
             $dbKeysFh = fopen(__DIR__ . '/data/keys/vendors.csv', 'r');
             while ($line = fgetcsv($dbKeysFh, 1024)) {
@@ -102,6 +118,7 @@ class TfdaShell extends AppShell {
             if (empty($json['許可證字號'])) {
                 continue;
             }
+
             if (!isset($json['管制藥品分類級別']) && isset($json['醫療器材級數'])) {
                 $json['管制藥品分類級別'] = $json['醫療器材級數'];
             }
@@ -126,10 +143,17 @@ class TfdaShell extends AppShell {
             if (!isset($json['註銷理由']) && isset($json['廢止理由'])) {
                 $json['註銷理由'] = $json['廢止理由'];
             }
-            $id = String::uuid();
+            $vendorKey1 = $json['申請商名稱'] = $this->getCleanString($json['申請商名稱']);
+            $vendorKey2 = $json['主製造廠']['製造廠名稱'] = $this->getCleanString($json['主製造廠']['製造廠名稱']);
+            if (!isset($vendorKeys[$vendorKey1])) {
+                $vendorKeys[$vendorKey1] = String::uuid();
+            }
+            if (!isset($vendorKeys[$vendorKey2])) {
+                $vendorKeys[$vendorKey2] = String::uuid();
+            }
 
-            $json['申請商名稱'] = $this->getCleanString($json['申請商名稱']);
-            $json['主製造廠']['製造廠名稱'] = $this->getCleanString($json['主製造廠']['製造廠名稱']);
+            $licenseCode = 'fda' . $json['code'];
+            $key = "{$licenseId[$licenseCode]}{$vendorKeys[$vendorKey2]}";
 
             $vendorKey1 = $json['申請商名稱'];
             $vendorKey2 = $json['主製造廠']['製造廠名稱'];
@@ -139,6 +163,16 @@ class TfdaShell extends AppShell {
             if (!isset($vendorKeys[$vendorKey2])) {
                 $vendorKeys[$vendorKey2] = String::uuid();
             }
+
+            if (!isset($licenseId[$licenseCode])) {
+                $licenseId[$licenseCode] = String::uuid();
+            }
+            $id = $licenseId[$licenseCode]; //license id
+
+            if (!isset($stack[$key])) {
+                $stack[$key] = String::uuid();
+            }
+            $drugId = $stack[$key];
 
             if (!isset($dbVendorKeys[$vendorKeys[$vendorKey1]])) {
                 if (!isset($vendorStack[$vendorKey1])) {
@@ -168,7 +202,6 @@ class TfdaShell extends AppShell {
                 );
             }
 
-            $drugId = String::uuid();
             $dbCols = array(
                 "('{$drugId}'", //id
                 "'{$id}'", //license_id
@@ -288,16 +321,11 @@ class TfdaShell extends AppShell {
 
     public function getTwDate($str) {
         $str = trim($str);
-        if (empty($str) || strlen($str) !== 7) {
+        if (empty($str)) {
             return '';
         }
-        $dateParts = array();
-        $dateParts[0] = intval(substr($str, 0, 3)) + 1911;
-        if ($dateParts[0] > date('Y')) {
-            $dateParts[0] = date('Y') + 1;
-        }
-        $dateParts[1] = substr($str, 3, 2);
-        $dateParts[2] = substr($str, 5, 2);
+        $dateParts = explode('/', $str);
+        $dateParts[0] = intval($dateParts[0]) + 1911;
         return implode('-', $dateParts);
     }
 
