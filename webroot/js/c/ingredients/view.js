@@ -1,5 +1,5 @@
 $(function () {
-    var q = $('#ingredient-event-wrapper').attr('data-query'),
+    var q = $('.ingredient-event-wrapper').attr('data-query'),
         d = new Date(),
         dateFrom = (d.getFullYear() - 1) + '-' + (d.getMonth() + 1) + '-' + d.getDay(),
         dateTo = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDay();
@@ -25,13 +25,14 @@ $(function () {
                         '<small> (' + v.count + ')</small>' + 
                     '</div>';
             });
-            $('#ingredient-event-list').html(itemList);
+            $('.ingredient-event-list').html(itemList);
             footerString += '<small>最後更新於 ' + data.meta.last_updated;
             footerString += '<br>免責聲明：' + data.meta.disclaimer;
             footerString += '<br><a href="' + data.meta.license + '" target="_blank">使用許可</a></small>';
-            $('#ingredient-event-wrapper .content-footer').append(footerString);
-            $('#ingredient-event-statistic').html('(' + dateFrom + ' ~ ' + dateTo + '，總計：' + countTotal + ')');
-            $('#ingredient-event-wrapper').show().addClass('animated zoomInDown');
+            $('.ingredient-event-wrapper .content-footer').append(footerString);
+            $('.ingredient-event-statistic').html('(' + dateFrom + ' ~ ' + dateTo + '，總計：' + countTotal + ')');
+            $('.ingredient-event-loading').hide();
+            $('.ingredient-event-result').show().addClass('animated zoomInDown');
         }
     });
 

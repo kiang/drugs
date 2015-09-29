@@ -14,19 +14,25 @@ if (false === $pos) {
 
 <div class="row">
     <div class="col-xs-12 col-md-12">
-        <div class="well" id="ingredient-event-wrapper" style="display:none;" data-query="<?php echo $query; ?>">
-            <h5 style="text-align: center;"><i class="fa fa-warning text-danger"></i>&nbsp;美國 FDA 最近一年已知不良反應</h5>
-            <p id="ingredient-event-statistic" style="text-align: center;"></p>
-            <div class="full-content">
-                <div id="ingredient-event-list"></div>
-                <div class="clearfix"></div>
-                <p>&nbsp;</p>
-                <div class="content-footer">
-                    括弧中的數字為 openFDA 提供的通報數量，資料來自美國 FDA<br>個別詞彙使用 MedDRA 定義，點選連結後即透過此定義搜尋 MeSH 資料庫(因 MedDRA 需要額外付費)，搜尋結果僅供參考<br />
+        <div class="well ingredient-event-wrapper" data-query="<?php echo $query; ?>">
+            <div class="ingredient-event-loading">
+                <div class="loading-indicator"></div>
+                <p>正在查詢美國FDA不良反應資訊…</p>
+            </div>
+            <div class="ingredient-event-result" style="display:none;">
+                <h5 style="text-align: center;"><i class="fa fa-warning text-danger"></i>&nbsp;美國 FDA 最近一年已知不良反應</h5>
+                <p class="ingredient-event-statistic" style="text-align: center;"></p>
+                <div class="full-content">
+                    <div class="ingredient-event-list"></div>
+                    <div class="clearfix"></div>
                     <p>&nbsp;</p>
-                </div>
-                <div class="full-content-mask">
-                    <button class="btn btn-info btn-read-more">展開全部內容</button>
+                    <div class="content-footer">
+                        括弧中的數字為 openFDA 提供的通報數量，資料來自美國 FDA<br>個別詞彙使用 MedDRA 定義，點選連結後即透過此定義搜尋 MeSH 資料庫(因 MedDRA 需要額外付費)，搜尋結果僅供參考<br />
+                        <p>&nbsp;</p>
+                    </div>
+                    <div class="full-content-mask">
+                        <button class="btn btn-info btn-read-more">展開全部內容</button>
+                    </div>
                 </div>
             </div>
         </div>
