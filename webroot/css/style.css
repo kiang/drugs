@@ -287,3 +287,10 @@
 .ingredient-event-loading p {
     text-align: center;
 }
+
+.tag-description {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

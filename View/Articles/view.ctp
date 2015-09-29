@@ -45,7 +45,9 @@
                             <span class="fui-tag text-muted"></span>
                             <?php echo $this->Html->link($drug['License']['name'], '/drugs/view/' . $drug['Drug']['id']); ?>
                             <br>
-                            <?php echo $drug['License']['disease']; ?>
+                            <div class="tag-description text-muted" title="<?php echo $drug['License']['disease']; ?>">
+                                <?php echo $drug['License']['disease']; ?>
+                            </div>
                         </div>
                 <?php
                         if ($licenseCount >= 3) {
@@ -104,8 +106,6 @@
                     <div class="col-md-4 col-xs-12">
                         <span class="fui-tag text-muted"></span>
                         <?php echo $this->Html->link($vendor['Vendor']['name'], '/vendors/view/' . $vendor['Vendor']['id']); ?>
-                        <br>
-                        <?php echo $this->Olc->showCountry($vendor['Vendor']['country']) . '&nbsp;' . "{$vendor['Vendor']['address']}"; ?>
                     </div>
                 <?php } ?>
             <div class="clearfix"></div>
