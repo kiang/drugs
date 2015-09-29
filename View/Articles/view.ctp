@@ -1,5 +1,5 @@
 <h4><?php echo h($article['Article']['title']); ?></h4>
-
+<hr>
 <div class="row">
     <div class="col-md-12">
         <p>&nbsp;</p>
@@ -36,6 +36,7 @@
         if (!empty($article['Drug'])) { ?>
             <div>
                 <h4>藥物證書</h4>
+                <hr>
                 <?php
                     $licenseCount = 0;
                     foreach ($article['Drug'] AS $drug) {
@@ -62,7 +63,9 @@
         if (!empty($article['Ingredient'])) {
             ?>
                 <p>&nbsp;</p>
-                <h4>藥物成份</h4><?php
+                <h4>藥物成份</h4>
+                <hr>
+                <?php
                 foreach ($article['Ingredient'] AS $ingredient) {
                     ?>
                     <div class="col-md-4 col-xs-12">
@@ -79,7 +82,9 @@
         if (!empty($article['Point'])) {
             ?>
                 <p>&nbsp;</p>
-                <h4>醫事機構</h4><?php
+                <h4>醫事機構</h4>
+                <hr>
+                <?php
                     foreach ($article['Point'] AS $point) {
                         ?><div class="col-md-4 col-xs-12">
                                 <span class="fui-tag text-muted"></span>
@@ -100,6 +105,7 @@
             ?>
                 <p>&nbsp;</p>
                 <h4>藥物廠商</h4>
+                <hr>
                 <?php
                 foreach ($article['Vendor'] AS $vendor) {
                 ?>
