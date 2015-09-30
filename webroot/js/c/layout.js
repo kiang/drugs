@@ -1,9 +1,9 @@
 jQuery.fn.selectText = function() {
-    var doc = document,
-        element = this[0],
-        range, selection;
+    var element = this[0],
+        range,
+        selection;
 
-    if (doc.body.createTextRange) {
+    if (document.body.createTextRange) {
         range = document.body.createTextRange();
         range.moveToElementText(element);
         range.select();
@@ -27,7 +27,7 @@ $(function () {
         $('.search-helper-text .alert').hide();
         $('.search-helper-text .alert[data-type="' + $(this).data('type') + '"]').show().addClass('animated flipInX');
         $('.form-search .form-control').trigger('focus');
-        $('html, body').animate({ scrollTop: '55px'});
+        $('html, body').animate({ scrollTop: '65px'});
     });
 
     $('.form-search .form-control').on('focus', function () {
