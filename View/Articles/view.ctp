@@ -17,7 +17,7 @@
                 <?php echo $this->Html->link(
                     $article['Article']['url'],
                     $article['Article']['url'],
-                    array('target' => '_blank', 'class' => 'article-link')
+                    array('target' => '_blank', 'class' => 'article-link text-ellipsis')
                 ); ?>
             </p>
         <?php } ?>
@@ -46,7 +46,7 @@
                             <span class="fui-tag text-muted"></span>
                             <?php echo $this->Html->link($drug['License']['name'], '/drugs/view/' . $drug['Drug']['id']); ?>
                             <br>
-                            <div class="tag-description text-muted" title="<?php echo $drug['License']['disease']; ?>">
+                            <div class="text-ellipsis text-muted" title="<?php echo $drug['License']['disease']; ?>">
                                 <?php echo $drug['License']['disease']; ?>
                             </div>
                         </div>

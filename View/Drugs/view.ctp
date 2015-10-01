@@ -249,13 +249,13 @@
                                 echo $this->Html->link(
                                     $this->Html->tag('label', $ingredient, array('class' => 'label label-default', 'style' => 'cursor: pointer')),
                                     '/ingredients/view/' . $ingredientKeys[$ingredient],
-                                    array('escape' => false)
+                                    array('class' => 'text-ellipsis', 'escape' => false)
                                     ) . '<br>';
                             } else {
                                 echo $this->Html->link(
                                     $this->Html->tag('label', $ingredient, array('class' => 'label label-default', 'style' => 'cursor: pointer')),
                                     '/drugs/index/' . $ingredient,
-                                    array('escape' => false)
+                                    array('class' => 'text-ellipsis', 'escape' => false)
                                     ) . '<br>';
                             }
                             echo '</div>';
@@ -320,7 +320,7 @@
                                 'style' => 'cursor: pointer')
                             ),
                             '/vendors/view/' . $this->data['Vendor']['id'],
-                            array('escape' => false)
+                            array('class' => 'text-ellipsis', 'escape' => false)
                             );
                         echo '</div>';
                         ?>
@@ -379,7 +379,7 @@
                                 )
                             ),
                             '/drugs/view/' . $drug['Drug']['id'],
-                            array('escape' => false)
+                            array('class' => 'text-ellipsis', 'escape' => false)
                         );
                         echo '<br></div>';
                     }
