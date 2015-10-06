@@ -296,6 +296,12 @@
             <div class="row">
                 <?php echo $this->Session->flash(); ?>
                 <div class="col-md-12">
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-5571465503362954"
+                         data-ad-slot="8716486027"
+                         data-ad-format="auto">
+                    </ins>
                     <?php
                     echo $content_for_layout;
                     ?>
@@ -306,12 +312,6 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <ins class="adsbygoogle"
-                         style="display:block"
-                         data-ad-client="ca-pub-5571465503362954"
-                         data-ad-slot="8716486027"
-                         data-ad-format="auto">
-                    </ins>
                     <p>&nbsp;</p>
                     <button class="btn btn-block btn-info btn-to-top"><span class="fui-triangle-up"></span>&nbsp;回到頁面頂端</button>
                     <p>&nbsp;</p>
