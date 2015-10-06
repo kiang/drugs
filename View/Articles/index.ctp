@@ -26,7 +26,7 @@
                 if (!empty($article['Article']['url'])) {
                     echo '<p>&nbsp;</p><p><span class="fui-time text-muted"></span>&nbsp;' . $article['Article']['date_published'];
                     echo '</p>';
-                    echo '<p><span class="fui-info-circle text-muted"></span>&nbsp;' . $this->Html->link($article['Article']['url'], $article['Article']['url'], array('target' => '_blank', 'class' => 'article-link', 'escape' => false));
+                    echo '<p><span class="fui-info-circle text-muted"></span>&nbsp;' . $this->Html->link($article['Article']['url'], $article['Article']['url'], array('target' => '_blank', 'class' => 'article-link text-ellipsis', 'escape' => false));
                     echo '</p>';
                 }
                 ?>

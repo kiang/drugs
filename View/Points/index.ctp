@@ -21,25 +21,25 @@
                         <h6 class="media-heading"><?php echo $point['Point']['name']; ?></h6>
                     </a>
                     <hr>
-                    <p>
-                        <strong>類別</strong>
-                        <?php
-                            if (!empty($point['Point']['type'])) {
-                                echo $point['Point']['type'];
-                            } else {
-                                echo '<span class="text-muted">無紀錄</span>';
-                            }
-                        ?>
-                        <br>
+                    <strong>類別</strong>
+                    <?php
+                        if (!empty($point['Point']['type'])) {
+                            echo $point['Point']['type'];
+                        } else {
+                            echo '<span class="text-muted">無紀錄</span>';
+                        }
+                    ?>
+                    <br>
+                    <span class="text-ellipsis">
                         <strong>科別</strong>&nbsp;<?php echo h($point['Point']['category']); ?> <br>
+                    </span>
                         <strong>地址</strong>&nbsp;<?php echo h($point['Point']['city']) . h($point['Point']['town']) . h($point['Point']['address']); ?><br>
-                        <strong>電話</strong>&nbsp;
-                        <?php
-                            echo $this->Html->tag('span', $point['Point']['phone'], array('class' => 'hidden-sm hidden-xs'));
-                            echo $this->Html->link('<i class="fa fa-phone"></i>&nbsp;' . $point['Point']['phone'], 'tel:' . $point['Point']['phone'], array('class' => 'hidden-md hidden-lg', 'escape' => false));
-                        ?>
-                        <br>
-                    </p>
+                    <strong>電話</strong>&nbsp;
+                    <?php
+                        echo $this->Html->tag('span', $point['Point']['phone'], array('class' => 'hidden-sm hidden-xs'));
+                        echo $this->Html->link('<i class="fa fa-phone"></i>&nbsp;' . $point['Point']['phone'], 'tel:' . $point['Point']['phone'], array('class' => 'hidden-md hidden-lg', 'escape' => false));
+                    ?>
+                    <br>
                 </div>
             </li>
             <?php }; // End of foreach ($items as $item) {  ?>
