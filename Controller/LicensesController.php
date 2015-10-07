@@ -19,53 +19,6 @@ class LicensesController extends AppController {
     public $components = array('Paginator', 'Session');
 
     /**
-     * admin_index method
-     *
-     * @return void
-     */
-    public function admin_index() {
-        $this->License->recursive = 0;
-        $this->set('licenses', $this->Paginator->paginate());
-    }
-
-    /**
-     * admin_view method
-     *
-     * @throws NotFoundException
-     * @param string $id
-     * @return void
-     */
-    public function admin_view($id = null) {
-        if (!$this->License->exists($id)) {
-            throw new NotFoundException(__('Invalid license'));
-        }
-        $options = array('conditions' => array('License.' . $this->License->primaryKey => $id));
-        $this->set('license', $this->License->find('first', $options));
-    }
-
-    /**
-     * admin_add method
-     *
-     * @return void
-     */
-    public function admin_add() {
-        if ($this->request->is('post')) {
-            $this->License->create();
-            if ($this->License->save($this->request->data)) {
-                $this->Session->setFlash(__('The license has been saved.'));
-                return $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The license could not be saved. Please, try again.'));
-            }
-        }
-        $vendors = $this->License->Vendor->find('list');
-        $categories = $this->License->Category->find('list');
-        $ingredients = $this->License->Ingredient->find('list');
-        $articles = $this->License->Article->find('list');
-        $this->set(compact('vendors', 'categories', 'ingredients', 'articles'));
-    }
-
-    /**
      * admin_edit method
      *
      * @throws NotFoundException
@@ -79,7 +32,7 @@ class LicensesController extends AppController {
         if ($this->request->is(array('post', 'put'))) {
             if ($this->License->save($this->request->data)) {
                 $this->Session->setFlash(__('The license has been saved.'));
-                return $this->redirect(array('action' => 'index'));
+                return $this->redirect(array('admin' => false, 'action' => 'view', $id));
             } else {
                 $this->Session->setFlash(__('The license could not be saved. Please, try again.'));
             }
