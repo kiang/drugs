@@ -55,7 +55,6 @@ if (!isset($url)) {
                                         <td class="actions">
                                             <?php echo $this->Html->link(__('View'), array('action' => 'view', $license['License']['id'])); ?>
                                             <?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $license['License']['id'])); ?>
-    <?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $license['License']['id']), array(), __('Are you sure you want to delete # %s?', $license['License']['id'])); ?>
                                         </td>
                                     </tr>
 <?php endforeach; ?>

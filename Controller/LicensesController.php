@@ -89,25 +89,4 @@ class LicensesController extends AppController {
         }
     }
 
-    /**
-     * admin_delete method
-     *
-     * @throws NotFoundException
-     * @param string $id
-     * @return void
-     */
-    public function admin_delete($id = null) {
-        $this->License->id = $id;
-        if (!$this->License->exists()) {
-            throw new NotFoundException(__('Invalid license'));
-        }
-        $this->request->allowMethod('post', 'delete');
-        if ($this->License->delete()) {
-            $this->Session->setFlash(__('The license has been deleted.'));
-        } else {
-            $this->Session->setFlash(__('The license could not be deleted. Please, try again.'));
-        }
-        return $this->redirect(array('action' => 'index'));
-    }
-
 }
