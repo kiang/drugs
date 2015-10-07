@@ -11,6 +11,9 @@
 <ol class="breadcrumb">
     <li><?php echo $this->Html->link('藥物證書', '/drugs/index'); ?></li>
     <li class="active"><?php echo $this->data['License']['name']; ?></li>
+    <?php if($editCheck) { ?>
+    <li class="pull-right"><?php echo $this->Html->link('編輯', '/admin/licenses/edit/' . $this->data['License']['id']); ?></li>
+    <?php } ?>
 </ol>
 
 <section class="content">

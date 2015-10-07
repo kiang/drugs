@@ -355,6 +355,7 @@ class DrugsController extends AppController {
             $this->set('articleIds', $articleIds);
             $this->set('drugs', $drugs);
             $this->set('categoryNames', $categoryNames);
+            $this->set('editCheck', $this->Acl->check(array('Member' => array('id' => $this->loginMember['id'])), 'Licenses/admin_edit'));
         } else {
             $this->Session->setFlash(__('Please do following links in the page', true));
             $this->redirect(array('action' => 'index'));
