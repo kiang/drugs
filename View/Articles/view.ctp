@@ -12,12 +12,12 @@
             <?php echo h($article['Article']['date_published']); ?>
         </p>
         <?php if (!empty($article['Article']['url'])) { ?>
-            <p>
+            <p class="text-ellipsis">
                 <span class="fui-info-circle text-muted"></span>&nbsp;
                 <?php echo $this->Html->link(
                     $article['Article']['url'],
                     $article['Article']['url'],
-                    array('target' => '_blank', 'class' => 'article-link text-ellipsis')
+                    array('target' => '_blank', 'class' => 'article-link')
                 ); ?>
             </p>
         <?php } ?>
