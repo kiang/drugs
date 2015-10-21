@@ -72,7 +72,7 @@
 }
 
 @media (min-width: 768px) {
-    a[target="_blank"]:hover::after {
+    a[target="_blank"]:not(.no-hover-icon):hover::after {
         font-family: FontAwesome;
         content: '\00a0\f08e';
         font-size: .9em;
@@ -80,7 +80,7 @@
 }
 
 @media (max-width: 767px) {
-    a[target="_blank"]::after {
+    a[target="_blank"]:not(.no-hover-icon)::after {
         font-family: FontAwesome;
         content: '\00a0\f08e';
         font-size: .9em;
@@ -294,4 +294,13 @@
 
 .ingredient-event-loading p {
     text-align: center;
+}
+
+.ad-box {
+    text-align: center;
+    margin: 1.5em 0;
+}
+
+.ad-box img {
+    width: 90%;
 }

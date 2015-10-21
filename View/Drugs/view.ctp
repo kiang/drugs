@@ -15,7 +15,6 @@
     <li class="pull-right"><?php echo $this->Html->link('編輯', '/admin/licenses/edit/' . $this->data['License']['id']); ?></li>
     <?php } ?>
 </ol>
-<div style="text-align: center"><a href="http://dts28280399.com/" target="_blank"><?php echo $this->Html->image('dts28280399.png'); ?></a></div>
 <section class="content">
     <div class="row">
         <div class="col-md-6">
@@ -28,6 +27,11 @@
                 <div class="clearfix"></div>
                 <p>&nbsp;</p>
             <?php } ?>
+            <div class="ad-box hidden-lg hidden-md">
+                <a href="http://dts28280399.com/" target="_blank" class="no-hover-icon">
+                    <?php echo $this->Html->image('dts28280399.png'); ?>
+                </a>
+            </div>
             <dl class="dl-horizontal">
                 <dt>適應症</dt>
                 <dd><?php 
@@ -428,6 +432,11 @@
                     </dd>
                 <?php } ?>
             </dl>
+        </div>
+        <div class="col-md-12 ad-box hidden-sm hidden-xs">
+            <a href="http://dts28280399.com/" target="_blank" class="no-hover-icon">
+                <?php echo $this->Html->image('dts28280399.png'); ?>
+            </a>
         </div>
         <?php if (!empty($ingredients)) { ?>
             <div class="col-md-12">
