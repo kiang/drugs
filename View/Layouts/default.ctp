@@ -364,6 +364,7 @@
                 <div class="col-md-6 col-sm-12">
                     <div class="fb-page" data-href="https://www.facebook.com/drugs.olc.tw" data-width="500" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"></div>
                 </div>
+                <p class="hidden-lg hidden-md">&nbsp;</p>
                 <div class="col-md-6 col-sm-12">
                     <div class="fb-page" data-href="https://www.facebook.com/g0v.tw" data-width="500" data-hide-cover="true" data-show-facepile="true" data-show-posts="false"></div>
                 </div>

@@ -15,7 +15,11 @@
     <li class="pull-right"><?php echo $this->Html->link('編輯', '/admin/licenses/edit/' . $this->data['License']['id']); ?></li>
     <?php } ?>
 </ol>
-
+<div class="ad-box">
+    <a href="http://dts28280399.com/" target="_blank" class="no-hover-icon">
+        <?php echo $this->Html->image('dts28280399.png'); ?>
+    </a>
+</div>
 <section class="content">
     <div class="row">
         <div class="col-md-6">
