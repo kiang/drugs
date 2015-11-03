@@ -51,6 +51,9 @@ class LicensesController extends AppController {
             throw new NotFoundException(__('Invalid license'));
         }
         if ($this->request->is(array('post', 'put'))) {
+            $this->request->data['License'] = array(
+                'id' => $id,
+            );
             if (isset($this->request->data['Image'])) {
                 foreach ($this->request->data['Image'] AS $k => $v) {
                     if ($v['file']['error'] !== 0) {
@@ -73,6 +76,21 @@ class LicensesController extends AppController {
                     }
                 }
             }
+            $note = array(
+                'license_id' => $id,
+                'member_id' => $this->loginMember['id'],
+            );
+            $noteId = $this->License->Note->field('id', $note);
+            if (empty($noteId)) {
+                $this->License->Note->create();
+            } else {
+                $this->License->Note->id = $noteId;
+            }
+            if (!empty($this->request->data['Note'])) {
+                $note = array_merge($note, $this->request->data['Note']);
+                unset($this->request->data['Note']);
+            }
+            $this->License->Note->save(array('Note' => $note));
             if ($this->License->saveAll($this->request->data)) {
                 $this->Session->setFlash(__('The license has been saved.'));
                 return $this->redirect(array('admin' => false, 'action' => 'view', $id));
@@ -87,9 +105,15 @@ class LicensesController extends AppController {
                     'Image' => array(
                         'conditions' => array('Image.member_id' => $this->loginMember['id']),
                     ),
+                    'Note' => array(
+                        'conditions' => array('Note.member_id' => $this->loginMember['id']),
+                    ),
                 ),
             );
             $this->request->data = $this->License->find('first', $options);
+            if (isset($this->request->data['Note'][0])) {
+                $this->request->data['Note'] = $this->request->data['Note'][0];
+            }
         }
     }
 
