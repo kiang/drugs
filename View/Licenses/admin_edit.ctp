@@ -12,169 +12,26 @@
                 </div>
                 <div class="box-body">
                     <div class="licenses form">
-                        <?php echo $this->Form->create('License'); ?>
+                        <?php echo $this->Form->create('License', array('enctype' => 'multipart/form-data')); ?>
                         <?php
+                        foreach($this->request->data['Image'] AS $image) {
+                            $imageUrl = $this->Media->url('s/' . $image['path']);
+                            echo '<div class="col-xs-2">';
+                            echo $this->Html->link($this->Media->embed('s/' . $image['path']), $this->Media->url($image['path'], true), array('target' => '_blank', 'escape' => false));
+                            echo '<br />' . $this->Form->checkbox('ImageDelete.' . $image['id']) . '刪除';
+                            echo '</div>';
+                        }
+                        echo '<div class="clearfix"></div>';
                         echo $this->Form->input('id');
-                        echo $this->Form->input('license_id', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('nhi_id', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('shape', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('s_type', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('color', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('odor', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('abrasion', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('size', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('note_1', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('note_2', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('image', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('cancel_status', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('cancel_date', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('cancel_reason', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('expired_date', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('license_date', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('license_type', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('old_id', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('document_id', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('name', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('name_english', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('disease', array(
-                            'type' => 'textarea',
-                            'class' => 'col-md-12',
-                            'div' => 'col-md-12',
-                        ));
-                        echo $this->Form->input('formulation', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('package', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('type', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('class', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('ingredient', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('vendor_id', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('submitted', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('usage', array(
-                            'type' => 'textarea',
-                            'class' => 'col-md-12',
-                            'div' => 'col-md-12',
-                        ));
-                        echo $this->Form->input('package_note', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
-                        echo $this->Form->input('barcode', array(
-                            'type' => 'text',
-                            'class' => 'col-md-8',
-                            'div' => 'col-md-6',
-                        ));
+                        echo $this->Form->hidden('Image.0.model', array('value' => 'License'));
+                        echo $this->Form->hidden('Image.0.group', array('value' => 'Image'));
+                        echo $this->Form->input('Image.0.file', array('type' => 'file'));
+                        echo $this->Form->hidden('Image.1.model', array('value' => 'License'));
+                        echo $this->Form->hidden('Image.1.group', array('value' => 'Image'));
+                        echo $this->Form->input('Image.1.file', array('type' => 'file'));
+                        echo $this->Form->hidden('Image.2.model', array('value' => 'License'));
+                        echo $this->Form->hidden('Image.2.group', array('value' => 'Image'));
+                        echo $this->Form->input('Image.2.file', array('type' => 'file'));
                         ?>
                         <div class="clearfix"></div>
                         <?php echo $this->Form->end(__('Submit')); ?>

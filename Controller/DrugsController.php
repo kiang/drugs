@@ -244,6 +244,7 @@ class DrugsController extends AppController {
                             'Category' => array(
                                 'fields' => array('code', 'name', 'name_chinese'),
                             ),
+                            'Image',
                         ),
                         'Vendor',
                     ),

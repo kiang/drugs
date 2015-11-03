@@ -45,8 +45,11 @@ class License extends AppModel {
             'dependent' => true,
             'className' => 'IngredientsLicense',
         ),
-        'Attachment' => array(
-            'conditions' => array('Attachment.model' => 'License'),
+        'Image' => array(
+            'conditions' => array(
+                'Image.model' => 'License',
+                'Image.group' => 'Image',
+            ),
             'foreignKey' => 'foreign_key',
             'dependent' => true,
             'className' => 'Media.Attachment',
