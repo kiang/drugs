@@ -25,14 +25,36 @@
 <section class="content">
     <div class="row">
         <div class="col-md-6">
-            <?php if (!empty($this->data['License']['image'])) { ?>
-                <div class="row">
-                    <div class="zoom col-md-8 col-md-offset-2">
-                        <img src="<?php echo $this->Html->url('/') . $this->data['License']['image']; ?>" class="img-thumbnail">
-                    </div>
+            <?php
+            if (!empty($this->data['License']['image'] || !empty($this->data['License']['Image']))) {
+                $gallery = array();
+                $mainImage = $this->data['License']['image'];
+                if(!empty($mainImage)) {
+                    $mainImage = $this->Html->url('/' . $mainImage);
+                    $gallery[$mainImage] = $mainImage;
+                } else {
+                    $mainImage = $this->Media->url($this->data['License']['Image'][0]['path']);
+                }
+                foreach($this->data['License']['Image'] AS $img) {
+                    $gallery[$this->Media->url($img['path'])] = $this->Media->url('s/' . $img['path']);
+                }
+                ?>
+            <div class="row">
+                <div class="zoom col-md-8 col-md-offset-2">
+                    <img src="<?php echo $mainImage; ?>" class="img-thumbnail" id="imgZoomBlock">
                 </div>
-                <div class="clearfix"></div>
-                <p>&nbsp;</p>
+            </div>
+            <div class="clearfix"></div>
+            <?php
+            if(count($gallery) > 1) {
+                foreach($gallery AS $orig => $thumb) {
+                    ?><a href="#" data-orig="<?php
+                    echo $orig; ?>" class="imgZoomSwitch"><img src="<?php
+                    echo $thumb; ?>" class="img-thumbnail" style="width: 50px;" /></a><?php
+                }
+            }
+            ?>
+            <p>&nbsp;</p>
             <?php } ?>
             <dl class="dl-horizontal">
                 <dt>適應症</dt>
@@ -423,36 +445,36 @@
                     ?>&nbsp;
                 </dd>
                 <?php if (!empty($links)) { ?>
-                    <dt>相關連結 </dt>
-                    <dd><?php
+                <dt>相關連結 </dt>
+                <dd><?php
                         foreach ($links AS $link) {
                             echo $this->Html->link($link['Link']['title'], $link['Link']['url'], array(
                                 'class' => 'btn btn-info btn-sm',
                                 'target' => '_blank')
                             ) . '&nbsp;';
                         } ?>
-                    </dd>
+                </dd>
                 <?php } ?>
             </dl>
         </div>
         <?php if (!empty($ingredients)) { ?>
-            <div class="col-md-12">
-                <h4>成份表</h4>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-condensed table-striped">
-                        <thead>
-                            <tr>
-                                <th>處方標示</th>
-                                <th>成分名稱</th>
-                                <th>含量</th>
-                                <th>單位</th>
-                            </tr>
-                        </thead>
-                        <tbody><?php
+        <div class="col-md-12">
+            <h4>成份表</h4>
+            <div class="table-responsive">
+                <table class="table table-bordered table-condensed table-striped">
+                    <thead>
+                        <tr>
+                            <th>處方標示</th>
+                            <th>成分名稱</th>
+                            <th>含量</th>
+                            <th>單位</th>
+                        </tr>
+                    </thead>
+                    <tbody><?php
                             foreach ($ingredients AS $ingredient) {
                                 ?><tr>
-                                <td><?php echo !empty($ingredient['IngredientsLicense']['remark']) ? $ingredient['IngredientsLicense']['remark'] : '<span class="text-muted">無紀錄</span>'; ?></td>
-                                <td><?php echo $this->Html->link(
+                            <td><?php echo !empty($ingredient['IngredientsLicense']['remark']) ? $ingredient['IngredientsLicense']['remark'] : '<span class="text-muted">無紀錄</span>'; ?></td>
+                            <td><?php echo $this->Html->link(
                                         $this->Html->tag('label', $ingredient['IngredientsLicense']['name'], array(
                                                 'class' => 'label label-info',
                                                 'style' => 'cursor: pointer'
@@ -462,19 +484,19 @@
                                         array('escape' => false)
                                     );
                                     ?>
-                                </td>
-                                <td><?php echo !empty($ingredient['IngredientsLicense']['dosage_text']) ? $ingredient['IngredientsLicense']['dosage_text'] : $ingredient['IngredientsLicense']['dosage']; ?></td>
-                                <td><?php echo $ingredient['IngredientsLicense']['unit']; ?></td>
-                            </tr><?php
+                            </td>
+                            <td><?php echo !empty($ingredient['IngredientsLicense']['dosage_text']) ? $ingredient['IngredientsLicense']['dosage_text'] : $ingredient['IngredientsLicense']['dosage']; ?></td>
+                            <td><?php echo $ingredient['IngredientsLicense']['unit']; ?></td>
+                        </tr><?php
                         }
                         ?></tbody>
-                    </table>
-                </div>
+                </table>
             </div>
+        </div>
         <?php } ?>
         <?php if (!empty($this->data['License']['Category'])) { ?>
-            <div class="col-md-12">
-                <h4>ATC 分類</h4>
+        <div class="col-md-12">
+            <h4>ATC 分類</h4>
                 <?php
                 foreach ($this->data['License']['Category'] AS $category) {
                     echo $this->Html->link(
@@ -512,17 +534,17 @@
                     echo '</ul>';
                 }
                 ?>
-            </div>
+        </div>
         <?php } ?>
         <?php if (!empty($prices)) { ?>
-            <div class="col-md-12" id="drug-price-charts">
-                <h4>健保價格記錄</h4>
-            </div>
+        <div class="col-md-12" id="drug-price-charts">
+            <h4>健保價格記錄</h4>
+        </div>
         <?php } ?>
         <?php if (!empty($articles)) { ?>
-            <div class="col-md-12">
-                <h4>醫事新知</h4>
-                <ul style="list-style-type: none">
+        <div class="col-md-12">
+            <h4>醫事新知</h4>
+            <ul style="list-style-type: none">
                     <?php
                     foreach ($articles AS $article) {
                         echo '<li>';
@@ -537,8 +559,8 @@
                         echo $this->Html->link("{$article['Article']['date_published']} {$article['Article']['title']}", '/articles/view/' . $article['Article']['id']) . '</li>';
                     }
                     ?>
-                </ul>
-            </div>
+            </ul>
+        </div>
         <?php } ?>
     </div>
 </section><!-- /.content -->

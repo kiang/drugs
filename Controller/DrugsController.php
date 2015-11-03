@@ -7,7 +7,7 @@ class DrugsController extends AppController {
 
     public $name = 'Drugs';
     public $paginate = array();
-    public $helpers = array('Olc');
+    public $helpers = array('Olc', 'Media.Media');
 
     public function beforeFilter() {
         parent::beforeFilter();
@@ -234,6 +234,7 @@ class DrugsController extends AppController {
         if (!empty($id)) {
             $cacheKey = "DrugsView{$id}";
             $result = Cache::read($cacheKey, 'long');
+            $result = false;
             if (!$result) {
                 $result = array();
                 $this->data = $result['data'] = $this->Drug->find('first', array(
@@ -244,7 +245,7 @@ class DrugsController extends AppController {
                             'Category' => array(
                                 'fields' => array('code', 'name', 'name_chinese'),
                             ),
-                            'Image',
+                            'Image', 'Note',
                         ),
                         'Vendor',
                     ),
