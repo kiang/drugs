@@ -234,7 +234,6 @@ class DrugsController extends AppController {
         if (!empty($id)) {
             $cacheKey = "DrugsView{$id}";
             $result = Cache::read($cacheKey, 'long');
-            $result = false;
             if (!$result) {
                 $result = array();
                 $this->data = $result['data'] = $this->Drug->find('first', array(
@@ -327,6 +326,17 @@ class DrugsController extends AppController {
                         'Link.sort' => 'ASC',
                     ),
                 ));
+                $members = array();
+                foreach($this->data['License']['Image'] AS $img) {
+                    $members[$img['member_id']] = $img['member_id'];
+                }
+                foreach($this->data['License']['Note'] AS $note) {
+                    $members[$note['member_id']] = $note['member_id'];
+                }
+                $members = $result['members'] = $this->Drug->License->Note->Member->find('list', array(
+                    'fields' => array(),
+                    'conditions' => $members,
+                ));
 
                 Cache::write($cacheKey, $result, 'long');
             } else {
@@ -339,6 +349,7 @@ class DrugsController extends AppController {
                 $articles = $result['articles'];
                 $prices = $result['prices'];
                 $links = $result['links'];
+                $members = $result['members'];
             }
             if (!empty($this->data['License']['image'])) {
                 $this->set('ogImage', $this->data['License']['image']);
@@ -356,6 +367,7 @@ class DrugsController extends AppController {
             $this->set('articles', $articles);
             $this->set('articleIds', $articleIds);
             $this->set('drugs', $drugs);
+            $this->set('members', $members);
             $this->set('categoryNames', $categoryNames);
             $this->set('editCheck', $this->Acl->check(array('Member' => array('id' => $this->loginMember['id'])), 'Licenses/admin_edit'));
         } else {

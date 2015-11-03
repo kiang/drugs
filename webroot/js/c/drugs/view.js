@@ -2,7 +2,14 @@ $('.zoom').zoom();
 
 (function () {
     $('a.imgZoomSwitch').click(function () {
+        var username = $(this).attr('data-username');
+        var userid = $(this).attr('data-userid');
         $('img#imgZoomBlock').attr('src', $(this).attr('data-orig'));
+        if (username) {
+            $('div#imgZoomUsername').html('uploaded by ' + username + userid);
+        } else {
+            $('div#imgZoomUsername').html('');
+        }
         return false;
     });
     var i = 0;

@@ -3,6 +3,7 @@
 class Member extends AppModel {
 
     public $name = 'Member';
+    public $displayField = 'username';
     public $actsAs = array('Acl' => array('requester'));
     public $belongsTo = array(
         'Group' => array(

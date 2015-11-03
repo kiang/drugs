@@ -31,12 +31,20 @@
                 $mainImage = $this->data['License']['image'];
                 if(!empty($mainImage)) {
                     $mainImage = $this->Html->url('/' . $mainImage);
-                    $gallery[$mainImage] = $mainImage;
+                    $gallery[$mainImage] = array(
+                        'small' => $mainImage,
+                        'username' => '',
+                        'userid' => '',
+                    );
                 } else {
                     $mainImage = $this->Media->url($this->data['License']['Image'][0]['path']);
                 }
                 foreach($this->data['License']['Image'] AS $img) {
-                    $gallery[$this->Media->url($img['path'])] = $this->Media->url('s/' . $img['path']);
+                    $gallery[$this->Media->url($img['path'])] = array(
+                        'small' => $this->Media->url('s/' . $img['path']),
+                        'username' => $members[$img['member_id']],
+                        'userid' => $img['member_id'],
+                    );
                 }
                 ?>
             <div class="row">
@@ -44,13 +52,16 @@
                     <img src="<?php echo $mainImage; ?>" class="img-thumbnail" id="imgZoomBlock">
                 </div>
             </div>
+            <div style="text-align: center;" id="imgZoomUsername"></div>
             <div class="clearfix"></div>
             <?php
             if(count($gallery) > 1) {
                 foreach($gallery AS $orig => $thumb) {
                     ?><a href="#" data-orig="<?php
-                    echo $orig; ?>" class="imgZoomSwitch"><img src="<?php
-                    echo $thumb; ?>" class="img-thumbnail" style="width: 50px;" /></a><?php
+                    echo $orig; ?>" data-username="<?php
+                    echo $thumb['username']; ?>" data-userid="<?php
+                    echo $thumb['userid']; ?>" class="imgZoomSwitch"><img src="<?php
+                    echo $thumb['small']; ?>" class="img-thumbnail" style="width: 50px;" /></a><?php
                 }
             }
             ?>
@@ -457,6 +468,34 @@
                 <?php } ?>
             </dl>
         </div>
+        <?php if (!empty($this->data['License']['Note'])) { ?>
+        <div class="col-md-12">
+            <h4>補充資訊</h4>
+                <?php
+                foreach ($this->data['License']['Note'] AS $note) {
+                    echo $members[$note['member_id']] . ' @ ' . $note['modified'];
+                    echo '<dl class="dl-horizontal">';
+                    if (!empty($note['info'])) {
+                        echo '<dt>藥物介紹</dt>';
+                        echo '<dd>' . nl2br($note['info']) . '</dd>';
+                    }
+                    if (!empty($note['notices'])) {
+                        echo '<dt>注意事項</dt>';
+                        echo '<dd>' . nl2br($note['notices']) . '</dd>';
+                    }
+                    if (!empty($note['side_effects'])) {
+                        echo '<dt>副作用</dt>';
+                        echo '<dd>' . nl2br($note['side_effects']) . '</dd>';
+                    }
+                    if (!empty($note['interactions'])) {
+                        echo '<dt>交互作用</dt>';
+                        echo '<dd>' . nl2br($note['interactions']) . '</dd>';
+                    }
+                    echo '</dl>';
+                }
+                ?>
+        </div>
+        <?php } ?>
         <?php if (!empty($ingredients)) { ?>
         <div class="col-md-12">
             <h4>成份表</h4>
