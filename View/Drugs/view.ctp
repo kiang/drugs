@@ -472,24 +472,32 @@
         <div class="col-md-12">
             <h4>補充資訊</h4>
                 <?php
+                $noteCount = 0;
                 foreach ($this->data['License']['Note'] AS $note) {
-                    echo $members[$note['member_id']] . ' @ ' . $note['modified'];
-                    echo '<dl class="dl-horizontal">';
+                    if(++$noteCount % 2 === 0) {
+                        $bgClass = 'bg-info';
+                    } else {
+                        $bgClass = 'bg-warning';
+                    }
+                    echo '<div class="pull-right col-md-4">by ';
+                    echo $this->Html->link($members[$note['member_id']], '/members/view/' . $note['member_id']);
+                    echo ' @ ' . $note['modified'] . '</div>';
+                    echo '<dl class="dl-horizontal col-md-8 ' . $bgClass . '">';
                     if (!empty($note['info'])) {
                         echo '<dt>藥物介紹</dt>';
-                        echo '<dd>' . nl2br($note['info']) . '</dd>';
+                        echo '<dd>' . nl2br(h($note['info'])) . '</dd>';
                     }
                     if (!empty($note['notices'])) {
                         echo '<dt>注意事項</dt>';
-                        echo '<dd>' . nl2br($note['notices']) . '</dd>';
+                        echo '<dd>' . nl2br(h($note['notices'])) . '</dd>';
                     }
                     if (!empty($note['side_effects'])) {
                         echo '<dt>副作用</dt>';
-                        echo '<dd>' . nl2br($note['side_effects']) . '</dd>';
+                        echo '<dd>' . nl2br(h($note['side_effects'])) . '</dd>';
                     }
                     if (!empty($note['interactions'])) {
                         echo '<dt>交互作用</dt>';
-                        echo '<dd>' . nl2br($note['interactions']) . '</dd>';
+                        echo '<dd>' . nl2br(h($note['interactions'])) . '</dd>';
                     }
                     echo '</dl>';
                 }

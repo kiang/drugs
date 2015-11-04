@@ -3,6 +3,7 @@ Config/core.php
 Config/database.php
 tmp
 webroot/.htaccess
+webroot/media
 
 error
 stats

@@ -11,6 +11,13 @@ class Member extends AppModel {
             'className' => 'Group',
         ),
     );
+    var $hasMany = array(
+        'Note' => array(
+            'foreignKey' => 'member_id',
+            'dependent' => true,
+            'className' => 'Note',
+        ),
+    );
 
     public function parentNode() {
         if (!$this->id && empty($this->data)) {

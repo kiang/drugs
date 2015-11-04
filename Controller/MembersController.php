@@ -12,14 +12,40 @@ class MembersController extends AppController {
     public function beforeFilter() {
         parent::beforeFilter();
         if (isset($this->Auth)) {
-            $this->Auth->allow('login', 'logout', 'setup');
+            $this->Auth->allow('login', 'logout', 'view');
+        }
+    }
+
+    public function view($memberId = 0) {
+        $memberId = intval($memberId);
+        if ($memberId > 0) {
+            $member = $this->Member->find('first', array(
+                'conditions' => array(
+                    'Member.id' => $memberId,
+                ),
+                'contain' => array(
+                    'Note' => array(
+                        'fields' => array('Note.id', 'Note.license_id', 'Note.modified'),
+                        'limit' => 10,
+                        'order' => array(
+                            'Note.modified' => 'DESC',
+                        ),
+                        'License' => array(
+                            'fields' => array('license_id'),
+                        ),
+                    ),
+                ),
+            ));
+        }
+        if (empty($member)) {
+            $this->redirect('/');
+        } else {
+            $this->set('title_for_layout', $member['Member']['username'] . ' @ ');
+            $this->set('member', $member);
         }
     }
 
     public function login() {
-        if (!$this->Member->hasAny()) {
-            $this->redirect(array('action' => 'setup'));
-        }
         if (!empty($this->request->data['Member']['username'])) {
             if ($this->Auth->login()) {
                 return $this->redirect($this->Auth->redirect());
