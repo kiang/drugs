@@ -153,6 +153,11 @@ class TfdaShell extends AppShell {
             }
 
             $licenseCode = 'fda' . $json['code'];
+            if (!isset($licenseId[$licenseCode])) {
+                $licenseId[$licenseCode] = String::uuid();
+            }
+            $id = $licenseId[$licenseCode]; //license id
+
             $key = "{$licenseId[$licenseCode]}{$vendorKeys[$vendorKey2]}";
 
             $vendorKey1 = $json['申請商名稱'];
@@ -163,11 +168,6 @@ class TfdaShell extends AppShell {
             if (!isset($vendorKeys[$vendorKey2])) {
                 $vendorKeys[$vendorKey2] = String::uuid();
             }
-
-            if (!isset($licenseId[$licenseCode])) {
-                $licenseId[$licenseCode] = String::uuid();
-            }
-            $id = $licenseId[$licenseCode]; //license id
 
             if (!isset($stack[$key])) {
                 $stack[$key] = String::uuid();
