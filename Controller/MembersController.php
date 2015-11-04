@@ -36,6 +36,8 @@ class MembersController extends AppController {
                     ),
                 ),
             ));
+        } elseif (!empty($this->loginMember['id'])) {
+            $this->redirect('/members/view/' . $this->loginMember['id']);
         }
         if (empty($member)) {
             $this->redirect('/');

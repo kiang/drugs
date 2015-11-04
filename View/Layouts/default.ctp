@@ -111,6 +111,7 @@
                                 <?php break;
                                 default:
                                     $items = array(
+                                        '<a href="' . $baseUrl . 'members/view" tabindex="10">檢視個人資料</a>',
                                         '<a href="' . $baseUrl . 'members/edit" tabindex="11">編輯個人資料</a>',
                                         '<a href="' . $baseUrl . 'members/logout" tabindex="12">登出</a>',
                                         );

@@ -499,7 +499,7 @@
                         echo '<dt>交互作用</dt>';
                         echo '<dd>' . nl2br(h($note['interactions'])) . '</dd>';
                     }
-                    echo '</dl>';
+                    echo '</dl><div class="clearfix"></div>';
                 }
                 ?>
         </div>
