@@ -100,7 +100,8 @@
                                         '<a href="' . $baseUrl . 'admin/articles" tabindex="8">文章管理</a>',
                                         '<a href="' . $baseUrl . 'admin/points" tabindex="9">醫事機構管理</a>',
                                         '<a href="' . $baseUrl . 'admin/members" tabindex="10">會員管理</a>',
-                                        '<a href="' . $baseUrl . 'members/logout" tabindex="11">登出</a>',
+                                        '<a href="' . $baseUrl . 'members/edit" tabindex="11">編輯個人資料</a>',
+                                        '<a href="' . $baseUrl . 'members/logout" tabindex="12">登出</a>',
                                         );
                                 ?>
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員功能 <b class="caret"></b></a>
@@ -109,14 +110,14 @@
                                     ?>
                                 <?php break;
                                 default:
+                                    $items = array(
+                                        '<a href="' . $baseUrl . 'members/edit" tabindex="11">編輯個人資料</a>',
+                                        '<a href="' . $baseUrl . 'members/logout" tabindex="12">登出</a>',
+                                        );
                                     ?>
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員功能 <b class="caret"></b></a>
-                                    <ul class="dropdown-menu">
-                                        <?php
-                                        echo $this->Html->tag('li', '<a href="' . $baseUrl . 'members/logout">登出</a>');
-                                        ?>
-                                    </ul>
-                                <?php
+                                    <?php
+                                    echo $this->Html->nestedList($items, array('class' => 'dropdown-menu'));
                             }
                             ?>
                         </li>
@@ -294,7 +295,9 @@
             <div class="drug-preview"></div>
 
             <div class="row">
-                <?php echo $this->Session->flash(); ?>
+                <?php echo $this->Session->flash('flash', array('params' => array(
+                    'class' => 'alert alert-warning'
+                ))); ?>
                 <div class="col-md-12">
                     <ins class="adsbygoogle"
                          style="display:block"

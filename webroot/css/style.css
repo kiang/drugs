@@ -304,3 +304,9 @@
 .ad-box img {
     width: 90%;
 }
+
+.error-message {
+    color: #A94442;
+    background-color: #F2DEDE;
+    border-color: #EBCCD1;
+}

@@ -12,7 +12,7 @@ class MembersController extends AppController {
     public function beforeFilter() {
         parent::beforeFilter();
         if (isset($this->Auth)) {
-            $this->Auth->allow('login', 'logout', 'view');
+            $this->Auth->allow('login', 'logout', 'view', 'edit');
         }
     }
 
@@ -42,6 +42,42 @@ class MembersController extends AppController {
         } else {
             $this->set('title_for_layout', $member['Member']['username'] . ' @ ');
             $this->set('member', $member);
+        }
+    }
+
+    public function edit() {
+        if (empty($this->loginMember['id'])) {
+            $this->redirect('/');
+        } else {
+            $origMember = $this->Member->find('first', array(
+                'conditions' => array(
+                    'Member.id' => $this->loginMember['id'],
+                ),
+            ));
+            if (!empty($this->request->data)) {
+                $messages = array();
+                if (!empty($this->request->data['Member']['orig_pass']) && !empty($this->request->data['Member']['new_pass'])) {
+                    if ($this->Member->getPassword($this->request->data['Member']['orig_pass']) === $origMember['Member']['password'] && $this->request->data['Member']['new_pass'] === $this->request->data['Member']['retype_pass']) {
+                        $this->request->data['Member']['password'] = $this->request->data['Member']['new_pass'];
+                        $messages[] = '密碼更新成功';
+                    } else {
+                        $messages[] = '密碼更新失敗，請檢查輸入的資料是否正確';
+                    }
+                }
+                if (!empty($this->request->data['Member']['intro'])) {
+                    $this->request->data['Member']['intro'] = strip_tags($this->request->data['Member']['intro'], '<a><p><ul><ol><li><img>');
+                }
+                $this->request->data['Member']['group_id'] = $this->loginMember['group_id'];
+                $this->Member->id = $this->loginMember['id'];
+                if ($this->Member->save($this->request->data)) {
+                    $messages[] = '個人資料更新成功';
+                } else {
+                    $messages[] = '個人資料更新失敗';
+                }
+                $this->Session->setFlash(implode('<br />', $messages));
+            } else {
+                $this->request->data = $origMember;
+            }
         }
     }
 

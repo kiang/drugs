@@ -18,6 +18,32 @@ class Member extends AppModel {
             'className' => 'Note',
         ),
     );
+    public $validate = array(
+        'email' => array(
+            'email' => array(
+                'rule' => array('email'),
+                'message' => '信箱格式有誤',
+                'allowEmpty' => true,
+                'on' => 'update', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'ext_url' => array(
+            'ext_url' => array(
+                'rule' => array('url'),
+                'message' => '網址格式有誤',
+                'allowEmpty' => true,
+                'on' => 'update', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+        'ext_image' => array(
+            'ext_image' => array(
+                'rule' => array('url'),
+                'message' => '網址格式有誤',
+                'allowEmpty' => true,
+                'on' => 'update', // Limit validation to 'create' or 'update' operations
+            ),
+        ),
+    );
 
     public function parentNode() {
         if (!$this->id && empty($this->data)) {
@@ -38,13 +64,23 @@ class Member extends AppModel {
         if (isset($this->data['Member']['password'])) {
             $this->data['Member']['password'] = trim($this->data['Member']['password']);
             if (!empty($this->data['Member']['password'])) {
-                $this->data['Member']['password'] = Security::hash(Configure::read('Security.salt') . $this->data['Member']['password']);
+                $this->data['Member']['password'] = $this->getPassword($this->data['Member']['password']);
             } else {
                 unset($this->data['Member']['password']);
             }
         }
+        if (isset($this->data['Member']['intro'])) {
+            if (false !== stripos($this->data['Member']['intro'], 'onclick') || false !== stripos($this->data['Member']['intro'], 'onload')) {
+                $this->validationErrors['intro'] = '介紹內容的標籤禁止使用 javascript';
+                return false;
+            }
+        }
 
         return true;
+    }
+
+    public function getPassword($pass) {
+        return Security::hash(Configure::read('Security.salt') . $pass);
     }
 
 }
