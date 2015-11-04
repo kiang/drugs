@@ -11,6 +11,8 @@ system("/usr/bin/php -q {$path}/cake2/lib/Cake/Console/cake.php mohw update -wor
 
 system("/usr/bin/php -q {$path}/cake2/lib/Cake/Console/cake.php mohw import -working {$path}");
 
+system("/usr/bin/php -q {$path}/cake2/lib/Cake/Console/cake.php tfda -working {$path}");
+
 system("/usr/bin/php -q {$path}/cake2/lib/Cake/Console/cake.php import dump -working {$path}");
 
 system("cd {$path} && /usr/bin/git add -A");

@@ -77,7 +77,7 @@ class TfdaShell extends AppShell {
     }
 
     public function import() {
-        //$this->getTasks();
+        $this->getTasks();
         $db = ConnectionManager::getDataSource('default');
         $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
         $this->dbQuery('SET NAMES utf8mb4;');
