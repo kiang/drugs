@@ -42,7 +42,13 @@ class MembersController extends AppController {
         if (empty($member)) {
             $this->redirect('/');
         } else {
-            $this->set('title_for_layout', $member['Member']['username'] . ' @ ');
+            if (!empty($member['Member']['nickname'])) {
+                $memberName = $member['Member']['nickname'];
+            } else {
+                $memberName = $member['Member']['username'];
+            }
+
+            $this->set('title_for_layout', $memberName . ' @ ');
             $this->set('member', $member);
         }
     }

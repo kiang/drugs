@@ -327,16 +327,25 @@ class DrugsController extends AppController {
                     ),
                 ));
                 $members = array();
-                foreach($this->data['License']['Image'] AS $img) {
+                foreach ($this->data['License']['Image'] AS $img) {
                     $members[$img['member_id']] = $img['member_id'];
                 }
-                foreach($this->data['License']['Note'] AS $note) {
+                foreach ($this->data['License']['Note'] AS $note) {
                     $members[$note['member_id']] = $note['member_id'];
                 }
-                $members = $result['members'] = $this->Drug->License->Note->Member->find('list', array(
-                    'fields' => array(),
+                $dbMembers = $this->Drug->License->Note->Member->find('all', array(
+                    'fields' => array('id', 'username', 'nickname'),
                     'conditions' => $members,
                 ));
+                $members = array();
+                foreach ($dbMembers AS $dbMember) {
+                    if (!empty($dbMember['Member']['nickname'])) {
+                        $members[$dbMember['Member']['id']] = $dbMember['Member']['nickname'];
+                    } else {
+                        $members[$dbMember['Member']['id']] = $dbMember['Member']['username'];
+                    }
+                }
+                $result['members'] = $members;
 
                 Cache::write($cacheKey, $result, 'long');
             } else {
