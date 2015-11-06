@@ -2,7 +2,7 @@
 <h2>關於本站</h2>
 <p>&nbsp;</p>
 <h4 class="text-danger">注意！</h4>
-<h6>本站主要蒐集與提供資訊，無法取代任何醫療行為，如果有任何疑問請洽詢<?php echo $this->Html->link('專業醫事機構', '/points'); ?>。</h6>
+<h6>本站資料僅供參考，不宜使用在疾病判斷及治療，本網站不承擔任何責任或保證、也不表明任何立場或保證內容的準確性，任何疑問請洽詢<?php echo $this->Html->link('專業醫事機構', '/points'); ?>。</h6>
 <dl>
     <p>&nbsp;</p>
     <dt><a href="https://creativecommons.org/licenses/by/4.0/deed.zh_TW">Creative Commons 姓名標示 4.0 國際 (CC BY 4.0) 授權</a></dt>
