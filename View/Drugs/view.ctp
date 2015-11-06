@@ -479,7 +479,7 @@
                     }
                     echo '<div class="pull-right col-md-4">by ';
                     echo $this->Html->link($members[$note['member_id']], '/members/view/' . $note['member_id']);
-                    echo ' @ ' . $note['modified'] . '</div>';
+                    echo ' @ ' . $note['modified'] . ' (CC BY 4.0)</div>';
                     echo '<dl class="dl-horizontal col-md-8 ' . $bgClass . '">';
                     if (!empty($note['info'])) {
                         echo '<dt>藥物介紹</dt>';

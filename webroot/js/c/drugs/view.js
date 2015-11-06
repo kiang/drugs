@@ -6,7 +6,7 @@ $('.zoom').zoom();
         var userid = $(this).attr('data-userid');
         $('img#imgZoomBlock').attr('src', $(this).attr('data-orig'));
         if (username) {
-            $('div#imgZoomUsername').html('uploaded by <a href="' + baseUrl + 'members/view/' + userid + '">' + username + '</a>');
+            $('div#imgZoomUsername').html('uploaded by <a href="' + baseUrl + 'members/view/' + userid + '">' + username + '</a> (CC BY 4.0)');
         } else {
             $('div#imgZoomUsername').html('');
         }
