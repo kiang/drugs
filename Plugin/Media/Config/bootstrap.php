@@ -234,7 +234,7 @@ Media_Info::config(array(
 
 $s = array('convert' => 'image/jpeg', 'fitCrop' => array(100, 100));
 $m = array('convert' => 'image/jpeg', 'fit'     => array(300, 300));
-$l = array('convert' => 'image/jpeg', 'fit'     => array(600, 440));
+$l = array('convert' => 'image/jpeg', 'fit'     => array(600, 600));
 $original = array('clone' => 'copy');
 
 Configure::write('Media.filter', array(
