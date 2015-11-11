@@ -38,7 +38,7 @@
                     $mainImage = $this->Media->url($this->data['License']['Image'][0]['path']);
                 }
                 foreach($this->data['License']['Image'] AS $img) {
-                    $gallery[$this->Media->url($img['path'])] = array(
+                    $gallery[$this->Media->url('l/' . $img['path'])] = array(
                         'small' => $this->Media->url('s/' . $img['path']),
                         'username' => $members[$img['member_id']],
                         'userid' => $img['member_id'],

@@ -10,6 +10,7 @@ $('.zoom').zoom();
         } else {
             $('div#imgZoomUsername').html('');
         }
+        $('.zoom').zoom();
         return false;
     });
     var i = 0;
