@@ -7,9 +7,9 @@
             if (!empty($member['Member']['ext_image'])) {
                 $options = array();
                 if (!empty($member['Member']['ext_url'])) {
-                    echo '<a href="' . $member['Member']['ext_url'] . '" target="_blank"><img src="' . $member['Member']['ext_image'] . '" alt="" /></a>';
+                    echo '<a href="' . $member['Member']['ext_url'] . '" target="_blank"><img src="' . $member['Member']['ext_image'] . '" alt="" class="img-thumbnail" /></a>';
                 } else {
-                    echo '<img src="" alt="' . $member['Member']['ext_image'] . '" />';
+                    echo '<img src="' . $member['Member']['ext_image'] . '" class="img-thumbnail" alt="" />';
                 }
             }
             echo '<div class="clearfix"></div>' . $member['Member']['intro'];
