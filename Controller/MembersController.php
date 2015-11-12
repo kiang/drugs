@@ -158,7 +158,7 @@ class MembersController extends AppController {
             );
         }
         $this->paginate['Member'] = array(
-            'order' => array('Member.id DESC'),
+            'order' => array('Member.modified' => 'DESC'),
             'contain' => array('Group'),
             'limit' => 40,
         );
