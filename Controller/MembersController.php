@@ -166,14 +166,6 @@ class MembersController extends AppController {
         $this->set('keyword', $keyword);
     }
 
-    public function admin_view($id = null) {
-        if (!$id) {
-            $this->Session->setFlash('請依照網頁指示操作');
-            $this->redirect(array('action' => 'index'));
-        }
-        $this->set('member', $this->Member->read(null, $id));
-    }
-
     public function admin_add() {
         if (!empty($this->request->data)) {
             $this->Member->create();
