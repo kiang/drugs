@@ -27,6 +27,7 @@
                         <table class="table table-bordered" id="MembersAdminIndexTable">
                             <tr>
                                 <th><?php echo $this->Paginator->sort('username', '帳號'); ?></th>
+                                <th><?php echo $this->Paginator->sort('group_id', '群組'); ?></th>
                                 <th><?php echo $this->Paginator->sort('nickname', '暱稱'); ?></th>
                                 <th><?php echo $this->Paginator->sort('email', '信箱'); ?></th>
                                 <th><?php echo $this->Paginator->sort('user_status', '狀態'); ?></th>
@@ -45,6 +46,9 @@
                                 <tr<?php echo $class; ?>>
                                     <td>
                                         <?php echo $member['Member']['username']; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $member['Group']['name']; ?>
                                     </td>
                                     <td>
                                         <?php echo $member['Member']['nickname']; ?>
