@@ -36,13 +36,13 @@
                         echo '<div class="clearfix"></div>';
                         echo $this->Form->hidden('Image.0.model', array('value' => 'License'));
                         echo $this->Form->hidden('Image.0.group', array('value' => 'Image'));
-                        echo $this->Form->input('Image.0.file', array('type' => 'file', 'label' => false));
+                        echo $this->Form->input('Image.0.file', array('type' => 'file', 'label' => false, 'accept' => 'image/*'));
                         echo $this->Form->hidden('Image.1.model', array('value' => 'License'));
                         echo $this->Form->hidden('Image.1.group', array('value' => 'Image'));
-                        echo $this->Form->input('Image.1.file', array('type' => 'file', 'label' => false));
+                        echo $this->Form->input('Image.1.file', array('type' => 'file', 'label' => false, 'accept' => 'image/*'));
                         echo $this->Form->hidden('Image.2.model', array('value' => 'License'));
                         echo $this->Form->hidden('Image.2.group', array('value' => 'Image'));
-                        echo $this->Form->input('Image.2.file', array('type' => 'file', 'label' => false));
+                        echo $this->Form->input('Image.2.file', array('type' => 'file', 'label' => false, 'accept' => 'image/*'));
                         ?>
                         <div class="clearfix"></div>
                         * 每次可以上傳三張圖片，目前沒有限制單一藥物可以上傳的圖片數量
