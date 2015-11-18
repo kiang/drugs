@@ -99,7 +99,9 @@ class AttachmentsController extends AppController {
     public function admin_rotate($id = null, $angle = null) {
         if (!empty($id)) {
             $img = $this->Attachment->find('first', array(
-                'Attachment.id' => $id,
+                'conditions' => array(
+                    'Attachment.id' => $id,
+                ),
             ));
         }
         if (!empty($img)) {
