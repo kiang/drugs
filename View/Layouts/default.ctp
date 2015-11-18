@@ -96,7 +96,7 @@
                                 case '1': 
                                     $items = array(
                                         '<a href="' . $baseUrl . 'admin/articles/add" tabindex="6">新增文章</a>',
-                                        '<a href="' . $baseUrl . 'admin/points" tabindex="7">新增醫事機構</a>',
+                                        '<a href="' . $baseUrl . 'admin/points/add" tabindex="7">新增醫事機構</a>',
                                         '<a href="' . $baseUrl . 'admin/articles" tabindex="8">文章管理</a>',
                                         '<a href="' . $baseUrl . 'admin/points" tabindex="9">醫事機構管理</a>',
                                         '<a href="' . $baseUrl . 'admin/members" tabindex="10">會員管理</a>',
@@ -398,7 +398,7 @@
         </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="<?php echo $baseUrl; ?>js/flat-ui-pro.min.js"></script>
-        <script src="<?php echo $baseUrl; ?>js/jquery-ui.js"></script>
+        <script src="//https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
         <script src="<?php echo $baseUrl; ?>js/tag-it.js"></script>
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <?php

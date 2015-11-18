@@ -146,21 +146,6 @@ class PointsController extends AppController {
     }
 
     /**
-     * admin_view method
-     *
-     * @throws NotFoundException
-     * @param string $id
-     * @return void
-     */
-    public function admin_view($id = null) {
-        if (!$this->Point->exists($id)) {
-            throw new NotFoundException(__('Invalid point'));
-        }
-        $options = array('conditions' => array('Point.' . $this->Point->primaryKey => $id));
-        $this->set('point', $this->Point->find('first', $options));
-    }
-
-    /**
      * admin_add method
      *
      * @return void

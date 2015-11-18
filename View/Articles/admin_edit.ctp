@@ -1,7 +1,8 @@
-<!-- Content Header (Page header) -->
-<section class="content-header">
-    <h1>編輯文章</h1>
-</section>
+<h4>文章編輯</h4>
+<ol class="breadcrumb">
+    <li><?php echo $this->Html->link('列表', array('action' => 'index')); ?></li>
+    <li class="active">文章編輯</li>
+</ol>
 
 <!-- Main content -->
 <section class="content">

@@ -1,8 +1,4 @@
-<!-- Content Header (Page header) -->
-<section class="content-header">
-    <h1>會員管理</h1>
-</section>
-
+<h4>會員管理</h4>
 <!-- Main content -->
 <section class="content">
     <div class="row">
@@ -66,8 +62,8 @@
                                         <?php echo $member['Member']['modified']; ?>
                                     </td>
                                     <td class="actions">
-                                        <?php echo $this->Html->link('編輯', array('action' => 'edit', $member['Member']['id']), array('class' => 'dialogControl')); ?> 
-                                        <?php echo $this->Html->link('刪除', array('action' => 'delete', $member['Member']['id']), null, __('Delete the item, sure?', true)); ?>  
+                                        <?php echo $this->Html->link('編輯', array('action' => 'edit', $member['Member']['id']), array('class' => 'btn btn-default')); ?> 
+                                        <?php echo $this->Html->link('刪除', array('action' => 'delete', $member['Member']['id']), array('class' => 'btn btn-default'), __('Delete the item, sure?', true)); ?>  
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

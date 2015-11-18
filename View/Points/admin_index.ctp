@@ -1,8 +1,4 @@
-<!-- Content Header (Page header) -->
-<section class="content-header">
-    <h1>醫事機構管理</h1>
-</section>
-
+<h4>醫事機構管理</h4>
 <!-- Main content -->
 <section class="content">
     <div class="row">
@@ -21,35 +17,32 @@
                                     <th><?php echo $this->Paginator->sort('type'); ?></th>
                                     <th><?php echo $this->Paginator->sort('category'); ?></th>
                                     <th><?php echo $this->Paginator->sort('biz_type'); ?></th>
-                                    <th><?php echo $this->Paginator->sort('service'); ?></th>
                                     <th><?php echo $this->Paginator->sort('city'); ?></th>
                                     <th><?php echo $this->Paginator->sort('town'); ?></th>
                                     <th><?php echo $this->Paginator->sort('phone'); ?></th>
-                                    <th><?php echo $this->Paginator->sort('url'); ?></th>
                                     <th class="actions"><?php echo __('Actions'); ?></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php foreach ($points as $point): ?>
                                     <tr>
-                                        <td><?php echo h($point['Point']['nhi_id']); ?>&nbsp;</td>
+                                        <td><?php
+                                            if (!empty($point['Point']['url'])) {
+                                                echo $this->Html->link($point['Point']['nhi_id'], $point['Point']['url'], array('target' => '_blank'));
+                                            } else {
+                                                echo h($point['Point']['nhi_id']);
+                                            }
+                                            ?>&nbsp;</td>
                                         <td><?php echo h($point['Point']['name']); ?>&nbsp;</td>
                                         <td><?php echo h($point['Point']['type']); ?>&nbsp;</td>
                                         <td><?php echo h($point['Point']['category']); ?>&nbsp;</td>
                                         <td><?php echo h($point['Point']['biz_type']); ?>&nbsp;</td>
-                                        <td><?php echo h($point['Point']['service']); ?>&nbsp;</td>
                                         <td><?php echo h($point['Point']['city']); ?>&nbsp;</td>
                                         <td><?php echo h($point['Point']['town']); ?>&nbsp;</td>
                                         <td><?php echo h($point['Point']['phone']); ?>&nbsp;</td>
-                                        <td><?php
-                                            if (!empty($point['Point']['url'])) {
-                                                echo $this->Html->link($point['Point']['url'], $point['Point']['url']);
-                                            }
-                                            ?>&nbsp;</td>
-                                        <td class="actions">
-                                            <?php echo $this->Html->link(__('View'), array('action' => 'view', $point['Point']['id'])); ?>
-                                            <?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $point['Point']['id'])); ?>
-                                            <?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $point['Point']['id']), array(), __('Are you sure you want to delete # %s?', $point['Point']['id'])); ?>
+                                        <td>
+                                            <?php echo $this->Html->link(__('Edit'), array('action' => 'edit', $point['Point']['id']), array('class' => 'btn btn-default')); ?>
+                                            <?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $point['Point']['id']), array('class' => 'btn btn-default'), __('Are you sure you want to delete # %s?', $point['Point']['id'])); ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -63,13 +56,6 @@
                             ?>                        </p>
                         <div class="paging"><?php echo $this->element('paginator'); ?></div>
                     </div>
-                    <div class="actions">
-                        <h3><?php echo __('Actions'); ?></h3>
-                        <ul>
-                            <li><?php echo $this->Html->link(__('New Point'), array('action' => 'add')); ?></li>
-                        </ul>
-                    </div>
-
                 </div>
             </div>
         </div>
