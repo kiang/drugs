@@ -44,6 +44,7 @@
                         echo $this->Form->hidden('Image.2.group', array('value' => 'Image'));
                         echo $this->Form->input('Image.2.file', array('type' => 'file', 'label' => false, 'accept' => 'image/*'));
                         ?>
+                        <?php echo $this->Form->submit('送出'); ?>
                         <div class="clearfix"></div>
                         * 每次可以上傳三張圖片，目前沒有限制單一藥物可以上傳的圖片數量
                         <hr />
