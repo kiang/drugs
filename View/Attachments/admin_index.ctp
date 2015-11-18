@@ -39,7 +39,11 @@
                                             <?php echo $this->Html->link($attachment['Member']['username'], array('controller' => 'members', 'action' => 'view', $attachment['Member']['id'])); ?>
                                         </td>
                                         <td><?php
-                                            echo $this->Media->embed('s/' . $attachment['Attachment']['path']);
+                                            echo $this->Media->embed('m/' . $attachment['Attachment']['path']);
+                                            echo '<br />';
+                                            echo $this->Html->link('< 向左', array('action' => 'rotate', $attachment['Attachment']['id'], '270'));
+                                            echo ' | ' . $this->Html->link('180 度翻轉', array('action' => 'rotate', $attachment['Attachment']['id'], '180'));
+                                            echo ' | ' . $this->Html->link('向右 >', array('action' => 'rotate', $attachment['Attachment']['id'], '90'));
                                             ?>&nbsp;</td>
                                         <td><?php echo h($attachment['Attachment']['alternative']); ?>&nbsp;</td>
                                         <td><?php echo h($attachment['Attachment']['group']); ?>&nbsp;</td>

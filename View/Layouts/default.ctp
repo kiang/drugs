@@ -56,12 +56,16 @@
 
                 <div class="collapse navbar-collapse" id="navbar-collapse">
                     <ul class="nav navbar-nav nav-menu">
-                        <li<?php if (strrpos($this->here, 'articles') === false) {
-            echo ' class="active"';
-        } ?>><a href="<?php echo $this->Html->url('/'); ?>" tabindex="4">藥物搜尋</a></li>
-                        <li<?php if (strrpos($this->here, 'articles') !== false) {
-            echo ' class="active"';
-        } ?>><a href="<?php echo $this->Html->url('/articles'); ?>" tabindex="5">醫事新知</a></li>
+                        <li<?php
+                        if (strrpos($this->here, 'articles') === false) {
+                            echo ' class="active"';
+                        }
+                        ?>><a href="<?php echo $this->Html->url('/'); ?>" tabindex="4">藥物搜尋</a></li>
+                        <li<?php
+                        if (strrpos($this->here, 'articles') !== false) {
+                            echo ' class="active"';
+                        }
+                        ?>><a href="<?php echo $this->Html->url('/articles'); ?>" tabindex="5">醫事新知</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
@@ -303,11 +307,11 @@ switch (Configure::read('loginMember.group_id')) {
             <div class="drug-preview"></div>
 
             <div class="row">
-<?php
-echo $this->Session->flash('flash', array('params' => array(
-        'class' => 'alert alert-warning'
-)));
-?>
+                <?php
+                echo $this->Session->flash('flash', array('params' => array(
+                        'class' => 'alert alert-warning'
+                )));
+                ?>
                 <div class="col-md-12">
                     <ins class="adsbygoogle"
                          style="display:block"
@@ -394,11 +398,11 @@ echo $content_for_layout;
                         <ul class="bottom-menu-list">
                             <li><?php echo $this->Html->link('信雲國際股份有限公司', 'http://syi.tw/', array('target' => '_blank')); ?> 建置 </li>
                             <li><?php echo $this->Html->link('關於本站', '/pages/about'); ?></li>
-<?php
-if (isset($apiRoute)) {
-    echo '<li>' . $this->Html->link('本頁 API', $apiRoute, array('target' => '_blank')) . '</li>';
-}
-?>
+                            <?php
+                            if (isset($apiRoute)) {
+                                echo '<li>' . $this->Html->link('本頁 API', $apiRoute, array('target' => '_blank')) . '</li>';
+                            }
+                            ?>
                             <li>聲明：本站資料僅供參考，不宜使用在疾病判斷及治療，本網站不承擔任何責任或保證、也不表明任何立場或保證內容的準確性，任何疑問請洽詢<?php echo $this->Html->link('專業醫事機構', '/points'); ?>。</li>
                         </ul>
                     </div>
@@ -410,10 +414,10 @@ if (isset($apiRoute)) {
         <script src="//https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
         <script src="<?php echo $baseUrl; ?>js/tag-it.js"></script>
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<?php
-echo $this->Html->script('c/layout', array('inline' => true));
-echo $scripts_for_layout;
-?>
+        <?php
+        echo $this->Html->script('c/layout', array('inline' => true));
+        echo $scripts_for_layout;
+        ?>
 
 <?php if (Configure::read('debug') === 0 && Configure::read('loginMember.group_id') !== '1') { ?>
             <script>
@@ -434,5 +438,6 @@ echo $scripts_for_layout;
                     (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
 <?php } ?>
+<?php echo $this->element('sql_dump'); ?>
     </body>
 </html>

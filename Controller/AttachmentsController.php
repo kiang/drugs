@@ -96,4 +96,29 @@ class AttachmentsController extends AppController {
         return $this->redirect(array('action' => 'index'));
     }
 
+    public function admin_rotate($id = null, $angle = null) {
+        if (!empty($id)) {
+            $img = $this->Attachment->find('first', array(
+                'Attachment.id' => $id,
+            ));
+        }
+        if (!empty($img)) {
+            $images = array(
+                $img['Attachment']['file'],
+            );
+            foreach (glob(MEDIA_FILTER . '*/' . substr($img['Attachment']['path'], 0, strrpos($img['Attachment']['path'], '.')) . '.*') AS $s) {
+                $images[] = $s;
+            }
+            $color = new \ImagickPixel('white');
+            foreach ($images AS $image) {
+                $imagick = new \Imagick($image);
+                $imagick->rotateimage($color, $angle);
+                $imagick->writeImage($image);
+            }
+        } else {
+            throw new NotFoundException(__('Invalid attachment'));
+        }
+        return $this->redirect(array('action' => 'edit', $id));
+    }
+
 }
