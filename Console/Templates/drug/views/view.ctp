@@ -1,7 +1,11 @@
 <!-- Content Header (Page header) -->
-<section class="content-header">
-    <h1><?php echo "<?php echo __('{$singularHumanName}'); ?>"; ?></h1>
-</section>
+<h4><?php echo "<?php echo __('{$singularHumanName}'); ?>"; ?></h4>
+<ol class="breadcrumb">
+    <?php
+    echo "<li><?php echo \$this->Html->link(__('List " . $singularHumanName . "'), array('action' => 'index')); ?> </li>\n";
+    ?>
+    <li class="active"><?php echo "<?php echo __('{$singularHumanName}'); ?>"; ?></li>
+</ol>
 
 <!-- Main content -->
 <section class="content">

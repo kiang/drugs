@@ -1,7 +1,11 @@
 <!-- Content Header (Page header) -->
-<section class="content-header">
-    <h1><?php printf("<?php echo __('%s %s'); ?>", Inflector::humanize($action), $singularHumanName); ?></h1>
-</section>
+<h4><?php printf("<?php echo __('%s %s'); ?>", Inflector::humanize($action), $singularHumanName); ?></h4>
+<ol class="breadcrumb">
+    <?php
+    echo "<li><?php echo \$this->Html->link(__('List " . $singularHumanName . "'), array('action' => 'index')); ?> </li>\n";
+    ?>
+    <li class="active"><?php printf("<?php echo __('%s %s'); ?>", Inflector::humanize($action), $singularHumanName); ?></li>
+</ol>
 
 <!-- Main content -->
 <section class="content">

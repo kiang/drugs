@@ -1,7 +1,5 @@
 <!-- Content Header (Page header) -->
-<section class="content-header">
-    <h1><?php echo "<?php echo __('{$pluralHumanName}'); ?>"; ?></h1>
-</section>
+<h4><?php echo "<?php echo __('{$pluralHumanName}'); ?>"; ?></h4>
 
 <!-- Main content -->
 <section class="content">
