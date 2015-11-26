@@ -411,7 +411,7 @@ echo $content_for_layout;
         </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="<?php echo $baseUrl; ?>js/flat-ui-pro.min.js"></script>
-        <script src="//https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script src="<?php echo $baseUrl; ?>js/tag-it.js"></script>
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <?php
