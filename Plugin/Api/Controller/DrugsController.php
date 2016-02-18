@@ -12,7 +12,7 @@ class DrugsController extends ApiAppController {
         $categoryId = intval($categoryId);
         if ($categoryId > 0) {
             $cPage = isset($this->request->params['named']['page']) ? $this->request->params['named']['page'] : '1';
-            $cacheKey = "DrugsCategory{$name}{$cPage}";
+            $cacheKey = "DrugsCategory{$categoryId}{$cPage}";
             $result = Cache::read($cacheKey, 'long');
             if (!$result) {
                 $result = $scope = array();
@@ -97,12 +97,12 @@ class DrugsController extends ApiAppController {
 
     public function outward($term = null) {
         $cPage = isset($this->request->params['named']['page']) ? $this->request->params['named']['page'] : '1';
-        $cacheKey = "DrugsOutward{$name}{$cPage}";
+        $cacheKey = "DrugsOutward{$term}{$cPage}";
         $result = Cache::read($cacheKey, 'long');
         if (!$result) {
             $result = $scope = array();
-            if (!empty($name)) {
-                $name = Sanitize::clean($name);
+            if (!empty($term)) {
+                $name = Sanitize::clean($term);
                 $name = str_replace('色', '', $name);
                 $keywords = explode(' ', $name);
                 $keywordCount = 0;
@@ -155,12 +155,12 @@ class DrugsController extends ApiAppController {
 
     public function index($term = '') {
         $cPage = isset($this->request->params['named']['page']) ? $this->request->params['named']['page'] : '1';
-        $cacheKey = "DrugsIndex{$name}{$cPage}";
+        $cacheKey = "DrugsIndex{$term}{$cPage}";
         $result = Cache::read($cacheKey, 'long');
         if (!$result) {
             $result = $scope = array();
-            if (!empty($name)) {
-                $name = Sanitize::clean($name);
+            if (!empty($term)) {
+                $name = Sanitize::clean($term);
                 $keywords = explode(' ', $name);
                 $keywordCount = 0;
                 foreach ($keywords AS $keyword) {
