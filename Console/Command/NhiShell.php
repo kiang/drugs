@@ -22,8 +22,8 @@ class NhiShell extends AppShell {
     );
 
     public function main() {
-        $this->hospitals();
-        //$this->codes();
+        //$this->hospitals();
+        $this->codes();
     }
 
     public function newCodes() {
@@ -95,86 +95,92 @@ class NhiShell extends AppShell {
         $result = array();
         $page = file_get_contents($pageFile);
         $pos = strpos($page, 'all.b5.zip');
-        $pos = strpos($page, '>', $pos);
-        $page = substr($page, 0, $pos);
-        $pos = strrpos($page, '<font color="red">');
-        $parts = preg_split('/["><]/', substr($page, $pos));
-        if (count($parts) === 12) {
-            preg_match_all('/[0-9]+/', $parts[4], $matches);
-            $matches[0][0] += 1911;
-            $parts[8] = 'http://www.nhi.gov.tw/' . $parts[8];
-            $pool = implode('', $matches[0]) . '_' . md5($parts[8]);
-            $zipFile = $targetPath . '/' . $pool . '.zip';
-            if (!file_exists($zipFile)) {
-                file_put_contents($zipFile, file_get_contents($parts[8]));
+        if (false !== $pos) {
+            $pos = strpos($page, '>', $pos);
+            $parts = preg_split('/["><]/', substr($page, 0, $pos));
+            $zipUrl = false;
+            foreach ($parts AS $partKey => $part) {
+                if (false !== strpos($part, 'all.b5.zip')) {
+                    $zipUrl = 'http://www.nhi.gov.tw' . $part;
+                    $poolKey = $partKey - 2;
+                    $dateParts = explode('.', substr(preg_replace('/[^0-9\\.]/', '', $parts[$poolKey]), -9));
+                    $dateParts[0] += 1911;
+                    $pool = implode('', $dateParts) . '_' . md5($zipUrl);
+                }
             }
-            if (!file_exists("{$tmpPath}/{$pool}")) {
-                mkdir("{$tmpPath}/{$pool}", 0777, true);
-                $zip = new ZipArchive;
-                $res = $zip->open($zipFile);
-                $zip->extractTo("{$tmpPath}/{$pool}");
-                $zip->close();
-            }
-            foreach (glob("{$tmpPath}/{$pool}/*") AS $b5) {
-                $fh = fopen($b5, 'r');
-                $len = array();
-                fgets($fh, 2048);
-                while ($line = fgets($fh, 2048)) {
-                    if (substr($line, 17, 1) === 'X' || !isset($this->prefixCodes[substr($line, 17, 1)])) {
-                        continue;
-                    }
-                    $item = array(
-                        0 => substr($line, 0, 2), //新
-                        1 => substr($line, 3, 10), //口服錠註記
-                        2 => substr($line, 14, 2), //複
-                        3 => substr($line, 17, 10), //藥品代碼
-                        4 => substr($line, 28, 9), //參考價
-                        5 => substr($line, 38, 7), //有效期
-                        6 => substr($line, 46, 7),
-                        7 => substr($line, 54, 120), //英文名稱
-                        8 => substr($line, 175, 17), //規格量 規格單位
-                        9 => substr($line, 183, 11), //規格單位
-                        10 => substr($line, 195, 55), //成份名稱
-                        11 => substr($line, 251, 12), //成份含量
-                        12 => substr($line, 264, 10), //成份單位
-                        13 => substr($line, 275, 12), //劑型
-                        14 => substr($line, 290, 12), //理分類代碼
-                        15 => substr($line, 301, 42), //製造廠名稱
-                        16 => substr($line, 344, 8), //ATC CODE
-                    );
+            if (false !== $zipUrl) {
+                $zipFile = $targetPath . '/' . $pool . '.zip';
+                if (!file_exists($zipFile)) {
+                    file_put_contents($zipFile, file_get_contents($zipUrl));
+                }
+                if (!file_exists("{$tmpPath}/{$pool}")) {
+                    mkdir("{$tmpPath}/{$pool}", 0777, true);
+                    $zip = new ZipArchive;
+                    $res = $zip->open($zipFile);
+                    $zip->extractTo("{$tmpPath}/{$pool}");
+                    $zip->close();
+                }
+                foreach (glob("{$tmpPath}/{$pool}/*") AS $b5) {
+                    $fh = fopen($b5, 'r');
+                    $len = array();
+                    fgets($fh, 2048);
+                    while ($line = fgets($fh, 2048)) {
+                        if (substr($line, 17, 1) === 'X' || !isset($this->prefixCodes[substr($line, 17, 1)])) {
+                            continue;
+                        }
+                        $item = array(
+                            0 => substr($line, 0, 2), //新
+                            1 => substr($line, 3, 10), //口服錠註記
+                            2 => substr($line, 14, 2), //複
+                            3 => substr($line, 17, 10), //藥品代碼
+                            4 => substr($line, 28, 9), //參考價
+                            5 => substr($line, 38, 7), //有效期
+                            6 => substr($line, 46, 7),
+                            7 => substr($line, 54, 120), //英文名稱
+                            8 => substr($line, 175, 17), //規格量 規格單位
+                            9 => substr($line, 183, 11), //規格單位
+                            10 => substr($line, 195, 55), //成份名稱
+                            11 => substr($line, 251, 12), //成份含量
+                            12 => substr($line, 264, 10), //成份單位
+                            13 => substr($line, 275, 12), //劑型
+                            14 => substr($line, 290, 12), //理分類代碼
+                            15 => substr($line, 301, 42), //製造廠名稱
+                            16 => substr($line, 344, 8), //ATC CODE
+                        );
 
-                    foreach ($item AS $k => $v) {
-                        $item[$k] = trim(mb_convert_encoding($v, 'utf-8', 'big5'));
-                    }
-                    $licenseCode = $this->prefixCodes[substr($item[3], 0, 1)] . '0' . substr($item[3], 2, 5);
-                    $suffix = substr($item[3], -3);
+                        foreach ($item AS $k => $v) {
+                            $item[$k] = trim(mb_convert_encoding($v, 'utf-8', 'big5'));
+                        }
+                        $licenseCode = $this->prefixCodes[substr($item[3], 0, 1)] . '0' . substr($item[3], 2, 5);
+                        $suffix = substr($item[3], -3);
 
-                    if (!isset($result[$licenseCode])) {
-                        $result[$licenseCode] = array();
+                        if (!isset($result[$licenseCode])) {
+                            $result[$licenseCode] = array();
+                        }
+                        if (!isset($result[$licenseCode][$suffix])) {
+                            $result[$licenseCode][$suffix] = array();
+                        }
+                        $result[$licenseCode][$suffix][$item[6]] = $item;
                     }
-                    if (!isset($result[$licenseCode][$suffix])) {
-                        $result[$licenseCode][$suffix] = array();
+                    fclose($fh);
+                }
+                foreach ($result AS $licenseCode => $suffixes) {
+                    foreach ($suffixes AS $suffix => $items) {
+                        ksort($result[$licenseCode][$suffix]);
                     }
-                    $result[$licenseCode][$suffix][$item[6]] = $item;
+                    ksort($result[$licenseCode]);
+                }
+                ksort($result);
+                $fh = fopen("{$targetPath}/licenses.csv", 'w');
+                foreach ($result AS $licenseCode => $suffixes) {
+                    foreach ($suffixes AS $suffix => $items) {
+                        foreach ($items AS $item) {
+                            fputcsv($fh, array_merge(array($licenseCode, $suffix), $item));
+                        }
+                    }
                 }
                 fclose($fh);
             }
-            foreach ($result AS $licenseCode => $suffixes) {
-                foreach ($suffixes AS $suffix => $items) {
-                    ksort($result[$licenseCode][$suffix]);
-                }
-                ksort($result[$licenseCode]);
-            }
-            ksort($result);
-            $fh = fopen("{$targetPath}/licenses.csv", 'w');
-            foreach ($result AS $licenseCode => $suffixes) {
-                foreach ($suffixes AS $suffix => $items) {
-                    foreach ($items AS $item) {
-                        fputcsv($fh, array_merge(array($licenseCode, $suffix), $item));
-                    }
-                }
-            }
-            fclose($fh);
         } else {
             $this->out('網頁內容有變動，無法處理。');
         }
