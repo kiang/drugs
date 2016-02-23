@@ -38,7 +38,7 @@ class DrugsController extends AppController {
         $categoryId = intval($categoryId);
         if ($categoryId > 0) {
             $cPage = isset($this->request->params['named']['page']) ? $this->request->params['named']['page'] : '1';
-            $cacheKey = "DrugsCategory{$name}{$cPage}";
+            $cacheKey = "DrugsCategory{$categoryId}{$cPage}";
             $result = Cache::read($cacheKey, 'long');
             if (!$result) {
                 $result = $scope = array();
