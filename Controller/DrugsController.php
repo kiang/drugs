@@ -12,7 +12,7 @@ class DrugsController extends AppController {
     public function beforeFilter() {
         parent::beforeFilter();
         if (isset($this->Auth)) {
-            $this->Auth->allow('index', 'view', 'outward', 'category');
+            $this->Auth->allow('index', 'view', 'outward', 'category', 'categories');
         }
     }
 
@@ -32,6 +32,51 @@ class DrugsController extends AppController {
             $path .= '/page:' . $this->request->params['paging']['Drug']['page'];
         }
         $this->set('apiRoute', $path);
+    }
+    
+    public function categories($name = null) {
+        $cPage = isset($this->request->params['named']['page']) ? $this->request->params['named']['page'] : '1';
+        $cacheKey = "Categories{$name}{$cPage}";
+        $result = Cache::read($cacheKey, 'long');
+        $result = false;
+        if (!$result) {
+            $result = $scope = array();
+            if (!empty($name)) {
+                $name = Sanitize::clean($name);
+                $keywords = explode(' ', $name);
+                $keywordCount = 0;
+                foreach ($keywords AS $keyword) {
+                    if (++$keywordCount < 3) {
+                        $scope[]['OR'] = array(
+                            'Category.code LIKE' => "%{$keyword}%",
+                            'Category.name LIKE' => "%{$keyword}%",
+                            'Category.name_chinese LIKE' => "%{$keyword}%",
+                        );
+                    }
+                }
+            }
+            $this->paginate['Category'] = array(
+                'limit' => 20,
+                'order' => array(
+                    'Category.code' => 'ASC',
+                    'Category.name' => 'ASC',
+                ),
+            );
+            $result['items'] = $this->paginate($this->Drug->License->Category, $scope);
+            $result['paging'] = $this->request->params['paging'];
+            Cache::write($cacheKey, $result, 'long');
+        } else {
+            $this->request->params['paging'] = $result['paging'];
+        }
+
+        $this->set('url', array($name));
+        $title = '';
+        if (!empty($name)) {
+            $title = "{$name} 相關";
+        }
+        $this->set('title_for_layout', $title . 'ATC分類 @ ');
+        $this->set('items', $result['items']);
+        $this->set('keyword', $name);
     }
 
     public function category($categoryId = 0) {
@@ -174,7 +219,7 @@ class DrugsController extends AppController {
         $this->set('keyword', $name);
     }
 
-    function index($name = null) {
+    public function index($name = null) {
         $cPage = isset($this->request->params['named']['page']) ? $this->request->params['named']['page'] : '1';
         $cacheKey = "DrugsIndex{$name}{$cPage}";
         $result = Cache::read($cacheKey, 'long');
@@ -230,7 +275,7 @@ class DrugsController extends AppController {
         $this->set('keyword', $name);
     }
 
-    function view($id = null) {
+    public function view($id = null) {
         if (!empty($id)) {
             $cacheKey = "DrugsView{$id}";
             $result = Cache::read($cacheKey, 'long');

@@ -152,6 +152,11 @@ switch (Configure::read('loginMember.group_id')) {
                         'title' => '藥物證書',
                         'type' => 'license',
                     ),
+                    'category' => array(
+                        'placeholder' => '代碼或名稱',
+                        'title' => 'ATC分類',
+                        'type' => 'category',
+                    ),
                     'outward' => array(
                         'placeholder' => '外觀描述',
                         'title' => '藥物外觀',
@@ -181,6 +186,10 @@ switch (Configure::read('loginMember.group_id')) {
                     case 'drugs/outward':
                         $active_button = $buttons['outward'];
                         break;
+                    case 'drugs/categories':
+                    case 'drugs/category':
+                        $active_button = $buttons['category'];
+                        break;
                     case 'ingredients/index':
                     case 'ingredients/view':
                         $active_button = $buttons['ingredient'];
@@ -209,6 +218,13 @@ switch (Configure::read('loginMember.group_id')) {
                             <img src="<?php echo $baseUrl; ?>img/clipboard.svg" alt="藥單" class="col-md-2 hidden-sm hidden-xs" style="max-width: 100px;">
                             <h6 class="col-md-10 col-sm-12 col-xs-12">
                                 輸入藥物許可證字號<br>如：<span class="text-info">023913</span>。
+                            </h6>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="alert alert-info" data-type="category" style="display: none">
+                            <img src="<?php echo $baseUrl; ?>img/clipboard.svg" alt="藥單" class="col-md-2 hidden-sm hidden-xs" style="max-width: 100px;">
+                            <h6 class="col-md-10 col-sm-12 col-xs-12">
+                                輸入ATC代碼或中英文名稱<br>如：<span class="text-info">AB1</span>。
                             </h6>
                             <div class="clearfix"></div>
                         </div>

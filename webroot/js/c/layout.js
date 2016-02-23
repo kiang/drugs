@@ -55,6 +55,9 @@ $(function () {
                 case 'license':
                     location.href = baseUrl + 'drugs/index/' + encodeURIComponent(inputVal);
                     break;
+                case 'category':
+                    location.href = baseUrl + 'drugs/categories/' + encodeURIComponent(inputVal);
+                    break;
                 case 'outward':
                     location.href = baseUrl + 'drugs/outward/' + encodeURIComponent(inputVal);
                     break;
