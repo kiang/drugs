@@ -245,9 +245,6 @@ class DrugsController extends AppController {
             $this->paginate['Drug'] = array(
                 'limit' => 20,
                 'contain' => array(
-                    'Vendor' => array(
-                        'fields' => array('name', 'country'),
-                    ),
                     'License' => array(
                         'fields' => array('id', 'name', 'name_english',
                             'license_id', 'expired_date', 'image'),
@@ -261,6 +258,10 @@ class DrugsController extends AppController {
                 'group' => array('Drug.license_id'),
             );
             $result['items'] = $this->paginate($this->Drug, $scope);
+            foreach ($result['items'] AS $k => $item) {
+                $vendor = $this->Drug->Vendor->read(array('name', 'country'), $item['Drug']['vendor_id']);
+                $result['items'][$k]['Vendor'] = $vendor['Vendor'];
+            }
             $result['paging'] = $this->request->params['paging'];
             Cache::write($cacheKey, $result, 'long');
         } else {
