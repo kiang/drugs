@@ -33,7 +33,7 @@ class DrugsController extends AppController {
         }
         $this->set('apiRoute', $path);
     }
-    
+
     public function categories($name = null) {
         $cPage = isset($this->request->params['named']['page']) ? $this->request->params['named']['page'] : '1';
         $cacheKey = "Categories{$name}{$cPage}";
@@ -245,9 +245,12 @@ class DrugsController extends AppController {
             $this->paginate['Drug'] = array(
                 'limit' => 20,
                 'contain' => array(
-                    'License',
                     'Vendor' => array(
                         'fields' => array('name', 'country'),
+                    ),
+                    'License' => array(
+                        'fields' => array('id', 'name', 'name_english',
+                            'license_id', 'expired_date', 'image'),
                     ),
                 ),
                 'order' => array(
