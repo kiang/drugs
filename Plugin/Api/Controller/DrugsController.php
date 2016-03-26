@@ -26,6 +26,8 @@ class DrugsController extends ApiAppController {
                     );
 
                     $this->paginate['License'] = array(
+                        'fields' => array('name', 'name_english', 'license_id',
+                            'ingredient', 'submitted', 'id'),
                         'limit' => 20,
                         'order' => array(
                             'License.count_daily' => 'DESC',
@@ -124,7 +126,12 @@ class DrugsController extends ApiAppController {
             }
             $this->paginate['Drug'] = array(
                 'limit' => 20,
-                'contain' => array('License'),
+                'contain' => array(
+                    'License' => array(
+                        'fields' => array('id', 'name', 'name_english',
+                            'license_id', 'disease', 'image'),
+                    ),
+                ),
                 'order' => array(
                     'License.count_daily' => 'DESC',
                     'License.count_all' => 'DESC',
@@ -180,9 +187,9 @@ class DrugsController extends ApiAppController {
             $this->paginate['Drug'] = array(
                 'limit' => 20,
                 'contain' => array(
-                    'License',
-                    'Vendor' => array(
-                        'fields' => array('name', 'country'),
+                    'License' => array(
+                        'fields' => array('id', 'name', 'name_english',
+                            'license_id', 'expired_date', 'image'),
                     ),
                 ),
                 'order' => array(
@@ -193,6 +200,10 @@ class DrugsController extends ApiAppController {
                 'group' => array('Drug.license_id'),
             );
             $result['items'] = $this->paginate($this->Drug, $scope);
+            foreach ($result['items'] AS $k => $item) {
+                $vendor = $this->Drug->Vendor->read(array('name', 'country'), $item['Drug']['vendor_id']);
+                $result['items'][$k]['Vendor'] = $vendor['Vendor'];
+            }
             $result['paging'] = $this->request->params['paging'];
             Cache::write($cacheKey, $result, 'long');
         } else {
