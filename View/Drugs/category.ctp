@@ -35,7 +35,7 @@
                                 <th>品名</th>
                                 <th>許可證字號</th>
                                 <th>主成份</th>
-                                <th><?php echo $this->Paginator->sort('Drug.submitted', '更新日期', array('url' => $url)); ?></th>
+                                <th><?php echo $this->Paginator->sort('License.submitted', '更新日期', array('url' => $url)); ?></th>
                             </tr>
                         </thead>
                         <tbody>

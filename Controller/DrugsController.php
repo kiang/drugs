@@ -96,6 +96,8 @@ class DrugsController extends AppController {
                     );
 
                     $this->paginate['License'] = array(
+                        'fields' => array('name', 'name_english', 'license_id',
+                            'ingredient', 'submitted', 'id'),
                         'limit' => 20,
                         'order' => array(
                             'License.count_daily' => 'DESC',
@@ -192,7 +194,12 @@ class DrugsController extends AppController {
             }
             $this->paginate['Drug'] = array(
                 'limit' => 20,
-                'contain' => array('License'),
+                'contain' => array(
+                    'License' => array(
+                        'fields' => array('id', 'name', 'name_english',
+                            'license_id', 'disease', 'image'),
+                    ),
+                ),
                 'order' => array(
                     'License.count_daily' => 'DESC',
                     'License.count_all' => 'DESC',
