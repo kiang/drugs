@@ -4,8 +4,9 @@ App::uses('Controller', 'Controller');
 
 class AppController extends Controller {
 
-    public $helpers = array('Html', 'Form', 'Js', 'Session', 'Olc');
+    public $helpers = array('Html', 'Form', 'Js', 'Session', 'Olc', 'Cache');
     public $components = array('Acl', 'Auth', 'RequestHandler', 'Session');
+    public $cacheAction = "1 hour";
 
     public function beforeFilter() {
         if (isset($this->Auth)) {
