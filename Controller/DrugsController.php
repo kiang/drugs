@@ -8,6 +8,13 @@ class DrugsController extends AppController {
     public $name = 'Drugs';
     public $paginate = array();
     public $helpers = array('Olc', 'Media.Media');
+    public $cacheAction = array(
+        'view' => 36000,
+        'index' => 48000,
+        'outward' => 48000,
+        'category' => 48000,
+        'categories' => 48000,
+    );
 
     public function beforeFilter() {
         parent::beforeFilter();
