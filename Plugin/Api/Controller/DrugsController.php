@@ -191,6 +191,9 @@ class DrugsController extends ApiAppController {
                         'fields' => array('id', 'name', 'name_english',
                             'license_id', 'expired_date', 'image'),
                     ),
+                    'Vendor' => array(
+                        'fields' => array('name', 'country'),
+                    ),
                 ),
                 'order' => array(
                     'License.count_daily' => 'DESC',
@@ -200,10 +203,6 @@ class DrugsController extends ApiAppController {
                 'group' => array('Drug.license_id'),
             );
             $result['items'] = $this->paginate($this->Drug, $scope);
-            foreach ($result['items'] AS $k => $item) {
-                $vendor = $this->Drug->Vendor->read(array('name', 'country'), $item['Drug']['vendor_id']);
-                $result['items'][$k]['Vendor'] = $vendor['Vendor'];
-            }
             $result['paging'] = $this->request->params['paging'];
             Cache::write($cacheKey, $result, 'long');
         } else {
