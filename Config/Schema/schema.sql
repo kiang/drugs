@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.41, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.47, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: kiang_drug
+-- Host: localhost    Database: olc_drugs
 -- ------------------------------------------------------
--- Server version	5.5.41-0ubuntu0.14.04.1
+-- Server version	5.5.47-0ubuntu0.14.04.1-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -51,7 +51,7 @@ CREATE TABLE `acos` (
   `lft` int(11) DEFAULT NULL,
   `rght` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +70,7 @@ CREATE TABLE `aros` (
   `lft` int(11) DEFAULT NULL,
   `rght` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -89,7 +89,7 @@ CREATE TABLE `aros_acos` (
   `_update` int(2) DEFAULT NULL,
   `_delete` int(2) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -136,9 +136,10 @@ DROP TABLE IF EXISTS `attachments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `attachments` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `id` binary(36) NOT NULL,
   `model` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `foreign_key` int(10) NOT NULL,
+  `foreign_key` binary(36) NOT NULL,
+  `member_id` int(10) NOT NULL,
   `dirname` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `basename` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `checksum` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -186,7 +187,8 @@ CREATE TABLE `categories_licenses` (
   `category_id` int(10) NOT NULL COMMENT '分類索引',
   `license_id` binary(36) NOT NULL COMMENT '藥證索引',
   `type` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '分類類型',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `category_id` (`category_id`,`license_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -203,7 +205,8 @@ CREATE TABLE `drugs` (
   `vendor_id` binary(36) DEFAULT NULL COMMENT '申請商編號',
   `manufacturer_description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci COMMENT '製程',
   PRIMARY KEY (`id`),
-  KEY `license_uuid` (`license_id`)
+  KEY `license_uuid` (`license_id`),
+  KEY `vendor_id` (`vendor_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -237,7 +240,7 @@ CREATE TABLE `groups` (
   `parent_id` int(11) DEFAULT NULL,
   `name` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,7 +279,8 @@ CREATE TABLE `ingredients_licenses` (
   `dosage` decimal(20,8) NOT NULL COMMENT '含量',
   `unit` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '含量單位',
   PRIMARY KEY (`id`),
-  KEY `drug_id` (`license_id`)
+  KEY `drug_id` (`license_id`),
+  KEY `ingredient_id` (`ingredient_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -327,7 +331,13 @@ CREATE TABLE `licenses` (
   `count_all` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `count_daily` (`count_daily`),
-  KEY `count_all` (`count_all`)
+  KEY `count_all` (`count_all`),
+  KEY `license_id` (`license_id`),
+  KEY `name` (`name`),
+  KEY `name_english` (`name_english`),
+  KEY `nhi_id` (`nhi_id`),
+  KEY `submitted` (`submitted`),
+  KEY `expired_date` (`expired_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -358,14 +368,40 @@ DROP TABLE IF EXISTS `members`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `members` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `group_id` int(11) DEFAULT NULL,
-  `username` varchar(64) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `password` varchar(48) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `user_status` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
+  `group_id` int(11) NOT NULL,
+  `username` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `password` varchar(48) COLLATE utf8_unicode_ci NOT NULL,
+  `user_status` char(1) COLLATE utf8_unicode_ci NOT NULL,
+  `nickname` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ext_url` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `ext_image` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `intro` text COLLATE utf8_unicode_ci,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `notes`
+--
+
+DROP TABLE IF EXISTS `notes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `notes` (
+  `id` binary(36) NOT NULL,
+  `license_id` binary(36) NOT NULL,
+  `member_id` int(10) NOT NULL,
+  `info` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `notices` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `side_effects` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `interactions` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -445,7 +481,8 @@ CREATE TABLE `points` (
   `phone` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `nhi_id` (`nhi_id`)
+  KEY `nhi_id` (`nhi_id`),
+  KEY `longitude` (`longitude`,`latitude`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -488,7 +525,8 @@ CREATE TABLE `vendors` (
   `count_all` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `count_daily` (`count_daily`),
-  KEY `count_all` (`count_all`)
+  KEY `count_all` (`count_all`),
+  KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -501,4 +539,4 @@ CREATE TABLE `vendors` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-03-01 22:10:12
+-- Dump completed on 2016-04-05 23:05:36
