@@ -20,7 +20,7 @@ echo $this->Html->script('c/drugs/outward', array('inline' => false));
             ?>
             <li class="media">
                 <div class="media-left media-middle">
-                    <a href="<?php echo $this->Html->url('/') . 'drugs/view/' . $item['Drug']['id']; ?>">
+                    <a href="<?php echo $this->Html->url('/') . 'drugs/view/' . $item['Drug'][0]['id']; ?>">
                         <?php if (!empty($item['License']['image'])) { ?>
                             <img src="<?php echo $this->Html->url('/') . $item['License']['image']; ?>" class="img-thumbnail drug-list-thumbnail" />
                         <?php } else {?>
@@ -31,7 +31,7 @@ echo $this->Html->script('c/drugs/outward', array('inline' => false));
                     </a>
                 </div>
                 <div class="media-body">
-                    <a href="<?php echo $this->Html->url('/') . 'drugs/view/' . $item['Drug']['id']; ?>">
+                    <a href="<?php echo $this->Html->url('/') . 'drugs/view/' . $item['Drug'][0]['id']; ?>">
                         <h6 class="media-heading"><?php echo $name; ?></h6>
                     </a>
                     <hr>

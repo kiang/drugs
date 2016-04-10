@@ -15,11 +15,11 @@
                 }
             ?>
             <li class="media">
-                <a href="<?php echo $this->Html->url('/') . 'drugs/view/' . $item['Drug']['id']; ?>" class="hidden-md hidden-lg">
+                <a href="<?php echo $this->Html->url('/') . 'drugs/view/' . $item['Drug'][0]['id']; ?>" class="hidden-md hidden-lg">
                     <h6 class="media-heading"><?php echo $name; ?></h6>
                 </a>
                 <div class="media-left media-middle">
-                    <a href="<?php echo $this->Html->url('/') . 'drugs/view/' . $item['Drug']['id']; ?>">
+                    <a href="<?php echo $this->Html->url('/') . 'drugs/view/' . $item['Drug'][0]['id']; ?>">
                         <?php if (!empty($item['License']['image'])) { ?>
                             <img src="<?php echo $this->Html->url('/') . $item['License']['image']; ?>" class="img-thumbnail drug-list-thumbnail" />
                         <?php } else {?>
@@ -30,7 +30,7 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <a href="<?php echo $this->Html->url('/') . 'drugs/view/' . $item['Drug']['id']; ?>" class="hidden-sm hidden-xs">
+                    <a href="<?php echo $this->Html->url('/') . 'drugs/view/' . $item['Drug'][0]['id']; ?>" class="hidden-sm hidden-xs">
                         <h6 class="media-heading"><?php echo $name; ?></h6>
                     </a>
                     <hr>

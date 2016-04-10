@@ -124,23 +124,21 @@ class DrugsController extends ApiAppController {
                 $scope[] = 'License.image != \'\'';
                 $scope[] = 'License.image IS NOT NULL';
             }
-            $this->paginate['Drug'] = array(
+            $this->paginate['License'] = array(
                 'limit' => 20,
-                'contain' => array(
-                    'License' => array(
-                        'fields' => array('id', 'name', 'name_english',
+                'fields' => array('id', 'name', 'name_english',
                             'license_id', 'disease', 'image'),
+                'contain' => array(
+                    'Drug' => array(
+                        'fields' => array('id'),
                     ),
                 ),
                 'order' => array(
-                    'License.count_daily' => 'DESC',
-                    'License.count_all' => 'DESC',
                     'License.submitted' => 'DESC',
                 ),
-                'group' => array('Drug.license_id'),
             );
 
-            $result['items'] = $this->paginate($this->Drug, $scope);
+            $result['items'] = $this->paginate($this->Drug->License, $scope);
             $result['paging'] = $this->request->params['paging'];
             Cache::write($cacheKey, $result, 'long');
         } else {
@@ -184,25 +182,23 @@ class DrugsController extends ApiAppController {
                     }
                 }
             }
-            $this->paginate['Drug'] = array(
+            $this->paginate['License'] = array(
                 'limit' => 20,
+                'fields' => array('id', 'name', 'name_english',
+                    'license_id', 'expired_date', 'image'),
                 'contain' => array(
-                    'License' => array(
-                        'fields' => array('id', 'name', 'name_english',
-                            'license_id', 'expired_date', 'image'),
+                    'Drug' => array(
+                        'fields' => array('id'),
                     ),
                     'Vendor' => array(
                         'fields' => array('name', 'country'),
                     ),
                 ),
                 'order' => array(
-                    'License.count_daily' => 'DESC',
-                    'License.count_all' => 'DESC',
                     'License.submitted' => 'DESC',
                 ),
-                'group' => array('Drug.license_id'),
             );
-            $result['items'] = $this->paginate($this->Drug, $scope);
+            $result['items'] = $this->paginate($this->Drug->License, $scope);
             $result['paging'] = $this->request->params['paging'];
             Cache::write($cacheKey, $result, 'long');
         } else {
