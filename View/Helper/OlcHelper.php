@@ -12,7 +12,7 @@ class OlcHelper extends AppHelper {
     public function showCountry($countryText = '') {
         if (!empty($countryText)) {
             if (isset($this->countries[$countryText])) {
-                return '<img src="http://api.hostip.info/images/flags/' . strtolower($this->countries[$countryText][1]) . '.gif" class="img-flag" alt="' . $this->countries[$countryText][0] . '" title="' . $this->countries[$countryText][0] . '">';
+                return '<img src="http://www.geonames.org/flags/x/' . strtolower($this->countries[$countryText][1]) . '.gif" class="img-flag" alt="' . $this->countries[$countryText][0] . '" title="' . $this->countries[$countryText][0] . '">';
             } else {
                 return $countryText;
             }
