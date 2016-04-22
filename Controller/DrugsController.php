@@ -234,6 +234,7 @@ class DrugsController extends AppController {
         $cPage = isset($this->request->params['named']['page']) ? $this->request->params['named']['page'] : '1';
         $cacheKey = "DrugsIndex{$name}{$cPage}";
         $result = Cache::read($cacheKey, 'long');
+        $result = false;
         if (!$result) {
             $result = $scope = array();
             if (!empty($name)) {
