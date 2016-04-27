@@ -43,6 +43,15 @@
         <script>
             var baseUrl = '<?php echo $baseUrl; ?>';
         </script>
+        <?php if (Configure::read('debug') === 0 && Configure::read('loginMember.group_id') !== '1') { ?>
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-5571465503362954",
+    enable_page_level_ads: true
+  });
+</script>
+<?php } ?>
     </head>
     <body>
         <nav class="navbar navbar-inverse" style="border-radius: 0px;">
@@ -429,7 +438,6 @@ echo $content_for_layout;
         <script src="<?php echo $baseUrl; ?>js/flat-ui-pro.min.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
         <script src="<?php echo $baseUrl; ?>js/tag-it.js"></script>
-        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
         <?php
         echo $this->Html->script('c/layout', array('inline' => true));
         echo $scripts_for_layout;
@@ -451,7 +459,6 @@ echo $content_for_layout;
 
                     ga('create', 'UA-40055059-4', 'auto');
                     ga('send', 'pageview');
-                    (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
 <?php } ?>
 <?php echo $this->element('sql_dump'); ?>
