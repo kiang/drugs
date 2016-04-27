@@ -459,6 +459,7 @@ echo $content_for_layout;
 
                     ga('create', 'UA-40055059-4', 'auto');
                     ga('send', 'pageview');
+                    (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
 <?php } ?>
 <?php echo $this->element('sql_dump'); ?>
