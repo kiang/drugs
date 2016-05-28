@@ -10,6 +10,7 @@ class ArticleShell extends AppShell {
     }
 
     public function getLinks() {
+        Configure::write('Cache.disable', true);
         $latestArticleTime = 0;
         $article = $this->Article->find('first', array(
             'conditions' => array(
@@ -108,8 +109,6 @@ class ArticleShell extends AppShell {
                     }
                 }
             }
-            print_r($items);
-            exit();
 
             if (!empty($items)) {
                 foreach ($items AS $reason => $data) {
