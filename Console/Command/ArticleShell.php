@@ -6,7 +6,137 @@ class ArticleShell extends AppShell {
     public $dataPath = '/home/kiang/github/data.fda.gov.tw-list';
 
     public function main() {
-        $this->fixLinks();
+        $this->getLinks();
+    }
+
+    public function getLinks() {
+        $latestArticleTime = 0;
+        $article = $this->Article->find('first', array(
+            'conditions' => array(
+                'Article.url' => 'https://consumer.fda.gov.tw/GMPList/ProductList.aspx?nodeID=533',
+            ),
+            'order' => array(
+                'Article.date_published' => 'DESC',
+            ),
+        ));
+        if ($article) {
+            $latestArticleTime = strtotime($article['Article']['date_published']);
+        }
+        $dailyCacheFile = TMP . '/article_links.json';
+        $arrContextOptions = array(
+            "ssl" => array(
+                "verify_peer" => false,
+                "verify_peer_name" => false,
+            ),
+        );
+        if (!file_exists($dailyCacheFile) || date('Ymd', filemtime($dailyCacheFile)) !== date('Ymd')) {
+            file_put_contents($dailyCacheFile, file_get_contents('https://consumer.fda.gov.tw/GMPList/ashx/getGMPProductResult.ashx?selectGroup=1&start=0&pageNo=300', false, stream_context_create($arrContextOptions)));
+        }
+        $json = json_decode(file_get_contents($dailyCacheFile), true);
+        $items = array();
+        if (isset($json['GMPProduct'])) {
+            /*
+             * Array
+              (
+              [no] => 1
+              [gmpid] => 1181
+              [productname] => 咳舒佳液 COSICA LIQUID "J.C.S."
+              [productdate] => 2016/05/26
+              [level] =>
+              [recoverlevel] => 第二級
+              [sno] => 105年5月26日FDA風字第1050020411號 (食藥署風管組)
+              [permitno] => 衛署藥製字第034044號
+              [batchno] => 411301~411303
+              [permituser] => 正長生化學製藥股份有限公司
+              [phone] =>
+              [reason] =>
+              [note] =>
+              [relatedinfo] =>
+              )
+             */
+            foreach ($json['GMPProduct'] AS $item) {
+                $itemTime = strtotime($item['productdate']);
+                if ($itemTime > $latestArticleTime) {
+                    $license = $this->Article->License->find('first', array(
+                        'fields' => array('id', 'vendor_id'),
+                        'contain' => array(
+                            'Drug' => array(
+                                'fields' => array('vendor_id'),
+                            ),
+                        ),
+                        'conditions' => array(
+                            'License.license_id LIKE' => $item['permitno'],
+                        ),
+                    ));
+                    if ($license) {
+                        $detail = file_get_contents('https://consumer.fda.gov.tw/GMPList/detail/GMPProductD.aspx?pid=' . $item['gmpid'], false, stream_context_create($arrContextOptions));
+                        $lines = explode('</tr>', $detail);
+                        foreach ($lines AS $line) {
+                            if (false !== strpos($line, 'scope="row"')) {
+                                $cols = explode('</th>', $line);
+                                foreach ($cols AS $k => $v) {
+                                    $cols[$k] = trim(strip_tags($v));
+                                }
+                                if ($cols[0] === '原因') {
+                                    $cols[1] = str_replace(array("\n", '。'), array('', ''), $cols[1]);
+                                    if (!isset($items[$cols[1]])) {
+                                        $items[$cols[1]] = array(
+                                            'ArticlesLink' => array(),
+                                            'items' => array(),
+                                        );
+                                    }
+                                    $items[$cols[1]]['items'][] = $item;
+                                    $items[$cols[1]]['ArticlesLink'][$license['License']['id']] = array(
+                                        'model' => 'License',
+                                        'foreign_id' => $license['License']['id'],
+                                    );
+                                    $items[$cols[1]]['ArticlesLink'][$license['License']['vendor_id']] = array(
+                                        'model' => 'Vendor',
+                                        'foreign_id' => $license['License']['vendor_id'],
+                                    );
+                                    if (!empty($license['Drug'])) {
+                                        foreach ($license['Drug'] AS $drug) {
+                                            $items[$cols[1]]['ArticlesLink'][$drug['vendor_id']] = array(
+                                                'model' => 'Vendor',
+                                                'foreign_id' => $drug['vendor_id'],
+                                            );
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            print_r($items);
+            exit();
+
+            if (!empty($items)) {
+                foreach ($items AS $reason => $data) {
+                    $title = $reason . "， " . count($data['items']) . ' 藥品下架回收';
+                    $body = '';
+                    foreach ($data['items'] AS $item) {
+                        $body .= "回收分級:{$item['recoverlevel']}\n";
+                        $body .= "文號:{$item['sno']}\n";
+                        $body .= "日期:{$item['productdate']}\n";
+                        $body .= "產品:{$item['productname']}\n";
+                        $body .= "許可證字號:{$item['permitno']}\n";
+                        $body .= "批號:{$item['batchno']}\n";
+                        $body .= "許可證持有者:{$item['permituser']}\n\n";
+                    }
+                    $this->Article->create();
+                    $this->Article->saveAll(array(
+                        'Article' => array(
+                            'title' => $title,
+                            'body' => trim($body),
+                            'url' => 'https://consumer.fda.gov.tw/GMPList/ProductList.aspx?nodeID=533',
+                            'date_published' => date('Y-m-d', strtotime($item['productdate'])),
+                        ),
+                        'ArticlesLink' => $data['ArticlesLink'],
+                    ));
+                }
+            }
+        }
     }
 
     public function fixLinks() {
@@ -65,7 +195,7 @@ class ArticleShell extends AppShell {
         $fh = fopen($this->dataPath . '/dataset/31.csv', 'r');
         $records = array();
         $previousKey = 0;
-        //類別、藥品製造許可編號、藥品製造許可有效期限、名稱、地址、電話、核准劑型、備註
+//類別、藥品製造許可編號、藥品製造許可有效期限、名稱、地址、電話、核准劑型、備註
         while ($line = fgetcsv($fh, 4096, "\t")) {
             if (isset($line[1]) && substr($line[1], 0, 1) === '(') {
                 ++$previousKey;
@@ -154,7 +284,7 @@ class ArticleShell extends AppShell {
 
         $currentLatest = 0;
         $fh = fopen($this->dataPath . '/dataset/45.csv', 'r');
-        //廠名、地址、查廠日期、發佈日期、類別
+//廠名、地址、查廠日期、發佈日期、類別
         while ($line = fgetcsv($fh, 2048, "\t")) {
             foreach ($line AS $k => $v) {
                 $line[$k] = trim($v);
@@ -223,7 +353,7 @@ class ArticleShell extends AppShell {
 
         $fh = fopen($this->dataPath . '/dataset/65.csv', 'r');
         $currentLatest = 0;
-        //燈號、標題名稱、內容、附檔、更新日期
+//燈號、標題名稱、內容、附檔、更新日期
         while ($line = fgetcsv($fh, 30000, "\t")) {
             $recordTime = strtotime($line[4]);
             if (false === $dateLatest || $recordTime > $dateLatest) {
@@ -257,7 +387,7 @@ class ArticleShell extends AppShell {
 
         $fh = fopen($this->dataPath . '/dataset/34.csv', 'r');
         $max = 0;
-        //回收分級、文號、日期、產品、許可證字號、批號、許可證持有者、原因
+//回收分級、文號、日期、產品、許可證字號、批號、許可證持有者、原因
         $licenseUUID = array();
         while ($line = fgetcsv($fh, 4096, "\t")) {
             if (!isset($keys[$line[1]])) {
