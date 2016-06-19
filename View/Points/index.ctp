@@ -1,4 +1,4 @@
-<h2>醫事機構</h2>
+<h3>醫事機構</h3>
 <div class="paginator-wrapper">
     <?php echo $this->element('paginator'); ?>
 </div>

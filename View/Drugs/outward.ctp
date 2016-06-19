@@ -1,7 +1,7 @@
 <?php
 echo $this->Html->script('c/drugs/outward', array('inline' => false));
 ?>
-<h2>藥物外觀</h2>
+<h3>藥物外觀</h3>
 <div class="paginator-wrapper">
     <?php echo $this->element('paginator'); ?>
 </div>

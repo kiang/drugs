@@ -1,4 +1,4 @@
-<h2>藥物廠商</h2>
+<h3>藥物廠商</h3>
 <div class="paginator-wrapper">
     <?php echo $this->element('paginator'); ?>
 </div>

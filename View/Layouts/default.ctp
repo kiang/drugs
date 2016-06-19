@@ -428,8 +428,13 @@ echo $content_for_layout;
                                 echo '<li>' . $this->Html->link('本頁 API', $apiRoute, array('target' => '_blank')) . '</li>';
                             }
                             ?>
-                            <li>聲明：本站資料僅供參考，不宜使用在疾病判斷及治療，本網站不承擔任何責任或保證、也不表明任何立場或保證內容的準確性，任何疑問請洽詢<?php echo $this->Html->link('專業醫事機構', '/points'); ?>。</li>
                         </ul>
+                    </div>
+                </div>
+                <p>&nbsp;</p>
+                <div class="row">
+                    <div class="col-md-10 col-sm-10">
+                        <small>本網站資料僅供參考，不宜使用在疾病判斷及治療。<br>本網站不承擔任何責任或保證、也不表明任何立場或保證內容的準確性，任何疑問請洽詢<?php echo $this->Html->link('專業醫事機構', '/points', array('target' => '_blank')); ?>。</small>
                     </div>
                 </div>
             </div>

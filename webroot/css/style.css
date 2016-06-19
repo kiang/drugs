@@ -18,6 +18,10 @@
     padding: 5px 10px;
 }
 
+.search-box {
+    margin-bottom: 5px;
+}
+
 .search-box .form-control {
     font-family: FontAwesome;
 }

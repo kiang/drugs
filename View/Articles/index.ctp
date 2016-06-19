@@ -1,4 +1,4 @@
-<h2>醫事新知</h2>
+<h3>醫事新知</h3>
 <div class="row">
     <div class="col-xs-12 col-md-12">
         <div class="paginator-wrapper"><?php echo $this->element('paginator'); ?></div>
