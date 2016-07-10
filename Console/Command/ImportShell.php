@@ -581,7 +581,6 @@ class ImportShell extends AppShell {
           )
          */
         $wLength = strlen(WWW_ROOT);
-        $imagick = new Imagick();
         $sn = 0;
         echo "links importing\n";
         /*
@@ -719,8 +718,9 @@ class ImportShell extends AppShell {
                         file_put_contents($imageFile, file_get_contents($line[11]));
                         $line[11] = '';
                         if (file_exists($imageFile)) {
+                            $mime = mime_content_type($imageFile);
                             if (filesize($imageFile) > 0) {
-                                if (in_array(mime_content_type($imageFile), array(
+                                if (in_array($mime, array(
                                             'application/vnd.ms-powerpoint',
                                             'application/msword', 'text/html'
                                         ))) {
@@ -733,10 +733,11 @@ class ImportShell extends AppShell {
                                     $targetFile .= '/' . $dbKeys[$licenseCode] . '.jpg';
                                     $line[11] = substr($targetFile, $wLength);
                                     if (!file_exists($targetFile)) {
-                                        $imagick->readimage($imageFile);
-                                        $imagick->thumbnailimage(512, 512, true, true);
-                                        $imagick->writeImage($targetFile);
-                                        $imagick->clear();
+                                        if(false !== strpos($mime, 'pdf')) {
+                                            exec("/usr/bin/convert -resize 512x512 {$imageFile}[0] {$targetFile}");
+                                        } else {
+                                            exec("/usr/bin/convert -resize 512x512 {$imageFile} {$targetFile}");
+                                        }
                                     }
                                 }
                             }
