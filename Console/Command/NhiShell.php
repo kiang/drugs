@@ -94,13 +94,13 @@ class NhiShell extends AppShell {
         }
         $result = array();
         $page = file_get_contents($pageFile);
-        $pos = strpos($page, 'all.b5.zip');
+        $pos = strpos($page, '.b5.zip');
         if (false !== $pos) {
             $pos = strpos($page, '>', $pos);
             $parts = preg_split('/["><]/', substr($page, 0, $pos));
             $zipUrl = false;
             foreach ($parts AS $partKey => $part) {
-                if (false !== strpos($part, 'all.b5.zip')) {
+                if (false !== strpos($part, '.b5.zip')) {
                     $zipUrl = 'http://www.nhi.gov.tw' . $part;
                     $poolKey = $partKey - 2;
                     $dateParts = explode('.', substr(preg_replace('/[^0-9\\.]/', '', $parts[$poolKey]), -9));
