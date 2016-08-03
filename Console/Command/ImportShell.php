@@ -733,7 +733,7 @@ class ImportShell extends AppShell {
                                     $targetFile .= '/' . $dbKeys[$licenseCode] . '.jpg';
                                     $line[11] = substr($targetFile, $wLength);
                                     if (!file_exists($targetFile)) {
-                                        if(false !== strpos($mime, 'pdf')) {
+                                        if (false !== strpos($mime, 'pdf')) {
                                             exec("/usr/bin/convert -resize 512x512 {$imageFile}[0] {$targetFile}");
                                         } else {
                                             exec("/usr/bin/convert -resize 512x512 {$imageFile} {$targetFile}");
@@ -794,15 +794,29 @@ class ImportShell extends AppShell {
          */
         $valueStack = array();
         $sn = 1;
-        echo "price importing\n";
+        error_log('price importing');
         while ($line = fgetcsv($fh, 2048)) {
+            $licenseId = '';
             $licenseCode = 'fda' . $line[0];
             $currentId = String::uuid();
 
-            if (!isset($dbKeys[$licenseCode])) {
-                $licenseId = '';
-            } else {
+            if (isset($dbKeys[$licenseCode])) {
                 $licenseId = $dbKeys[$licenseCode];
+            } else {
+                $linePrefix = substr($line[0], 0, 2);
+                switch ($linePrefix) {
+                    case '01':
+                    case '02':
+                    case '09':
+                    case '10':
+                    case '20':
+                    case '21':
+                        $anotherCode = 'fda' . (intval($linePrefix) + 50) . substr($line[0], 2);
+                        if (isset($dbKeys[$anotherCode])) {
+                            $licenseId = $dbKeys[$anotherCode];
+                        }
+                        break;
+                }
             }
             $line[7] = $this->getTwDate($line[7]);
             $line[8] = $this->getTwDate($line[8]);
