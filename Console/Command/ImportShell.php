@@ -4,6 +4,7 @@ class ImportShell extends AppShell {
 
     public $uses = array('License');
     public $dataPath = '/home/kiang/github/data.fda.gov.tw-list';
+    public $tfdaPath = '/home/kiang/github/tfda_license';
     public $mysqli = false;
     public $key2id = array();
     public $key2code = array();
@@ -102,7 +103,7 @@ class ImportShell extends AppShell {
                     $this->importDrug();
                     $this->importNhiPrice();
                     $this->importImage();
-                    $this->importBox();
+                    $this->importTfdaBox();
                     $this->importIngredients();
                     $this->importATC();
                 //$this->importPoints();
@@ -644,6 +645,59 @@ class ImportShell extends AppShell {
                     ++$sn;
                     if ($sn > 50) {
                         $sn = 1;
+                        $this->dbQuery('INSERT INTO `links` VALUES ' . implode(',', $valueStack) . ';');
+                        $valueStack = array();
+                    }
+                }
+            }
+        }
+        if (!empty($valueStack)) {
+            $this->dbQuery('INSERT INTO `links` VALUES ' . implode(',', $valueStack) . ';');
+        }
+    }
+
+    public function importTfdaBox() {
+        $db = ConnectionManager::getDataSource('default');
+        $this->mysqli = new mysqli($db->config['host'], $db->config['login'], $db->config['password'], $db->config['database']);
+        $this->dbQuery('SET NAMES utf8mb4;');
+
+        $dbKeys = $valueStack = array();
+
+        if (file_exists(__DIR__ . '/data/keys/licenses.csv')) {
+            $dbKeysFh = fopen(__DIR__ . '/data/keys/licenses.csv', 'r');
+            while ($line = fgetcsv($dbKeysFh, 1024)) {
+                $dbKeys[$line[0]] = $line[1];
+            }
+            fclose($dbKeysFh);
+        }
+
+        $sn = 0;
+        echo "links importing\n";
+        foreach (glob($this->tfdaPath . '/licenses/*/*.json') AS $jsonFile) {
+            $json = json_decode(file_get_contents($jsonFile), true);
+            $dbKey = 'fda' . $json['code'];
+            if (isset($dbKeys[$dbKey]) && !empty($json['仿單外盒'])) {
+                $count = 0;
+                foreach ($json['仿單外盒'] AS $link) {
+                    ++$count;
+                    $currentId = String::uuid();
+                    $url = $this->mysqli->real_escape_string($link['url']);
+                    if (false !== strpos($link['title'], '仿單') || false !== strpos($link['title'], '手冊')) {
+                        $currentType = 1;
+                    } else {
+                        $currentType = 2;
+                    }
+                    $link['title'] = $this->mysqli->real_escape_string($link['title']);
+                    $valueStack[] = implode(',', array(
+                        "('{$currentId}'", //id
+                        "'{$dbKeys[$dbKey]}'", //license_id
+                        "'{$url}'", //url
+                        "'{$link['title']}'", //title
+                        "{$currentType}", //type
+                        "{$count})", //sort
+                    ));
+                    if (++$sn > 50) {
+                        $sn = 0;
                         $this->dbQuery('INSERT INTO `links` VALUES ' . implode(',', $valueStack) . ';');
                         $valueStack = array();
                     }
