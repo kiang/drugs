@@ -215,6 +215,26 @@ switch (Configure::read('loginMember.group_id')) {
                 <p class="hidden-sm hidden-xs">&nbsp;</p>
                 <div class="search-box col-md-12">
 
+                    <form class="input-group input-group-hg focus form-search" data-search="license">
+                        <input type="text" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="<?php echo $active_button['placeholder']; ?>" tabindex="1" data-type="<?php echo $active_button['type']; ?>">
+                        <div class="input-group-btn">
+                            <button type="button" class="btn hidden-sm hidden-xs btn-unfocus dropdown-toggle btn-search-type desktop" tabindex="2" data-toggle="dropdown" data-type="<?php echo $active_button['type']; ?>">
+                                <?php echo $active_button['title']; ?>&nbsp;<b class="caret"></b>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <?php
+                                foreach ($buttons as $key => $button) {
+                                    echo '<li><a href="#" data-placeholder="' . $button['placeholder'] . '" data-type="' . $key . '">' . $button['title'] . '</a></li>';
+                                    if ($key === 'drug') {
+                                        echo '<li class="divider"></li>';
+                                    }
+                                }
+                                ?>
+                            </ul>
+                            <button type="submit" class="btn btn-default btn-search" tabindex="3">搜尋</button>
+                        </div>
+                    </form>
+                    
                     <div class="search-helper-text">
                         <div class="alert alert-info" data-type="drug" style="display: none">
                             <img src="<?php echo $baseUrl; ?>img/clipboard.svg" alt="藥單" class="col-md-2 hidden-sm hidden-xs" style="max-width: 100px;">
@@ -258,26 +278,6 @@ switch (Configure::read('loginMember.group_id')) {
                             <div class="clearfix"></div>
                         </div>
                     </div><!-- /.search-helper-text -->
-
-                    <form class="input-group input-group-hg focus form-search" data-search="license">
-                        <input type="text" value="<?php echo isset($keyword) ? $keyword : ''; ?>" class="form-control" placeholder="<?php echo $active_button['placeholder']; ?>" tabindex="1" data-type="<?php echo $active_button['type']; ?>">
-                        <div class="input-group-btn">
-                            <button type="button" class="btn hidden-sm hidden-xs btn-unfocus dropdown-toggle btn-search-type desktop" tabindex="2" data-toggle="dropdown" data-type="<?php echo $active_button['type']; ?>">
-                                <?php echo $active_button['title']; ?>&nbsp;<b class="caret"></b>
-                            </button>
-                            <ul class="dropdown-menu" role="menu">
-                                <?php
-                                foreach ($buttons as $key => $button) {
-                                    echo '<li><a href="#" data-placeholder="' . $button['placeholder'] . '" data-type="' . $key . '">' . $button['title'] . '</a></li>';
-                                    if ($key === 'drug') {
-                                        echo '<li class="divider"></li>';
-                                    }
-                                }
-                                ?>
-                            </ul>
-                            <button type="submit" class="btn btn-default btn-search" tabindex="3">搜尋</button>
-                        </div>
-                    </form>
 
                     <div class="row">
                         <div class="hidden-lg hidden-md col-sm-12 col-xs-12">
