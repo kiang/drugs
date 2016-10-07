@@ -421,7 +421,6 @@ echo $content_for_layout;
                     </div>
                     <div class="col-md-10 col-sm-10">
                         <ul class="bottom-menu-list">
-                            <li><?php echo $this->Html->link('信雲國際股份有限公司', 'http://syi.tw/', array('target' => '_blank')); ?> 建置 </li>
                             <li><?php echo $this->Html->link('關於本站', '/pages/about'); ?></li>
                             <?php
                             if (isset($apiRoute)) {
