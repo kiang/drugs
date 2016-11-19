@@ -92,12 +92,12 @@ class ImportShell extends AppShell {
                       TRUNCATE `prices`;
                       TRUNCATE `vendors`;
                       TRUNCATE `categories_licenses`;
-                     * 
+                     *
                      * and remember to execute mohw to import another part of drugs
-                     * 
+                     *
                      * and dump generated data using another one:
-                     * 
-                     * mysqldump -uroot -p kiang_drug drugs ingredients ingredients_licenses licenses prices categories_licenses vendors > db.sql
+                     *
+                     * mysqldump -uroot -p kiang_drug drugs ingredients ingredients_licenses licenses prices categories_licenses vendors links > db.sql
                      */
                     $this->emptyDrugs();
                     $this->importDrug();
@@ -1098,16 +1098,16 @@ class ImportShell extends AppShell {
           [14] => 藥品類別
           [15] => 管制藥品分類級別
           [16] => 主成分略述
-         * 
+         *
           [17] => 申請商名稱
           [18] => 申請商地址
           [19] => 申請商統一編號
-         * 
+         *
           [20] => 製造商名稱
           [21] => 製造廠廠址
           [22] => 製造廠公司地址
           [23] => 製造廠國別
-         * 
+         *
           [24] => 製程
           [25] => 異動日期
           [26] => 用法用量
