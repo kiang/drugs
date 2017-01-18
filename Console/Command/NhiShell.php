@@ -100,12 +100,9 @@ class NhiShell extends AppShell {
             $parts = preg_split('/["><]/', substr($page, 0, $pos));
             $zipUrl = false;
             foreach ($parts AS $partKey => $part) {
-                if (false !== strpos($part, '.b5.zip')) {
+                if (false === $zipUrl && false !== strpos($part, '.b5.zip')) {
                     $zipUrl = 'http://www.nhi.gov.tw' . $part;
-                    $poolKey = $partKey - 2;
-                    $dateParts = explode('.', substr(preg_replace('/[^0-9\\.]/', '', $parts[$poolKey]), -9));
-                    $dateParts[0] += 1911;
-                    $pool = implode('', $dateParts) . '_' . md5($zipUrl);
+                    $pool = date('Ymd') . '_' . md5($zipUrl);
                 }
             }
             if (false !== $zipUrl) {
