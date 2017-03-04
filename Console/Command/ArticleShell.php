@@ -361,7 +361,7 @@ class ArticleShell extends AppShell {
                 }
                 $this->Article->create();
                 $this->Article->save(array('Article' => array(
-                        'id' => String::uuid(),
+                        'id' => CakeText::uuid(),
                         'title' => '[國際藥品]' . $line[1],
                         'body' => $line[2],
                         'date_published' => $line[4],
@@ -433,7 +433,7 @@ class ArticleShell extends AppShell {
                         }
                     }
                 }
-                $keys[$line[1]] = String::uuid();
+                $keys[$line[1]] = CakeText::uuid();
                 $body = implode("\n", array(
                     "回收分級：{$line[0]}",
                     "文號：{$line[1]}",

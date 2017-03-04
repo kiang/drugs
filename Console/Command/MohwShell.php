@@ -227,14 +227,14 @@ class MohwShell extends AppShell {
                     $ingredientKey = $ingredient[0];
                     if (!isset($ingredientKeys[$ingredientKey])) {
                         $ingredientKeys[$ingredientKey] = array(
-                            'id' => String::uuid(),
+                            'id' => CakeText::uuid(),
                             'count_licenses' => 0,
                         );
                         $newIngredients[] = $ingredientKey;
                     }
                     $ingredientKeys[$ingredientKey]['count_licenses'] += 1;
 
-                    $currentId = String::uuid();
+                    $currentId = CakeText::uuid();
                     $valueStack[] = implode(',', array(
                         "('{$currentId}'", //id
                         "'{$p['filename']}'", //license_id
@@ -309,10 +309,10 @@ class MohwShell extends AppShell {
             $vendorKey1 = $json['license']['申請商名稱'];
             $vendorKey2 = $json['license']['製造廠名稱'];
             if (!isset($vendorKeys[$vendorKey1])) {
-                $vendorKeys[$vendorKey1] = String::uuid();
+                $vendorKeys[$vendorKey1] = CakeText::uuid();
             }
             if (!isset($vendorKeys[$vendorKey2])) {
-                $vendorKeys[$vendorKey2] = String::uuid();
+                $vendorKeys[$vendorKey2] = CakeText::uuid();
             }
 
             foreach ($json['license'] AS $k => $v) {
@@ -507,7 +507,7 @@ class MohwShell extends AppShell {
             }
             $data['license']['許可證字號'] = $licenseId = str_replace(' ', '', $data['license']['許可證字號']);
             if (!isset($mohwKeys[$licenseId])) {
-                $mohwKeys[$licenseId] = String::uuid();
+                $mohwKeys[$licenseId] = CakeText::uuid();
             }
             $prefix = substr($mohwKeys[$licenseId], 14, 4);
             $jsonFile = "{$prefix}/{$mohwKeys[$licenseId]}.json";

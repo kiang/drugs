@@ -206,7 +206,7 @@ class ImportShell extends AppShell {
                 }
             }
 
-            $currentId = String::uuid();
+            $currentId = CakeText::uuid();
             $valueStack[] = implode(',', array(
                 "('{$currentId}'", //id
                 "'clinic'", //type
@@ -270,7 +270,7 @@ class ImportShell extends AppShell {
                 print_r($line);
                 exit();
             }
-            $currentId = String::uuid();
+            $currentId = CakeText::uuid();
             $valueStack[] = implode(',', array(
                 "('{$currentId}'", //id
                 "'hospital'", //type
@@ -305,7 +305,7 @@ class ImportShell extends AppShell {
             foreach ($line AS $k => $v) {
                 $line[$k] = trim($v);
             }
-            $currentId = String::uuid();
+            $currentId = CakeText::uuid();
             if ($line[6] === '男') {
                 $line[6] = 'm';
             } else {
@@ -427,7 +427,7 @@ class ImportShell extends AppShell {
                 }
             }
             if (isset($dbKeys[$licenseCode])) {
-                $currentId = String::uuid();
+                $currentId = CakeText::uuid();
                 $valueStack[] = implode(',', array(
                     "('{$currentId}'", //id
                     $this->key2id[implode('', $tree)], //category_id
@@ -496,7 +496,7 @@ class ImportShell extends AppShell {
             $ingredientKey = trim($line[2]);
             if (!isset($ingredientKeys[$ingredientKey])) {
                 $ingredientKeys[$ingredientKey] = array(
-                    'id' => String::uuid(),
+                    'id' => CakeText::uuid(),
                     'count_licenses' => 0,
                 );
             }
@@ -505,7 +505,7 @@ class ImportShell extends AppShell {
             for ($i = 1; $i <= 5; $i++) {
                 $line[$i] = $this->mysqli->real_escape_string(trim($line[$i]));
             }
-            $currentId = String::uuid();
+            $currentId = CakeText::uuid();
             $valueStack[] = implode(',', array(
                 "('{$currentId}'", //id
                 "'{$dbKeys[$licenseCode]}'", //license_id
@@ -603,7 +603,7 @@ class ImportShell extends AppShell {
                 $count = 0;
                 foreach ($files AS $url) {
                     ++$count;
-                    $currentId = String::uuid();
+                    $currentId = CakeText::uuid();
                     $url = $this->mysqli->real_escape_string($url);
                     $valueStack[] = implode(',', array(
                         "('{$currentId}'", //id
@@ -632,7 +632,7 @@ class ImportShell extends AppShell {
                 $count = 0;
                 foreach ($files AS $url) {
                     ++$count;
-                    $currentId = String::uuid();
+                    $currentId = CakeText::uuid();
                     $url = $this->mysqli->real_escape_string($url);
                     $valueStack[] = implode(',', array(
                         "('{$currentId}'", //id
@@ -680,7 +680,7 @@ class ImportShell extends AppShell {
                 $count = 0;
                 foreach ($json['仿單外盒'] AS $link) {
                     ++$count;
-                    $currentId = String::uuid();
+                    $currentId = CakeText::uuid();
                     $url = $this->mysqli->real_escape_string($link['url']);
                     if (false !== strpos($link['title'], '仿單') || false !== strpos($link['title'], '手冊')) {
                         $currentType = 1;
@@ -852,7 +852,7 @@ class ImportShell extends AppShell {
         while ($line = fgetcsv($fh, 2048)) {
             $licenseId = '';
             $licenseCode = 'fda' . $line[0];
-            $currentId = String::uuid();
+            $currentId = CakeText::uuid();
 
             if (isset($dbKeys[$licenseCode])) {
                 $licenseId = $dbKeys[$licenseCode];
@@ -939,7 +939,7 @@ class ImportShell extends AppShell {
                 continue;
             }
 
-            $currentId = String::uuid();
+            $currentId = CakeText::uuid();
             $line[7] = $dbKeys[$licenseCode];
             $line[4] = $this->getTwDate($line[4]);
             $line[5] = $this->getTwDate($line[5]);
@@ -1134,15 +1134,15 @@ class ImportShell extends AppShell {
             }
 
             if (!isset($licenseId[$licenseCode])) {
-                $licenseId[$licenseCode] = String::uuid();
+                $licenseId[$licenseCode] = CakeText::uuid();
             }
             $vendorKey1 = $cols[17];
             $vendorKey2 = $cols[20];
             if (!isset($vendorKeys[$vendorKey1])) {
-                $vendorKeys[$vendorKey1] = String::uuid();
+                $vendorKeys[$vendorKey1] = CakeText::uuid();
             }
             if (!isset($vendorKeys[$vendorKey2])) {
-                $vendorKeys[$vendorKey2] = String::uuid();
+                $vendorKeys[$vendorKey2] = CakeText::uuid();
             }
 
             foreach ($escapesKeys AS $escapesKey) {
@@ -1154,7 +1154,7 @@ class ImportShell extends AppShell {
             }
 
             if (!isset($stack[$key])) {
-                $stack[$key] = String::uuid();
+                $stack[$key] = CakeText::uuid();
             }
 
             if (!isset($dbVendorKeys[$vendorKeys[$vendorKey1]])) {

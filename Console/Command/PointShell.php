@@ -120,7 +120,7 @@ class PointShell extends AppShell {
             if (isset($codes[$point['nhi_id']])) {
                 $currentId = $codes[$point['nhi_id']];
             } else {
-                $currentId = String::uuid();
+                $currentId = CakeText::uuid();
                 
             }
 

@@ -146,15 +146,15 @@ class TfdaShell extends AppShell {
             $vendorKey1 = $json['申請商名稱'] = $this->getCleanString($json['申請商名稱']);
             $vendorKey2 = $json['主製造廠']['製造廠名稱'] = $this->getCleanString($json['主製造廠']['製造廠名稱']);
             if (!isset($vendorKeys[$vendorKey1])) {
-                $vendorKeys[$vendorKey1] = String::uuid();
+                $vendorKeys[$vendorKey1] = CakeText::uuid();
             }
             if (!isset($vendorKeys[$vendorKey2])) {
-                $vendorKeys[$vendorKey2] = String::uuid();
+                $vendorKeys[$vendorKey2] = CakeText::uuid();
             }
 
             $licenseCode = 'fda' . $json['code'];
             if (!isset($licenseId[$licenseCode])) {
-                $licenseId[$licenseCode] = String::uuid();
+                $licenseId[$licenseCode] = CakeText::uuid();
             }
             $id = $licenseId[$licenseCode]; //license id
 
@@ -163,14 +163,14 @@ class TfdaShell extends AppShell {
             $vendorKey1 = $json['申請商名稱'];
             $vendorKey2 = $json['主製造廠']['製造廠名稱'];
             if (!isset($vendorKeys[$vendorKey1])) {
-                $vendorKeys[$vendorKey1] = String::uuid();
+                $vendorKeys[$vendorKey1] = CakeText::uuid();
             }
             if (!isset($vendorKeys[$vendorKey2])) {
-                $vendorKeys[$vendorKey2] = String::uuid();
+                $vendorKeys[$vendorKey2] = CakeText::uuid();
             }
 
             if (!isset($stack[$key])) {
-                $stack[$key] = String::uuid();
+                $stack[$key] = CakeText::uuid();
             }
             $drugId = $stack[$key];
 
