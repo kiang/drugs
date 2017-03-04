@@ -3,7 +3,7 @@
     "url": "http:\/\/www.nhi.gov.tw\/Query\/Query3_Detail.aspx?HospID=3543010772",
     "type": "診所",
     "name": "蕭文彬內小兒科診所",
-    "category": "不分科",
+    "category": "內科、兒科、神經科",
     "biz_type": "一般診所（醫務室）",
     "service": "門診診療、成人預防保健、定量免疫法糞便潛血檢查",
     "phone": "08-7363585",
@@ -18,7 +18,7 @@
         "3": "V",
         "4": "V",
         "5": "V",
-        "6": "V",
+        "6": "休診",
         "7": "休診"
     },
     "afternoon": {

@@ -3,7 +3,7 @@
     "url": "http:\/\/www.nhi.gov.tw\/Query\/Query3_Detail.aspx?HospID=3532102170",
     "type": "診所",
     "name": "文化耳鼻喉科診所",
-    "category": "耳鼻喉科",
+    "category": "耳鼻喉科、皮膚科",
     "biz_type": "一般診所（醫務室）",
     "service": "門診診療、成人預防保健、口腔黏膜檢查",
     "phone": "03-4951689",
@@ -37,6 +37,6 @@
         "4": "V",
         "5": "V",
         "6": "V",
-        "7": "V"
+        "7": "休診"
     }
 }

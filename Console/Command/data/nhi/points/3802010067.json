@@ -2,7 +2,7 @@
     "nhi_id": "3802010067",
     "url": "http:\/\/www.nhi.gov.tw\/Query\/Query3_Detail.aspx?HospID=3802010067",
     "type": "診所",
-    "name": "中仁內婦科中醫診所",
+    "name": "中仁中醫診所",
     "category": "中醫科",
     "biz_type": "中醫一般診所",
     "service": "門診診療",
@@ -36,7 +36,7 @@
         "3": "V",
         "4": "V",
         "5": "V",
-        "6": "V",
+        "6": "休診",
         "7": "休診"
     }
 }

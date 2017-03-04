@@ -2,7 +2,7 @@
     "nhi_id": "5901091919",
     "url": "http:\/\/www.nhi.gov.tw\/Query\/Query3_Detail.aspx?HospID=5901091919",
     "type": "藥局",
-    "name": "皇顏藥妝藥局",
+    "name": "皇顏藥藥局",
     "category": "",
     "biz_type": "藥師自營",
     "service": "",
@@ -11,7 +11,7 @@
     "latitude": "25.001689",
     "longitude": "121.460809",
     "nhi_admin": "臺北業務組",
-    "nhi_end": "",
+    "nhi_end": "2016\/09\/30",
     "morning": {
         "1": "",
         "2": "",
