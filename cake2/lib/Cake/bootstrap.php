@@ -145,8 +145,11 @@ App::uses('ErrorHandler', 'Error');
 App::uses('Configure', 'Core');
 App::uses('CakePlugin', 'Core');
 App::uses('Cache', 'Cache');
+App::uses('CakeObject', 'Core');
 App::uses('Object', 'Core');
 App::uses('Multibyte', 'I18n');
+
+App::$bootstrapping = true;
 
 /**
  * Full URL prefix
@@ -170,19 +173,6 @@ Configure::write('App.imageBaseUrl', IMAGES_URL);
 Configure::write('App.cssBaseUrl', CSS_URL);
 Configure::write('App.jsBaseUrl', JS_URL);
 
-App::$bootstrapping = true;
-
-Configure::bootstrap(isset($boot) ? $boot : true);
-
-if (function_exists('mb_internal_encoding')) {
-	$encoding = Configure::read('App.encoding');
-	if (!empty($encoding)) {
-		mb_internal_encoding($encoding);
-	}
-	if (!empty($encoding) && function_exists('mb_regex_encoding')) {
-		mb_regex_encoding($encoding);
-	}
-}
 
 if (!function_exists('mb_stripos')) {
 
@@ -437,4 +427,16 @@ if (!function_exists('mb_encode_mimeheader')) {
 		return Multibyte::mimeEncode($str, $charset, $linefeed);
 	}
 
+}
+
+Configure::bootstrap(isset($boot) ? $boot : true);
+
+if (function_exists('mb_internal_encoding')) {
+	$encoding = Configure::read('App.encoding');
+	if (!empty($encoding)) {
+		mb_internal_encoding($encoding);
+	}
+	if (!empty($encoding) && function_exists('mb_regex_encoding')) {
+		mb_regex_encoding($encoding);
+	}
 }

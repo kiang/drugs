@@ -22,28 +22,17 @@ App::uses('SmtpTransport', 'Network/Email');
 
 /**
  * Help to test SmtpTransport
- *
  */
 class SmtpTestTransport extends SmtpTransport {
 
 /**
  * Helper to change the socket
  *
- * @param object $socket
+ * @param CakeSocket $socket A socket.
  * @return void
  */
 	public function setSocket(CakeSocket $socket) {
 		$this->_socket = $socket;
-	}
-
-/**
- * Helper to change the CakeEmail
- *
- * @param object $cakeEmail
- * @return void
- */
-	public function setCakeEmail($cakeEmail) {
-		$this->_cakeEmail = $cakeEmail;
 	}
 
 /**
@@ -57,8 +46,8 @@ class SmtpTestTransport extends SmtpTransport {
 /**
  * Magic function to call protected methods
  *
- * @param string $method
- * @param string $args
+ * @param string $method The method to call.
+ * @param string $args The arguments.
  * @return mixed
  */
 	public function __call($method, $args) {
@@ -70,7 +59,6 @@ class SmtpTestTransport extends SmtpTransport {
 
 /**
  * Test case
- *
  */
 class SmtpTransportTest extends CakeTestCase {
 
@@ -350,8 +338,7 @@ class SmtpTransportTest extends CakeTestCase {
 		$this->socket->expects($this->at(13))->method('read')->will($this->returnValue(false));
 		$this->socket->expects($this->at(14))->method('read')->will($this->returnValue("250 OK\r\n"));
 
-		$this->SmtpTransport->setCakeEmail($email);
-		$this->SmtpTransport->sendRcpt();
+		$this->SmtpTransport->sendRcpt($email);
 	}
 
 /**
@@ -372,8 +359,7 @@ class SmtpTransportTest extends CakeTestCase {
 		$this->socket->expects($this->at(4))->method('read')->will($this->returnValue(false));
 		$this->socket->expects($this->at(5))->method('read')->will($this->returnValue("250 OK\r\n"));
 
-		$this->SmtpTransport->setCakeEmail($email);
-		$this->SmtpTransport->sendRcpt();
+		$this->SmtpTransport->sendRcpt($email);
 	}
 
 /**
@@ -418,8 +404,7 @@ class SmtpTransportTest extends CakeTestCase {
 		$this->socket->expects($this->at(4))->method('read')->will($this->returnValue(false));
 		$this->socket->expects($this->at(5))->method('read')->will($this->returnValue("250 OK\r\n"));
 
-		$this->SmtpTransport->setCakeEmail($email);
-		$this->SmtpTransport->sendData();
+		$this->SmtpTransport->sendData($email);
 	}
 
 /**
@@ -500,8 +485,7 @@ class SmtpTransportTest extends CakeTestCase {
 		$this->socket->expects($this->at(4))->method('read')->will($this->returnValue(false));
 		$this->socket->expects($this->at(5))->method('read')->will($this->returnValue("250 OK\r\n"));
 
-		$this->SmtpTransport->setCakeEmail($email);
-		$this->SmtpTransport->sendRcpt();
+		$this->SmtpTransport->sendRcpt($email);
 
 		$expected = array(
 			array('code' => '250', 'message' => 'OK'),

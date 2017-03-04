@@ -74,7 +74,7 @@ class BehaviorCollection extends ObjectCollection implements CakeEventListener {
  * @param string $behavior Behavior name.
  * @param array $config Configuration options.
  * @return void
- * @deprecated Will be removed in 3.0. Replaced with load().
+ * @deprecated 3.0.0 Will be removed in 3.0. Replaced with load().
  */
 	public function attach($behavior, $config = array()) {
 		return $this->load($behavior, $config);
@@ -86,13 +86,13 @@ class BehaviorCollection extends ObjectCollection implements CakeEventListener {
  * can still be used as normal.
  *
  * You can alias your behavior as an existing behavior by setting the 'className' key, i.e.,
- * {{{
+ * ```
  * public $actsAs = array(
  *   'Tree' => array(
  *     'className' => 'AliasedTree'
  *   );
  * );
- * }}}
+ * ```
  * All calls to the `Tree` behavior would use `AliasedTree` instead.
  *
  * @param string $behavior CamelCased name of the behavior to load
@@ -201,7 +201,7 @@ class BehaviorCollection extends ObjectCollection implements CakeEventListener {
  *
  * @param string $name Name of behavior
  * @return void
- * @deprecated Will be removed in 3.0. Use unload instead.
+ * @deprecated 3.0.0 Will be removed in 3.0. Use unload instead.
  */
 	public function detach($name) {
 		return $this->unload($name);

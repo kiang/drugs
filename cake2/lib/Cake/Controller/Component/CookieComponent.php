@@ -27,7 +27,6 @@ App::uses('Hash', 'Utility');
  *
  * @package       Cake.Controller.Component
  * @link http://book.cakephp.org/2.0/en/core-libraries/components/cookie.html
- *
  */
 class CookieComponent extends Component {
 
@@ -262,7 +261,7 @@ class CookieComponent extends Component {
  * $this->Cookie->read(Name.key);
  *
  * @param string $key Key of the value to be obtained. If none specified, obtain map key => values
- * @return string or null, value for specified key
+ * @return string|null Value for specified key
  * @link http://book.cakephp.org/2.0/en/core-libraries/components/cookie.html#CookieComponent::read
  */
 	public function read($key = null) {
@@ -414,7 +413,7 @@ class CookieComponent extends Component {
 		$now = new DateTime();
 
 		if (is_int($expires) || is_numeric($expires)) {
-			return $this->_expires = $now->format('U') + intval($expires);
+			return $this->_expires = $now->format('U') + (int)$expires;
 		}
 		$now->modify($expires);
 		return $this->_expires = $now->format('U');

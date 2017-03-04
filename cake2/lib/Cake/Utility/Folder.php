@@ -47,6 +47,16 @@ class Folder {
 	const SKIP = 'skip';
 
 /**
+ * Sort mode by name
+ */
+	const SORT_NAME = 'name';
+
+/**
+ * Sort mode by time
+ */
+	const SORT_TIME = 'time';
+
+/**
  * Path to Folder.
  *
  * @var string
@@ -64,12 +74,20 @@ class Folder {
 	public $sort = false;
 
 /**
- * Mode to be used on create. Does nothing on windows platforms.
+ * Mode to be used on create. Does nothing on Windows platforms.
  *
  * @var int
  * http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#Folder::$mode
  */
 	public $mode = 0755;
+
+/**
+ * Functions array to be called depending on the sort type chosen.
+ */
+	protected $_fsorts = array(
+		self::SORT_NAME => 'getPathname',
+		self::SORT_TIME => 'getCTime'
+	);
 
 /**
  * Holds messages from last method.
@@ -155,14 +173,14 @@ class Folder {
  * Returns an array of the contents of the current directory.
  * The returned array holds two arrays: One of directories and one of files.
  *
- * @param bool $sort Whether you want the results sorted, set this and the sort property
+ * @param string|bool $sort Whether you want the results sorted, set this and the sort property
  *   to false to get unsorted results.
  * @param array|bool $exceptions Either an array or boolean true will not grab dot files
  * @param bool $fullPath True returns the full path
  * @return mixed Contents of current directory as an array, an empty array on failure
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#Folder::read
  */
-	public function read($sort = true, $exceptions = false, $fullPath = false) {
+	public function read($sort = self::SORT_NAME, $exceptions = false, $fullPath = false) {
 		$dirs = $files = array();
 
 		if (!$this->pwd()) {
@@ -178,6 +196,11 @@ class Folder {
 		} catch (Exception $e) {
 			return array($dirs, $files);
 		}
+		if (!is_bool($sort) && isset($this->_fsorts[$sort])) {
+			$methodName = $this->_fsorts[$sort];
+		} else {
+			$methodName = $this->_fsorts[self::SORT_NAME];
+		}
 
 		foreach ($iterator as $item) {
 			if ($item->isDot()) {
@@ -191,14 +214,22 @@ class Folder {
 				$name = $item->getPathName();
 			}
 			if ($item->isDir()) {
-				$dirs[] = $name;
+				$dirs[$item->{$methodName}()][] = $name;
 			} else {
-				$files[] = $name;
+				$files[$item->{$methodName}()][] = $name;
 			}
 		}
+
 		if ($sort || $this->sort) {
-			sort($dirs);
-			sort($files);
+			ksort($dirs);
+			ksort($files);
+		}
+
+		if ($dirs) {
+			$dirs = call_user_func_array('array_merge', $dirs);
+		}
+		if ($files) {
+			$files = call_user_func_array('array_merge', $files);
 		}
 		return array($dirs, $files);
 	}
@@ -263,7 +294,7 @@ class Folder {
  * Returns true if given $path is a Windows path.
  *
  * @param string $path Path to check
- * @return bool true if windows path, false otherwise
+ * @return bool true if Windows path, false otherwise
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#Folder::isWindowsPath
  */
 	public static function isWindowsPath($path) {
@@ -278,7 +309,29 @@ class Folder {
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#Folder::isAbsolute
  */
 	public static function isAbsolute($path) {
-		return !empty($path) && ($path[0] === '/' || preg_match('/^[A-Z]:\\\\/i', $path) || substr($path, 0, 2) === '\\\\');
+		if (empty($path)) {
+			return false;
+		}
+
+		return $path[0] === '/' ||
+			preg_match('/^[A-Z]:\\\\/i', $path) ||
+			substr($path, 0, 2) === '\\\\' ||
+			static::isRegisteredStreamWrapper($path);
+	}
+
+/**
+ * Returns true if given $path is a registered stream wrapper.
+ *
+ * @param string $path Path to check
+ * @return boo true If path is registered stream wrapper.
+ */
+	public static function isRegisteredStreamWrapper($path) {
+		if (preg_match('/^[A-Z]+(?=:\/\/)/i', $path, $matches) &&
+			in_array($matches[0], stream_get_wrappers())
+		) {
+			return true;
+		}
+		return false;
 	}
 
 /**
@@ -332,7 +385,7 @@ class Folder {
 	}
 
 /**
- * Returns true if the File is in a given CakePath.
+ * Returns true if the Folder is in the given Cake path.
  *
  * @param string $path The path to check.
  * @return bool
@@ -346,21 +399,26 @@ class Folder {
 	}
 
 /**
- * Returns true if the File is in given path.
+ * Returns true if the Folder is in the given path.
  *
- * @param string $path The path to check that the current pwd() resides with in.
- * @param bool $reverse Reverse the search, check that pwd() resides within $path.
+ * @param string $path The absolute path to check that the current `pwd()` resides within.
+ * @param bool $reverse Reverse the search, check if the given `$path` resides within the current `pwd()`.
  * @return bool
+ * @throws \InvalidArgumentException When the given `$path` argument is not an absolute path.
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#Folder::inPath
  */
 	public function inPath($path = '', $reverse = false) {
+		if (!Folder::isAbsolute($path)) {
+			throw new InvalidArgumentException(__d('cake_dev', 'The $path argument is expected to be an absolute path.'));
+		}
+
 		$dir = Folder::slashTerm($path);
 		$current = Folder::slashTerm($this->pwd());
 
 		if (!$reverse) {
-			$return = preg_match('/^(.*)' . preg_quote($dir, '/') . '(.*)/', $current);
+			$return = preg_match('/^' . preg_quote($dir, '/') . '(.*)/', $current);
 		} else {
-			$return = preg_match('/^(.*)' . preg_quote($current, '/') . '(.*)/', $dir);
+			$return = preg_match('/^' . preg_quote($current, '/') . '(.*)/', $dir);
 		}
 		return (bool)$return;
 	}
@@ -368,11 +426,11 @@ class Folder {
 /**
  * Change the mode on a directory structure recursively. This includes changing the mode on files as well.
  *
- * @param string $path The path to chmod
- * @param int $mode octal value 0755
- * @param bool $recursive chmod recursively, set to false to only change the current directory.
- * @param array $exceptions array of files, directories to skip
- * @return bool Returns TRUE on success, FALSE on failure
+ * @param string $path The path to chmod.
+ * @param int $mode Octal value, e.g. 0755.
+ * @param bool $recursive Chmod recursively, set to false to only change the current directory.
+ * @param array $exceptions Array of files, directories to skip.
+ * @return bool Success.
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#Folder::chmod
  */
 	public function chmod($path, $mode = false, $recursive = true, $exceptions = array()) {
@@ -487,10 +545,13 @@ class Folder {
 	}
 
 /**
- * Create a directory structure recursively. Can be used to create
- * deep path structures like `/foo/bar/baz/shoe/horn`
+ * Create a directory structure recursively.
  *
- * @param string $pathname The directory structure to create
+ * Can be used to create deep path structures like `/foo/bar/baz/shoe/horn`
+ *
+ * @param string $pathname The directory structure to create. Either an absolute or relative
+ *   path. If the path is relative and exists in the process' cwd it will not be created.
+ *   Otherwise relative paths will be prefixed with the current pwd().
  * @param int $mode octal value 0755
  * @return bool Returns TRUE on success, FALSE on failure
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#Folder::create
@@ -498,6 +559,10 @@ class Folder {
 	public function create($pathname, $mode = false) {
 		if (is_dir($pathname) || empty($pathname)) {
 			return true;
+		}
+
+		if (!static::isAbsolute($pathname)) {
+			$pathname = static::addPathElement($this->pwd(), $pathname);
 		}
 
 		if (!$mode) {
@@ -575,7 +640,7 @@ class Folder {
 			$path = $this->pwd();
 		}
 		if (!$path) {
-			return null;
+			return false;
 		}
 		$path = Folder::slashTerm($path);
 		if (is_dir($path)) {
@@ -628,12 +693,12 @@ class Folder {
  *
  * - `to` The directory to copy to.
  * - `from` The directory to copy from, this will cause a cd() to occur, changing the results of pwd().
- * - `mode` The mode to copy the files/directories with.
+ * - `mode` The mode to copy the files/directories with as integer, e.g. 0775.
  * - `skip` Files/directories to skip.
  * - `scheme` Folder::MERGE, Folder::OVERWRITE, Folder::SKIP
  *
  * @param array|string $options Either an array of options (see above) or a string of the destination directory.
- * @return bool Success
+ * @return bool Success.
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#Folder::copy
  */
 	public function copy($options) {
@@ -645,7 +710,13 @@ class Folder {
 			$to = $options;
 			$options = array();
 		}
-		$options += array('to' => $to, 'from' => $this->path, 'mode' => $this->mode, 'skip' => array(), 'scheme' => Folder::MERGE);
+		$options += array(
+			'to' => $to,
+			'from' => $this->path,
+			'mode' => $this->mode,
+			'skip' => array(),
+			'scheme' => Folder::MERGE
+		);
 
 		$fromDir = $options['from'];
 		$toDir = $options['to'];
@@ -673,7 +744,7 @@ class Folder {
 				$to = Folder::addPathElement($toDir, $item);
 				if (($options['scheme'] != Folder::SKIP || !is_dir($to)) && !in_array($item, $exceptions)) {
 					$from = Folder::addPathElement($fromDir, $item);
-					if (is_file($from)) {
+					if (is_file($from) && (!is_file($to) || $options['scheme'] != Folder::SKIP)) {
 						if (copy($from, $to)) {
 							chmod($to, intval($mode, 8));
 							touch($to, filemtime($from));
@@ -786,13 +857,13 @@ class Folder {
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#Folder::realpath
  */
 	public function realpath($path) {
-		$path = str_replace('/', DS, trim($path));
 		if (strpos($path, '..') === false) {
 			if (!Folder::isAbsolute($path)) {
 				$path = Folder::addPathElement($this->path, $path);
 			}
 			return $path;
 		}
+		$path = str_replace('/', DS, trim($path));
 		$parts = explode(DS, $path);
 		$newparts = array();
 		$newpath = '';

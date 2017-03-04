@@ -29,7 +29,7 @@ App::uses('CakeEmail', 'Network/Email');
  * @package       Cake.Controller.Component
  * @link          http://book.cakephp.org/2.0/en/core-libraries/components/email.html
  * @link          http://book.cakephp.org/2.0/en/core-utility-libraries/email.html
- * @deprecated    Will be removed in 3.0. Use Network/CakeEmail instead
+ * @deprecated    3.0.0 Will be removed in 3.0. Use Network/CakeEmail instead
  */
 class EmailComponent extends Component {
 
@@ -309,7 +309,8 @@ class EmailComponent extends Component {
 			$lib->readReceipt($this->_formatAddresses((array)$this->readReceipt));
 		}
 
-		$lib->subject($this->subject)->messageID($this->messageId);
+		$lib->subject($this->subject);
+		$lib->messageID($this->messageId);
 		$lib->helpers($this->_controller->helpers);
 
 		$headers = array('X-Mailer' => $this->xMailer);
@@ -405,7 +406,7 @@ class EmailComponent extends Component {
  * Find the specified attachment in the list of file paths
  *
  * @param string $attachment Attachment file name to find
- * @return string Path to located file
+ * @return string|null Path to located file
  */
 	protected function _findFiles($attachment) {
 		if (file_exists($attachment)) {

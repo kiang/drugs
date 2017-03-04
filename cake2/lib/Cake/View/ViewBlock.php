@@ -75,7 +75,7 @@ class ViewBlock {
  */
 	public function start($name) {
 		if (in_array($name, $this->_active)) {
-			throw new CakeException(__("A view block with the name '%s' is already/still open.", $name));
+			throw new CakeException(__d('cake', "A view block with the name '%s' is already/still open.", $name));
 		}
 		$this->_active[] = $name;
 		ob_start();
@@ -164,7 +164,7 @@ class ViewBlock {
  * @param string $name Name of the block
  * @param string $value The content for the block.
  * @return void
- * @deprecated As of 2.3 use ViewBlock::concat() instead.
+ * @deprecated 3.0.0 As of 2.3 use ViewBlock::concat() instead.
  */
 	public function append($name, $value = null) {
 		$this->concat($name, $value);
@@ -194,6 +194,16 @@ class ViewBlock {
 			return $default;
 		}
 		return $this->_blocks[$name];
+	}
+
+/**
+ * Check if a block exists
+ *
+ * @param string $name Name of the block
+ * @return bool
+ */
+	public function exists($name) {
+		return isset($this->_blocks[$name]);
 	}
 
 /**

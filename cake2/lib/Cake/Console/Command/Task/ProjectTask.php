@@ -18,7 +18,7 @@
 App::uses('AppShell', 'Console/Command');
 App::uses('File', 'Utility');
 App::uses('Folder', 'Utility');
-App::uses('String', 'Utility');
+App::uses('CakeText', 'Utility');
 App::uses('Security', 'Utility');
 
 /**
@@ -212,7 +212,7 @@ class ProjectTask extends AppShell {
 				}
 
 				foreach ($Folder->messages() as $message) {
-					$this->out(String::wrap(' * ' . $message), 1, Shell::VERBOSE);
+					$this->out(CakeText::wrap(' * ' . $message), 1, Shell::VERBOSE);
 				}
 
 				return true;
@@ -339,6 +339,11 @@ class ProjectTask extends AppShell {
 
 		$root = strpos(CAKE_CORE_INCLUDE_PATH, '/') === 0 ? " DS . '" : "'";
 		$corePath = $root . str_replace(DS, "' . DS . '", trim(CAKE_CORE_INCLUDE_PATH, DS)) . "'";
+
+		$composer = ROOT . DS . APP_DIR . DS . 'Vendor' . DS . 'cakephp' . DS . 'cakephp' . DS . 'lib';
+		if (file_exists($composer)) {
+			$corePath = " ROOT . DS . APP_DIR . DS . 'Vendor' . DS . 'cakephp' . DS . 'cakephp' . DS . 'lib'";
+		}
 
 		$result = str_replace('__CAKE_PATH__', $corePath, $contents, $count);
 		if ($hardCode) {

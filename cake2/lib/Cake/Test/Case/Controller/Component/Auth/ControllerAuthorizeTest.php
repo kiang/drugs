@@ -22,7 +22,7 @@ App::uses('CakeRequest', 'Network');
 App::uses('CakeResponse', 'Network');
 
 /**
- * Class ControllerAuthorizeTest
+ * ControllerAuthorizeTest
  *
  * @package       Cake.Test.Case.Controller.Component.Auth
  */
@@ -45,14 +45,23 @@ class ControllerAuthorizeTest extends CakeTestCase {
 	}
 
 /**
+ * testControllerTypeError
+ *
  * @expectedException PHPUnit_Framework_Error
+ * @throws PHPUnit_Framework_Error
  * @return void
  */
 	public function testControllerTypeError() {
-		$this->auth->controller(new StdClass());
+		try {
+			$this->auth->controller(new StdClass());
+		} catch (Throwable $t) {
+			throw new PHPUnit_Framework_Error($t);
+		}
 	}
 
 /**
+ * testControllerErrorOnMissingMethod
+ *
  * @expectedException CakeException
  * @return void
  */

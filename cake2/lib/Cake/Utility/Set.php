@@ -16,14 +16,14 @@
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-App::uses('String', 'Utility');
+App::uses('CakeText', 'Utility');
 App::uses('Hash', 'Utility');
 
 /**
  * Class used for manipulation of arrays.
  *
  * @package       Cake.Utility
- * @deprecated Will be removed in 3.0. Use Hash instead.
+ * @deprecated 3.0.0 Will be removed in 3.0. Use Hash instead.
  */
 class Set {
 
@@ -97,7 +97,7 @@ class Set {
  *
  * @param string $class A class name of the type of object to map to
  * @param string $tmp A temporary class name used as $class if $class is an array
- * @return object Hierarchical object
+ * @return object|null Hierarchical object
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/set.html#Set::map
  */
 	public static function map($class = 'stdClass', $tmp = 'stdClass') {
@@ -228,7 +228,7 @@ class Set {
  * @param array $data Source array from which to extract the data
  * @param string $format Format string into which values will be inserted, see sprintf()
  * @param array $keys An array containing one or more Set::extract()-style key paths
- * @return array An array of strings extracted from $keys and formatted with $format
+ * @return array|null An array of strings extracted from $keys and formatted with $format, otherwise null.
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/set.html#Set::format
  */
 	public static function format($data, $format, $keys) {
@@ -236,7 +236,7 @@ class Set {
 		$count = count($keys);
 
 		if (!$count) {
-			return;
+			return null;
 		}
 
 		for ($i = 0; $i < $count; $i++) {
@@ -549,7 +549,7 @@ class Set {
 			return null;
 		}
 		if (is_string($path) && strpos($path, '{') !== false) {
-			$path = String::tokenize($path, '.', '{', '}');
+			$path = CakeText::tokenize($path, '.', '{', '}');
 		} elseif (is_string($path)) {
 			$path = explode('.', $path);
 		}
@@ -560,7 +560,7 @@ class Set {
 		}
 
 		foreach ($path as $i => $key) {
-			if (is_numeric($key) && intval($key) > 0 || $key === '0') {
+			if (is_numeric($key) && (int)$key > 0 || $key === '0') {
 				if (isset($data[$key])) {
 					$data = $data[$key];
 				} else {
@@ -657,8 +657,8 @@ class Set {
 		}
 
 		foreach ($path as $i => $key) {
-			if (is_numeric($key) && intval($key) > 0 || $key === '0') {
-				$key = intval($key);
+			if (is_numeric($key) && (int)$key > 0 || $key === '0') {
+				$key = (int)$key;
 			}
 			if ($i === count($path) - 1) {
 				return (is_array($data) && array_key_exists($key, $data));

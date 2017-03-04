@@ -134,7 +134,7 @@ class ShellDispatcher {
 		if (!defined('TMP') && !is_dir(APP . 'tmp')) {
 			define('TMP', CAKE_CORE_INCLUDE_PATH . DS . 'Cake' . DS . 'Console' . DS . 'Templates' . DS . 'skel' . DS . 'tmp' . DS);
 		}
-		$boot = file_exists(ROOT . DS . APP_DIR . DS . 'Config' . DS . 'bootstrap.php');
+
 		require CORE_PATH . 'Cake' . DS . 'bootstrap.php';
 
 		if (!file_exists(APP . 'Config' . DS . 'core.php')) {
@@ -177,6 +177,9 @@ class ShellDispatcher {
 		}
 		set_exception_handler($exception['consoleHandler']);
 		set_error_handler($error['consoleHandler'], Configure::read('Error.level'));
+
+		App::uses('Debugger', 'Utility');
+		Debugger::getInstance()->output('txt');
 	}
 
 /**
@@ -245,6 +248,11 @@ class ShellDispatcher {
 		App::uses('Shell', 'Console');
 		App::uses('AppShell', 'Console/Command');
 		App::uses($class, $plugin . 'Console/Command');
+
+		if (!class_exists($class)) {
+			$plugin = Inflector::camelize($shell) . '.';
+			App::uses($class, $plugin . 'Console/Command');
+		}
 
 		if (!class_exists($class)) {
 			throw new MissingShellException(array(

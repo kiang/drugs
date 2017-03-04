@@ -201,7 +201,7 @@ class RouterTest extends CakeTestCase {
 		));
 		CakePlugin::load('TestPlugin');
 		App::uses('TestRoute', 'TestPlugin.Routing/Route');
-		$resources = Router::mapResources('Posts', array(
+		Router::mapResources('Posts', array(
 			'connectOptions' => array(
 				'routeClass' => 'TestPlugin.TestRoute',
 				'foo' => '^(bar)$',
@@ -238,7 +238,7 @@ class RouterTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 		$this->assertEquals(array('test_plugin'), $resources);
 
-		$resources = Router::mapResources('Posts', array('prefix' => 'api'));
+		Router::mapResources('Posts', array('prefix' => 'api'));
 
 		$_SERVER['REQUEST_METHOD'] = 'GET';
 		$result = Router::parse('/api/posts');
@@ -1579,7 +1579,7 @@ class RouterTest extends CakeTestCase {
 		$request->base = '/';
 		Router::setRequestInfo($request);
 
-		$result = Router::parse('/admin/controller/index/type:whatever');
+		Router::parse('/admin/controller/index/type:whatever');
 		$result = Router::url(array('type' => 'new'));
 		$expected = "/admin/controller/index/type:new";
 		$this->assertEquals($expected, $result);
@@ -2454,7 +2454,7 @@ class RouterTest extends CakeTestCase {
  * @return void
  */
 	public function testCustomRouteException() {
-		Router::connect('/:controller', array(), array('routeClass' => 'Object'));
+		Router::connect('/:controller', array(), array('routeClass' => 'CakeObject'));
 	}
 
 /**
@@ -2801,7 +2801,7 @@ class RouterTest extends CakeTestCase {
  * @return void
  */
 	public function testSettingInvalidDefaultRouteException() {
-		Router::defaultRouteClass('Object');
+		Router::defaultRouteClass('CakeObject');
 	}
 
 /**

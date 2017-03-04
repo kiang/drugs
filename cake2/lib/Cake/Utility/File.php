@@ -219,7 +219,7 @@ class File {
  *
  * @param string $data Data to write to this File.
  * @param string $mode Mode of writing. {@link http://php.net/fwrite See fwrite()}.
- * @param string $force Force the file to open
+ * @param bool $force Force the file to open
  * @return bool Success
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/file-folder.html#File::write
  */
@@ -393,7 +393,10 @@ class File {
  */
 	public function pwd() {
 		if ($this->path === null) {
-			$this->path = $this->Folder->slashTerm($this->Folder->pwd()) . $this->name;
+			$dir = $this->Folder->pwd();
+			if (is_dir($dir)) {
+				$this->path = $this->Folder->slashTerm($dir) . $this->name;
+			}
 		}
 		return $this->path;
 	}

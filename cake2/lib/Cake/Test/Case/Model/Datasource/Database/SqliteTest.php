@@ -168,7 +168,13 @@ class SqliteTest extends CakeTestCase {
 		$dbName = 'db' . rand() . '$(*%&).db';
 		$this->assertFalse(file_exists(TMP . $dbName));
 
-		$db = new Sqlite(array_merge($this->Dbo->config, array('database' => TMP . $dbName)));
+		try {
+			$db = new Sqlite(array_merge($this->Dbo->config, array('database' => TMP . $dbName)));
+		} catch (MissingConnectionException $e) {
+			// This might be caused by NTFS file systems, where '*' is a forbidden character. Repeat without this character.
+			$dbName = str_replace('*', '', $dbName);
+			$db = new Sqlite(array_merge($this->Dbo->config, array('database' => TMP . $dbName)));
+		}
 		$this->assertTrue(file_exists(TMP . $dbName));
 
 		$db->execute("CREATE TABLE test_list (id VARCHAR(255));");
@@ -423,6 +429,40 @@ class SqliteTest extends CakeTestCase {
 	}
 
 /**
+ * Test that describe ignores `default current_timestamp` in timestamp columns.
+ *
+ * @return void
+ */
+	public function testDescribeHandleCurrentTimestamp() {
+		$name = $this->Dbo->fullTableName('timestamp_default_values');
+		$sql = <<<SQL
+CREATE TABLE $name (
+	id INT NOT NULL,
+	phone VARCHAR(10),
+	limit_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	PRIMARY KEY (id)
+);
+SQL;
+		$this->Dbo->execute($sql);
+		$model = new Model(array(
+			'table' => 'timestamp_default_values',
+			'ds' => 'test',
+			'alias' => 'TimestampDefaultValue'
+		));
+		$result = $this->Dbo->describe($model);
+		$this->Dbo->execute('DROP TABLE ' . $name);
+
+		$this->assertNull($result['limit_date']['default']);
+
+		$schema = new CakeSchema(array(
+			'connection' => 'test',
+			'testdescribes' => $result
+		));
+		$result = $this->Dbo->createSchema($schema);
+		$this->assertContains('"limit_date" timestamp NOT NULL', $result);
+	}
+
+/**
  * Test virtualFields with functions.
  *
  * @return void
@@ -466,6 +506,7 @@ class SqliteTest extends CakeTestCase {
  * @return void
  */
 	public function testNestedTransaction() {
+		$this->Dbo->useNestedTransactions = true;
 		$this->skipIf($this->Dbo->nestedTransactionSupported() === false, 'The Sqlite version do not support nested transaction');
 
 		$this->loadFixtures('User');
@@ -516,6 +557,73 @@ class SqliteTest extends CakeTestCase {
 		$result = $db->limit(10, 300000000000000000000000000000);
 		$scientificNotation = sprintf('%.1E', 300000000000000000000000000000);
 		$this->assertNotContains($scientificNotation, $result);
+	}
+
+/**
+ * Test that fields are parsed out in a reasonable fashion.
+ *
+ * @return void
+ */
+	public function testFetchRowColumnParsing() {
+		$this->loadFixtures('User');
+		$sql = 'SELECT "User"."id", "User"."user", "User"."password", "User"."created", (1 + 1) AS "two" ' .
+			'FROM "users" AS "User" WHERE ' .
+			'"User"."id" IN (SELECT MAX("id") FROM "users") ' .
+			'OR "User.id" IN (5, 6, 7, 8)';
+		$result = $this->Dbo->fetchRow($sql);
+
+		$expected = array(
+			'User' => array(
+				'id' => 4,
+				'user' => 'garrett',
+				'password' => '5f4dcc3b5aa765d61d8327deb882cf99',
+				'created' => '2007-03-17 01:22:23'
+			),
+			0 => array(
+				'two' => 2
+			)
+		);
+		$this->assertEquals($expected, $result);
+
+		$sql = 'SELECT "User"."id", "User"."user" ' .
+			'FROM "users" AS "User" WHERE "User"."id" = 4 ' .
+			'UNION ' .
+			'SELECT "User"."id", "User"."user" ' .
+			'FROM "users" AS "User" WHERE "User"."id" = 3';
+		$result = $this->Dbo->fetchRow($sql);
+
+		$expected = array(
+			'User' => array(
+				'id' => 3,
+				'user' => 'larry',
+			),
+		);
+		$this->assertEquals($expected, $result);
+	}
+
+/**
+ * Test parsing more complex field names.
+ *
+ * @return void
+ */
+	public function testFetchColumnRowParsingMoreComplex() {
+		$this->loadFixtures('User');
+		$sql = 'SELECT
+			COUNT(*) AS User__count,
+			COUNT(CASE id WHEN 2 THEN 1 ELSE NULL END) as User__case,
+			AVG(CAST("User"."id" AS BIGINT)) AS User__bigint
+			FROM "users" AS "User"
+			WHERE "User"."id" > 0';
+		$result = $this->Dbo->fetchRow($sql);
+
+		$expected = array(
+			'0' => array(
+				'User__count' => '4',
+				'User__case' => '1',
+				'User__bigint' => '2.5',
+			),
+		);
+		$this->assertEquals($expected, $result);
 	}
 
 }
