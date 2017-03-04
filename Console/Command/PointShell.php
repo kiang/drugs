@@ -121,6 +121,7 @@ class PointShell extends AppShell {
                 $currentId = $codes[$point['nhi_id']];
             } else {
                 $currentId = String::uuid();
+                
             }
 
             $address = "{$city}{$town}{$point['address']}";
@@ -132,11 +133,16 @@ class PointShell extends AppShell {
                 $point['longitude'] = $addressMap[$address][0];
                 $point['latitude'] = $addressMap[$address][1];
             }
+            if (!empty($point['nhi_end'])) {
+                $point['nhi_end'] = '\'' . date('Y-m-d', strtotime($point['nhi_end'])) . '\'';
+            } else {
+                $point['nhi_end'] = 'NULL';
+            }
 
             $dbCols = array(
                 "('{$currentId}'", //id
                 "'{$point['nhi_id']}'", // nhi_id 
-                "'{$point['nhi_end']}'", // nhi_end 
+                $point['nhi_end'], // nhi_end 
                 "'{$point['type']}'", // type 
                 "'{$point['category']}'", //category
                 "'{$point['biz_type']}'", // biz_type 
