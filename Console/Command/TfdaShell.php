@@ -183,7 +183,7 @@ class TfdaShell extends AppShell {
                         'id' => $vendorKeys[$vendorKey1],
                         'tax_id' => '',
                         'name' => $json['申請商名稱'],
-                        'address' => $json['申請商地址'],
+                        'address' => isset($json['申請商地址']) ? $json['申請商地址'] : '',
                         'address_office' => '',
                         'country' => 'TAIWAN',
                         'count_daily' => 0,
@@ -215,6 +215,9 @@ class TfdaShell extends AppShell {
             $json['有效日期'] = $this->getTwDate($json['有效日期']);
             $json['發證日期'] = $this->getTwDate($json['發證日期']);
             foreach ($escapesKeys AS $escapesKey) {
+                if (is_array($json[$escapesKey])) {
+                    $json[$escapesKey] = implode('', $json[$escapesKey]);
+                }
                 $json[$escapesKey] = $this->mysqli->real_escape_string($json[$escapesKey]);
             }
             $licenseData[$id] = array(
