@@ -143,6 +143,9 @@ class TfdaShell extends AppShell {
             if (!isset($json['註銷理由']) && isset($json['廢止理由'])) {
                 $json['註銷理由'] = $json['廢止理由'];
             }
+            if (!isset($json['主製造廠']['製程'])) {
+                $json['主製造廠']['製程'] = '';
+            }
             $vendorKey1 = $json['申請商名稱'] = $this->getCleanString($json['申請商名稱']);
             $vendorKey2 = $json['主製造廠']['製造廠名稱'] = $this->getCleanString($json['主製造廠']['製造廠名稱']);
             if (!isset($vendorKeys[$vendorKey1])) {
@@ -196,7 +199,7 @@ class TfdaShell extends AppShell {
                     'name' => $json['主製造廠']['製造廠名稱'],
                     'address' => $json['主製造廠']['製造廠廠址'],
                     'address_office' => $json['主製造廠']['製造廠公司地址'],
-                    'country' => $json['主製造廠']['製造廠國別'],
+                    'country' => isset($json['主製造廠']['製造廠國別']) ? $json['主製造廠']['製造廠國別'] : '',
                     'count_daily' => 0,
                     'count_all' => 0,
                 );
