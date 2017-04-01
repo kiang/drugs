@@ -30,7 +30,7 @@
                                         <td><?php echo h($attachment['Attachment']['model']); ?>&nbsp;</td>
                                         <td><?php
                                             if ($attachment['Attachment']['model'] === 'License') {
-                                                echo $this->Html->link($attachment['Attachment']['foreign_key'], '/licenses/view/' . $attachment['Attachment']['foreign_key'], array('target' => '_blank'));
+                                                echo $this->Html->link($attachment['License']['license_id'], '/licenses/view/' . $attachment['Attachment']['foreign_key'], array('target' => '_blank'));
                                             } else {
                                                 echo h($attachment['Attachment']['foreign_key']);
                                             }

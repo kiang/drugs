@@ -17,9 +17,9 @@ class AttachmentsController extends AppController {
      * @var array
      */
     public $components = array('Paginator', 'Session');
-    public $paginate = array();
-    public $uses = array('Media.Attachment');
+    public $uses = array('Media.Attachment', 'License');
     public $helpers = array('Olc', 'Media.Media');
+    public $paginate = array();
 
     /**
      * admin_index method
@@ -28,10 +28,16 @@ class AttachmentsController extends AppController {
      */
     public function admin_index() {
         $this->Attachment->recursive = 0;
-        $this->paginate['Attachment'] = array(
-            'order' => array('Attachment.modified' => 'DESC'),
+        $this->paginate['Media.Attachment'] = array(
+            'contain' => array('Member'),
+            'order' => array('Media.Attachment.modified' => 'DESC'),
         );
-        $this->set('attachments', $this->Paginator->paginate());
+        $items = $this->paginate($this->Attachment);
+        foreach($items AS $k => $v) {
+            $l = $this->License->read(array('license_id'), $v['Attachment']['foreign_key']);
+            $items[$k]['License'] = $l['License'];
+        }
+        $this->set('attachments', $items);
     }
 
     /**
