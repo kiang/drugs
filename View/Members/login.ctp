@@ -13,7 +13,7 @@
                 <div class="box-body">
                     <?php
                     echo $this->Form->create('Member', array(
-                        'action' => 'login',
+                        'url' => array('action' => 'login'),
                         'inputDefaults' => array(
                             'class' => 'form-control',
                             'div' => array(
