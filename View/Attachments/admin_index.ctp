@@ -29,8 +29,8 @@
                                     <tr>
                                         <td><?php echo h($attachment['Attachment']['model']); ?>&nbsp;</td>
                                         <td><?php
-                                            if ($attachment['Attachment']['model'] === 'License') {
-                                                echo $this->Html->link($attachment['License']['license_id'], '/licenses/view/' . $attachment['Attachment']['foreign_key'], array('target' => '_blank'));
+                                            if ($attachment['Attachment']['model'] === 'License' && isset($licenses[$attachment['Attachment']['foreign_key']])) {
+                                                echo $this->Html->link($licenses[$attachment['Attachment']['foreign_key']], '/licenses/view/' . $attachment['Attachment']['foreign_key'], array('target' => '_blank'));
                                             } else {
                                                 echo h($attachment['Attachment']['foreign_key']);
                                             }

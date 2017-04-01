@@ -16,10 +16,16 @@ class AttachmentsController extends AppController {
      *
      * @var array
      */
-    public $components = array('Paginator', 'Session');
+    public $components = array(
+        'Paginator' => array(
+            'Attachment' => array(
+                'contain' => array('Member'),
+                'order' => array('Attachment.modified' => 'DESC'),
+            ),
+        ),
+        'Session');
     public $uses = array('Media.Attachment', 'License');
     public $helpers = array('Olc', 'Media.Media');
-    public $paginate = array();
 
     /**
      * admin_index method
@@ -27,17 +33,15 @@ class AttachmentsController extends AppController {
      * @return void
      */
     public function admin_index() {
-        $this->Attachment->recursive = 0;
-        $this->paginate['Media.Attachment'] = array(
-            'contain' => array('Member'),
-            'order' => array('Media.Attachment.modified' => 'DESC'),
-        );
         $items = $this->paginate($this->Attachment);
-        foreach($items AS $k => $v) {
-            $l = $this->License->read(array('license_id'), $v['Attachment']['foreign_key']);
-            $items[$k]['License'] = $l['License'];
-        }
+        $keys = Set::extract('{n}.Attachment.foreign_key', $items);
         $this->set('attachments', $items);
+        $this->set('licenses', $this->License->find('list', array(
+                    'fields' => array('License.id', 'License.license_id'),
+                    'conditions' => array(
+                        'License.id' => $keys,
+                    ),
+        )));
     }
 
     /**
