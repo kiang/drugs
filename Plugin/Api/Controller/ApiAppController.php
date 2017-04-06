@@ -8,6 +8,7 @@ class ApiAppController extends AppController {
 
     public function beforeFilter() {
         header('Content-Type: application/json; charset=utf-8');
+        header('Access-Control-Allow-Origin: *');
         if (isset($this->Auth)) {
             $this->Auth->allow();
         }
