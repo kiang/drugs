@@ -170,6 +170,11 @@
     display: inline-block;
 }
 
+.btn-sm.btn-related {
+    white-space: normal;
+    margin: 3px;
+}
+
 @media (max-width: 767px) {
     dt {
         background-color: #f1f1f1;

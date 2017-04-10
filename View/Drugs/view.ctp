@@ -461,9 +461,9 @@ if (!empty($this->data['Vendor']['address_office'])) {
                     <dd><?php
                     foreach ($links AS $link) {
                         echo $this->Html->link($link['Link']['title'], $link['Link']['url'], array(
-                            'class' => 'btn btn-info btn-sm',
+                            'class' => 'btn btn-info btn-sm btn-related',
                             'target' => '_blank')
-                        ) . '&nbsp;';
+                        );
                     }
                         ?>
                     </dd>
