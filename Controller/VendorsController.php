@@ -117,9 +117,6 @@ class VendorsController extends AppController {
                         ),
                     ),
                 ),
-                'group' => array(
-                    'Drug.license_id'
-                ),
             );
             $this->set('title_for_layout', "{$vendor['Vendor']['name']} 相關藥物 @ ");
             $this->set('items', $this->paginate($this->Vendor->License, array('OR' => array(

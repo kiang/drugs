@@ -284,7 +284,6 @@ class ArticlesController extends AppController {
                     ),
                     'contain' => array('License'),
                     'fields' => array('Drug.id', 'License.name'),
-                    'group' => array('Drug.license_id'),
                 ));
             }
             if (!empty($this->request->data['Ingredient'])) {
