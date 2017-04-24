@@ -358,7 +358,6 @@ class ArticlesController extends AppController {
                     ),
                     'contain' => array('License'),
                     'fields' => array('Drug.id', 'License.name'),
-                    'group' => array('Drug.license_id'),
                 ));
             }
             if (!empty($article['Ingredient'])) {
