@@ -83,18 +83,8 @@ class ImportShell extends AppShell {
                     break;
                 default:
                     /*
-                     * Execute before importing:
-                     * TRUNCATE `drugs`;
-                      TRUNCATE `ingredients`;
-                      TRUNCATE `ingredients_licenses`;
-                      TRUNCATE `licenses`;
-                      TRUNCATE `links`;
-                      TRUNCATE `prices`;
-                      TRUNCATE `vendors`;
-                      TRUNCATE `categories_licenses`;
-                     *
-                     * and remember to execute mohw to import another part of drugs
-                     *
+                     * use bin/cron.php to execute all necessary scripts
+                     * 
                      * and dump generated data using another one:
                      *
                      * mysqldump -uroot -p kiang_drug drugs ingredients ingredients_licenses licenses prices categories_licenses vendors links > db.sql

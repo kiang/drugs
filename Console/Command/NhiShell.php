@@ -89,6 +89,7 @@ class NhiShell extends AppShell {
             mkdir($targetPath, 0777, true);
         }
         $pool = date('Ymd');
+        // download from http://www.nhi.gov.tw/Content_List.aspx?n=238507DCFE832EAE&topn=3FC7D09599D25979
         $zipFile = $targetPath . '/' . date('Ymd') . '.zip';
         if (file_exists($zipFile)) {
             if (!file_exists("{$tmpPath}/{$pool}")) {
