@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 5.5.47, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.18, for Linux (x86_64)
 --
 -- Host: localhost    Database: olc_drugs
 -- ------------------------------------------------------
--- Server version	5.5.47-0ubuntu0.14.04.1-log
+-- Server version	5.7.18-0ubuntu0.16.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -332,12 +332,13 @@ CREATE TABLE `licenses` (
   PRIMARY KEY (`id`),
   KEY `count_daily` (`count_daily`),
   KEY `count_all` (`count_all`),
+  KEY `submitted` (`submitted`),
   KEY `license_id` (`license_id`),
   KEY `name` (`name`),
   KEY `name_english` (`name_english`),
   KEY `nhi_id` (`nhi_id`),
-  KEY `submitted` (`submitted`),
-  KEY `expired_date` (`expired_date`)
+  KEY `expired_date` (`expired_date`),
+  KEY `vendor_id` (`vendor_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -467,7 +468,7 @@ DROP TABLE IF EXISTS `points`;
 CREATE TABLE `points` (
   `id` binary(36) NOT NULL,
   `nhi_id` char(10) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `nhi_end` date NOT NULL,
+  `nhi_end` date DEFAULT NULL,
   `type` varchar(32) COLLATE utf8mb4_unicode_ci NOT NULL,
   `category` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `biz_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -539,4 +540,4 @@ CREATE TABLE `vendors` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-04-05 23:05:36
+-- Dump completed on 2017-07-17 14:05:48
