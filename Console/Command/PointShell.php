@@ -121,7 +121,7 @@ class PointShell extends AppShell {
                 $currentId = $codes[$point['nhi_id']];
             } else {
                 $currentId = CakeText::uuid();
-                
+
             }
 
             $address = "{$city}{$town}{$point['address']}";
@@ -141,19 +141,19 @@ class PointShell extends AppShell {
 
             $dbCols = array(
                 "('{$currentId}'", //id
-                "'{$point['nhi_id']}'", // nhi_id 
-                $point['nhi_end'], // nhi_end 
-                "'{$point['type']}'", // type 
+                "'{$point['nhi_id']}'", // nhi_id
+                $point['nhi_end'], // nhi_end
+                "'{$point['type']}'", // type
                 "'{$point['category']}'", //category
-                "'{$point['biz_type']}'", // biz_type 
-                "'{$point['service']}'", // service 
-                "'{$point['name']}'", // name 
+                "'{$point['biz_type']}'", // biz_type
+                "'{$point['service']}'", // service
+                "'{$point['name']}'", // name
                 "'{$city}'", // city
-                "'{$town}'", // town 
-                "'{$point['address']}'", // address 
+                "'{$town}'", // town
+                "'{$point['address']}'", // address
                 "'{$point['longitude']}'", //longitude
                 "'{$point['latitude']}'", //latitude
-                "'{$point['phone']}'", //phone 
+                "'{$point['phone']}'", //phone
                 "'{$point['url']}')", //url
             );
             $valueStack[] = implode(',', $dbCols);

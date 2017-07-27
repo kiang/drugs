@@ -171,7 +171,7 @@ class NhiShell extends AppShell {
         if (!file_exists($targetPath)) {
             mkdir($targetPath, 0777, true);
         }
-        $listUrl = 'http://www.nhi.gov.tw/Query/query3_list.aspx?PageNum=33237';
+        $listUrl = 'http://www.nhi.gov.tw/Query/query3_list.aspx?PageNum=33248';
         $listFile = $tmpPath . '/list';
         if (!file_exists($listFile)) {
             file_put_contents($listFile, file_get_contents($listUrl));
