@@ -7,14 +7,14 @@ class Article extends AppModel {
     var $name = 'Article';
     var $validate = array(
         'title' => array(
-            'notEmpty' => array(
-                'rule' => 'notEmpty',
+            'notBlank' => array(
+                'rule' => 'notBlank',
                 'message' => 'This field is required',
             ),
         ),
         'date_published' => array(
-            'notEmpty' => array(
-                'rule' => 'notEmpty',
+            'notBlank' => array(
+                'rule' => 'notBlank',
                 'message' => 'This field is required',
             ),
         ),

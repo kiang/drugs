@@ -16,8 +16,8 @@ class OrderLine extends AppModel {
      */
     public $validate = array(
         'note' => array(
-            'notEmpty' => array(
-                'rule' => array('notEmpty'),
+            'notBlank' => array(
+                'rule' => array('notBlank'),
             //'message' => 'Your custom message here',
             //'allowEmpty' => false,
             //'required' => false,
