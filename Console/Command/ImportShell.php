@@ -84,7 +84,7 @@ class ImportShell extends AppShell {
                 default:
                     /*
                      * use bin/cron.php to execute all necessary scripts
-                     * 
+                     *
                      * and dump generated data using another one:
                      *
                      * mysqldump -uroot -p kiang_drug drugs ingredients ingredients_licenses licenses prices categories_licenses vendors links > db.sql
@@ -375,7 +375,7 @@ class ImportShell extends AppShell {
         $fh = fopen($this->dataPath . '/dataset/41.csv', 'r');
         $sn = 1;
         echo "categories importing\n";
-        while ($line = fgetcsv($fh, 2048, "\t")) {
+        while ($line = fgetcsv($fh, 2048)) {
             foreach ($line AS $k => $v) {
                 $line[$k] = trim($v);
             }
@@ -475,7 +475,7 @@ class ImportShell extends AppShell {
          */
         $sn = 1;
         echo "ingredients importing\n";
-        while ($line = fgetcsv($fh, 2048, "\t")) {
+        while ($line = fgetcsv($fh, 2048)) {
             if (substr($line[4], 0, 1) === '-') {
                 $line[4] = substr($line[4], 1);
             }
@@ -1102,15 +1102,14 @@ class ImportShell extends AppShell {
           [25] => 異動日期
           [26] => 用法用量
           [27] => 包裝
-          [28] => 國際條碼
+          [28] => 國際條碼 (removed)
           )
          */
-        $escapesKeys = array(1, 3, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 20, 21, 22, 24, 26, 27, 28);
+        $escapesKeys = array(1, 3, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 20, 21, 22, 24, 26, 27);
         $sn = 1;
         echo "drugs importing\n";
-        while ($line = fgets($fh, 5000)) {
-            $cols = explode("\t", $line);
-            if (count($cols) !== 29) {
+        while ($cols = fgetcsv($fh, 5000)) {
+            if (count($cols) !== 28) {
                 print_r($cols);
                 exit();
             }
@@ -1221,7 +1220,7 @@ class ImportShell extends AppShell {
                     "'{$cols[25]}'", //submitted
                     "'{$cols[26]}'", //usage
                     "'{$cols[27]}'", //package_note
-                    "'{$cols[28]}'", //barcode
+                    "''", //barcode
                     "0", //count_daily
                     "0)", //count_all
                 );
