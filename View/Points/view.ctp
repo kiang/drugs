@@ -15,7 +15,7 @@
         <dl>
             <dt>醫事機構代碼</dt>
             <dd>
-                <?php 
+                <?php
                 if (!empty($point['Point']['nhi_id'])) {
                     echo $point['Point']['nhi_id'];
                 } else {
@@ -25,13 +25,13 @@
             </dd>
             <dt>健保終止合約或歇業日期</dt>
             <dd>
-                <?php 
+                <?php
                 echo ($point['Point']['nhi_end'] !== '0000-00-00') ? $point['Point']['nhi_end'] : '<span class="text-muted">無紀錄</span>'; ?>
                 &nbsp;
             </dd>
             <dt>健保特約類別</dt>
             <dd>
-                <?php 
+                <?php
                 if (!empty($point['Point']['type'])) {
                     echo $point['Point']['type'];
                 } else {
@@ -41,7 +41,7 @@
             </dd>
             <dt>診療科別</dt>
             <dd>
-                <?php 
+                <?php
                 if (!empty($point['Point']['category'])) {
                     echo $point['Point']['category'];
                 } else {
@@ -51,7 +51,7 @@
             </dd>
             <dt>醫事機構種類</dt>
             <dd>
-                <?php 
+                <?php
                 if (!empty($point['Point']['biz_type'])) {
                     echo $point['Point']['biz_type'];
                 } else {
@@ -61,7 +61,7 @@
             </dd>
             <dt>服務項目</dt>
             <dd>
-                <?php 
+                <?php
                 if (!empty($point['Point']['service'])) {
                     echo $point['Point']['service'];
                 } else {
@@ -71,7 +71,7 @@
             </dd>
             <dt>醫事機構名稱</dt>
             <dd>
-                <?php 
+                <?php
                 if (!empty($point['Point']['name'])) {
                     echo $point['Point']['name'];
                 } else {
@@ -81,7 +81,7 @@
             </dd>
             <dt>地址</dt>
             <dd>
-                <?php 
+                <?php
                 if (!empty($point['Point']['address'])) {
                     echo $point['Point']['city'] . $point['Point']['town'] . $point['Point']['address'];
                 } else {
@@ -91,7 +91,7 @@
             </dd>
             <dt>座標</dt>
             <dd>
-                <?php 
+                <?php
                 if (!empty($point['Point']['longitude'])) {
                     echo '經度&nbsp;' . $point['Point']['longitude'] . '<br>';
                 } else {
@@ -105,7 +105,7 @@
             </dd>
             <dt>電話</dt>
             <dd>
-                <?php 
+                <?php
                 if (!empty($point['Point']['phone'])) {
                     echo $this->Html->tag(
                             'span',
@@ -143,17 +143,17 @@
                 <i class="fa fa-medkit"></i>&nbsp;
                 <?php echo $this->Html->link($nearPoint['Point']['name'], '/points/view/' . $nearPoint['Point']['id']); ?><br>
                 <i class="fa fa-phone"></i>&nbsp;
-                <?php 
+                <?php
                     echo $this->Html->tag(
                             'span',
-                            $point['Point']['phone'],
+                            $nearPoint['Point']['phone'],
                             array('class' => 'hidden-sm hidden-xs')
                         );
                     echo $this->Html->tag(
                             'span',
                             $this->Html->link(
-                                $point['Point']['phone'],
-                                'tel:' . $point['Point']['phone'],
+                                $nearPoint['Point']['phone'],
+                                'tel:' . $nearPoint['Point']['phone'],
                                 array('escape' => false)
                             ),
                             array('class' => 'hidden-md hidden-lg')
