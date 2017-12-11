@@ -55,6 +55,6 @@ $('.zoom').zoom();
                         }
                     ]
                 },
-        price_chart = new Chart(ctx).Line(data);
+        price_chart = new Chart(ctx).Bar(data);
     }
 })();
