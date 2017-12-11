@@ -29,28 +29,16 @@
                         <?php } ?>
                     </a>
                 </div>
-                <div class="media-body">
+                <div class="media-body" style="width: 100%;">
                     <a href="<?php echo $this->Html->url('/') . 'drugs/view/' . $item['Drug'][0]['id']; ?>" class="hidden-sm hidden-xs">
                         <h6 class="media-heading"><?php echo $name; ?></h6>
                     </a>
                     <hr>
                     <p>
-                        <div class="hidden-xs"><strong>許可證字號</strong> <?php echo $item['License']['license_id']; ?><br></div>
-                        <strong class="hidden-xs">製造商</strong> <?php echo $item['Vendor']['name'] . '&nbsp;' . $this->Olc->showCountry($item['Vendor']['country']); ?>
-                        <br>
-                        <?php
-                            $now_date = new DateTime();
-                            $expired_date = new DateTime($item['License']['expired_date']);
-                            $date_between = intval($expired_date->diff($now_date)->y);
-                        ?>
-                        <strong>許可證<span class="hidden-xs">有效日期</span></strong>&nbsp;
-                        <?php
-                            if ($date_between >= 3) {
-                                echo $item['License']['expired_date'];
-                            } else {
-                                echo $this->Html->tag('span', $item['License']['expired_date'], array('class' => 'text-warning'));
-                            }
-                        ?>
+                        <div class="pull-right">
+                            <strong class="hidden-xs">製造商</strong> <?php echo $item['Vendor']['name'] . '&nbsp;' . $this->Olc->showCountry($item['Vendor']['country']); ?>
+                        </div>
+                        <div class="hidden-xs"><?php echo $item['License']['disease']; ?></div>
                     </p>
                 </div>
             </li>

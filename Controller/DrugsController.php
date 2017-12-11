@@ -257,8 +257,7 @@ class DrugsController extends AppController {
             }
             $this->paginate['License'] = array(
                 'limit' => 20,
-                'fields' => array('id', 'name', 'name_english',
-                    'license_id', 'expired_date', 'image'),
+                'fields' => array('id', 'name', 'name_english', 'image', 'disease'),
                 'contain' => array(
                     'Drug' => array(
                         'fields' => array('id'),
