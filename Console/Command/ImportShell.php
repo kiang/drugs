@@ -291,7 +291,7 @@ class ImportShell extends AppShell {
         $fh = fopen($this->dataPath . '/dataset/35.csv', 'r');
         $sn = 1;
         $valueStack = array();
-        while ($line = fgetcsv($fh, 2048, "\t")) {
+        while ($line = fgetcsv($fh, 2048)) {
             foreach ($line AS $k => $v) {
                 $line[$k] = trim($v);
             }
@@ -577,7 +577,7 @@ class ImportShell extends AppShell {
         /*
          * get longest line lenth using command `wc -L filename`
          */
-        while ($line = fgetcsv($fh, 10770, "\t")) {
+        while ($line = fgetcsv($fh, 10770)) {
             $licenseCode = $this->getLicenseCode($line[0]);
             if (false === $licenseCode || !isset($dbKeys[$licenseCode])) {
                 continue;
@@ -739,7 +739,8 @@ class ImportShell extends AppShell {
          */
         $wLength = strlen(WWW_ROOT);
         $imagick = new Imagick();
-        while ($line = fgetcsv($fh, 2048, "\t")) {
+        fgetcsv($fh, 2048);
+        while ($line = fgetcsv($fh, 2048)) {
             $dataFound = $licenseCode = false;
             for ($k = 3; $k <= 11; $k++) {
                 if (!empty($line[$k])) {
