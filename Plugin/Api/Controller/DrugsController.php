@@ -316,7 +316,7 @@ class DrugsController extends ApiAppController {
                 Cache::write($cacheKey, $result, 'long');
             }
             if (!empty($result['data']['License']['image'])) {
-                $result['data']['License']['image'] = Router::url('/' . $this->jsonData['License']['image'], true);
+                $result['data']['License']['image'] = Router::url('/' . $result['data']['License']['image'], true);
             }
 
             $this->jsonData = array(
