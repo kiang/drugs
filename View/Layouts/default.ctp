@@ -357,35 +357,6 @@ echo $content_for_layout;
                     <p>&nbsp;</p>
                     <button class="btn btn-block btn-info btn-to-top"><span class="fui-triangle-up"></span>&nbsp;回到頁面頂端</button>
                     <p>&nbsp;</p>
-                    <?php
-                    switch ("{$this->request->params['controller']}/{$this->request->params['action']}") {
-                        case 'drugs/view':
-                        case 'ingredients/view':
-                        case 'vendors/view':
-                        case 'points/view':
-                        case 'articles/view':
-                            ?>
-                            <div id="disqus_thread"></div>
-                            <script>
-                                /* * * CONFIGURATION VARIABLES * * */
-                                var disqus_shortname = 'drugs-tw',
-                                        disqus_config = function () {
-                                            this.language = "zh_TW";
-                                        };
-
-                                /* * * DON'T EDIT BELOW THIS LINE * * */
-                                (function () {
-                                    var dsq = document.createElement('script');
-                                    dsq.type = 'text/javascript';
-                                    dsq.async = true;
-                                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                                })();
-                            </script>
-        <?php
-        break;
-}
-?>
                 </div><!-- /.col-md-12 -->
             </div><!-- /.row -->
 
