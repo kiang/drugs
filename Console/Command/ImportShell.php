@@ -814,28 +814,49 @@ class ImportShell extends AppShell {
         $fh = fopen(__DIR__ . '/data/nhi/codes/licenses.csv', 'r');
 
         /*
-         * Array
-          (
-          [0] => 01000015 //license code
-          [1] => 421 //suffix
-          [2] => //新
-          [3] => //口服錠註記
-          [4] => N //複
-          [5] => A000015421 //藥品代碼
-          [6] => 10.00 //參考價
-          [7] => 0840301 //有效期(begin)
-          [8] => 0900331 //有效期(end)
-          [9] => YEN KUANG EYE DROPS //英文名稱
-          [10] => 5.00 ML //規格量 規格單位
-          [11] => ML //規格單位
-          [12] => SULFAMETHOXAZOLE SODIUM //成份名稱
-          [13] => 20.000 //成份含量
-          [14] => MG/ML //成份單位
-          [15] => 點眼液劑 //劑型
-          [16] => 0408 //理分類代碼
-          [17] => 五福化學製藥廠有限公司 //製造廠名稱
-          [18] => S01AB91 //ATC CODE
-          )
+Array
+(
+    [0] => 01000015
+    [1] => 421
+    [2] => 
+    [3] => 
+    [4] => N
+    [5] => A000015421
+    [6] => 10.00
+    [7] => 0840301
+    [8] => 0900331
+    [9] => YEN KUANG EYE DROPS
+    [10] => 5.00
+    [11] => ML
+    [12] => SULFAMETHOXAZOLE SODIUM
+    [13] => 20.000
+    [14] => MG/ML
+    [15] => 點眼液劑
+    [16] => 
+    [17] => 五福化學製藥股份有限
+    [18] => 
+    [19] => 4
+    [20] => 
+    [21] => 眼光眼藥水
+    [22] => SULFAMETHOXAZOLE , 眼用液劑 , 20.00  MG/ML , 5.00 ML
+    [23] => 
+    [24] => 
+    [25] => 
+    [26] => 
+    [27] => 
+    [28] => 
+    [29] => 
+    [30] => 
+    [31] => 
+    [32] => 
+    [33] => 
+    [34] => 
+    [35] => 
+    [36] => 
+    [37] => 
+    [38] => 五福化學製藥股份有限公司
+    [39] => S01AB91
+)
          */
         $valueStack = array();
         $sn = 1;
@@ -866,8 +887,8 @@ class ImportShell extends AppShell {
             $line[7] = $this->getTwDate($line[7]);
             $line[8] = $this->getTwDate($line[8]);
             $pos = strpos($line[10], ' ');
-            $dosage = substr($line[10], 0, $pos);
-            $unit = substr($line[10], $pos + 1);
+            $dosage = trim($line[10]);
+            $unit = trim($line[11]);
             $dbCols = array(
                 "('{$currentId}'", //id
                 "'{$licenseId}'", //license_id
