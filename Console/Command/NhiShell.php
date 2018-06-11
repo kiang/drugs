@@ -89,7 +89,10 @@ class NhiShell extends AppShell {
             mkdir($targetPath, 0777, true);
         }
         $pool = date('Ymd');
-        // download from http://www.nhi.gov.tw/Content_List.aspx?n=238507DCFE832EAE&topn=3FC7D09599D25979
+        /*
+         * 提供b5及txt二種檔案格式(因原檔案資料筆數較多，拆成2個檔案提供，檔案資料筆數共計177,765筆)
+         * https://www.nhi.gov.tw/Content_List.aspx?n=238507DCFE832EAE&topn=3FC7D09599D25979
+         */
         $zipFile = $targetPath . '/' . date('Ymd') . '.zip';
         if (file_exists($zipFile)) {
             if (!file_exists("{$tmpPath}/{$pool}")) {
@@ -102,7 +105,6 @@ class NhiShell extends AppShell {
             foreach (glob("{$tmpPath}/{$pool}/*") AS $b5) {
                 $fh = fopen($b5, 'r');
                 $len = array();
-                fgets($fh, 2048);
                 while ($line = fgets($fh, 2048)) {
                     if (substr($line, 17, 1) === 'X' || !isset($this->prefixCodes[substr($line, 17, 1)])) {
                         continue;
@@ -110,21 +112,42 @@ class NhiShell extends AppShell {
                     $item = array(
                         0 => substr($line, 0, 2), //新
                         1 => substr($line, 3, 10), //口服錠註記
-                        2 => substr($line, 14, 2), //複
+                        2 => substr($line, 14, 2), //單/複方註記
                         3 => substr($line, 17, 10), //藥品代碼
-                        4 => substr($line, 28, 9), //參考價
-                        5 => substr($line, 38, 7), //有效期
-                        6 => substr($line, 46, 7),
-                        7 => substr($line, 54, 120), //英文名稱
-                        8 => substr($line, 175, 17), //規格量 規格單位
-                        9 => substr($line, 183, 11), //規格單位
-                        10 => substr($line, 195, 55), //成份名稱
-                        11 => substr($line, 251, 12), //成份含量
-                        12 => substr($line, 264, 10), //成份單位
-                        13 => substr($line, 275, 12), //劑型
-                        14 => substr($line, 290, 12), //理分類代碼
-                        15 => substr($line, 301, 42), //製造廠名稱
-                        16 => substr($line, 344, 8), //ATC CODE
+                        4 => substr($line, 28, 9), //藥價參考金額
+                        5 => substr($line, 38, 7), //藥價參考日期
+                        6 => substr($line, 46, 7), //藥價參考截止日期
+                        7 => substr($line, 54, 120), //藥品英文名稱
+                        8 => substr($line, 175, 7), //藥品規格量
+                        9 => substr($line, 183, 52), //藥品規格單位
+                        10 => substr($line, 236, 56), //成份名稱
+                        11 => substr($line, 293, 12), //成份含量
+                        12 => substr($line, 306, 51), //成份含量單位
+                        13 => substr($line, 358, 86), //藥品劑型
+                        14 => substr($line, 445, 158), //空白
+                        15 => substr($line, 604, 20), //藥商名稱
+                        16 => substr($line, 625, 141), //空白
+                        17 => substr($line, 767, 1), //藥品分類
+                        18 => substr($line, 769, 1), //品質分類碼
+                        19 => substr($line, 771, 128), //藥品中文名稱
+                        20 => substr($line, 900, 300), //分類分組名稱
+                        21 => substr($line, 1200, 56), //(複方一)成份名稱
+                        22 => substr($line, 1258, 11), //(複方一)藥品成份含量
+                        23 => substr($line, 1270, 51), //(複方一)藥品成份含量單位
+                        24 => substr($line, 1322, 56), //(複方二)成份名稱
+                        25 => substr($line, 1379, 11), //(複方二)藥品成份含量
+                        26 => substr($line, 1391, 51), //(複方二)藥品成份含量單位
+                        27 => substr($line, 1443, 56), //(複方三)成份名稱
+                        28 => substr($line, 1500, 11), //(複方三)藥品成份含量
+                        29 => substr($line, 1512, 51), //(複方三)藥品成份含量單位
+                        30 => substr($line, 1564, 56), //(複方四)成份名稱
+                        31 => substr($line, 1621, 11), //(複方四)藥品成份含量
+                        32 => substr($line, 1633, 51), //(複方四)藥品成份含量單位
+                        33 => substr($line, 1685, 56), //(複方五)成份名稱
+                        34 => substr($line, 1742, 11), //(複方五)藥品成份含量
+                        35 => substr($line, 1754, 51), //(複方五)藥品成份含量單位
+                        36 => substr($line, 1806, 42), //製造廠名稱
+                        37 => substr($line, 1849, 8), //ATC CODE
                     );
 
                     foreach ($item AS $k => $v) {
