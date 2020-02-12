@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html amp lang="zh-Hant-TW">
     <head>
-
         <?php
         $baseUrl = $this->Html->url('/');
         echo $this->Html->charset();
         ?>
+        <script async src="https://cdn.ampproject.org/v0.js"></script>
         <title><?php echo $title_for_layout; ?>藥要看</title>
+        <link rel="canonical" href="<?php echo Router::url( $this->here, true ); ?>">
         <?php
         $trailDesc = '藥要看提供簡單的介面檢索國內有註冊登記的藥品資訊';
         if (!isset($desc_for_layout)) {
@@ -45,13 +46,14 @@
         </script>
         <?php if (Configure::read('debug') === 0 && Configure::read('loginMember.group_id') !== '1') { ?>
         <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<script>
-  (adsbygoogle = window.adsbygoogle || []).push({
-    google_ad_client: "ca-pub-5571465503362954",
-    enable_page_level_ads: true
-  });
-</script>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({
+                google_ad_client: "ca-pub-5571465503362954",
+                enable_page_level_ads: true
+            });
+        </script>
 <?php } ?>
+        <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style><noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
     </head>
     <body>
         <nav class="navbar navbar-inverse" style="border-radius: 0px;">
@@ -83,8 +85,8 @@
 switch (Configure::read('loginMember.group_id')) {
     case '0':
         ?>
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" tabindex="6">會員登入 <b class="caret"></b></a>
-                                    <div class="dropdown-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" tabindex="6">會員登入 <b class="caret"></b></a>
+                            <div class="dropdown-menu">
                                         <?php echo $this->Form->create('Member', array('url' => '/members/login')); ?>
                                         <?php
                                         echo $this->Form->input('username', array(
@@ -103,11 +105,11 @@ switch (Configure::read('loginMember.group_id')) {
                                             'tabindex' => '7',
                                         ));
                                         ?>
-                                        <div class="col-sm-12">
-                                            <button type="submit" class="btn btn-success btn-block" tabindex="8">登入</button>
-                                        </div>
+                                <div class="col-sm-12">
+                                    <button type="submit" class="btn btn-success btn-block" tabindex="8">登入</button>
+                                </div>
                                     <?php echo $this->Form->end(); ?>
-                                    </div>
+                            </div>
                                     <?php
                                     break;
                                 case '1':
@@ -123,7 +125,7 @@ switch (Configure::read('loginMember.group_id')) {
                                         '<a href="' . $baseUrl . 'members/logout" tabindex="12">登出</a>',
                                     );
                                     ?>
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員功能 <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員功能 <b class="caret"></b></a>
                                     <?php
                                     echo $this->Html->nestedList($items, array('class' => 'dropdown-menu'));
                                     ?>
@@ -136,7 +138,7 @@ switch (Configure::read('loginMember.group_id')) {
                                         '<a href="' . $baseUrl . 'members/logout" tabindex="12">登出</a>',
                                     );
                                     ?>
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員功能 <b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">會員功能 <b class="caret"></b></a>
         <?php
         echo $this->Html->nestedList($items, array('class' => 'dropdown-menu'));
 }
@@ -234,7 +236,7 @@ switch (Configure::read('loginMember.group_id')) {
                             <button type="submit" class="btn btn-default btn-search" tabindex="3">搜尋</button>
                         </div>
                     </form>
-                    
+
                     <div class="search-helper-text">
                         <div class="alert alert-info" data-type="drug" style="display: none">
                             <img src="<?php echo $baseUrl; ?>img/clipboard.svg" alt="藥單" class="col-md-2 hidden-sm hidden-xs" style="max-width: 100px;">
@@ -419,7 +421,7 @@ echo $content_for_layout;
         ?>
 
 <?php if (Configure::read('debug') === 0 && Configure::read('loginMember.group_id') !== '1') { ?>
-            <script>
+        <script>
                     (function (i, s, o, g, r, a, m) {
                         i['GoogleAnalyticsObject'] = r;
                         i[r] = i[r] || function () {
@@ -435,23 +437,27 @@ echo $content_for_layout;
                     ga('create', 'UA-40055059-4', 'auto');
                     ga('send', 'pageview');
                     (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+        </script>
 
-<!-- Piwik -->
-<script type="text/javascript">
-  var _paq = _paq || [];
-  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-  _paq.push(['trackPageView']);
-  _paq.push(['enableLinkTracking']);
-  (function() {
-    var u="https://p.olc.tw/piwik/";
-    _paq.push(['setTrackerUrl', u+'piwik.php']);
-    _paq.push(['setSiteId', '1']);
-    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
-  })();
-</script>
-<!-- End Piwik Code -->
+        <!-- Piwik -->
+        <script type="text/javascript">
+            var _paq = _paq || [];
+            /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+            _paq.push(['trackPageView']);
+            _paq.push(['enableLinkTracking']);
+            (function () {
+                var u = "https://p.olc.tw/piwik/";
+                _paq.push(['setTrackerUrl', u + 'piwik.php']);
+                _paq.push(['setSiteId', '1']);
+                var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+                g.type = 'text/javascript';
+                g.async = true;
+                g.defer = true;
+                g.src = u + 'piwik.js';
+                s.parentNode.insertBefore(g, s);
+            })();
+        </script>
+        <!-- End Piwik Code -->
 
 <?php } ?>
 <?php echo $this->element('sql_dump'); ?>
